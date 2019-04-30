@@ -1,0 +1,7 @@
+{
+    "secret": "2oirotaelayos",
+    "refreshTokenSecret": "some-secret-refresh-token-shit",
+    "port": 3000,
+    "tokenLife": 10000000,
+    "refreshTokenLife": 86400
+}
