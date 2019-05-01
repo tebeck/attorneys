@@ -4,8 +4,39 @@ const saltRounds = 10;
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-//schema
 var users = new Schema({
+  email: {
+    type: String,
+    required: false
+  },
+  firm_name: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  contact_info: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: Number,
+    required: true
+  },
+  routing_number: {
+    type: Number,
+    required: true
+  },
+  account_number: {
+    type: Number,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   isAdmin: {
     type: Boolean,
     default: false
@@ -25,22 +56,6 @@ var users = new Schema({
   isAttorney: {
     type: Boolean,
     default: false
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  lastname: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true,
   },
   rating: {
     type: Number,

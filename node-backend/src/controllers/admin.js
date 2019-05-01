@@ -23,4 +23,8 @@ makeAdmin: function(req, res, next){
   });
 },
 
+getAttorneys: function(req, res, next){
+
+}
+
 }

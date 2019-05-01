@@ -2,26 +2,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
 const users = require('./src/routes/users');
 const ip = require("ip");
-
-// ROUTES
-// const productRoutes = require('./src/routes/products');
-const filesRoute = require('./src/routes/files');
-const adminRoutes = require('./src/routes/admin');
-
-const validateUser = require('./src/middlewares/validate');
-
-
 const mongoose = require('mongoose')
 const configDB = require('./src/config/database');
 const port = 6200;
+require('dotenv').config();
+
+// DB Instance
+mongoose.connect(configDB.url,{ useNewUrlParser: true, useCreateIndex: true })
+
+// ROUTES
+const adminRoutes = require('./src/routes/admin');
+// const productRoutes = require('./src/routes/products');
+// const filesRoute = require('./src/routes/files');
+
+// MIDDLEWARES
+const isvalid = require('./src/middlewares/isvalid');
 
 // App Instance
 const app = express();
-// DB Instance
-mongoose.connect(configDB.url,{ useNewUrlParser: true, useCreateIndex: true })
 
 app.use(express.static('public'));
 app.use(cors());
@@ -32,8 +32,9 @@ app.use(bodyParser.json());
 // app.use('/users/admin', validate.user, users)
 // app.use('/files', filesRoute);
 app.use('/users', users);
-app.use('/admin', validateUser.user, adminRoutes);
-// Test service
+app.use('/admin', isvalid.user, adminRoutes);
+
+// Backend status
 console.dir ( ip.address())
 app.get('/', function(req, res){
     res.json({
