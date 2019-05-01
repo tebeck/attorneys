@@ -25,6 +25,36 @@ makeAdmin: function(req, res, next){
 
 getAttorneys: function(req, res, next){
 
-}
+  userModel.find({isAttorney: {$eq: true}}, function(err, result) {
+      if (err){
+        return res.json({status: "Error", message: err});
+      } else {
+        return res.json({status: 200, data: result});
+      }
+  })   
+
+},
+getSeekers: function(req, res, next){
+
+  userModel.find({isSeeker: {$eq: true}}, function(err, result) {
+      if (err){
+        return res.json({status: "Error", message: err});
+      } else {
+        return res.json({status: 200, data: result});
+      }
+  })   
+
+},
+getAppearances: function(req, res, next){ // Agregar en el modelo
+
+  userModel.find({a: {$eq: true}}, function(err, result) {
+      if (err){
+        return res.json({status: "Error", message: err});
+      } else {
+        return res.json({status: 200, data: result});
+      }
+  })   
+
+},
 
 }
