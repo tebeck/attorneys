@@ -73,7 +73,6 @@ var users = new Schema({
       rating: Number
     }
   ]
-
 },{
     collection: 'users', timestamps: true
 });

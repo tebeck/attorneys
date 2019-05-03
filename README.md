@@ -1,4 +1,4 @@
-# attorneys
+# ATTORNEYS
 
 ## backend
 # register:
@@ -31,10 +31,28 @@
 	# list all appearances
 		# 
 # appearances
+	# Model:
 	# create
 	# update
 	# delete
 	# read
-# 
+	 # Validations:
+	 	- seekers only can crud appearences
+	 	- attorneys only can postulate appearences
+		- 1 attorned_id asociated to 1 postulation_id (appearence).
+		- 1 attorney many different postulations (appearence).
+# postulations
+	# create
+	# delete
+# seekers
+	# create profile with email, name, contact info, phone, routing number, account number, password.
+	# create appearence oportunity. NOT COMPLETE YET.
+	# see all appearences oportunities sorted by date descendent without pagination.
+# attorney
+	# list of accepted appearences
+# tests
+	# create 1000 appearences
+	# create user
+	# delete 1000 appearences
 
 ## frontend

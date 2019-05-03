@@ -1,25 +1,22 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var appearence = new Schema({
-  email: {
-    type: String,
-    required: false
-  },
-  firm_name: {
+var appearences = new Schema({
+  title: {
     type: String,
     required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    default: 'pending',
+    required: false
   }
 },{
-    collection: 'users', timestamps: true
+    collection: 'appearences', timestamps: true
 });
-
-// hash user password before saving into database
-users.pre('save', function(next){
-this.password = bcrypt.hashSync(this.password, saltRounds);
-next();
-});
-module.exports = mongoose.model('users', users);
+//'pending', 'confirmed', 'ended', 'canceled',
+module.exports = mongoose.model('appearences', appearences);
