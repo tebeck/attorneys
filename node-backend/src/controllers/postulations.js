@@ -5,7 +5,6 @@ module.exports = {
 
 postulate: function(req, res, next){ // Pasar en el body el id de appearence (frontend)
   const payload = req.body;
-  console.log(payload)
   
   postModel.find({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
      if(err){
@@ -31,7 +30,7 @@ postulate: function(req, res, next){ // Pasar en el body el id de appearence (fr
 
 delete: function(req, res, next){ // Pasar en el body el id de appearence (frontend)
   const payload = req.body;
-  console.log(payload)
+
   
   postModel.deleteOne({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
      if(err){
@@ -43,6 +42,17 @@ delete: function(req, res, next){ // Pasar en el body el id de appearence (front
       return  res.json({status: 200, message: "postulation deleted", deletedCount: result.deletedCount})
      }
   })
-}
+},
+
+get: function(req, res, next){
+  const payload = req.body;
+
+  postModel.find({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
+      return res.json({status:200, data: result});
+    })
+
+},
+
+
 
 }

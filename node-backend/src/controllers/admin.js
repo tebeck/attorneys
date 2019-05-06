@@ -1,4 +1,5 @@
 const userModel = require('../models/users');
+const appModel = require('../models/appearences');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
 const config = require('../config/config')
@@ -47,7 +48,7 @@ getSeekers: function(req, res, next){
 },
 getAppearances: function(req, res, next){ // Agregar en el modelo
 
-  userModel.find({a: {$eq: true}}, function(err, result) {
+  appModel.find(function(err, result) {
       if (err){
         return res.json({status: "Error", message: err});
       } else {

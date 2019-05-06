@@ -5,8 +5,8 @@ const config = require('../config/config')
 
 module.exports = {
 
-register: function(req, res, next) {
-  userModel.create({ name: req.body.name,lastname: req.body.lastname, email: req.body.email, password: req.body.password }, 
+register: function(req, res, next) { // Agregar account number .. etc
+  userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password, isAttorney: req.body.isAttorney, isSeeker: req.body.isSeeker }, 
     function (err, result) {
       if (err) {
         return res.json({state:"Error", message: err.message, data:null});
@@ -25,18 +25,20 @@ authenticate: function(req, res, next) {
       if (!user) {
         var err = new Error('User not found.');
         err.state = 401;
-        return res.json({state: err.state, message: "User not found", data: null });
+        const response = {state: err.state, message: "User not found", data: null }
+        return res.json({response});
       }       
       if(bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({_id:user._id }, config.secret, { expiresIn: config.tokenLife})
         const refreshToken = jwt.sign({_id:req.body.email}, config.refreshTokenSecret, { expiresIn: config.refreshTokenLife})
-        const response = { "state": 200, "token": token, "refreshToken": refreshToken, "user": user.name, "email": user.email, "message": "User logged in", "_id": user.id }
+        const response = { "state": 200, "token": token, user }
         return res.json({response});
       } else {
         console.log(user )
         var err = new Error('Incorrect Email/Password');
         err.state = 409;
-        return res.json({state: err.state, message: "Incorrect email/password" });
+        const response = {state: err.state, message: "Incorrect email/password"}
+        return res.json({response});
       }
      });
 },

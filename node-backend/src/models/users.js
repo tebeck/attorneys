@@ -7,31 +7,31 @@ var Schema = mongoose.Schema;
 var users = new Schema({
   email: {
     type: String,
-    required: false
+    required: true
   },
   firm_name: {
     type: String,
-    required: true
+    required: false
   },
   name: {
     type: String,
-    required: true
+    required: false
   },
   contact_info: {
     type: String,
-    required: true
+    required: false
   },
   phone: {
     type: Number,
-    required: true
+    required: false
   },
   routing_number: {
     type: Number,
-    required: true
+    required: false
   },
   account_number: {
     type: Number,
-    required: true
+    required: false
   },
   password: {
     type: String,

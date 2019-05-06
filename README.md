@@ -24,18 +24,18 @@
 	# only admin authorized to make another admin
 	# check jwt token is valid.
 # admin routes
-	# list all attorneys
+	# list all attorneys (fixed)
 		# get attorney profile data
-	# list all seekers
+	# list all seekers (Fixed)
 		# get seeker profiled data
-	# list all appearances
+	# list all appearances (Fixed)
 		# 
 # appearances
 	# Model:
 	# create
 	# update
 	# delete
-	# read
+	# read (fixed. get appearences by userId seeker)
 	 # Validations:
 	 	- seekers only can crud appearences
 	 	- attorneys only can postulate appearences
@@ -50,9 +50,16 @@
 	# see all appearences oportunities sorted by date descendent without pagination.
 # attorney
 	# list of accepted appearences
+	# 
 # tests
 	# create 1000 appearences
 	# create user
 	# delete 1000 appearences
+
+
+# tokens:
+## ace: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs
+
+## cec8: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2QwMzhlNWUzNjMyZWQ3N2YxMmNlYzgiLCJpYXQiOjE1NTcxNDk5MzYsImV4cCI6MTU2NzE0OTkzNn0.nEhBEgVclpUi_eEHYAiNul1SnQmFXn5JEM9NpOomSI8
 
 ## frontend

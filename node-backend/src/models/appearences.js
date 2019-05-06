@@ -14,7 +14,15 @@ var appearences = new Schema({
     type: String,
     default: 'pending',
     required: false
-  }
+  },
+  createdBy: {
+    type: String,
+    required: true
+  },
+  attachment: {
+    type: String,
+    required: false
+   }
 },{
     collection: 'appearences', timestamps: true
 });

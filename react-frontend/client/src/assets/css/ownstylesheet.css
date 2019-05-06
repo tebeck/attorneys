@@ -1,0 +1,45 @@
+.display{
+	display: block;
+}
+
+.hide{
+	display: none;
+}
+
+#page-numbers {
+  list-style: none;
+  display: flex;
+}
+
+#page-numbers > li {
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
+}
+
+
+
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.choose{
+	background-color: white;
+	cursor: pointer;
+	padding: .5em;
+	border: 1px solid grey;
+
+}
+.choose:focus,
+.choose:hover{
+	background-color: #ADD8E6;
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}

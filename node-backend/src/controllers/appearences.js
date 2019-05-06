@@ -4,7 +4,18 @@ const postulationsModel = require('../models/postulations');
 module.exports = {
 
 get: function(req, res, next){
-  appModel.find(function (err, data){
+  appModel.find({'status': 'pending'},function (err, data){ // Get available appearences ??
+    if(err){
+      return res.json(err);
+    } else {
+      return res.json(data);
+    }
+  }).sort({createdAt:-1}); 
+},
+
+getOwn: function(req, res, next){ // seekers
+  const payload = req.body;
+  appModel.find({ createdBy: payload.userId },function (err, data){
     if(err){
       console.log(err);
     } else {
@@ -13,8 +24,10 @@ get: function(req, res, next){
   }).sort({createdAt:-1}); 
 },
 
+
 create: function(req, res, next){
   const payload = req.body;
+  payload.createdBy = payload.userId;
   const appearence = new appModel(payload);
       appearence.save()
     .then(appearence => {
@@ -22,7 +35,6 @@ create: function(req, res, next){
     })
     .catch(err => {
       console.log("Unable to save to datbase")
-      console.log(appearence)
       res.status(400).send("unable to save to database => "+err);
     });
 },
@@ -58,11 +70,11 @@ delete: function(req, res, next){
 },
 
 getAccepted: function(req, res, next){
-  appModel.find({ status: 'accepted' }, function(err, result) {
+  appModel.find({ status: 'accepted' }, function(err, result) { // ?????
     if(err){
       console.log(err);
     } else {
-      res.json(data);
+      res.json(result);
     }
   }).sort({createdAt:-1}); 
 },

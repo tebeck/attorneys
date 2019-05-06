@@ -1,0 +1,7 @@
+{
+	"name": "Attorneys",
+	"version": "1",
+	"url_backend":"http://localhost:6200",
+	"url_backend_test": "https://decafe-backend.herokuapp.com",
+	"url_backend_prod": "https://decafe-backend.herokuapp.com"
+}

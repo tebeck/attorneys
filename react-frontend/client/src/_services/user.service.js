@@ -1,0 +1,83 @@
+import { authHeader } from '../_helpers';
+import Cookies from 'js-cookie';
+import {url_backend} from '../config.json';
+
+export const userServices = {
+    users,
+    authenticate,
+    register
+}
+
+function register(data){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+
+    return fetch(`${url_backend}/users/register`, requestOptions)
+    .then(handleResponse)
+    .then(data => {
+        return data;
+    })
+}
+
+function authenticate(data){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+     return fetch(`${url_backend}/users/authenticate`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            if(data.response.state === 200){
+                console.log(data.response)
+                Cookies.set('token', data.response.token)
+                Cookies.set('user',data.response.user.name, { expires: 1 })
+                Cookies.set('email',data.response.user.email, { expires: 1 })
+                if(data.response.user.isAttorney){
+                    Cookies.set('attorney', data.response.user.isAttorney)    
+                }
+                if(data.response.user.isSeeker){
+                    Cookies.set('seeker', data.response.user.isSeeker)    
+                }
+            }
+            return data;
+        });
+}
+
+
+
+// function logout() {
+//     // remove user from cookie to log user out
+//     Cookies.remove('token')
+//     Cookies.remove('user')
+//     Cookies.remove('email')
+// }
+
+function users() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    return fetch(`${url_backend}/users`, requestOptions)
+        .then(handleResponse)
+}
+
+
+function handleResponse(response) {
+    return response.json().then(data => {
+        if (!response.ok) {
+            if (response.status === 401) {
+                // window.location.reload(true);
+            }
+            if(response.status === 409){
+                // window.location.reload(true);
+            }
+        }
+
+        // const data = text && JSON.parse(text);
+        return data
+    });
+}
