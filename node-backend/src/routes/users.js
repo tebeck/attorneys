@@ -7,6 +7,8 @@ const userMiddleware = require('../middlewares/users');
 
 router.post('/register',userMiddleware.exists, userController.register);
 router.post('/authenticate', userController.authenticate);
+router.get('/confirmation/:token', userController.confirmation);
+// router.post('/resend', userController.resendTokenPost);
 // router.post('/isvalid', validateMiddleware.uservalid)
 
 module.exports = router;

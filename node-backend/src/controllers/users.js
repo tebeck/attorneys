@@ -1,64 +1,107 @@
-const userModel = require('../models/users');
+const users = require('../models/users');
+const tokenModel = require('../models/token');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
-const config = require('../config/config')
+const config = require('../config/config');
+const mailService = require('../services/sendmail');
+const Logger = require("cute-logger")
+
 
 module.exports = {
 
-register: function(req, res, next) { // Agregar account number .. etc
-  userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password, isAttorney: req.body.isAttorney, isSeeker: req.body.isSeeker }, 
-    function (err, result) {
-      if (err) {
-        return res.json({state:"Error", message: err.message, data:null});
+register: function(req, res, next) {
+
+  users.findOne({ email: req.body.email }, function (err, user) {
+    if (user) return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
+
+    user = new users({ 
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        lawFirm: req.body.lawFirm,
+        stateBar: req.body.stateBar,
+        officePhone: req.body.officePhone,
+        mobilePhone: req.body.mobilePhone,
+        email: req.body.email,
+        mailingAddress: req.body.mailingAddress,
+        password: req.body.password,
+        profilePicture: req.body.profilePicture,
+        creditCard: req.body.creditCard,
+        policy: req.body.policy,
+        notification: req.body.notification,
+        insurancePolicy: req.body.insurancePolicy,
+        termsConditions: req.body.termsConditions,
+        isSeeker: req.body.isSeeker,
+        isAttorney: req.body.isAttorney,
+        rating: req.body.rating,
+        reviewTotal: req.body.reviewTotal,
+        reviews: req.body.reviews,
+        isVerified: req.body.isVerified
+    });
+
+      user.save(function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); 
       }
-      else {
-        return res.json({state: 200, message: "User added", data: result})
+
+      let token = new tokenModel({
+        _userId: user._id,
+        token: crypto.randomBytes(16).toString('hex')
+      });
+ 
+      token.save(function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); 
       }
-  })
+
+       Logger.log("REGISTER: Sending email")
+       let transporter = nodemailer.createTransport({ host: 'smtp.gmail.com', port: 465, secure: true, auth: { user: config.gacc, pass: config.gpass } });
+       let mailOptions = { from: 'no-reply@yourwebapplication.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+        
+        transporter.sendMail(mailOptions, function (err) {
+          if (err) { return res.status(500).send({ msg: err.message }); }
+          res.status(200).send('A verification email has been sent to ' + user.email + '=> ' + token.token);
+        });
+
+      });
+    });
+
+  });
+
+
 },
 
 authenticate: function(req, res, next) {
-  userModel.findOne({email:req.body.email}, function(err, user){
-      if (err) {
-        return res.json({state:"Error", message: err.message, data:null});
-      }      
-      if (!user) {
-        var err = new Error('User not found.');
-        err.state = 401;
-        const response = {state: err.state, message: "User not found", data: null }
-        return res.json({response});
-      }       
-      if(bcrypt.compareSync(req.body.password, user.password)) {
-        const token = jwt.sign({_id:user._id }, config.secret, { expiresIn: config.tokenLife})
-        const refreshToken = jwt.sign({_id:req.body.email}, config.refreshTokenSecret, { expiresIn: config.refreshTokenLife})
-        const response = { "state": 200, "token": token, user }
-        return res.json({response});
-      } else {
-        console.log(user )
-        var err = new Error('Incorrect Email/Password');
-        err.state = 409;
-        const response = {state: err.state, message: "Incorrect email/password"}
-        return res.json({response});
-      }
-     });
-},
+  users.findOne({email:req.body.email}, function(err, user){
 
-makeAdmin: function(req, res, next){
-    userModel.findById(req.params.id, function(err, user) {
-    if (!user)
-      return next(new Error('No user found'));
-    else {
-      
-      user.isAdmin = true;
-      user.save().then(user => {
-          res.json('Updated');
+    if (err) { return res.status(500).send({ message: err.message }); }
+    if (!user) { return res.status(401).send({ message: "User not found"}); }
+    if (!user.isVerified) { return res.status(401).send({ message: "Your account has not been verified"}); } 
 
-      })
-      .catch(err => {
-            res.status(400).send("Unable to update");
-      });
+    if(bcrypt.compareSync(req.body.password, user.password)) {
+        const token = jwt.sign({ _id:user._id }, config.secret, { expiresIn: config.tokenLife})
+        return res.status(200).send({ token: token, result: user });
+    } else {
+        return res.status(409).send({ msg: "Incorrect user/password", result: user });
     }
   });
 },
+
+confirmation: function(req, res, next){
+
+   tokenModel.findOne({ token: req.params.token }, function (err, token) {
+      if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+ 
+        // If we found a token, find a matching user
+        users.findOne({ _id: token._userId }, function (err, user) {
+            if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+            if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+
+            user.updateOne({isVerified: true},function (err) {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+                res.status(200).send({message: "The account has been verified. Please log in.", redirect: req.headers.host + "/login"});
+            });
+        });
+   });
+}
 
 }

@@ -1,3 +1,4 @@
+const Logger = require("cute-logger")
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -5,49 +6,95 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var users = new Schema({
+  firstName: {
+    type: String,
+    required: false
+  },
+  lastName: {
+    type: String,
+    required: false
+  },
+  lawFirm: {
+    type: String,
+    required: false
+  },
+  stateBar: {
+    type: Number,
+    required: false
+  },
+  officePhone: {
+    type: String,
+    required: false
+  },
+  mobilePhone: {
+    type: String,
+    required: false
+  },
   email: {
     type: String,
     required: true
   },
-  firm_name: {
-    type: String,
-    required: false
-  },
-  name: {
-    type: String,
-    required: false
-  },
-  contact_info: {
-    type: String,
-    required: false
-  },
-  phone: {
-    type: Number,
-    required: false
-  },
-  routing_number: {
-    type: Number,
-    required: false
-  },
-  account_number: {
-    type: Number,
-    required: false
-  },
+  mailingAddress: [
+    {
+      streetAdd1: {
+        type: String,
+        required: false
+      },
+      streetAdd2: {
+        type: String,
+        required: false
+      },
+      city: {
+        type: String,
+        required: false
+      },
+      state: {
+        type: String,
+        required: false
+      },
+      zip: {
+        type: String,
+        required: false
+      }
+    }
+  ],
   password: {
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false
+  profilePicture: {
+    type: String,
+    required: false,
   },
-  isGuest: {
-    type: Boolean,
-    default: true
+  creditCard: {
+    type: Number,
+    required: false
   },
-  isDeveloper: {
+  policy: {
+    type: Number,
+    required: false
+  },
+  notification: [
+    {
+      email: Boolean,
+      required: false
+    },
+    {
+      sms: Boolean,
+      required: false
+    },
+    {
+      alert: Boolean,
+      required: false
+    }
+  ],
+  insurancePolicy:{
+    type: Number,
+    required: true
+  }, 
+  termsConditions: {
     type: Boolean,
-    default: false
+    required: false
   },
   isSeeker: {
     type:Boolean,
@@ -61,7 +108,7 @@ var users = new Schema({
     type: Number,
     default: 0
   },
-  review_total: {
+  reviewTotal: {
     type: Number,
     default: 0
   },
@@ -72,14 +119,19 @@ var users = new Schema({
       comment: String,
       rating: Number
     }
-  ]
+  ],
+  isVerified: { 
+    type: Boolean,
+    default: false 
+  },
 },{
     collection: 'users', timestamps: true
 });
 
 // hash user password before saving into database
 users.pre('save', function(next){
-this.password = bcrypt.hashSync(this.password, saltRounds);
-next();
+  this.password = bcrypt.hashSync(this.password, saltRounds);
+  Logger.log("MODEL: Hasing password")
+  next();
 });
 module.exports = mongoose.model('users', users);

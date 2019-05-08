@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import {url_backend} from '../config.json';
 
 export const userServices = {
-    users,
     authenticate,
     register
 }
@@ -31,16 +30,16 @@ function authenticate(data){
      return fetch(`${url_backend}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            if(data.response.state === 200){
-                console.log(data.response)
-                Cookies.set('token', data.response.token)
-                Cookies.set('user',data.response.user.name, { expires: 1 })
-                Cookies.set('email',data.response.user.email, { expires: 1 })
-                if(data.response.user.isAttorney){
-                    Cookies.set('attorney', data.response.user.isAttorney)    
+            console.log(data.result)
+            if(data.state === 200){
+                Cookies.set('token', data.result.token)
+                Cookies.set('user',data.result.name, { expires: 1 })
+                Cookies.set('email',data.result.email, { expires: 1 })
+                if(data.result.isAttorney){
+                    Cookies.set('attorney', data.result.isAttorney)    
                 }
-                if(data.response.user.isSeeker){
-                    Cookies.set('seeker', data.response.user.isSeeker)    
+                if(data.result.isSeeker){
+                    Cookies.set('seeker', data.result.isSeeker)    
                 }
             }
             return data;
@@ -49,21 +48,12 @@ function authenticate(data){
 
 
 
-// function logout() {
-//     // remove user from cookie to log user out
-//     Cookies.remove('token')
-//     Cookies.remove('user')
-//     Cookies.remove('email')
-// }
-
-function users() {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    return fetch(`${url_backend}/users`, requestOptions)
-        .then(handleResponse)
+function logout() {
+    Cookies.remove('token')
+    Cookies.remove('user')
+    Cookies.remove('email')
 }
+
 
 
 function handleResponse(response) {

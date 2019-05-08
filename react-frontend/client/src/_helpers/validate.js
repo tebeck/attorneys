@@ -20,6 +20,8 @@ import { authHeader } from '.';
         	Cookies.remove('token')
 	        Cookies.remove('user')
 			Cookies.remove('email')
+            Cookies.remove('attorney')
+            Cookies.remove('seeker')
 			alert("Invalid/Expired credentials")
 			window.location.assign('/')
         }
