@@ -1,4 +1,4 @@
 **node_modules
 node-backend/.env
-node-backend/src/config/config.json
+/node-backend/src/config/config.json
 
