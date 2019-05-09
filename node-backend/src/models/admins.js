@@ -14,6 +14,10 @@ var admins = new Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: true
+  }
 },{
     collection: 'admins', timestamps: true
 });

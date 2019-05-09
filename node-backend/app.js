@@ -13,7 +13,7 @@ require('dotenv').config();
 mongoose.connect(configDB.url,{ useNewUrlParser: true, useCreateIndex: true })
 
 // ROUTES
-const adminRoutes = require('./src/routes/admin');
+const adminRoutes = require('./src/routes/admins');
 const appearencesRoutes = require('./src/routes/appearences');
 const postulationsRoutes = require('./src/routes/postulations');
 // const filesRoute = require('./src/routes/files');
@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // app.use('/users/admin', validate.user, users)
 // app.use('/files', filesRoute);
 app.use('/users', users);
-app.use('/admin', isvalid.user, adminRoutes);
+app.use('/admins', isvalid.user, adminRoutes);
 app.use('/appearences',isvalid.user ,appearencesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 

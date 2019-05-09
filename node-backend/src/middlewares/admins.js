@@ -1,8 +1,8 @@
-const usersModel = require('../models/users');
+const adminModel = require('../models/admins');
 
 module.exports = {
 	adminRoute: function(req, res, next) {
-		usersModel.findById(req.body.userId, function(err, user){
+		adminModel.findById(req.body.userId, function(err, user){
 			if(err){
 				return res.status(404).send({message: err})
 			}

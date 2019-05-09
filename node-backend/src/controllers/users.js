@@ -5,7 +5,6 @@ var nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
-const mailService = require('../services/sendmail');
 const Logger = require("cute-logger")
 
 
@@ -14,6 +13,7 @@ module.exports = {
 register: function(req, res, next) {
 
   users.findOne({ email: req.body.email }, function (err, user) {
+
     if (user) return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
 
     user = new users({ 

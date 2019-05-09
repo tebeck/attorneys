@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/admin');
-const adminMiddleware = require('../middlewares/admin');
+const adminController = require('../controllers/admins');
+const adminMiddleware = require('../middlewares/admins');
 
-router.post('/signup', adminMiddleware.adminRoute, adminController.signup);
-router.post('/singin', adminMiddleware.adminRoute, adminController.signin);
+router.post('/register', adminMiddleware.adminRoute, adminController.register);
+router.post('/authenticate', adminMiddleware.adminRoute, adminController.authenticate);
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
