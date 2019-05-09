@@ -4,7 +4,7 @@
     "port": 3000,
     "tokenLife": 10000000,
     "refreshTokenLife": 86400,
-	"gacc": "thombeckford@gmail.com",
-	"gpass": "Pappo123"
+	"gacc": "",
+	"gpass": ""
 }
 
