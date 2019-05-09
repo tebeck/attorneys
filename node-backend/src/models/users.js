@@ -124,6 +124,10 @@ var users = new Schema({
     type: Boolean,
     default: false 
   },
+  isDisabled: {
+    type: Boolean,
+    default: false
+  }
 },{
     collection: 'users', timestamps: true
 });

@@ -5,6 +5,9 @@ const adminMiddleware = require('../middlewares/admins');
 
 router.post('/register', adminMiddleware.adminRoute, adminController.register);
 router.post('/authenticate', adminMiddleware.adminRoute, adminController.authenticate);
+router.post('/disableUser', adminMiddleware.adminRoute, adminController.disableUser);
+
+
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);

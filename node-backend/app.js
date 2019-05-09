@@ -5,12 +5,11 @@ const cors = require('cors');
 const users = require('./src/routes/users');
 const ip = require("ip");
 const mongoose = require('mongoose')
-const configDB = require('./src/config/database');
 const port = 6200;
 require('dotenv').config();
 
 // DB Instance
-mongoose.connect(configDB.url,{ useNewUrlParser: true, useCreateIndex: true })
+mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex: true })
 
 // ROUTES
 const adminRoutes = require('./src/routes/admins');
@@ -37,10 +36,7 @@ app.use('/admins', isvalid.user, adminRoutes);
 app.use('/appearences',isvalid.user ,appearencesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 
-
-
 // Backend status
-console.dir ( ip.address())
 app.get('/', function(req, res){
     res.json({
     	state: 200,
@@ -49,6 +45,8 @@ app.get('/', function(req, res){
     })
 });
 
+console.log("Online!")
+console.log(process.env.PRODUCTION)
 
 // Execute App
 app.listen(process.env.PORT || port)

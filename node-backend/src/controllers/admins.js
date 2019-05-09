@@ -3,7 +3,6 @@ const adminModel = require('../models/admins');
 const appModel = require('../models/appearences');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
-const config = require('../config/config')
 
 module.exports = {
 
@@ -47,7 +46,7 @@ make: function(req, res, next){
     if (!admin) { return res.status(401).send({ message: "User not found"}); }
 
     if(bcrypt.compareSync(req.body.password, admin.password)) {
-        const token = jwt.sign({ _id:admin._id }, config.secret, { expiresIn: config.tokenLife})
+        const token = jwt.sign({ _id:admin._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE})
         return res.status(200).send({ token: token, result: admin });
     } else {
         return res.status(409).send({ message: "Incorrect user/password", result: admin });
@@ -55,16 +54,20 @@ make: function(req, res, next){
   });
  },
 
+ disableUser: function(req, res, next){
+   userModel.findById(req.body.id, function(err, user) {
+      userModel.updateOne({isDisabled: true},function (err) {
+          if (err) { return res.status(500).send({ msg: err.message }); }
+        res.status(200).send({data: user, message:"User disabled"});
+      });
+   })
+ },
+
 getAttorneys: function(req, res, next){
-
   userModel.find({isAttorney: {$eq: true}}, function(err, result) {
-      if (err){
-        return res.json({status: "Error", message: err});
-      } else {
-        return res.status(200).send({data: result});
-      }
+    if (err){ return res.json({status: "Error", message: err}); } 
+     else { return res.status(200).send({data: result}); }
   })   
-
 },
 getSeekers: function(req, res, next){
 

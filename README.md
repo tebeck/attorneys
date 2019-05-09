@@ -15,7 +15,7 @@
         "stateBar": 111111111,
         "officePhone": "exampleOfficePhone",
         "mobilePhone": "exampleMobilePhone",
-        "email": "test@example.com",
+        "email": "teb@gmail.com",
         "mailingAddress": { "streetAdd1": "exampleAddress" },
         "password": "examplePassword",
         "profilePicture": "examplePicture",
@@ -40,8 +40,8 @@
 	  -H 'Postman-Token: a56ad3a9-a099-4ee3-9546-679523a76793' \
 	  -H 'cache-control: no-cache' \
 	  -d '{
-	    "email": "youremail@gmail.com",
-	    "password": "yourpassword"
+	    "email": "testt@example.com",
+	    "password": "examplePassword"
 	}'
 
 <!-- # 4. MAKE ADMIN USER ( ONLY ADMINS )
@@ -79,9 +79,11 @@
 	        "password": "test"
 	}'
 
+# 6. ATTORNEY OF RECORD PROFILE
 
-# 6. A
 
+# . POST NEW APPEARENCE ( BEING ATTORNEY OF RECORD )
+	
 
 ### LOGS:
 	# validate errors
@@ -122,17 +124,18 @@
 	# create profile with email, name, contact info, phone, routing number, account number, password.
 	# create appearence oportunity. NOT COMPLETE YET.
 	# see all appearences oportunities sorted by date descendent without pagination.
-# attorney
-	# list of accepted appearences
-	# 
 # tests
 	# create 1000 appearences
 	# create user
 	# delete 1000 appearences
-
 # sendmail
 	# create service
 	# create credentials
+# env file
+	# configuration
+# attorney of record
+	# profile
+	# list appearences
 
 
 # tokens:
