@@ -1,10 +1,11 @@
-## NODEJS-MONGOOSE-JWT-CRYPT-BCRYPT-EMAIL-
+## NODEJS-MONGOOSE-JWT-CRYPT-BCRYPT-EMAIL
 
-#--------------------------------------------------------------------------
-# NORMAL USERS SECTION
-#--------------------------------------------------------------------------
+####--------------------------------------------------------------------------
+#### NORMAL USERS SECTION
+####--------------------------------------------------------------------------
 
-# REGISTER: ( ATTORNEY OF RECORD && ATTORNEY OF APPEARENCE(seeker) ) -> SET true or false below.
+# REGISTER: 
+###( ATTORNEY OF RECORD && ATTORNEY OF APPEARENCE(seeker) ) -> SET true or false below.
 	curl -X POST \
 	  http://localhost:6200/users/register \
 	  -H 'Content-Type: application/json' \
