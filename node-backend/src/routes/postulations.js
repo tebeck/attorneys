@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postulations');
-const appMiddleware = require('../middlewares/appearences');
+const appMiddleware = require('../middlewares/appearances');
 
 router.post('/',appMiddleware.isAttorney ,postController.get);
 router.post('/postulate', appMiddleware.isAttorney, postController.postulate);

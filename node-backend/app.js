@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex
 
 // ROUTES
 const adminRoutes = require('./src/routes/admins');
-const appearencesRoutes = require('./src/routes/appearences');
+const appearancesRoutes = require('./src/routes/appearances');
 const postulationsRoutes = require('./src/routes/postulations');
 // const filesRoute = require('./src/routes/files');
 
@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // app.use('/files', filesRoute);
 app.use('/users', users);
 app.use('/admins', isvalid.user, adminRoutes);
-app.use('/appearences',isvalid.user ,appearencesRoutes);
+app.use('/appearances',isvalid.user ,appearancesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 
 // Backend status
@@ -45,8 +45,7 @@ app.get('/', function(req, res){
     })
 });
 
-console.log("Online!")
-console.log(process.env.PRODUCTION)
+console.log("Running in: "  + process.env.NODE_ENV);
 
 // Execute App
 app.listen(process.env.PORT || port)

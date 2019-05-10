@@ -8,7 +8,6 @@ user: function(req, res, next) {
       return res.json({state:"Error", message: err.message, data:null});
     }else{
       req.body.userId = decoded._id;
-      console.log(decoded.isDisabled)
       next();
     }
   });

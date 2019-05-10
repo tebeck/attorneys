@@ -1,4 +1,4 @@
-const users = require('../models/users');
+const userModel = require('../models/users');
 const tokenModel = require('../models/token');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
@@ -11,11 +11,11 @@ module.exports = {
 
 register: function(req, res, next) {
 
-  users.findOne({ email: req.body.email }, function (err, user) {
+  userModel.findOne({ email: req.body.email }, function (err, user) {
 
     if (user) return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
 
-    user = new users({ 
+    user = new userModel({ 
         firstName: req.body.firstName, lastName: req.body.lastName, lawFirm: req.body.lawFirm,
         stateBar: req.body.stateBar, officePhone: req.body.officePhone, mobilePhone: req.body.mobilePhone,
         email: req.body.email, mailingAddress: req.body.mailingAddress, password: req.body.password,
@@ -59,22 +59,21 @@ register: function(req, res, next) {
 
 authenticate: function(req, res, next) {
   users.findOne({email:req.body.email}, function(err, user){
-
     if (err) { return res.status(500).send({ message: err.message }); }
     if (!user) { return res.status(401).send({ message: "User not found"}); }
     if (!user.isVerified) { return res.status(401).send({ message: "Your account has not been verified"}); } 
+    if (user.isDisabled){ return res.status(401).send({ message: "User disabled" }); }
 
     if(bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
         return res.status(200).send({ token: token, result: user });
     } else {
-        return res.status(409).send({ msg: "Incorrect user/password", result: user });
+        return res.status(409).send({ message: "Incorrect user/password", result: user });
     }
   });
 },
 
 confirmation: function(req, res, next){
-
    tokenModel.findOne({ token: req.params.token }, function (err, token) {
       if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
  
@@ -89,6 +88,17 @@ confirmation: function(req, res, next){
             });
         });
    });
-}
+},
+
+getProfile: function(req, res, next){
+   userModel.findOne({ _id: req.body.userId }, function (err, user) {
+     if (err) {return res.status(500).send({ message: err.message })}
+       return res.status(200).send({data: user})
+   })
+
+ },
+
+
+
 
 }

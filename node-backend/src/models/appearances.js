@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var appearences = new Schema({
+var appearances = new Schema({
   title: {
     type: String,
     required: true
   },
   description: {
     type: String,
-    required: true
+    required: false
   },
   status: {
     type: String,
@@ -24,7 +24,7 @@ var appearences = new Schema({
     required: false
    }
 },{
-    collection: 'appearences', timestamps: true
+    collection: 'appearances', timestamps: true
 });
 //'pending', 'confirmed', 'ended', 'canceled',
-module.exports = mongoose.model('appearences', appearences);
+module.exports = mongoose.model('appearances', appearances);

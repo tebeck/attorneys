@@ -1,6 +1,6 @@
 const userModel = require('../models/users');
 const adminModel = require('../models/admins');
-const appModel = require('../models/appearences');
+const appModel = require('../models/appearances');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
 
@@ -56,12 +56,28 @@ make: function(req, res, next){
 
  disableUser: function(req, res, next){
    userModel.findById(req.body.id, function(err, user) {
+     if(user.isDisabled){return res.status(200).send({message: "User is already disabled"})}
       userModel.updateOne({isDisabled: true},function (err) {
           if (err) { return res.status(500).send({ msg: err.message }); }
-        res.status(200).send({data: user, message:"User disabled"});
+        res.status(200).send({message:"User disabled"});
       });
    })
  },
+
+
+deleteUser: function(req, res, next){
+  userModel.findByIdAndRemove(req.body.id, function(err, user){
+    if(err){ return res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ message: "User deleted" })
+  });
+},
+
+getUsers: function(req, res, next){
+  userModel.find({},function(err, users){
+    if(err){ res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: users })
+  });
+},
 
 getAttorneys: function(req, res, next){
   userModel.find({isAttorney: {$eq: true}}, function(err, result) {

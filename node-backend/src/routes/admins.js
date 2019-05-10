@@ -5,10 +5,12 @@ const adminMiddleware = require('../middlewares/admins');
 
 router.post('/register', adminMiddleware.adminRoute, adminController.register);
 router.post('/authenticate', adminMiddleware.adminRoute, adminController.authenticate);
-router.post('/disableUser', adminMiddleware.adminRoute, adminController.disableUser);
-
-
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
+
+router.post('/disableuser', adminMiddleware.adminRoute, adminController.disableUser);
+router.post('/deleteuser', adminMiddleware.adminRoute, adminController.deleteUser);
+router.post('/getusers', adminMiddleware.adminRoute, adminController.getUsers);
+
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
 router.get('/appearences', adminMiddleware.adminRoute, adminController.getAppearances);

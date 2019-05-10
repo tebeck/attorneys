@@ -1,12 +1,12 @@
-const appModel = require('../models/appearences');
+const appModel = require('../models/appearances');
 const postModel = require('../models/postulations');
 
 module.exports = {
 
-postulate: function(req, res, next){ // Pasar en el body el id de appearence (frontend)
+postulate: function(req, res, next){ // Pasar en el body el id de appearance (frontend)
   const payload = req.body;
   
-  postModel.find({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
+  postModel.find({ appearanceId: payload.appearanceId, userId: payload.userId }, function(err, result) {
      if(err){
        return res.json(err)
      }
@@ -28,11 +28,11 @@ postulate: function(req, res, next){ // Pasar en el body el id de appearence (fr
   })
 },
 
-delete: function(req, res, next){ // Pasar en el body el id de appearence (frontend)
+delete: function(req, res, next){ // Pasar en el body el id de appearance (frontend)
   const payload = req.body;
 
   
-  postModel.deleteOne({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
+  postModel.deleteOne({ appearanceId: payload.appearanceId, userId: payload.userId }, function(err, result) {
      if(err){
        return res.json(err)
      } else if(result.deletedCount < 1){
@@ -47,7 +47,7 @@ delete: function(req, res, next){ // Pasar en el body el id de appearence (front
 get: function(req, res, next){
   const payload = req.body;
 
-  postModel.find({ appearenceId: payload.appearenceId, userId: payload.userId }, function(err, result) {
+  postModel.find({ appearanceId: payload.appearanceId, userId: payload.userId }, function(err, result) {
       return res.json({status:200, data: result});
     })
 
