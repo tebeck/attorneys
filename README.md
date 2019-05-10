@@ -1,7 +1,10 @@
-# ATTORNEYS
+## NODEJS-MONGOOSE-JWT-CRYPT-BCRYPT-EMAIL-
 
-## backend
-# 1. REGISTER: ( ATTORNEY OF RECORD && ATTORNEY OF APPEARENCE(seeker) ) -> SET true or false below.
+#--------------------------------------------------------------------------
+# NORMAL USERS SECTION
+#--------------------------------------------------------------------------
+
+# REGISTER: ( ATTORNEY OF RECORD && ATTORNEY OF APPEARENCE(seeker) ) -> SET true or false below.
 	curl -X POST \
 	  http://localhost:6200/users/register \
 	  -H 'Content-Type: application/json' \
@@ -29,11 +32,11 @@
         "reviews": { "comment": "String" }
 }'
 
-# 2. VERIFICATION EMAIL
-### a. Copy the recieved TOKEN on the response
+# VERIFICATION EMAIL
+### a. Copy the recieved VERIFY-TOKEN on the response
 ### b. Paste this in your browser-> http://localhost:6200/confirmation/PASTE-TOKEN-HERE
 
-# 3. AUTHENTICATE
+# AUTHENTICATE
 	curl -X POST \
 	  http://localhost:6200/users/authenticate \
 	  -H 'Content-Type: application/json' \
@@ -44,21 +47,18 @@
 	    "password": "examplePassword"
 	}'
 
-<!-- # 4. MAKE ADMIN USER ( ONLY ADMINS )
-### a. Get the user id to make admin and past it on code below. (access token required -> check if user is admin)
-	curl -X POST \
-	  http://localhost:6200/admin/create \
+# GET PROFILE ( INSERT USER TOKEN )
+	curl -X GET \
+	  http://localhost:6200/users/profile \
 	  -H 'Content-Type: application/json' \
-	  -H 'Postman-Token: bc3865bb-0cfb-4c6d-8b88-252937e5f1ea' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A' \
-	  -d '{
-		"id": "5cd2f38d9f6c576c8cb5a1d6"
-		}' -->
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs'
 
+#--------------------------------------------------------------------------
+# ADMINS CMS SECTION
+#--------------------------------------------------------------------------
 
-# 5. ADMIN CMS ( REGISTER & AUTHENTICATE )
-### a. Register new admin 
+# REGISTER
 	curl -X POST \
 	  http://localhost:6200/admins/register \
 	  -H 'Content-Type: application/json' \
@@ -68,7 +68,8 @@
 	        "email": "fake@test.com",
 	        "password": "test"
 	}'
-### b. Authenticate admin (access token required -> check if user is admin)
+
+# AUTHENTICATE (access token required -> check if user is admin)
 	curl -X POST \
 	  http://localhost:6200/admins/authenticate \
 	  -H 'Content-Type: application/json' \
@@ -79,11 +80,56 @@
 	        "password": "test"
 	}'
 
-# 6. ATTORNEY OF RECORD PROFILE
+# DISABLE USER
+	curl -X POST \
+	  http://localhost:6200/admins/disableuser \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A' \
+	  -d id=5cc8909b2b3e22e8bb182ace
+
+# GET ALL USERS
+	curl -X POST \
+	  http://localhost:6200/admins/getusers \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A' 
+
+# ADD USER
+
+# EDIT USER
+
+# SORT AND FILTER USERS BY TYPE
+
+#--------------------------------------------------------------------------
+# APPEARENCES ( BEING ATTORNEY OF RECORD )
+#--------------------------------------------------------------------------
+
+### The token inside the "x-access-token" will define the creator on the appearance created.
+
+# CREATE NEW APPEARENCE
+	curl -X POST \
+	  http://localhost:6200/appearances/create \
+	  -H 'Postman-Token: fdbb3c5e-28b7-4b5f-b464-879d9c233ff5' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
+	  -d title=NewPost
+
+# UPDATE MY APPEARENCE (Need: x-access-token, fields to update (see model), id (appearanceId))
+
+	curl -X POST \
+	  http://localhost:6200/appearances/update \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
+	  -d 'title=newAppearanceUpdated&id=5cd5d52f0b34a34361f7fb0a'
+
+# DELETE MY APPEARENCE (Need: x-acces-token, id(appearanceId))
+
+	curl -X POST \
+	  http://localhost:6200/appearances/delete \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
+	  -d id=5cd5d52f0b34a34361f7fb0a
 
 
-# . POST NEW APPEARENCE ( BEING ATTORNEY OF RECORD )
-	
 
 ### LOGS:
 	# validate errors
@@ -138,11 +184,14 @@
 	# list appearences
 
 
+# Attorney of record -> post new appearance.
+# Attorney of appearance -> postulate to new appearance.
+
+
+##------------------------
 # tokens:
 ## ace: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs
 
 ## cec8: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2QwMzhlNWUzNjMyZWQ3N2YxMmNlYzgiLCJpYXQiOjE1NTcxNDk5MzYsImV4cCI6MTU2NzE0OTkzNn0.nEhBEgVclpUi_eEHYAiNul1SnQmFXn5JEM9NpOomSI8
 
 ## admin@test.com: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A
-
-## frontend
