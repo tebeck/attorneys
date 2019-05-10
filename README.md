@@ -8,8 +8,7 @@
 	curl -X POST \
 	  http://localhost:6200/users/register \
 	  -H 'Content-Type: application/json' \
-	  -H 'cache-control: no-cache' \
- -d '{
+	  -H 'cache-control: no-cache' \ -d '{
         "isSeeker": true,
         "isAttorney": true,
         "firstName": "exampleName",
@@ -29,8 +28,7 @@
         "termsConditions": true,
         "rating": 111111111,
         "reviewTotal": 0,
-        "reviews": { "comment": "String" }
-}'
+        "reviews": { "comment": "String" } }'
 
 # VERIFICATION EMAIL
 ### a. Copy the recieved VERIFY-TOKEN on the response
