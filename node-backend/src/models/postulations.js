@@ -12,7 +12,7 @@ var postulations = new Schema({
   },
   status: {
     type: String,
-    default: 'confirmed',
+    default: 'pending',
     required: false
   }
 },{

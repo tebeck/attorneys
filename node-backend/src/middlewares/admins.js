@@ -6,7 +6,7 @@ module.exports = {
 			if(err){
 				return res.status(404).send({message: err})
 			}
-			if(user.isAdmin){
+			if(user && user.isAdmin){
 				return next();
 			} else {
 				return res.status(401).send({Error: "Not authorized" });

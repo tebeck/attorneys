@@ -3,8 +3,8 @@ const router = express.Router();
 const adminController = require('../controllers/admins');
 const adminMiddleware = require('../middlewares/admins');
 
-router.post('/register', adminMiddleware.adminRoute, adminController.register);
-router.post('/authenticate', adminMiddleware.adminRoute, adminController.authenticate);
+router.post('/register',  adminController.register);
+router.post('/authenticate',  adminController.authenticate);
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
 
 router.post('/disableuser', adminMiddleware.adminRoute, adminController.disableUser);

@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 // app.use('/users/admin', validate.user, users)
 // app.use('/files', filesRoute);
 app.use('/users', users);
-app.use('/admins', isvalid.user, adminRoutes);
+app.use('/admins', adminRoutes); // isvalid.admin 
 app.use('/appearances',isvalid.user ,appearancesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 

@@ -46,7 +46,7 @@ make: function(req, res, next){
     if (!admin) { return res.status(401).send({ message: "User not found"}); }
 
     if(bcrypt.compareSync(req.body.password, admin.password)) {
-        const token = jwt.sign({ _id:admin._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE})
+        const token = jwt.sign({ _id:admin._id }, process.env.TOKEN_KEY_ADMIN, { expiresIn: process.env.TOKEN_LIFE_ADMIN})
         return res.status(200).send({ token: token, result: admin });
     } else {
         return res.status(409).send({ message: "Incorrect user/password", result: admin });

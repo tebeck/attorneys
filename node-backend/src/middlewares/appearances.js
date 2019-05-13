@@ -9,7 +9,7 @@ module.exports = {
 			if(user.isSeeker || user.isAdmin){
 				return next();
 			} else {
-				return res.status(401).send({Error: 'Only seekers can manipulate appearances' });
+				return res.status(401).send({Error: 'You are not seeker' });
 			}
 		}
 	)},
@@ -22,7 +22,7 @@ module.exports = {
 			if(user.isAttorney || user.isAdmin){
 				return next();
 			} else {
-				return res.status(401).send({Error: 'Only attorneys can postulate to an appearance' });
+				return res.status(401).send({Error: 'You are not attorney' });
 			}
 		})
 	}
