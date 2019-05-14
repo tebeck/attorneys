@@ -13,7 +13,7 @@ router.post('/getusers', adminMiddleware.adminRoute, adminController.getUsers);
 
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
-router.get('/appearences', adminMiddleware.adminRoute, adminController.getAppearances);
+router.get('/appearances', adminMiddleware.adminRoute, adminController.getAppearances);
 
 
 module.exports = router;

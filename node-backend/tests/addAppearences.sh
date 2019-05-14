@@ -9,11 +9,11 @@ while [ $c -le 1000 ]
 do
 
 curl -X POST \
-  http://localhost:6200/appearences/create \
+  http://localhost:6200/appearances/create \
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -H 'x-access-token: '$accessToken'' \
-  -d '{"title": "Appearence'$c'","description": "test"}'
+  -d '{"title": "Appearance'$c'","description": "test"}'
 
 ((c++))
 

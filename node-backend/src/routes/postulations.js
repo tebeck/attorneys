@@ -6,9 +6,9 @@ const appMiddleware = require('../middlewares/appearances');
 router.get('/', postController.get);
 
 router.post('/create', appMiddleware.isSeeker, postController.create); // appearanceId (frontend)
-// router.post('/delete', appMiddleware.isAttorney, postController.delete);
+router.post('/cancel', appMiddleware.isSeeker, postController.cancel);
 
-router.post('/approve', appMiddleware.isAttorney, postController.update);
-router.post('/reject', appMiddleware.isAttorney, postController.update);
+router.post('/accept', appMiddleware.isAttorney, postController.acceptOrReject);
+router.post('/reject', appMiddleware.isAttorney, postController.acceptOrReject);
 
 module.exports = router;

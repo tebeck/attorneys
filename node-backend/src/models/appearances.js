@@ -18,11 +18,7 @@ var appearances = new Schema({
   createdBy: {
     type: String,
     required: true
-  },
-  attachment: {
-    type: String,
-    required: false
-   }
+  }
 },{
     collection: 'appearances', timestamps: true
 });

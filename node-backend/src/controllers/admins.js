@@ -97,7 +97,6 @@ getSeekers: function(req, res, next){
 
 },
 getAppearances: function(req, res, next){ // Agregar en el modelo
-
   appModel.find(function(err, result) {
       if (err){
         return res.json({status: "Error", message: err});

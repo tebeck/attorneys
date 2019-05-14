@@ -90,17 +90,36 @@
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A' \
 	  -d id=5cc8909b2b3e22e8bb182ace
 
-# GET ALL USERS
+# LIST ALL USERS
 	curl -X POST \
 	  http://localhost:6200/admins/getusers \
 	  -H 'cache-control: no-cache' \
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q0MzYxZjM5NmFjYjRjYjg0ZTAyNmEiLCJpYXQiOjE1NTc0MTEzOTksImV4cCI6MjU1NzQxMTM5OX0.E_1l1ndzlnVIUJ3_Ue_rJZo5MYBjoIhPlASfb2gzi_A' 
 
+# DELETE USER (require: x-access-token: ADMIN, id of user)
+	curl -X POST \
+	  http://localhost:6200/admins/deleteuser \
+	  -H 'Postman-Token: c405fd6e-247d-46d4-ac2d-9c8954b8a5e7' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
+	  -d id=5cd9bedad40027469266bf33
+
+# LIST APPEARANCES done
+# LIST ATTORNEYS done
+# LIST SEEKERS done
+
+
+# CHANGE ROLES
+
+# SORT AND FILTER USERS BY TYPE	
+
 # ADD USER
 
 # EDIT USER
 
-# SORT AND FILTER USERS BY TYPE
+# CRUD APPEARANCES
+
+
 
 #--------------------------------------------------------------------------
 # APPEARENCES ( BEING ATTORNEY OF RECORD )
@@ -113,11 +132,10 @@
 	  http://localhost:6200/appearances/create \
 	  -H 'Postman-Token: fdbb3c5e-28b7-4b5f-b464-879d9c233ff5' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjBkNTAyZTllYmQxMGI2OGJjMTUiLCJpYXQiOjE1NTc3NzQwMTcsImV4cCI6MTAwMDAwMTU1Nzc3NDAxN30.YYM7tdzE9kIga2aM-2zQJp0FzaDr34A3CM4LApGOZcQ' \
-	  -d title=NewPost
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjBkNTAyZTllYmQxMGI2OGJjMTUiLCJpYXQiOjE1NTc3NzkwNTMsImV4cCI6MTU1Nzg3OTA1M30.6pnvA2unE5FR6HIz7ZHotgSitYivKVZWteLCcUnkZyw' \
+	  -d title=appearance3
 
 # EDIT/UPDATE MY APPEARENCE (Need: x-access-token, fields to update (see model), id (appearanceId))
-
 	curl -X POST \
 	  http://localhost:6200/appearances/update \
 	  -H 'cache-control: no-cache' \
@@ -125,20 +143,28 @@
 	  -d 'title=newAppearanceUpdated&id=5cd5d52f0b34a34361f7fb0a'
 
 # DELETE MY APPEARENCE (Need: x-acces-token, id(appearanceId))
-
 	curl -X POST \
 	  http://localhost:6200/appearances/delete \
 	  -H 'cache-control: no-cache' \
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
 	  -d id=5cd5d52f0b34a34361f7fb0a
 
-# APPROVE OR REJECT POSTULATION (x-access-token (attorney), status = "confirmed, rejected", postulationId)
+# ACCEPT OR REJECT POSTULATION (x-access-token (attorney), status = "confirmed, rejected", postulationId)
 	curl -X POST \
-	  http://localhost:6200/postulations/approve \
+	  http://localhost:6200/postulations/accept \
 	  -H 'Postman-Token: d41b8376-e17b-4e23-9a55-d0064f7a38eb' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjBkNTAyZTllYmQxMGI2OGJjMTUiLCJpYXQiOjE1NTc3NzQwMTcsImV4cCI6MTAwMDAwMTU1Nzc3NDAxN30.YYM7tdzE9kIga2aM-2zQJp0FzaDr34A3CM4LApGOZcQ' \
-	  -d 'postulationId=5cd9c028d40027469266bf39&status=confirmed'
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
+	  -d 'postulationId=5cd9c028d40027469266bf39&status=accepted'
+
+	curl -X POST \
+	  http://localhost:6200/postulations/reject \
+	  -H 'Postman-Token: d41b8376-e17b-4e23-9a55-d0064f7a38eb' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
+	  -d 'postulationId=5cdadf7486027847cbaf5ab9&status=accepted'
+
+	* SEND MAIL TO ATTORNEY OF RECORD AND SEEKER ¡OK!
 
 #--------------------------------------------------------------------------
 # APPEARENCES ( BEING ATTORNEY OF APPEARANCE = SEEKER )
@@ -149,10 +175,44 @@
 	  http://localhost:6200/postulations/create \
 	  -H 'Postman-Token: 174b3f9f-0848-41f6-a4ee-6125598ecf25' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk' \
-	  -d appearenceId=5ccc51b30a2ae91a3470cb8a
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
+	  -d appearenceId=5cdb0bfa84264f45d9166e53
 
-# 
+# CANCEL APPEARANCE DEFAULT: 24HS BEFORE createdAt (x-access-token = seeker who applied, postulationId)
+	curl -X POST \
+	  http://localhost:6200/postulations/cancel \
+	  -H 'Postman-Token: af698ebe-9465-4a32-8dda-1a9aa363e508' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
+	  -d postulationId=5cd9c028d40027469266bf39
+
+
+
+
+3.1.2.​ User Profile. OK
+3.1.4.​ Registration. OK
+3.1.5.​ Notifications(email). OK
+
+3.1.6.​ Admin Portal.
+	3.1.6.1.​ Appearing Attorney Approval/Rejection OK
+	3.1.6.2.​ Configure Standard fees. PENDING
+	3.1.6.4.​ User Management. PENDING
+		* Managing all type of users. ASK
+		* Disable users. OK
+		* Delete users. PENDING
+		* Change roles. PENDING
+		* Add new users. PENDING
+		* List all users. OK
+		* Sort and Filter users by type. PENDING
+		* Edit users. PENDING
+	3.1.6.5.​ Data Management
+		* CRUD appearances. PENDING
+
+3.1.7.​ Offering and Accepting
+	3.1.7.1.​ Offering
+		* Create new appearance OK
+
+
 
 ### LOGS:
 	# validate errors
@@ -207,7 +267,11 @@
 	# list appearences
 # update sendmail service
 
+# postulations:
+cancel postulation with seeker, if postulation hasnt been created 24 before
+validation user-postulation
 
+create postulation. by attorney. postulating by seeker. accepting by attorney
 
 # Attorney of record -> post new appearance.
 # Attorney of appearance -> postulate to new appearance.
@@ -221,7 +285,7 @@
 email: admin@gmail.com
 pass: test
 id: 5cd9bd32f1b7c6438328eaff
-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk
 
 ### ATTORNEY:
 
@@ -242,7 +306,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjBiZTAyZTllYmQxMGI2OGJjMTA
 email: attseeker@gmail.com
 pass: examplePassword
 id: 5cd9b803d227b80ff33a951b
-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0
 
 
 

@@ -2,11 +2,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var postulations = new Schema({
-  appearenceId: {
+  appearanceId: {
     type: String,
     required: true
   },
-  userId: {
+  attorney: {
+    type: String,
+    required: true
+  },
+  createdBy: {
     type: String,
     required: true
   },
