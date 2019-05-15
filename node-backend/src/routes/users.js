@@ -9,6 +9,9 @@ router.post('/register',userMiddleware.exists, userController.register);
 router.post('/authenticate', userController.authenticate);
 router.get('/confirmation/:token', userController.confirmation);
 router.get('/profile', userMiddleware.isValid ,userController.getProfile);
+// router.post('/recover', userController.recoverPassword);
+// router.get('/recover/confirmation/:token', userController.recoverConfirmation)
+
 // router.post('/resend', userController.resendTokenPost);
 // router.post('/isvalid', validateMiddleware.uservalid)
 

@@ -59,6 +59,9 @@
 	  -H 'cache-control: no-cache' \
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs'
 
+# LOST PASSWORD
+
+
 #--------------------------------------------------------------------------
 # ADMINS CMS SECTION
 #--------------------------------------------------------------------------
@@ -104,10 +107,26 @@
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
 	  -d id=5cd9bedad40027469266bf33
 
-# LIST APPEARANCES done
-# LIST ATTORNEYS done
-# LIST SEEKERS done
+# LIST APPEARANCES
+	curl -X GET \
+	  http://localhost:6200/admins/appearances \
+	  -H 'Postman-Token: f8df9716-8494-401d-974a-68b56ff4c38d' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk'
 
+# LIST ATTORNEYS
+	curl -X GET \
+	  http://localhost:6200/admins/attorneys \
+	  -H 'Postman-Token: 72ed2f7c-ecfd-4939-a884-2f900b3eaff5' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk'
+
+# LIST SEEKERS
+	curl -X GET \
+	  http://localhost:6200/admins/seekers \
+	  -H 'Postman-Token: 3efa3502-8ee5-443c-a586-a91afbcc55da' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YmQzMmYxYjdjNjQzODMyOGVhZmYiLCJpYXQiOjE1NTc3NzM3MTMsImV4cCI6MTAwMDAwMDAxNTU3NzczNzEwfQ.qiJfBelzVjy4CBB7VbisCPgySI6NHQJGcqDaPoRtYfk'
 
 # CHANGE ROLES
 
@@ -142,7 +161,7 @@
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
 	  -d 'title=newAppearanceUpdated&id=5cd5d52f0b34a34361f7fb0a'
 
-# DELETE MY APPEARENCE (Need: x-acces-token, id(appearanceId))
+# CANCEL MY APPEARENCE (Need: x-acces-token, id(appearanceId))
 	curl -X POST \
 	  http://localhost:6200/appearances/delete \
 	  -H 'cache-control: no-cache' \
@@ -176,7 +195,7 @@
 	  -H 'Postman-Token: 174b3f9f-0848-41f6-a4ee-6125598ecf25' \
 	  -H 'cache-control: no-cache' \
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2Q5YjgwM2QyMjdiODBmZjMzYTk1MWIiLCJpYXQiOjE1NTc3NzIzMTQsImV4cCI6MTAwMDAwMTU1Nzc3MjMxNH0.H4mCSvafXOod-6i-ujFnDWFgthXqjUxd1gzdswt-EF0' \
-	  -d appearenceId=5cdb0bfa84264f45d9166e53
+	  -d appearanceId=5cdb1a87a5cdbf43751cce43
 
 # CANCEL APPEARANCE DEFAULT: 24HS BEFORE createdAt (x-access-token = seeker who applied, postulationId)
 	curl -X POST \
@@ -211,6 +230,16 @@
 3.1.7.​ Offering and Accepting
 	3.1.7.1.​ Offering
 		* Create new appearance OK
+
+
+
+
+
+Appearing attorney profile approval.
+
+Complete Appearance reminder (Appearing attorney).
+Appearance complete reminder (Attorney of record).
+
 
 
 

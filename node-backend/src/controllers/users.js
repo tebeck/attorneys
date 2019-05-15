@@ -44,7 +44,7 @@ register: function(req, res, next) {
          send.email(user.email, token.token,req.headers.host)
         return res.status(200).send('A verification email has been sent to ' + user.email + '=> ' + token.token) 
        } else { 
-         res.status(200).send('Test token => ' + token.token); 
+         return res.status(200).send('Test token => ' + token.token); 
        }
       
       });
@@ -79,7 +79,6 @@ confirmation: function(req, res, next){
             if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
 
             user.updateOne({isVerified: true},function (err) {
-              console.log(userModel._id)
                 if (err) { return res.status(500).send({ msg: err.message }); }
                 res.status(200).send({message: "The account has been verified. Please log in.", redirect: req.headers.host + "/login"});
             });
@@ -95,6 +94,45 @@ getProfile: function(req, res, next){
 
  },
 
+ recoverPassword: function(req, res, next){
+   userModel.findOne({email: req.body.email}, function( err, user){
+     if(err) {return res.status(500).send({message: err.message})}
+
+        let recoverToken = new tokenModel({
+          _userId: user._id,
+          token: crypto.randomBytes(19).toString('hex')
+        });
+     
+        recoverToken.save(function (err) {
+          if (err) { return res.status(500).send({ msg: err.message });  
+        }
+
+       if (!process.env.EMAIL_ENV==='sandbox'){
+         send.email(user.email, recoverToken.token,req.headers.host)
+           return res.status(200).send({message: "Mail sent, check your inbox"})
+       } else {
+           return res.status(200).send('Test token => ' + recoverToken.token); 
+       }
+   })
+ })
+},
+
+  recoverPasswordConfirm: function(req, res,next){
+    tokenModel.findOne({ token: req.params.token }, function( err, token ){
+      if (!token) return res.status(409).send({ type: 'not-recovered', msg: 'We were unable to find a valid token. Your token my have expired.' });
+
+        userModel.findOne({ _id: token._userId }, function (err, user) {
+            if (!user) return res.status(409).send({ msg: 'We were unable to find a user for this token.' });
+             var string = encodeURIComponent(user.email);
+            return res.status(200).redirect('/?email=' + string);
+        });
+
+    })
+  },
+
+  updatePassword: function(req, res, next){
+    return "TODO"
+  }
 
 
 

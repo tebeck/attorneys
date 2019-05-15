@@ -11,8 +11,7 @@ create: function(req, res, next){ // Pasar en el body el id de appearance (front
 
   appModel.findById(payload.appearanceId, function(err,result){
     if(err){ return res.status(500).send(err) }
-    
-      let attorney = result.createdBy;
+    let attorney = result.createdBy;
 
    postModel.find({appearanceId: payload.appearanceId, createdBy: payload.userId}, function(err, result) {
      if(err){ return res.status(500).send(err) }
@@ -23,6 +22,9 @@ create: function(req, res, next){ // Pasar en el body el id de appearance (front
      postulations.attorney = attorney;
      postulations.save()
       .then(postulations => {
+          userModel.findById(postulations.attorney, function(err,user){
+            send.email(user.email, req.headers.host, null)
+          })
         return res.status(200).send({message: "postulations created", data: {postulations: postulations}});
       })
       .catch(err => {
