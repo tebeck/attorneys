@@ -117,7 +117,7 @@ handleSubmit = (e) =>{
       <h2>Update product</h2>
         
         <div className="col-md-4 mb-3">
-          <label className="fileContainer" className="choose" htmlFor="avatar" >Select image</label>
+          {/*<label className="fileContainer" className="choose" htmlFor="avatar" >Select image</label>*/}
           <input id="avatar" type="file" className="inputfile" name="avatar" ref={this.avatar} onChange={this.fileSelectedHandler} /><br /><br />
           <div className={showImage ? 'display' : 'hide'} ><img alt="avatar" width="150px" src={fakeImage} /></div>
         </div>

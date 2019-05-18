@@ -2,20 +2,40 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var appearances = new Schema({
-  title: {
+  courtHouse: {
     type: String,
     required: true
   },
-  description: {
+  areaOfLaw: {
     type: String,
-    required: false
+    required: true
   },
+  goal: {
+    type: String,
+    required: true
+  },
+  contextInformation: {
+    type: String,
+    required: true
+  },
+  clientPresent: {
+    type: Boolean,
+    required: true
+  },
+  lateCall: {
+    type: Boolean,
+    required: true
+  },  
   status: {
     type: String,
     default: 'pending',
+    required: true
+  },
+  additionalComments: {
+    type: String,
     required: false
   },
-  createdBy: {
+  attorneyId: {
     type: String,
     required: true
   }

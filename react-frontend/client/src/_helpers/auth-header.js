@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import axios from 'axios';
+// import axios from 'axios';
 
 export function authHeader() {
     // return authorization header with jwt token

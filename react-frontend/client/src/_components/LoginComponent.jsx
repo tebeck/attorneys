@@ -55,11 +55,7 @@ constructor(props) {
 
     userLogin = (data) => {
     userServices.authenticate(data).then(res =>{
-        if(res.state === 409 || res.state === 401){
-          this.setState({errlogin: true})
-        } else {
-          window.location.assign('/')
-        }
+        window.allocate('/');  
       })
   }
 

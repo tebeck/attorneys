@@ -34,14 +34,17 @@ register: function(req, res, next) {
         _userId: user._id,
         token: crypto.randomBytes(16).toString('hex')
       });
- 
+       
       token.save(function (err) {
         if (err) { return res.status(500).send({ msg: err.message }); 
       }
 
+       const subject = 'Account Verification Token'
+       const text = 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n';
+
        Logger.log("REGISTER: Sending email")
        if (!process.env.EMAIL_ENV==='sandbox'){
-         send.email(user.email, token.token,req.headers.host)
+         send.email(user.email, subject, text)
         return res.status(200).send('A verification email has been sent to ' + user.email + '=> ' + token.token) 
        } else { 
          return res.status(200).send('Test token => ' + token.token); 
@@ -54,6 +57,7 @@ register: function(req, res, next) {
 },
 
 authenticate: function(req, res, next) {
+  console.log(req.body)
   userModel.findOne({email:req.body.email}, function(err, user){
     if (err) { return res.status(500).send({ message: err.message }); }
     if (!user) { return res.status(401).send({ message: "User not found"}); }
@@ -108,7 +112,11 @@ getProfile: function(req, res, next){
         }
 
        if (!process.env.EMAIL_ENV==='sandbox'){
-         send.email(user.email, recoverToken.token,req.headers.host)
+         const subject = 'Recover password';
+         const text = 'Please click this '+ link + ' to recover your password';
+         const link = req.headers.host;
+         
+         send.email(user.email, subject, text)
            return res.status(200).send({message: "Mail sent, check your inbox"})
        } else {
            return res.status(200).send('Test token => ' + recoverToken.token); 

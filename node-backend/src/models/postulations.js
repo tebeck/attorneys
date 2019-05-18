@@ -6,11 +6,11 @@ var postulations = new Schema({
     type: String,
     required: true
   },
-  attorney: {
+  attorneyId: {
     type: String,
     required: true
   },
-  createdBy: {
+  seekerId: {
     type: String,
     required: true
   },

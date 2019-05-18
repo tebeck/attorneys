@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
-import axios from 'axios';
+// import axios from 'axios';
 import {url_backend} from '../config.json';
-import { authHeader } from '.';
+// import { authHeader } from '.';
 
 
    export function isValid() {

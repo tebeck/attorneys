@@ -11,14 +11,14 @@ get: function(req, res, next){
 },
 getOwn: function(req, res, next){
   const payload = req.body;
-  appearanceModel.find({ createdBy: payload.userId },function (err, data){
+  appearanceModel.find({ attorneyId: payload.userId },function (err, data){
     if(err){ return res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data })
   })
 },
 create: function(req, res, next){
   const payload = req.body;
-  payload.createdBy = payload.userId;
+  payload.attorneyId = payload.userId;
   const appearance = new appearanceModel(payload);
       appearance.save()
     .then(appearance => {

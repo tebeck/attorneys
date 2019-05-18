@@ -104,20 +104,37 @@ var users = new Schema({
     type: Boolean,
     default: false
   },
-  rating: {
-    type: Number,
-    default: 0
-  },
   reviewTotal: {
     type: Number,
     default: 0
   },
   reviews: [
     {
-      userId: Number,
-      appearanceId: Number,
-      comment: String,
-      rating: Number
+      seekerId: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      appearanceId: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      postulationId: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      comment: {
+        type: String,
+        required: true,
+        default: ''
+      },
+      rating: {
+        type: Number,
+        required: true,
+        default: 0
+      }
     }
   ],
   isVerified: { 
