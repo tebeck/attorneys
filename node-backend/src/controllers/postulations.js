@@ -155,10 +155,7 @@ rateAttorney: function(req, res, next){ // Pass rating number, postulationId, co
      const text = 'this is test rate postulation attorney';
 
   userModel.findById(postulation.attorneyId, function(err, attorney){
-      const reviewNumber = attorney.reviewTotal; console.log(reviewNumber);
 
-
-      
   userModel.update({_id: attorney._id},
     { "$push": {'reviews': {
             seekerId: postulation.seekerId,
@@ -166,35 +163,59 @@ rateAttorney: function(req, res, next){ // Pass rating number, postulationId, co
             comment: payload.comment,
             postulationId: postulation._id,
             rating: payload.rating,
-            reviewTotal: attorney.reviewTotal + 1
-        }
+        },
+        reviewTotal: attorney.reviewTotal + 1
       }
     },
     { upsert:true },
+ 
     function(err,numAffected) {
-      return res.json(numAffected)
+      if (err){ return res.status(500).send({message: err.message}) }
+        Logger.log("YOU BEEN RATED: Sending email")
+        send.email(attorney.email, subject, text)
+      return res.status(200).send({message:"Rated successfully" , data :numAffected })
     }
-);
-
-
-
-
-      // attorney.save()
-      //   .then(attorney => {
-      //    Logger.log("YOU BEEN RATED: Sending email")
-      //     send.email(attorney.email, subject, text)
-      //   return res.status(200).send({ message:'Attorney has been rated', status: attorney });
-      // })
-      // .catch(err => {
-      //   return res.status(401).send({a: "unable to update the database", msg: err.message});
-      // });
-    });
+   );
+  });
 })
 },
 
 
-rateSeeker: function(req, res, next){
-  console.log("re")
+rateSeeker: function(req, res, next){ // Pass rating number, postulationId, comment
+  const payload = req.body;
+  postModel.findById(payload.postulationId, function(err, postulation){
+    if (err){ return res.status(500).send({message: err.message}) }
+    if (!postulation){ return res.status(409).send({message: "Not found"}) }
+    if (postulation.attorneyId !== payload.userId) {return res.status(409).send({message: "Not allowed to rate"})}
+    if (postulation.status !== 'completed'){ return res.status(409).send({ message: "This postulation is not completed" }) }  
+     
+     const subject = 'You been rated';
+     const text = 'this is test rate postulation seeker';
+
+  userModel.findById(postulation.seekerId, function(err, seeker){
+
+  userModel.update({_id: seeker._id},
+    { "$push": {'reviews': {
+            seekerId: postulation.seekerId,
+            appearanceId: postulation.appearanceId,
+            comment: payload.comment,
+            postulationId: postulation._id,
+            rating: payload.rating,
+        },
+        reviewTotal: seeker.reviewTotal + 1
+      }
+    },
+    { upsert:true },
+ 
+    function(err,numAffected) {
+      if (err){ return res.status(500).send({message: err.message}) }
+        Logger.log("YOU BEEN RATED: Sending email")
+        send.email(seeker.email, subject, text)
+      return res.status(200).send({message:"Rated successfully" , data :numAffected })
+    }
+   );
+  });
+})
 },
 
 
