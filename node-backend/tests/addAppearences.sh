@@ -1,6 +1,5 @@
 #!/bin/bash
 # Make sure to add a valid token
-# Add 1000 products to mongo collection Products.
 
 accessToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs'
 
@@ -13,7 +12,15 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -H 'x-access-token: '$accessToken'' \
-  -d '{"title": "Appearance'$c'","description": "test"}'
+  -d '{
+		"courtHouse": "example"'$c',
+		"areaOfLaw": "asd",
+		"goal": "asd",
+		"contextInformation":"asd",
+		"clientPresent":true,
+		"lateCall":true,
+		"additionalComments": "test"
+		}'
 
 ((c++))
 

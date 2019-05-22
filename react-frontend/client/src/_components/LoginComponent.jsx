@@ -28,9 +28,11 @@ constructor(props) {
     ...this.state,
     errlogin: false
   }
-  Cookies.remove('token')
-  Cookies.remove('user')
-  Cookies.remove('email')
+    Cookies.remove('token')
+    Cookies.remove('user')
+    Cookies.remove('email')
+    Cookies.remove('seeker')
+    Cookies.remove('attorney')
 }
 
   handleChange = ({target}) =>{
@@ -54,9 +56,7 @@ constructor(props) {
   }
 
     userLogin = (data) => {
-    userServices.authenticate(data).then(res =>{
-        window.allocate('/');  
-      })
+    userServices.authenticate(data)
   }
 
   render(){

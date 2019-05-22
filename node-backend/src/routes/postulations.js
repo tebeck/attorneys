@@ -13,7 +13,7 @@ router.post('/upload', appMiddleware.isSeeker, postController.uploadProof);
 router.post('/completed', appMiddleware.isSeeker, postController.completed);
 router.post('/rateattorney', appMiddleware.isSeeker, postController.rateAttorney);
 
-router.post('/accept', appMiddleware.isAttorney, postController.acceptOrReject);
-router.post('/reject', appMiddleware.isAttorney, postController.acceptOrReject);
+router.post('/accept', appMiddleware.isAttorney, postController.accept);
+router.post('/reject', appMiddleware.isAttorney, postController.reject);
 
 module.exports = router;

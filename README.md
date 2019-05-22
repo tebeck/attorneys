@@ -54,7 +54,7 @@
 	  http://localhost:6200/users/profile \
 	  -H 'Content-Type: application/json' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RkOWZkODc1OTIyZGM3ZTFmNGI1MDkiLCJpYXQiOjE1NTgwMjgzNzcsImV4cCI6MTU1ODAyODM4Nn0.UsEmbYbxfA8f0DWvuNK0B22Vk2WNGI93HPuuCzIWAgU'
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E'
 
 # LOST PASSWORD
 
@@ -73,7 +73,7 @@
 	  http://localhost:6200/appearances/create \
 	  -H 'Content-Type: application/json' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RlZmNlNjY4MTgyMTFlNGZlYTk3MTIiLCJpYXQiOjE1NTgxMTc2MzMsImV4cCI6MTU4OTY1MzYzM30.zHkvLSzGEYBXyuEqBa7h4s73j_SNTQGoSAu52EQ7AaY' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E' \
 	  -d '{
 		"courtHouse": "example",
 		"areaOfLaw": "asd",
@@ -100,16 +100,26 @@
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2M4OTA5YjJiM2UyMmU4YmIxODJhY2UiLCJpYXQiOjE1NTY2NTE1MjIsImV4cCI6MTU2NjY1MTUyMn0.H9q-XKPhgvb9sb4XQvPim0jnQIOORvzSDZvYI3VwOUs' \
 	  -d id=5cd5d52f0b34a34361f7fb0a
 
-# ACCEPT OR REJECT POSTULATION (x-access-token (attorney), status = "accepted, rejected", postulationId)
+# ACCEPT POSTULATION (x-access-token (attorney), postulationId)
 	curl -X POST \
 	  http://localhost:6200/postulations/accept \
 	  -H 'Content-Type: application/json' \
 	  -H 'Postman-Token: 31385d16-2513-4e18-b623-680c3e56ebb7' \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RlZmNlNjY4MTgyMTFlNGZlYTk3MTIiLCJpYXQiOjE1NTgxMTc2MzMsImV4cCI6MTU4OTY1MzYzM30.zHkvLSzGEYBXyuEqBa7h4s73j_SNTQGoSAu52EQ7AaY' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E' \
 	  -d '{
-		"postulationId":"5cdefd2b6818211e4fea9718",
-		"status":"accepted"
+		"postulationId":"5ce54be2db0a2857e89acac1"
+	}'
+
+# REJECT POSTULATION (x-access-token (attorney), postulationId)
+	curl -X POST \
+	  http://localhost:6200/postulations/reject \
+	  -H 'Content-Type: application/json' \
+	  -H 'Postman-Token: 31385d16-2513-4e18-b623-680c3e56ebb7' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E' \
+	  -d '{
+		"postulationId":"5ce54be2db0a2857e89acac1"
 	}'
 
 	curl -X POST \
@@ -127,12 +137,19 @@
 # APPEARENCES ( SEEKER )
 #--------------------------------------------------------------------------
 
+# GET APPEARANCES
+	curl -X GET \
+	  http://localhost:6200/appearances \
+	  -H 'Content-Type: application/json' \
+	  -H 'cache-control: no-cache' \
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E'
+
 # POSTULATE TO APPEARANCE (CREATE METHOD) (x-access-token = seeker || attorney+seeker, appearanceId => frontend)
 	curl -X POST \
 	  http://localhost:6200/postulations/create \
 	  -H 'cache-control: no-cache' \
-	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RlZmNlNjY4MTgyMTFlNGZlYTk3MTIiLCJpYXQiOjE1NTgxMTc2MzMsImV4cCI6MTU4OTY1MzYzM30.zHkvLSzGEYBXyuEqBa7h4s73j_SNTQGoSAu52EQ7AaY' \
-	  -d appearanceId=5cdefd236818211e4fea9717
+	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E' \
+	  -d appearanceId=5ce54b512c0c73524d89eda0
 
 # CANCEL APPEARANCE DEFAULT: 24HS BEFORE createdAt (x-access-token = seeker who applied, postulationId)
 	curl -X POST \

@@ -15,7 +15,7 @@ function register(data){
     };
 
     return fetch(`${url_backend}/users/register`, requestOptions)
-    // .then(handleResponse)
+    .then(handleResponse)
     .then(data => {
         return data;
     })
@@ -33,14 +33,17 @@ function authenticate(data){
                 Cookies.set('token', data.token)
                 Cookies.set('user',data.result.firstName, { expires: 1 })
                 Cookies.set('email',data.result.email, { expires: 1 })
+                
                 if(data.result.isAttorney){
                     Cookies.set('attorney', data.result.isAttorney)    
                 }
+                
                 if(data.result.isSeeker){
                     Cookies.set('seeker', data.result.isSeeker)    
                 }
 
-            return data;
+                
+            window.location.assign('/');
         });
 }
 

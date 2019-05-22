@@ -12,7 +12,7 @@ export default class HomeComponent extends Component {
 		return (
             <div className="col-md-6 col-md-offset-3">
                 <h1>Hello {user}</h1>
-                <p>Welcome to DECAFE</p>
+                <p>Welcome to ESQUIRED</p>
                 <p><Link to="/createproduct">Create products</Link></p>
                 <p><Link to="/products">Read/Update products</Link></p>
                 <p><Link to="/deleteproduct">Delete product </Link></p><br />

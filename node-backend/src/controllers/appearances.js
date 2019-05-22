@@ -4,11 +4,12 @@ const postulationsModel = require('../models/postulations');
 module.exports = {
 
 get: function(req, res, next){
-  appearanceModel.find({'status': 'pending'},function (err, data){ // Get available appearances ??
+  appearanceModel.find({'status': 'published'},function (err, data){
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data });
   }).sort({ createdAt:-1 });
 },
+
 getOwn: function(req, res, next){
   const payload = req.body;
   appearanceModel.find({ attorneyId: payload.userId },function (err, data){

@@ -28,7 +28,7 @@ var appearances = new Schema({
   },  
   status: {
     type: String,
-    default: 'pending',
+    default: 'published',
     required: true
   },
   additionalComments: {

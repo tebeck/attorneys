@@ -11,17 +11,19 @@ module.exports = {
 create: function(req, res, next){ // Pasar en el body el id de appearance (frontend)
   const payload = req.body;
 
-  appModel.findById(payload.appearanceId, function(err,result){
+  appModel.findById(payload.appearanceId, function(err,appearance){
     if(err){ return res.status(500).send(err) }
-    let attorneyId = result.attorneyId;
+    let attorneyId = appearance.attorneyId;
 
-   postModel.find({appearanceId: payload.appearanceId, seekerId: payload.userId}, function(err, result) {
+   postModel.find({appearanceId: payload.appearanceId, seekerId: payload.userId}, function(err, postulation) {
      if(err){ return res.status(500).send(err) }
-     if(result.length > 0){ return res.status(409).send({message: "user is already postulated"}) }
-     
+     if(postulation.length > 0){ return res.status(409).send({message: "user is already postulated"}) }
+     if(payload.userId == appearance.attorneyId){ return res.status(409).send({message: "cant postulate to you own appearance"}) }
+
      const postulations = new postModel(payload);
      postulations.seekerId = payload.userId;
      postulations.attorneyId = attorneyId;
+     postulations.status = 'pending';
      const subject = 'New postulation';
      const text = 'test text create postulation';
 
@@ -36,8 +38,6 @@ create: function(req, res, next){ // Pasar en el body el id de appearance (front
         return res.status(409).send("unable to save to database => "+err);
       });
      })
-
-
   })
 
 
@@ -113,28 +113,67 @@ completed: function(req, res, next){ // send postulationId
     });
 },
 
-acceptOrReject: function(req, res, next){
+accept: function(req, res, next){
   let payload = req.body;
   postModel.findById(payload.postulationId , function(err, postulation) {
     if (err){ return res.status(500).send({message: err.message}) }
     if (!postulation){ return res.status(409).send({message: "Not found"}) }
     if (postulation.attorneyId !== payload.userId) {return res.status(409).send({message: "Not allowed to update this postulation"})}
-    
-     const subject = 'Accepted or Rejected!';
+
+     const subject = 'Accepted!';
      const text = 'test text postulation status';
-      postulation.status = req.body.status;
+      postulation.status = 'accepted'
       postulation.save()
       .then(postulation => {
-         Logger.log("POSTULATION UPDATED: Sending email")
+         Logger.log("POSTULATION ACCEPTED")
+           userModel.findById(postulation.attorneyId, function(err,attorney){
+             Logger.log("SENDING EMAIL TO ATTORNEY OF RECORD")
+             send.email(attorney.email, subject, text)
+           })
+           userModel.findById(postulation.seekerId, function(err,seeker){
+             Logger.log("SENDING EMAIL TO ATTORNEY OF APPEARANCE")
+             send.email(seeker.email, subject, text)
+           })
+           appModel.findById(postulation.appearanceId, function(err, appearance){
+             appearance.status = postulation.status;
+             appearance.save()
+               .then(appearance => {
+                 Logger.log("APPEARANCE ACCEPTED")
+               })
+               .catch(err => {
+                 Logger.log(err)
+               })
+           })
+        return res.status(200).send({ message:'postulation accepted', status: postulation.status });
+      })
+      .catch(err => {
+        return res.status(401).send({a: "unable to update the database", msg: err.message});
+      });
+    });
+},
+
+reject: function(req, res, next){
+  let payload = req.body;
+  postModel.findById(payload.postulationId , function(err, postulation) {
+    if (err){ return res.status(500).send({message: err.message}) }
+    if (!postulation){ return res.status(409).send({message: "Not found"}) }
+    if (postulation.attorneyId !== payload.userId) {return res.status(409).send({message: "Not allowed to update this postulation"})}
+
+     const subject = 'Rejected!';
+     const text = 'test text postulation status';
+      postulation.status = 'rejected';
+      postulation.save()
+      .then(postulation => {
+         Logger.log("POSTULATION REJECTED")
            userModel.findById(postulation.attorneyId, function(err,attorney){
              send.email(attorney.email, subject, text)
-             console.log(attorney.email + " " + req.headers.host)
+             Logger.log("SENDING EMAIL TO ATTORNEY OF RECORD")
            })
            userModel.findById(postulation.seekerId, function(err,seeker){
              send.email(seeker.email, subject, text)
-             console.log(seeker.email + " " + req.headers.host)
+             Logger.log("SENDING EMAIL TO ATTORNEY OF APPEARANCE")
            })
-        return res.status(200).send({ message:'postulation updated', status: postulation.status });
+        return res.status(200).send({ message:'postulation rejected', status: postulation.status });
       })
       .catch(err => {
         return res.status(401).send({a: "unable to update the database", msg: err.message});
@@ -218,6 +257,31 @@ rateSeeker: function(req, res, next){ // Pass rating number, postulationId, comm
 })
 },
 
+finishAppearance: function(req, res, next){ // appearanceId
+  const payload = req.body;
 
+  postModel.findById(postulationId,function(err,user){
+
+     const subject = 'Appearance finished!';
+     const text = 'test finished appearance email';
+     
+      postulation.status = "finished";
+      postulation.save()
+        .then(postulation => {
+          Logger.log("APPEARANCE FINISHED: Sending email")
+           userModel.findById(postulation.attorneyId, function(err,attorney){
+             send.email(attorney.email, subject, text)
+           })
+           userModel.findById(postulation.seekerId, function(err,seeker){
+             send.email(seeker.email, subject, text)
+          })
+         })
+        .catch(err => {
+          return res.status(401).send({a: "unable to update the database", msg: err.message});
+        })
+
+
+  });
+}
 
 }

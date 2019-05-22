@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex
 const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
 const postulationsRoutes = require('./src/routes/postulations');
+const notificationsRoutes = require('./src/routes/notifications');
 // const filesRoute = require('./src/routes/files');
 
 // MIDDLEWARES
@@ -35,6 +36,7 @@ app.use('/users', users);
 app.use('/admins', isvalid.admin, adminRoutes); // isvalid.admin 
 app.use('/appearances',isvalid.user ,appearancesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
+app.use('/notifications',isvalid.user ,notificationsRoutes);
 
 // Backend status
 app.get('/', function(req, res){
