@@ -149,7 +149,7 @@
 	  http://localhost:6200/postulations/create \
 	  -H 'cache-control: no-cache' \
 	  -H 'x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2U1NGEyM2U1ZTQxYTQ3ZDE5N2M5OWIiLCJpYXQiOjE1NTg1MzA2MzIsImV4cCI6MTU5MDA2NjYzMn0.UQzBQwDhFopEyfFiZJET659pIJYIEWVM58RBczWom7E' \
-	  -d appearanceId=5ce54b512c0c73524d89eda0
+	  -d appearanceId=5ce5a65aeda17f756d641bc6
 
 # CANCEL APPEARANCE DEFAULT: 24HS BEFORE createdAt (x-access-token = seeker who applied, postulationId)
 	curl -X POST \
