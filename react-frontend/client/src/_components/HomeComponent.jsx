@@ -13,10 +13,6 @@ export default class HomeComponent extends Component {
             <div className="col-md-6 col-md-offset-3">
                 <h1>Hello {user}</h1>
                 <p>Welcome to ESQUIRED</p>
-                <p><Link to="/createproduct">Create products</Link></p>
-                <p><Link to="/products">Read/Update products</Link></p>
-                <p><Link to="/deleteproduct">Delete product </Link></p><br />
-                <p><Link to="/findproduct">Find product</Link></p>
                 <p><Link className="btn btn-primary" to="/login">Logout from {email}</Link></p>
             </div>
 		);

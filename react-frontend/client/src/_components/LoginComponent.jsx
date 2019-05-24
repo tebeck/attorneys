@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import {userServices} from '../_services/user.service'
+import exampleImg from '../assets/img/example.png';
 
 const validate = values => {
   const errors = {}
@@ -62,8 +63,11 @@ constructor(props) {
   render(){
     const {errors, errlogin} = this.state
   return(
-    <div className="col-md-12 col-md-offset-3">
-    <h2>Login</h2>
+    <div>
+    <div className="center">
+    <h1>Esquire'd</h1>
+      <img src={exampleImg} alt="example" /> <br /><br />
+    </div>  
       <form name="form" onSubmit={this.handleSubmit}>
         <div className={errlogin ? 'display' : 'hide'}>
         <div className="alert alert-danger" role="alert">
@@ -72,15 +76,15 @@ constructor(props) {
         </div>
           {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
           {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
-          <label htmlFor="email">Email</label>
-          <input className="form-control" type="text" name="email" onChange={this.handleChange}></input>
-          <label htmlFor="password">Password</label>
-          <input className="form-control" type="password" name="password" onChange={this.handleChange}></input><br/>
-          <input className="btn btn-primary active" type="submit" value="Login"></input>
-          <Link className="btn btn-link" to="/register">Register</Link>
+          <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
+          <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
+          <small><Link to="/recoverpassword">Forgot your Password?</Link></small><br /><br />
+          <input className="btn btn-block btn-primary active" type="submit" value="Login"></input>
+          <div className="center"><br />
+            <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p>
+          </div>
          </form>
-          <br /><br />
-          <p><Link to="/guest">Back</Link></p>
+
         </div>
 
     )

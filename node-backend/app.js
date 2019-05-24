@@ -43,7 +43,8 @@ app.get('/', function(req, res){
     res.json({
     	state: 200,
     	message: "running",
-    	host: ip.address() + ':'+ port ,
+    	host: ip.address() + ':'+ process.env.PORT || port ,
+    	stage:  process.env.NODE_ENV
     })
 });
 

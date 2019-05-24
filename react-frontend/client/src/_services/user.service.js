@@ -4,7 +4,8 @@ import {url_backend} from '../config.json';
 
 export const userServices = {
     authenticate,
-    register
+    register,
+    recoverPassword
 }
 
 function register(data){
@@ -48,6 +49,28 @@ function authenticate(data){
 }
 
 
+function recoverPassword(email){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(email)
+    };
+
+    return fetch(`${url_backend}/users/recoverpassword`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            console.log(data)
+        })
+}
+
+  function newPassword(data){
+      const requestOptions = {
+          method: 'POST',
+          headers: authHeader(),
+          body: JSON.stringify(data)
+      }
+  }
+
 
 // function logout() {
 //     Cookies.remove('token')
@@ -63,15 +86,18 @@ function authenticate(data){
 
 function handleResponse(response) {
     return response.json().then(data => {
+
         if (!response.ok) {
             if (response.status === 401) {
-                return window.location.reload(true);
+                //return window.location.reload(true);
             }
             if(response.status === 409){
-                return window.location.reload(true);
+                //return window.location.reload(true);
+            }
+            if(response.status === 400){
+                console.log("Error 400")
             }
         }
-
         return data
     });
 }

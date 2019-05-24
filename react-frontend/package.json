@@ -2,39 +2,39 @@
   "name": "node-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "engines": {
+    "node": "11.10.1"
+  },
   "scripts": {
-    "client": "cd .. && cd react-frontend && cd client && nodemon start",
-    "server": "nodemon app.js",
+    "client-install": "npm install --prefix client",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "client": "cd client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.439.0",
-    "bcrypt": "^3.0.6",
+    "aws-sdk": "^2.434.0",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
-    "cookies": "^0.7.3",
     "cors": "^2.8.4",
-    "cute-logger": "^8.0.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "hoek": ">=4.2.1",
-    "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
-    "jwt-redis": "^3.1.0",
     "limax": "^1.7.0",
-    "logger": "0.0.1",
     "mongoose": "^5.4.21",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "multer-s3": "^2.9.0",
-    "nodemailer": "^6.1.1",
     "nodemon": "^1.18.10",
     "npm": "^6.9.0",
     "path": "^0.12.7",
-    "pino": "^5.12.3",
     "update": "^0.7.4"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }

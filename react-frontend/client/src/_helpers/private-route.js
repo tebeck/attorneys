@@ -7,6 +7,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         Cookies.get('token')
             ? <Component {...props} />
-            : <Redirect to={{ pathname: '/guest', state: { from: props.location } }} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
     )} />
 )

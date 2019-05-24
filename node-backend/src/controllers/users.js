@@ -115,7 +115,6 @@ module.exports = {
 
           const link = req.headers.host + '/confirmation/' + recoverPassword.token;
           console.log(link)
-
          if (!process.env.EMAIL_ENV==='sandbox'){
 
 
@@ -126,6 +125,7 @@ module.exports = {
            send.email(user.email, subject, text)
              return res.status(200).send({message: "Mail sent, check your inbox"})
          } else {
+
              return res.status(200).send(
                {'message': "Click this link to recover your password",
                  'link': req.headers.host + '/users/recover/confirmation/' + recoverPassword.token
@@ -153,6 +153,7 @@ module.exports = {
 
       const email = req.params.email;
       const getToken = req.params.token;
+      const payload = req.body;
 
       recoverPasswordModel.findOne({ token: getToken }, function( err, token ){
         if (!token) return res.status(409).send({ type: 'not-recovered', msg: 'We were unable to find a valid token. Your token my have expired.' });
@@ -160,6 +161,7 @@ module.exports = {
       userModel.findOne({email: email}, function(err, user){
         user.password = bcrypt.hashSync(payload.password, saltRounds);
         
+
         user.save()
           .then( user => {
             return res.status(200).send({message: "Password changed successfully", data: user})  
