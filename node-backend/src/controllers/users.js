@@ -3,6 +3,8 @@ const tokenModel = require('../models/token');
 const recoverPasswordModel = require('../models/recoverPassword');
 const crypto = require('crypto');
 
+const urlFrontend = process.env.URL_FRONTEND;
+
 const saltRounds = 10;
 
 const bcrypt = require('bcrypt'); 
@@ -16,7 +18,7 @@ module.exports = {
   register: function(req, res, next) {
     userModel.findOne({ email: req.body.email }, function (err, user) {
 
-      if (user) return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
+      if (user) return res.status(400).send({ message: 'The email address you have entered is already associated with another account.' });
       user = new userModel({ 
           firstName: req.body.firstName, lastName: req.body.lastName, lawFirm: req.body.lawFirm,
           stateBar: req.body.stateBar, officePhone: req.body.officePhone, mobilePhone: req.body.mobilePhone,
@@ -28,7 +30,7 @@ module.exports = {
       });
 
         user.save(function (err) {
-          if (err) { return res.status(500).send({ msg: err.message }); 
+          if (err) { return res.status(500).send({ message: err.message }); 
         }
 
         let token = new tokenModel({
@@ -37,7 +39,7 @@ module.exports = {
         });
          
         token.save(function (err) {
-          if (err) { return res.status(500).send({ msg: err.message }); 
+          if (err) { return res.status(500).send({ message: err.message }); 
         }
 
          const subject = 'Account Verification Token'
@@ -58,13 +60,13 @@ module.exports = {
   },
 
   authenticate: function(req, res, next) {
-    console.log(req.body)
     userModel.findOne({email:req.body.email}, function(err, user){
+
       if (err) { return res.status(500).send({ message: err.message }); }
       if (!user) { return res.status(401).send({ message: "User not found"}); }
       if (!user.isVerified) { return res.status(401).send({ message: "Your account has not been verified"}); } 
       if (user.isDisabled){ return res.status(401).send({ message: "User disabled" }); }
-
+      
       if(bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
           return res.status(200).send({ token: token, result: user });
@@ -76,15 +78,15 @@ module.exports = {
 
   confirmation: function(req, res, next){
      tokenModel.findOne({ token: req.params.token }, function (err, token) {
-        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+        if (!token) return res.status(400).send({ type: 'not-verified', message: 'We were unable to find a valid token. Your token my have expired.' });
    
           // If we found a token, find a matching user
           userModel.findOne({ _id: token._userId }, function (err, user) {
-              if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
-              if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+              if (!user) return res.status(400).send({ message: 'We were unable to find a user for this token.' });
+              if (user.isVerified) return res.status(400).send({ type: 'already-verified', message: 'This user has already been verified.' });
 
               user.updateOne({isVerified: true},function (err) {
-                  if (err) { return res.status(500).send({ msg: err.message }); }
+                  if (err) { return res.status(500).send({ message: err.message }); }
                   res.status(200).send({message: "The account has been verified. Please log in.", redirect: req.headers.host + "/login"});
               });
           });
@@ -99,6 +101,8 @@ module.exports = {
 
    },
 
+
+
    recoverPassword: function(req, res, next){
      userModel.findOne({email: req.body.email}, function( err, user){
        if(err) {return res.status(500).send({message: err.message})}
@@ -110,7 +114,7 @@ module.exports = {
           });
        
           recoverPassword.save(function (err) {
-            if (err) { return res.status(500).send({ msg: err.message });  
+            if (err) { return res.status(500).send({ message: err.message });  
           }
 
           const link = req.headers.host + '/confirmation/' + recoverPassword.token;
@@ -128,7 +132,7 @@ module.exports = {
 
              return res.status(200).send(
                {'message': "Click this link to recover your password",
-                 'link': req.headers.host + '/users/recover/confirmation/' + recoverPassword.token
+                 'link_frontend': process.env.URL_FRONTEND + '/createnewpassword/?token=' + recoverPassword.token
                }); 
          }
      })
@@ -137,10 +141,10 @@ module.exports = {
 
     recoverPasswordConfirm: function(req, res,next){
       recoverPasswordModel.findOne({ token: req.params.token }, function( err, token ){
-        if (!token) return res.status(409).send({ type: 'not-recovered', msg: 'We were unable to find a valid token. Your token my have expired.' });
+        if (!token) return res.status(409).send({ type: 'not-recovered', message: 'We were unable to find a valid token. Your token my have expired.' });
 
           userModel.findOne({ _id: token._userId }, function (err, user) {
-              if (!user) return res.status(409).send({ msg: 'We were unable to find a user for this token.' });
+              if (!user) return res.status(409).send({ message: 'We were unable to find a user for this token.' });
                var string = encodeURIComponent(user.email);
 
                return res.status(200).send({message: "Now change password", token: req.params.token})
@@ -151,24 +155,25 @@ module.exports = {
 
     changepassword: function(req, res, next){
 
-      const email = req.params.email;
-      const getToken = req.params.token;
+      const getToken = req.params;
       const payload = req.body;
 
-      recoverPasswordModel.findOne({ token: getToken }, function( err, token ){
-        if (!token) return res.status(409).send({ type: 'not-recovered', msg: 'We were unable to find a valid token. Your token my have expired.' });
+      console.log("llego")
 
-      userModel.findOne({email: email}, function(err, user){
-        user.password = bcrypt.hashSync(payload.password, saltRounds);
+      recoverPasswordModel.findOne({ token: JSON.parse(getToken.token).confirmationCode }, function( err, token ){
+        if (!token) return res.status(409).send({ type: 'not-recovered', message: 'We were unable to find a valid token. Your token my have expired.' });
+
+      userModel.findOne({_id: token._userId}, function(err, user){
+        if (!user) return res.status(409).send({ message: 'We were unable to find a user for this token.' });
+        user.password = JSON.parse(getToken.token).password;
         
-
         user.save()
           .then( user => {
             return res.status(200).send({message: "Password changed successfully", data: user})  
           })
           .catch( err => {
             return res.status(401).send({message: "Cant update database", data: err})
-          })
+          })  
 
       });  
 

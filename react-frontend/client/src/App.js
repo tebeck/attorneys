@@ -3,10 +3,10 @@ import { Router, Route } from 'react-router-dom';
 import { history } from './_helpers';
 import { PrivateRoute }  from './_helpers';
 import Loadable from 'react-loadable'
-import SearchComponent from './_components/products/SearchComponent';
-import CreateComponent from './_components/products/CreateComponent';
-import UpdateComponent from './_components/products/UpdateComponent';
-import DeleteComponent from './_components/products/DeleteComponent';
+import SearchComponent from './_components/appearances/SearchComponent';
+import CreateComponent from './_components/appearances/CreateComponent';
+import UpdateComponent from './_components/appearances/UpdateComponent';
+import DeleteComponent from './_components/appearances/DeleteComponent';
 import './assets/css/ownstylesheet.css';
 import {url_backend} from './config.json';
 
@@ -15,16 +15,19 @@ const Loader = x => Loadable({
   loader: x 
 })
 
+// Users
+const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
+const RegisterSeekerComponent = Loader(() => import('./_components/users/RegisterSeekerComponent') )
+const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
+const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
 
 const HomeComponent = Loader(() => import('./_components/HomeComponent') )
-const GuestComponent = Loader(() => import('./_components/GuestComponent') )
-const LoginComponent = Loader(() => import('./_components/LoginComponent') )
-const RegisterSeekerComponent = Loader(() => import('./_components/RegisterSeekerComponent') )
-const RegisterAttorneyComponent = Loader(() => import('./_components/RegisterAttorneyComponent') )
-const ProductsComponent = Loader(() => import('./_components/products/ProductsComponent') )
 const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
-const RecoverPasswordComponent = Loader(() => import('./_components/RecoverPasswordComponent'))
-const CreateNewPasswordComponent = Loader(() => import('./_components/CreateNewPasswordComponent'))
+const ProductsComponent = Loader(() => import('./_components/appearances/ProductsComponent') )
+
+// Passrecovery
+const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
+const CreateNewPasswordComponent = Loader(() => import('./_components/passrecovery/CreateNewPasswordComponent'))
 
 
 class App extends Component {
@@ -44,25 +47,27 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12 col-md-offset-6 col-md-6">
+
+          <div className="">
               {alert.message &&
                   <div className={`alert ${alert.type}`}>{alert.message}</div>
               }
               <Router history={history}>
                       <PrivateRoute exact path="/" component={HomeComponent} />
-                      <PrivateRoute exact path="/products" component={ProductsComponent} />
-                      <PrivateRoute exact path="/createproduct" component={CreateComponent} />
 
-                      <PrivateRoute exact path="/findproduct" component={SearchComponent} />
-                      <PrivateRoute exact path="/deleteproduct" component={DeleteComponent} />
+                      <PrivateRoute exact path="/createappearance" component={CreateComponent} />
+
+                      <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
                       
+                      <PrivateRoute exact path="/products" component={ProductsComponent} />
+                      <PrivateRoute exact path="/profile" component={ProfileComponent} />
+                      <PrivateRoute exact path="/findproduct" component={SearchComponent} />
                       <PrivateRoute path="/updateproduct/" component={
                         () => <UpdateComponent />
                       } />                        
-                      <Route exact path="/guest" component={GuestComponent} />
-                      <Route exact path="/login" component={LoginComponent} />
+
+
+                      <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
                       <Route path="/registerSeeker" component={RegisterSeekerComponent} />
                       <Route path="/registerAttorney" component={RegisterAttorneyComponent} />
@@ -70,8 +75,6 @@ class App extends Component {
                       <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
               </Router>
           </div>
-        </div>
-      </div>
     );
   }
 }

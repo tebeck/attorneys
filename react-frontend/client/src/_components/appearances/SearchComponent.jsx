@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {productService} from '../../_services/product.service'
+import {appearanceService} from '../../_services/appearance.service'
 
 const validate = values => {
  const errors = {}
@@ -24,7 +24,7 @@ export default class SearchComponent extends Component {
     }
 
     getSpecific = (data) => {
-        productService.getSpecific(data).then(
+        appearanceService.getSpecific(data).then(
           data =>{
             this.setState({
               data: data

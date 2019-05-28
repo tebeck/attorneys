@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 
-// import Cookies from 'js-cookie'
-
-// const user = Cookies.get('user');
-// const email = Cookies.get('email');
-
 export default class DefineRoleComponent extends Component {
 
 

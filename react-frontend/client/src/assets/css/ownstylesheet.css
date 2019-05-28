@@ -79,5 +79,29 @@
 }
 
 .form-control{
-	margin: 10px;
+	margin-bottom: 10px;
+}
+
+.blue{
+	color:#1873F3
+}
+
+.title {
+	font-size: 22pt;
+	font-weight: 700
+}
+
+.profileInputs{
+	margin: 10px 15px 0px 15px;
+	border: 1px solid grey;
+	text-align: left;
+	padding: 0px 5px 0px 5px;
+}
+.profileInputsTitle{
+	margin: 0 auto;
+	font-size: 12px;
+}
+.profileInputsValue{
+	margin: 0px;
+	font-size: 15px;
 }

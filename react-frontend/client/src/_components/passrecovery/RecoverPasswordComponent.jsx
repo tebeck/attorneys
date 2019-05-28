@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {userServices} from '../_services/user.service'
+import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
 
 const validate = values => {
@@ -59,7 +59,7 @@ export default class RecoverPasswordComponent extends Component {
 		return (
 
             <div className="container">
-            <h5><Link style={{color: "black"}} to="/login"><i className="fas fa-1x fa-angle-left"></i></Link> Change your password</h5>
+            <h5><Link style={{color: "black"}} to="/login"><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
                 <Modal 
                     visible={this.state.visible}
                     width="300"
@@ -74,36 +74,17 @@ export default class RecoverPasswordComponent extends Component {
                     <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px", paddingTop: "20px",textAlign: "center",height:"30%", width:"100%", backgroundColor: "lightgrey"}}>
                       <Link style={{fontSize: "13px"}} to="/">Click here to re-send the email</Link>
                     </div>  
-                </Modal>
-
-                <form onSubmit={this.handleSubmit} >
-                    // STEP1
-                    // STEP2
-                </form>
+                </Modal><br />
+            <form onSubmit={this.handleSubmit}>    
+                <input className="form-control" type="text" name="email" placeholder="Email" onChange={this.handleChange}></input>
+                {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
+                <input className="btn btn-block btn-primary active" type="submit" value="Send"></input>
+            </form>
             </div>
 		);
 
         }
 	}
-
-
-    function Step1(props){
-        if(props.currentStep !== 1){
-          return null
-        }
-        <input className="form-control" type="text" name="email" onChange={this.handleChange}></input>
-        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-        <input className="btn btn-block btn-primary active" type="submit" value="Send"></input>
-    }
-
-    function Step2(props){
-        if(props.currentStep !== 2){
-          return null
-        }
-        <input className="form-control" type="text" name="email" onChange={this.handleChange}></input>
-        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-        <input className="btn btn-block btn-primary active" type="submit" value="Send"></input>
-    } 
 
 
 

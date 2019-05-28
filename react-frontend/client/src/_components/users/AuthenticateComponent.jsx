@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import {userServices} from '../_services/user.service'
-import exampleImg from '../assets/img/example.png';
+import { userServices } from '../../_services/user.service'
+import exampleImg from '../../assets/img/example.png';
 
 const validate = values => {
   const errors = {}
@@ -47,9 +47,12 @@ constructor(props) {
     const result = validate(noErrors)
     this.setState({errors: result})
     if(!Object.keys(result).length) {
-    
-      // Enviar form
-      this.userLogin(noErrors)
+      
+      userServices.authenticate(noErrors)
+        .then(data => this.setState({
+          errlogin: data
+         }))
+
     } else {
       this.setState({ errors: result })
     }
@@ -57,7 +60,7 @@ constructor(props) {
   }
 
     userLogin = (data) => {
-    userServices.authenticate(data)
+
   }
 
   render(){

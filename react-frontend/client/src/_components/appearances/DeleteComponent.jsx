@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {productService} from '../../_services/product.service'
+import {appearanceService} from '../../_services/appearance.service'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'; 
 import { toast } from 'react-toastify';
@@ -12,20 +12,6 @@ const validate = values => {
      }
      return errors;
    }
-const successOption = {
-    autoClose: 3000, 
-    type: toast.TYPE.INFO,
-    hideProgressBar: false,
-    position: "top-center"
-};
-const errorOptions = {
-    autoClose: 3000, 
-    type: toast.TYPE.ERROR,
-    hideProgressBar: false,
-    position: "top-center"
-
-};
-
 
    
 export default class DeleteComponent extends Component {
@@ -39,14 +25,11 @@ export default class DeleteComponent extends Component {
 }
 
 _delete = (data) => {
-    productService._delete(data).then(
-      response =>{
-         if(response.status === 'success'){
-           toast.success("Product successfully deleted", successOption)
-         } else {
-           toast.success("Error, product not found", errorOptions)
-         }
-      })
+    appearanceService._delete(data).then(
+      response =>{ if(response.message == "product deleted"){
+        alert("Deleted")
+        console.log(response)
+      }})
   }
 
 handleChange = ({target}) =>{
@@ -75,7 +58,7 @@ handleSubmit = (e) =>{
       <h1>Delete product</h1>
       <ToastContainer />
       <form onSubmit={this.handleSubmit}>
-      <label htmlFor="id">Delete product by id</label><br/>  
+      <label htmlFor="id">Delete appearance by id</label><br/>  
             <input className="form-control" name="id" onChange={this.handleChange}></input>
             {errors && <p className="form-text text-danger">{errors.id}</p>}<br/>
             <input type="submit" className="btn btn-secondary"/>

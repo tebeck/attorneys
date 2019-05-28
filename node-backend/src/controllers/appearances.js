@@ -18,6 +18,7 @@ getOwn: function(req, res, next){
   })
 },
 create: function(req, res, next){
+  console.log(req.body)
   const payload = req.body;
   payload.attorneyId = payload.userId;
   const appearance = new appearanceModel(payload);
@@ -44,18 +45,17 @@ update: function(req, res, next){
           return res.status(200).send({ message:'appearance updated', data: appearance });
       })
       .catch(err => {
-          return res.status(401).send("unable to update the database");
+          return res.status(409).send("unable to update the database");
       });
     }
   });
 },
 delete: function(req, res, next){
-  appearanceModel.findByIdAndRemove({_id: req.body.id},
-     function(err, appearance){
+  appearanceModel.findByIdAndRemove(req.body.id, function(err, appearance){
       if(err){ return res.status(500).send({err: err.message})} 
-      if(appearance) { return res.status(200).send({message: "product deleted", data:{appearance: appearance}}) 
-      } else { return res.status(401).send({ message: "cant find product", data:{appearance: appearance}}) }
-  });
+      if(!appearance) {return res.status(409).send({ message: "cant find product", data:{appearance: appearance}}) }
+      if(appearance) { return res.status(200).send({message: "product deleted", data:{appearance: appearance}}) }
+  })
 },
 
 getAccepted: function(req, res, next){

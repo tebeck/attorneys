@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {productService} from '../../_services/product.service'
+import {appearanceService} from '../../_services/appearance.service'
 import { Link } from 'react-router-dom';
 import { Pagination } from 'react-bootstrap';
 
@@ -19,7 +19,7 @@ export default class ProductsComponent extends Component {
       	activePage: 1
       };
 	
-	  productService.products(this.state.activePage)
+	  appearanceService.products(this.state.activePage)
 	    .then((result) => this.setState({
 	  	  data: result
 	  	})) 
@@ -30,7 +30,7 @@ export default class ProductsComponent extends Component {
 
 	handleClickPage(event){
 	  this.setState({ activePage: Number(event.target.id) })
-	   productService.products(Number(event.target.id))
+	   appearanceService.products(Number(event.target.id))
 	    .then((result) => this.setState({
 	  	  data: result
 	  	})) 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {productService} from '../../_services/product.service'
+import {appearanceService} from '../../_services/appearance.service'
 
 const validate = values => {
 
@@ -35,7 +35,7 @@ this.handleToggle = this.handleToggle.bind(this);
 		var stuff = url.split('/');
 		var id = stuff[stuff.length-1];
 
-    productService.getSpecificById(id)
+    appearanceService.getSpecificById(id)
       .then(data => {
         console.log(data)
         this.setState({
@@ -71,7 +71,7 @@ handleSubmit = (e) =>{
       }
 
       console.log(noErrors)
-      productService.updateSpecific(noErrors)
+      appearanceService.updateSpecific(noErrors)
     
     } else {
       console.log("error")
@@ -85,7 +85,7 @@ handleSubmit = (e) =>{
     const newForm = new FormData();
     newForm.append('avatar', target.files[0] , target.files[0].name)
 
-    productService.upload(newForm)
+    appearanceService.upload(newForm)
       .then(data => {
         this.setState({
           avatar: data.data.location

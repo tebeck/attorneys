@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import {userServices} from '../_services/user.service'
+import {userServices} from '../../_services/user.service'
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
@@ -13,7 +13,7 @@ constructor(props) {
   this.state = {
     ...this.state,
     emailError: false,
-    isSeeker: true,
+    isAttorney: true,
     currentStep: 1,
     redirectDefineRole: false,
     errors: {},
@@ -120,7 +120,7 @@ nextButton(){
       return <Redirect push to="/definerole" />;
     }
 
-    const {isSeeker, currentStep, errors} = this.state
+    const {isAttorney, currentStep, errors} = this.state
     var currentTitle = "";
     
     switch(currentStep){
@@ -173,7 +173,7 @@ nextButton(){
           </div>
 
         <form onSubmit={this.handleSubmit}>
-        <input type="hidden" name="isSeeker" value={isSeeker} />
+        <input type="hidden" name="isAttorney" value={isAttorney} />
         <input type="hidden" name="notification" value={this.state.notification}  />
 
         <Step1
@@ -219,8 +219,7 @@ nextButton(){
         {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
 
         </form>
-        <small>example success popup --></small>
-        <input type="button" value="CLICK" onClick={() => this.openModal()} />
+        
       </div>
       )
   }
