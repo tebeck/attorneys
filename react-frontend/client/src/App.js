@@ -11,9 +11,14 @@ import './assets/css/ownstylesheet.css';
 import {url_backend} from './config.json';
 
 const Loader = x => Loadable({
-  loading: () => 'Cargando...',
+  loading: () => 'Loading...',
   loader: x 
 })
+
+
+const HomeComponent = Loader(() => import('./_components/HomeComponent') )
+const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
+const NotificationsComponents = Loader(()=> import('./_components/NotificationsComponent'))
 
 // Users
 const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
@@ -21,9 +26,9 @@ const RegisterSeekerComponent = Loader(() => import('./_components/users/Registe
 const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
 
-const HomeComponent = Loader(() => import('./_components/HomeComponent') )
-const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
-const ProductsComponent = Loader(() => import('./_components/appearances/ProductsComponent') )
+// Appearances
+const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )  
+const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )  
 
 // Passrecovery
 const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
@@ -59,7 +64,9 @@ class App extends Component {
 
                       <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
                       
-                      <PrivateRoute exact path="/products" component={ProductsComponent} />
+                      <PrivateRoute exact path="/requests" component={RequestsComponent} />
+                      <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
+                      <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
                       <PrivateRoute exact path="/profile" component={ProfileComponent} />
                       <PrivateRoute exact path="/findproduct" component={SearchComponent} />
                       <PrivateRoute path="/updateproduct/" component={

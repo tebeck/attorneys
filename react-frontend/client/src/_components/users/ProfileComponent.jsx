@@ -32,8 +32,8 @@ export default class ProfileComponent extends Component {
 
 
 		return (
-			<div>
-				<h3><Link to="/" style={{color: "black"}} ><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
+			<div className="container">
+				<h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
 				<div className="center">
 					<img width="80px" src={user} alt="user" className="img-fluid" /><br />
 					<Link to="/" style={{fontSize: "14px"}}><u>Upload Profile Picture</u></Link><br/><br/>

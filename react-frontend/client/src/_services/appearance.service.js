@@ -11,7 +11,8 @@ export const appearanceService = {
     _delete,
     updateSpecific,
     upload,
-    getSpecificById
+    getSpecificById,
+    getAppearances
 }
 
 function expire(){

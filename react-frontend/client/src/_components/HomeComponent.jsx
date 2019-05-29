@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie'
 import  { Tabs, Tab } from 'react-bootstrap';
+import Appearances from './appearances/AppearancesComponent'
+import Agenda from './appearances/AgendaComponent'
+import Requests from './appearances/RequestsComponent'
 
 
 
@@ -18,7 +21,6 @@ export default class HomeComponent extends Component {
       email: Cookies.getJSON('esquired').email
     }
 
-    console.log(this.state)
   }
 
 	render() {
@@ -32,20 +34,21 @@ export default class HomeComponent extends Component {
                 </div>
  				        <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
-                        <p>Welcome to ESQUIRED</p>
+                      <Agenda />
+{/*                        <p>Welcome to ESQUIRED</p>
                         <p><Link className="btn btn-primary" to="/getappearances">Get all appearances</Link></p>
                         <p><Link className="btn btn-primary" to="/createappearance">Create new appearance</Link></p>
                         <p><Link className="btn btn-primary" to="/deleteappearance">Delete one appearance</Link></p>
-                        <p><Link className="btn btn-primary" to="/login">Logout from {this.state.email}</Link></p>
+                        <p><Link className="btn btn-primary" to="/login">Logout from {this.state.email}</Link></p>*/}
                     </Tab>
                   {isAttorney ? 
                     <Tab eventKey="myrequests" title="My Requests">
-                       <p>Only attorney of record can see this</p>
+                      <Requests />                       
                     </Tab>
                   :null}
                   {isSeeker ?
                     <Tab eventKey="myappearances" title="Appearances" >
-                      <p>Only attorney of appearance can see this</p>
+                      <Appearances />
                     </Tab>
                   :null}
                 </Tabs>
