@@ -1,25 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'; 
-import { toast } from 'react-toastify';
-
-
-const validate = values => {
-  const errors = {}
-    //  if(!values.title) {
-    //    errors.title = 'Insert product title'
-    //  }
-    //  if(!values.description) {
-    //   errors.description = 'Insert product description'
-    // }
-    // if(!values.avatar) {
-    //   errors.avatar = 'Insert product avatar'
-    // }
-     return errors;
-   }
-
+import "react-step-progress-bar/styles.css";
+import { ProgressBar } from "react-step-progress-bar";
    
 export default class CreateComponent extends Component {
 
@@ -27,22 +10,62 @@ export default class CreateComponent extends Component {
     super(props)
     this.state = {
       ...this.state,
-    clientPresent:true,
-    lateCall:true,
-    responseCreate: {}
+      clientPresent:true,
+      lateCall:true,
+      responseCreate: {},
+      currentStep: 1,
+      backStep: false,
+      courtHouse: "",
+      areaOfLaw:"",
+      deparment:"",
+      caseName:"",
+      caseNumber:0,
+      goal:"",
+      clientPresent: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
-
-
 }
 
+  handleChange = ({target}) =>{
+    this.setState({
+      [target.name]: target.value
+    })
+  }
 
-    handleChange = ({target}) =>{
-      this.setState({
-        [target.name]: target.value
-      })
+  _next = () => {
+    let currentStep = this.state.currentStep
+    currentStep = currentStep >= 2? 3: currentStep + 1
+    this.setState({
+      currentStep: currentStep
+    })
+  }
+    
+  _prev = () => {
+    let currentStep = this.state.currentStep
+    currentStep = currentStep <= 1 ? 0 : currentStep - 1
+    this.setState({
+      currentStep: currentStep
+    })
+    if (currentStep <= 0){
+       this.setState({backStep: true});
     }
+  }
+
+
+nextButton(){
+  let currentStep = this.state.currentStep;
+  if(currentStep <3){
+    return (
+      <button 
+        className="btn btn-primary btn-block" 
+        type="button" onClick={this._next}>
+      Continue
+      </button>        
+    )
+  }
+  return null;
+}
 
 
 
@@ -66,54 +89,143 @@ handleSubmit = (e) =>{
   render() {
 
 
-    const {errors} = this.state
+    if (this.state.backStep) {
+      return <Redirect push to="/" />;
+    }
 
+
+  const {errors,currentStep} = this.state
 
 		return (
       <div>
-      <ToastContainer />
-      <h3 style={{marginBottom: "30px"}}><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Create appearance</h3>
+      <h3><span onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i></span> New request</h3>
       
-      <form onSubmit={this.handleSubmit} id="createForm">
-        <div className="form-row">
-          <div className="col-md-5 mb-3">
-            <input type="text" className="form-control" name="courtHouse" onChange={this.handleChange} placeholder="Court House"></input>
-            {errors && <p className="form-text text-danger">{errors.courtHouse}</p>}
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="text" className="form-control" name="areaOfLaw" onChange={this.handleChange} placeholder="Area Of Law"></input>
-            {errors && <p className="form-text text-danger">{errors.areaOfLaw}</p>}
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="text" className="form-control" name="goal" onChange={this.handleChange} placeholder="Goal"></input>
-            {errors && <p className="form-text text-danger">{errors.goal}</p>}
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="text" className="form-control" name="contextInformation" onChange={this.handleChange} placeholder="Context Information"></input>
-            {errors && <p className="form-text text-danger">{errors.contextInformation}</p>}
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="checkbox" className="form-control" name="clientPresent" onChange={this.handleChange} placeholder="Client Present" value={this.state.clientPresent}></input>
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="checkbox" className="form-control" name="lateCall" onChange={this.handleChange} placeholder="Late Call" value={this.state.lateCall}></input>
-          </div>
-          <div className="col-md-5 mb-3">
-            <input type="text" className="form-control" name="additionalComments" onChange={this.handleChange} placeholder="Additional Comments"></input>
-            {errors && <p className="form-text text-danger">{errors.additionalComments}</p>}
-          </div>                    
-          <div className="col-md-12 mb-3">
-            <input value="Submit" type="submit" className="btn btn-primary"/>
-            
-          </div>
+        <form onSubmit={this.handleSubmit}>
 
-        </div>
-      </form><br/><br/>
+        <Step1
+          currentStep={currentStep}
+          handleChange={this.handleChange}
+          courtHouse={this.state.courtHouse}
+          areaOfLaw={this.state.areaOfLaw}
+          deparment={this.state.deparment}
+          caseName={this.state.caseName}
+          caseNumber={this.state.caseNumber}
+          goal={this.state.goal}
+        />
 
-      <Link to="/"> Go back</Link>
+        <Step2
+          currentStep={currentStep}
+          handleChange={this.handleChange}
+          hearingDate={this.state.hearingDate}
+          time={this.state.time}
+          instructions={this.state.instructions}
+          clientPresent={this.state.clientPresent}
+          lateCall={this.state.lateCall}
+          documents={this.state.documents}
+        />
 
-      </div>
+
+        {this.nextButton()}
+
+{/*        {errors.courtHouse && <p className="form-text text-danger">{errors.courtHouse}</p>}
+        {errors.areaOfLaw && <p className="form-text text-danger">{errors.areaOfLaw}</p>}
+        {errors.goal && <p className="form-text text-danger">{errors.goal}</p>}
+        {errors.contextInformation && <p className="form-text text-danger">{errors.contextInformation}</p>}
+        {errors.additionalComments && <p className="form-text text-danger">{errors.additionalComments}</p>}
+        */}
+        </form>
+    </div>
     );
   }
 
+
+
+
+}
+
+function Step1(props){
+    if(props.currentStep !== 1){
+      return null;
+    }
+
+    return(
+      <div>
+        <ProgressBar  height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
+        <p>Complete info</p>
+            <input name="courtHouse" placeholder="Court House" type="text" className="form-control" onChange={props.handleChange} ></input>
+            <input name="areaOfLaw"  placeholder="Area Of Law" type="text" className="form-control" onChange={props.handleChange} ></input>
+            <input name="department" placeholder="department"  type="text" className="form-control" onChange={props.handleChange} ></input>
+            <input name="caseName"   placeholder="Case Name"   type="text" className="form-control" onChange={props.handleChange} ></input>
+            <input name="caseNumber" placeholder="Case Number" type="text" className="form-control" onChange={props.handleChange} ></input>
+            <input name="goal"       placeholder="Goal"        type="text" className="form-control" onChange={props.handleChange} ></input>
+      </div>
+      )
+  }
+
+  function Step2(props){
+    if(props.currentStep !== 2){
+      return null;
+    }
+
+    return (
+      <div>
+      <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
+            <input name="hearingDate"   placeholder="Hearing date"             type="date"      className="form-control" onChange={props.handleChange} ></input>  
+            <input name="time"          placeholder="Time"                     type="date"      className="form-control" onChange={props.handleChange} ></input>  
+            <input name="instructions"  placeholder="Description/instructions" type="text"      className="form-control" onChange={props.handleChange} ></input><label> Client present or not?</label>  
+            <input name="clientPresent" value={props.clientPresent}       type="checkbox"  className="form-control" onChange={props.handleChange} ></input><label> Late call accepted</label>
+            <input name="lateCall"      value={props.lateCall}            type="checkbox"  className="form-control" onChange={props.handleChange} ></input>
+      </div>
+      )
+  }
+
+
+
+
+
+
+
+  const validate = values => {
+  const errors = {}
+  if(!values.courtHouse) {
+    errors.courtHouse = 'Insert courtHouse'
+  }
+  if(!values.email) {
+    errors.email = 'Insert email'
+  }
+  if(!values.firstName) {
+    errors.firstName = 'Insert firstName'
+  }
+  if(!values.lastName) {
+    errors.lastName = 'Insert lastName'
+  }
+  if(!values.lawFirm) {
+    errors.lawFirm = 'Insert lawFirm'
+  }
+  if(!values.stateBar) {
+    errors.stateBar = 'Insert stateBar'
+  }
+  if(!values.officePhone) {
+    errors.officePhone = 'Insert officePhone'
+  }
+  if(!values.mobilePhone) {
+    errors.mobilePhone = 'Insert mobilePhone'
+  }
+  if(!values.mailingAddress) {
+    errors.mailingAddress = 'Insert mailingAddress'
+  }
+  if(!values.creditCard) {
+    errors.creditCard = 'Insert creditCard'
+  }
+  if(!values.policy) {
+    errors.policy = 'Insert policy'
+  }
+  if(!values.notification) {
+    errors.notification = 'Insert notification'
+  }
+  if(!values.insurancePolicy) {
+    errors.insurancePolicy = 'Insert insurancePolicy'
+  }
+
+  return errors;
 }

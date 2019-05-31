@@ -187,8 +187,9 @@ module.exports = {
       const subject = "Email contact"
       const text = "Text for email contact"
 
-        send.email(user.email, subject, text)
-      return res.status(200).send({message: "Email sent"})
+        send.email(req.body.email, subject || req.body.subject, text || req.body.text)
+        console.log("email")
+      return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })
     }
 
 }

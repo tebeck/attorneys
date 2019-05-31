@@ -55,7 +55,7 @@ export default class RecoverPasswordComponent extends Component {
     }
 
 	render() {
-        const {errors, confirmationCode} = this.state
+        const {errors} = this.state
 		return (
 
             <div className="container">

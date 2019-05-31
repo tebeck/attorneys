@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { userServices } from '../../_services/user.service'
-import exampleImg from '../../assets/img/example.png';
+import exampleImg from '../../_assets/img/example.png';
 
 const validate = values => {
   const errors = {}

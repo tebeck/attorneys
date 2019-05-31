@@ -7,7 +7,7 @@ import SearchComponent from './_components/appearances/SearchComponent';
 import CreateComponent from './_components/appearances/CreateComponent';
 import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
-import './assets/css/ownstylesheet.css';
+import './_assets/css/ownstylesheet.scss';
 import {url_backend} from './config.json';
 
 const Loader = x => Loadable({

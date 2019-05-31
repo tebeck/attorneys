@@ -1,7 +1,6 @@
 import { authHeader } from '../_helpers';
 import {url_backend} from '../config.json';
 import axios from 'axios'
-import {isValid} from '../_helpers';
 import Cookies from 'js-cookie';
 
 export const appearanceService = {
@@ -12,7 +11,8 @@ export const appearanceService = {
     updateSpecific,
     upload,
     getSpecificById,
-    getAppearances
+    getAppearances,
+    expire
 }
 
 function expire(){
@@ -94,7 +94,6 @@ function _delete(data){
         headers: authHeader(),
         body: JSON.stringify(data)
     };
-    const id = data.id;
 
     return fetch(`${url_backend}/appearances/delete`, requestOptions)
        .then( data => {return data.json().then(text=>text)} )

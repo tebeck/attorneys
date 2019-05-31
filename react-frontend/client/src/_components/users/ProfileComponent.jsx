@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import user from '../../assets/img/user_upload.png';
+import user from '../../_assets/img/user_upload.png';
 import  { Tabs, Tab } from 'react-bootstrap';
-import Cookies from 'js-cookie';
 import {userServices} from '../../_services/user.service';
 
 export default class ProfileComponent extends Component {

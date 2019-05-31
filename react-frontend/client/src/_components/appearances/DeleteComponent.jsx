@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'; 
-import { toast } from 'react-toastify';
 
 const validate = values => {
   const errors = {}
@@ -26,7 +24,7 @@ export default class DeleteComponent extends Component {
 
 _delete = (data) => {
     appearanceService._delete(data).then(
-      response =>{ if(response.message == "product deleted"){
+      response =>{ if(response.message === "product deleted"){
         alert("Deleted")
         console.log(response)
       }})

@@ -1,14 +1,14 @@
 import { authHeader } from '../_helpers';
 import Cookies from 'js-cookie';
 import {url_backend} from '../config.json';
-import { Redirect } from 'react-router-dom';
 
 export const userServices = {
     authenticate,
     register,
     recoverPassword,
     changePassword,
-    getProfile
+    getProfile,
+    sendmail
 }
 
 function register(data){
@@ -96,6 +96,20 @@ function recoverPassword(email){
             }
             
         }) 
+
+  }
+
+  function sendmail(data){
+     const requestOptions = {
+         method: 'POST',
+         headers: authHeader(),
+         body: JSON.stringify(data)
+     };
+
+     console.log(JSON.stringify(data))
+
+     return fetch(`${url_backend}/users/sendmail`, requestOptions)
+         .then( data => {data.json().then(text=>console.log( text) )} ) 
 
   }
 

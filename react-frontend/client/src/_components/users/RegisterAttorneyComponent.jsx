@@ -15,7 +15,7 @@ constructor(props) {
     emailError: false,
     isAttorney: true,
     currentStep: 1,
-    redirectDefineRole: false,
+    backStep: false,
     errors: {},
     firstName: "",
     lastName: "",
@@ -29,7 +29,6 @@ constructor(props) {
     insurancePolicy:"", 
     streetaddress1: "",
     streetaddress2: "", 
-    creditCard: "",
     email: "",
     notification: "Email"
   }
@@ -73,9 +72,10 @@ constructor(props) {
       currentStep: currentStep
     })
     if (currentStep <= 0){
-       this.setState({redirectDefineRole: true});
+       this.setState({backStep: true});
     }
   }
+
 
 
 nextButton(){
@@ -116,7 +116,7 @@ nextButton(){
   render(){
     
     // Route for going back on the first step.
-    if (this.state.redirectDefineRole) {
+    if (this.state.backStep) {
       return <Redirect push to="/definerole" />;
     }
 
@@ -263,7 +263,6 @@ function Step1(props){
     return (
       <div>
       <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
-        <input className="form-control" type="text" name="creditCard"  placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="policy"  placeholder="Policy" value={props.policy} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="insurancePolicy"  placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="streetaddress1"  placeholder="Street Address 1" value={props.streetaddress1} onChange={props.handleChange}></input>
