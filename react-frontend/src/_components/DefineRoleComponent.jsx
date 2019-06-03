@@ -10,16 +10,20 @@ export default class DefineRoleComponent extends Component {
     	return (
 
             <div className="container">
-                <h3><Link style={{color: "black"}} to="/login"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
+                <h3><Link style={{color: "black"}} to="/authenticate"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
                   <ProgressBar height={5} percent={25} filledBackground="blue" ></ProgressBar><br /> 
                 <p>Select an option</p>
 
                 <Link to="/registerAttorney">
-                    <div className="square">Attorney of Record</div>
+                    <div className="userDefineRole">
+                     <p className="userDefineRoleText">Attorney of Record</p>
+                    </div>
                 </Link><br />
 
                 <Link to="/registerSeeker">
-                    <div className="square">Attorney of Appearance</div>
+                    <div className="userDefineRole">
+                     <p className="userDefineRoleText">Attorney of Appearance</p>
+                    </div>
                 </Link>
 
             </div>

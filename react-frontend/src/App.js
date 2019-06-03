@@ -46,7 +46,9 @@ class App extends Component {
           .then( data => {return data.json().then(
             text=> console.log(text.stage) )} 
           )
-          // rest of script
+    // expirar sesion
+    // const isValid = (Date.now() >= exp * 1000) ? false : null;
+    console.log("is token valid? =>" );
 
     }
 

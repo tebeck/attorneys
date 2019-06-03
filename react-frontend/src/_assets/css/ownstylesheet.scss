@@ -1,6 +1,7 @@
 
 $lightgrey-color: #E7ECEE;
 $blue-color: #1873F3;
+$lightblue-color: #B9D5FB;
 
 $font-family: Montserrat, Roboto;
 
@@ -23,5 +24,94 @@ $display-block: block;
 .appearanceBox{margin-bottom:20px;width: 100%; border: 1pt solid $lightgrey-color; border-radius: 4pt;}
 .appearanceHeaderBox { height: 35%; width: 100%; background-color: $lightgrey-color; border-radius: 4pt 4pt 0px 0px; padding: 10px; font-size: 13px; }
 
+
+.userDefineRole {width: 100%; height: 200px; border: 1px solid #E6E6E6 ; margin: auto; padding-top: 75px;cursor: pointer}
+.userDefineRoleText{font-size: 25px; text-align: center; margin: auto; color: #000; text-decoration: none; }
+
+
 // TimelineComponent
 .fade.tab-pane.active.show div section div div div { width: 100%!important; padding: 0px!important; border-radius: 5px;}
+
+.flex-space-between{display: flex; justify-content: space-between}
+
+
+
+
+
+
+
+// .modalHead{padding: 30px;text-align: center}
+// .modalFoot{border-radius: 0px 0px 5px 5px;padding: 30px;text-align: center;height:50%; width:100%; background-color: $lightgrey-color}
+
+.boxYear{font-weight: 500; line-spacing:14pt;margin: 5px}
+.boxTitle{padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt}
+.boxDescription{font-size: 12px; color: #000000;font-family: Montserrat}
+.boxButton{text-align: right}
+.boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
+
+
+
+
+
+
+// Button toggle!
+.switch-input {
+  display: none;
+}
+.switch-label {
+  position: relative;
+  display: inline-block;
+  min-width: 112px;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: left;
+  padding: 23px 0 5px 44px;
+}
+.switch-label:before, .switch-label:after {
+  content: "";
+  position: absolute;
+  margin: 0;
+  outline: 0;
+  top: 50%;
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.switch-label:before {
+  left: 1px;
+  width: 34px;
+  height: 14px;
+  background-color: $blue-color;
+  border-radius: 8px;
+}
+.switch-label:after {
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.switch-label .toggle--on {
+  display: none;
+}
+.switch-label .toggle--off {
+  display: inline-block;
+}
+.switch-input:checked + .switch-label:before {
+  background-color: $lightblue-color;
+}
+.switch-input:checked + .switch-label:after {
+  background-color: #FAFAFA;
+  -ms-transform: translate(80%, -50%);
+  -webkit-transform: translate(80%, -50%);
+  transform: translate(80%, -50%);
+}
+.switch-input:checked + .switch-label .toggle--on {
+  display: inline-block;
+}
+.switch-input:checked + .switch-label .toggle--off {
+  display: none;
+}

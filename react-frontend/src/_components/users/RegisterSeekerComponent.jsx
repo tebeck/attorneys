@@ -24,7 +24,7 @@ constructor(props) {
     officePhone: "",
     mobilePhone: "",
     mailingAddress: "",
-    creditCard:"",
+    creditCard:0,
     policy:"",
     insurancePolicy:"", 
     streetaddress1: "",
@@ -41,7 +41,9 @@ constructor(props) {
     const result = validate(noErrors)
     this.setState({errors: result})
     if(!Object.keys(result).length) {
-        // MANDAR EL FORMULARIO
+        
+        console.log(result)
+
         userServices.register(noErrors).then(res =>{ console.log(res)
           if(res.state === 409 || res.state === 401){
             this.setState({emailError: true})
@@ -142,24 +144,21 @@ nextButton(){
 
     <div className="container">
       
-        <Modal 
-            visible={this.state.visible}
-            width="300"
-            height="345"
-            effect="fadeInDown"
-            onClickAway={() => this.closeModal()}>
-          
-          <div style={{padding: "30px",textAlign: "center"}}>
-            <h5>Your account has been created successfully!</h5>
-            <p>You will receive a notification once your profile is approved.</p>
-          </div>
-            <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px",textAlign: "center",height:"50%", width:"100%", backgroundColor: "lightgrey"}}>
-              <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
-              <Link style={{fontSize: "13px"}} to="/registerSeeker">Click here to add it to your profile</Link>
-            </div>  
-            {/*<a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>*/}
-          
-        </Modal>
+      <Modal 
+        visible={this.state.visible}
+        width="300"
+        height="286"
+        effect="fadeInDown"
+        onClickAway={() => this.closeModal()}>
+        
+        <div className="modalHead">
+          <i class="far fa-4x blue fa-check-circle"></i> <br/><br/>
+          <h5>Your request has been published successfully!</h5>
+        </div>
+        <div>
+          <button onClick={() => this.closeModal()} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> 
+        </div>  
+      </Modal>
 
 
 
@@ -280,26 +279,8 @@ function Step1(props){
     return (
       <div>
       <ProgressBar width={300} height={5} percent={100} filledBackground="blue" ></ProgressBar> <br />
-        <input className="form-control" type="password" name="password"  placeholder="Password" value={props.password} onChange={props.handleChange}></input>
-        <label> Payment Info</label>
-        <input className="form-control" type="text" name="creditcard"  placeholder="Credit Card Data"></input>
-        
-        
-{/*        <label>Notifications</label>
-        
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck1" value={props.notification} onChange={props.handleChange}/>
-            <label className="form-check-label" htmlFor="gridCheck1" >Email</label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck2" value={props.notification} onChange={props.handleChange} />
-            <label className="form-check-label" htmlFor="gridCheck2" >SMS</label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck3" value={props.notification} onChange={props.handleChange} />
-            <label className="form-check-label" htmlFor="gridCheck3" >Alert</label>
-        </div>
-*/}
+        <input name="password" className="form-control" type="password"  placeholder="Password" value={props.password} onChange={props.handleChange}></input><label> Payment Info</label>
+        <input name="creditCard" className="form-control" type="text" placeholder="Credit Card Data" value={props.creditCard}></input>
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
       )
@@ -309,6 +290,7 @@ function Step1(props){
 // Validations
 
 const validate = values => {
+  console.log(values.creditCard)
   const errors = {}
   if(!values.password) {
     errors.password = 'Insert password'
@@ -337,9 +319,9 @@ const validate = values => {
   if(!values.mailingAddress) {
     errors.mailingAddress = 'Insert mailingAddress'
   }
-  if(!values.creditCard) {
-    errors.creditCard = 'Insert creditCard'
-  }
+  // if(!values.creditCard) {
+  //   errors.creditCard = 'Insert creditCard'
+  // }
   if(!values.policy) {
     errors.policy = 'Insert policy'
   }

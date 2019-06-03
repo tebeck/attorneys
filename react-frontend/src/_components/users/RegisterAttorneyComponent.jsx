@@ -51,8 +51,7 @@ constructor(props) {
           }
         })
     } else {
-      console.log("hay errores")
-      console.log(result)
+
       this.setState({ errors: result  })
     }
   }
@@ -285,22 +284,6 @@ function Step1(props){
         <label> Payment Info</label>
         <input className="form-control" type="text" name="creditcard"  placeholder="Credit Card Data"></input>
         
-        
-{/*        <label>Notifications</label>
-        
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck1" value={props.notification} onChange={props.handleChange}/>
-            <label className="form-check-label" htmlFor="gridCheck1" >Email</label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck2" value={props.notification} onChange={props.handleChange} />
-            <label className="form-check-label" htmlFor="gridCheck2" >SMS</label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" name="notification" type="checkbox" id="gridCheck3" value={props.notification} onChange={props.handleChange} />
-            <label className="form-check-label" htmlFor="gridCheck3" >Alert</label>
-        </div>
-*/}
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
       )

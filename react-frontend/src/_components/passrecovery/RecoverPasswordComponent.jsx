@@ -59,7 +59,7 @@ export default class RecoverPasswordComponent extends Component {
 		return (
 
             <div className="container">
-            <h5><Link style={{color: "black"}} to="/login"><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
+            <h5><Link style={{color: "black"}} to="/authenticate"><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
                 <Modal 
                     visible={this.state.visible}
                     width="300"

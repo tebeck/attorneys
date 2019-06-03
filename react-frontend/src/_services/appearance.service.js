@@ -83,7 +83,8 @@ function create(data){
 
 
   return fetch(`${url_backend}/appearances/create`, requestOptions)
-        .then( data => {return data.json().then(text=>text)} )
+        // .then( data => {return data.json().then(text=>text)} )
+        .then(data => console.log(data))
 }    
 
 

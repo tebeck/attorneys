@@ -27,8 +27,7 @@ create: function(req, res, next){
     res.status(200).send({message: "Appearance created", data:{appearance: appearance}});
     })
     .catch(err => {
-      console.log("Unable to save to datbase")
-      res.status(401).send("unable to save to database => "+err);
+      res.status(401).send("unable to save to database => UNAUTHORIZED");
     });
 },
 update: function(req, res, next){

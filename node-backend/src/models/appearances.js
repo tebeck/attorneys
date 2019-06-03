@@ -10,11 +10,23 @@ var appearances = new Schema({
     type: String,
     required: true
   },
+  department: {
+    type: String,
+    required: true
+  },
   goal: {
     type: String,
     required: true
   },
-  contextInformation: {
+  hearingDate: {
+    type: Date,
+    required: true
+  },
+  time: {
+    type: Date,
+    required: true
+  },
+  instructions: {
     type: String,
     required: true
   },
@@ -25,10 +37,19 @@ var appearances = new Schema({
   lateCall: {
     type: Boolean,
     required: true
-  },  
+  },
+  documents: {
+    type: String,
+    default:"no docs",
+    required: true
+  },
   status: {
     type: String,
     default: 'published',
+    required: true
+  },
+  price: {
+    type: Number,
     required: true
   },
   additionalComments: {
@@ -39,6 +60,7 @@ var appearances = new Schema({
     type: String,
     required: true
   }
+
 },{
     collection: 'appearances', timestamps: true
 });
