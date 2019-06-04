@@ -23,6 +23,12 @@ export default class HomeComponent extends Component {
 
   }
 
+  handleLogout = () =>{
+    Cookies.remove('esquired');
+    window.location.reload();
+
+  }
+
 	render() {
     const {isAttorney, isSeeker} = this.state
 		return (
@@ -52,6 +58,7 @@ export default class HomeComponent extends Component {
                     </Tab>
                   :null}
                 </Tabs>
+                <br /><br /><button onClick={this.handleLogout}>Logout</button>
             </div>
 		);
 	}

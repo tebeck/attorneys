@@ -48,6 +48,10 @@ class App extends Component {
           )
     // expirar sesion
     // const isValid = (Date.now() >= exp * 1000) ? false : null;
+    // fetch(`${url_backend}/isvalid`)
+    //       .then( data => {return data.json().then(
+    //         text=> console.log(text.stage) )} 
+    //       )
     console.log("is token valid? =>" );
 
     }

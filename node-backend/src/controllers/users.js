@@ -48,9 +48,9 @@ module.exports = {
          Logger.log("REGISTER: Sending email")
          if (!process.env.EMAIL_ENV==='sandbox'){
            send.email(user.email, subject, text)
-          return res.status(200).send('A verification email has been sent to ' + user.email + '=> ' + token.token) 
+          return res.status(200).send({email: user.email, message:"A verification email has been sent" , token: token.token, state: 200}) 
          } else { 
-           return res.status(200).send('Test token => ' + token.token); 
+           return res.status(200).send({test_token: token.token, state: 200}); 
          }
         
         });
@@ -100,6 +100,36 @@ module.exports = {
      })
 
    },
+
+
+  getSeekerAuth: function(req, res, next) {
+    userModel.findOne({email:req.body.email}, function(err, user){
+
+      if (err) { return res.status(500).send({ message: err.message }); }
+      if (!user) { return res.status(401).send({ message: "User not found"}); }
+      
+      if(bcrypt.compareSync(req.body.password, user.password)) {
+          const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
+          return res.status(200).send({ token: token, result: user });
+      } else {
+          return res.status(409).send({ message: "Incorrect user/password", result: user });
+      }
+    });
+  },
+
+
+makeSeeker: function(req, res, next){
+
+     userModel.findById(req.body.userId, function(err, user) { 
+      
+      if (!user) { return res.status(401).send({ message: "User not found"}) }
+    
+      user.updateOne({isSeeker: true},function (err) {
+          if (err) { return res.status(500).send({ message: err.message }); }
+          return res.status(200).send({state: 200,message: "The account has been verified. Please log in.", redirect: req.headers.host + "/authenticate"});
+      });
+    })
+},
 
 
 

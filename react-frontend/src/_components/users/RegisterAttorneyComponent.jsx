@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
@@ -17,43 +17,37 @@ constructor(props) {
     currentStep: 1,
     backStep: false,
     errors: {},
-    firstName: "",
-    lastName: "",
-    lawFirm:"",
-    stateBar: "",
-    officePhone: "",
-    mobilePhone: "",
-    mailingAddress: "",
-    creditCard:"",
-    policy:"",
-    insurancePolicy:"", 
-    streetaddress1: "",
-    streetaddress2: "", 
-    email: "",
-    notification: "Email"
+    visible: false,
+    redirect: false,
+
+    firstName: "string",
+    lastName: "string",
+    lawFirm:"string",
+    stateBar: 123,
+    officePhone: 123,
+    mobilePhone: 123,
+    email: "string",
+    mailingAddress: {'streetAdd1': "STREEET ADDRESS 1"},
+    password: "string",
+    profilePicture:"string",
+    creditCard:123,
+    policy:123,
+    insurancePolicy:123
   }
 }
 
   handleSubmit = (e) =>{
     
-    e.preventDefault()
-    const {errors, ...noErrors} = this.state // Destructuring...
-    const result = validate(noErrors)
-    this.setState({errors: result})
-    if(!Object.keys(result).length) {
-        // MANDAR EL FORMULARIO
-        userServices.register(noErrors).then(res =>{ console.log(res)
-          if(res.state === 409 || res.state === 401){
-            this.setState({emailError: true})
-          } else {
-
-            this.openModal()
-          }
-        })
-    } else {
-
-      this.setState({ errors: result  })
-    }
+     e.preventDefault()
+     const {errors, ...noErrors} = this.state // Destructuring...
+     const result = validate(noErrors)
+     this.setState({errors: result})
+     if(!Object.keys(result).length) {
+         userServices.register(noErrors).then(res =>{ console.log(res)
+           if(res.state !== 200){
+             this.setState({emailError: true, email: ""}) }
+             else { this.openModal() } })}
+     else { this.setState({ errors: result  }) }
   }
 
   _next = () => {
@@ -110,6 +104,25 @@ nextButton(){
         });
     }
 
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+  
+  
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      this.props.history.push({
+        pathname: '/registerSeeker',
+        state: {...this.state}  
+      })
+    }
+  }
+
+
+
+
 
 
   render(){
@@ -155,9 +168,13 @@ nextButton(){
           </div>
             <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px",textAlign: "center",height:"50%", width:"100%", backgroundColor: "lightgrey"}}>
               <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
-              <Link style={{fontSize: "13px"}} to="/registerSeeker">Click here to add it to your profile</Link>
+
+              
+              {this.renderRedirect()}
+              <button onClick={this.setRedirect} className="btn btn-block btn-primary">Click here to add it to your profile</button>
+
+
             </div>  
-            {/*<a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>*/}
           
         </Modal>
 
@@ -173,7 +190,7 @@ nextButton(){
 
         <form onSubmit={this.handleSubmit}>
         <input type="hidden" name="isAttorney" value={isAttorney} />
-        <input type="hidden" name="notification" value={this.state.notification}  />
+        <input type="hidden" name="notification" value="Email"  />
 
         <Step1
           currentStep={currentStep}
@@ -185,22 +202,21 @@ nextButton(){
           officePhone={this.state.officePhone}
           mobilePhone={this.state.mobilePhone}
           mailingAddress={this.state.mailingAddress}
+          email={this.state.email}
         />
 
         <Step2
           currentStep={currentStep}
           handleChange={this.handleChange}
-          creditCard={this.state.creditCard}
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
-          password={this.state.password}
         />
 
         <Step3
           currentStep={currentStep}
           handleChange={this.handleChange}
-          email={this.state.email}
-
+          password={this.state.password}
+          creditCard={this.state.creditCard}
         />
 
         {this.nextButton()}
@@ -264,8 +280,6 @@ function Step1(props){
       <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
         <input className="form-control" type="text" name="policy"  placeholder="Policy" value={props.policy} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="insurancePolicy"  placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetaddress1"  placeholder="Street Address 1" value={props.streetaddress1} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetaddress2"  placeholder="Street Address 2" value={props.streetaddress2} onChange={props.handleChange}></input>        
       </div>
       )
   }
@@ -275,15 +289,13 @@ function Step1(props){
     if(props.currentStep !== 3){
       return null
     }
-     
-
+    
     return (
       <div>
       <ProgressBar width={300} height={5} percent={100} filledBackground="blue" ></ProgressBar> <br />
         <input className="form-control" type="password" name="password"  placeholder="Password" value={props.password} onChange={props.handleChange}></input>
         <label> Payment Info</label>
-        <input className="form-control" type="text" name="creditcard"  placeholder="Credit Card Data"></input>
-        
+        <input name="creditCard" className="form-control" type="text" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
       )
@@ -326,9 +338,6 @@ const validate = values => {
   }
   if(!values.policy) {
     errors.policy = 'Insert policy'
-  }
-  if(!values.notification) {
-    errors.notification = 'Insert notification'
   }
   if(!values.insurancePolicy) {
     errors.insurancePolicy = 'Insert insurancePolicy'

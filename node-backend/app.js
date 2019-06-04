@@ -38,6 +38,7 @@ app.use('/appearances',isvalid.user ,appearancesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 app.use('/notifications',isvalid.user ,notificationsRoutes);
 
+
 // Backend status
 app.get('/', function(req, res){
     res.json({

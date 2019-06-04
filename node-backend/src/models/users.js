@@ -8,27 +8,27 @@ var Schema = mongoose.Schema;
 var users = new Schema({
   firstName: {
     type: String,
-    required: false
+    required: true
   },
   lastName: {
     type: String,
-    required: false
+    required: true
   },
   lawFirm: {
     type: String,
-    required: false
+    required: true
   },
   stateBar: {
     type: Number,
-    required: false
+    required: true
   },
   officePhone: {
     type: String,
-    required: false
+    required: true
   },
   mobilePhone: {
     type: String,
-    required: false
+    required: true
   },
   email: {
     type: String,
@@ -55,7 +55,8 @@ var users = new Schema({
       zip: {
         type: String,
         required: false
-      }
+      },
+      required:false
     }
   ],
   password: {
@@ -68,26 +69,17 @@ var users = new Schema({
   },
   creditCard: {
     type: Number,
-    required: false
+    required: true
   },
   policy: {
     type: Number,
+    required: true
+  },
+  notification: {
+    type: String,
+    default: "Email",
     required: false
   },
-  notification: [
-    {
-      email: Boolean,
-      required: false
-    },
-    {
-      sms: Boolean,
-      required: false
-    },
-    {
-      alert: Boolean,
-      required: false
-    }
-  ],
   insurancePolicy:{
     type: Number,
     required: true

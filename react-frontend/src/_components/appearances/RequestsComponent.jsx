@@ -23,6 +23,8 @@ export default class RequestsComponent extends Component {
       redirect: true
     })
   }
+  
+  
   renderRedirect = () => {
     if (this.state.redirect) {
       return <Redirect to='/createappearance' />
@@ -33,32 +35,27 @@ export default class RequestsComponent extends Component {
  render() {
   
   const {data} = this.state
-
-  console.log(data)
-
-   if(data){
 	return (
 	 <div>
 	  <span>Active Requests</span><i className="fas fa-chevron-down"></i><br/>
 		{data.map(x =>
-		<div className="container">
+		<div key={x._id} className="container">
 		  <div className="appearanceBox">
 		      <div className="appearanceHeaderBox">  
 		        <Moment className="boxYear" format="LLL">{x.time}</Moment>
 		      </div> 
-		      <p className="boxTitle">Trafic Trial</p>
+		      <p className="boxTitle">{x.caseName}</p>
 	    	  <p className="boxDescription">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
 		      <p>$75</p>	
 		      <div className="boxButton">
 		      	<button onClick={this.handleClick} className="btn btn-primary">Accept</button>
 		      </div>
 		    </div>
-		    {this.renderRedirect()}
-		  <button onClick={this.setRedirect} className="btn btn-block btn-primary">Create New Request</button>
+		    
 		</div>
-  	)}
-  	 
-	</div> )} else { return ( <div><p>No appearances found</p></div> ) }
-  }
+  		)}
+  		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary">Create New Request</button>
+	</div>
+  )}
     
 }

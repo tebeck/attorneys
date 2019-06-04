@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
@@ -25,8 +25,6 @@ export default class CreateComponent extends Component {
       hearingDate:"",
       time:"",
       instructions:"",
-      clientPresent: false,
-      lateCall:false,
       price:0
     }
   }
@@ -91,7 +89,6 @@ export default class CreateComponent extends Component {
     this.setState({
       [target.name]: target.value
     })
-    this.openModal()
   }
 
   openModal() {
@@ -126,7 +123,7 @@ export default class CreateComponent extends Component {
         onClickAway={() => this.closeModal()}>
         
         <div className="modalHead">
-          <i class="far fa-4x blue fa-check-circle"></i> <br/><br/>
+          <i className="far fa-4x blue fa-check-circle"></i> <br/><br/>
           <h5>Your request has been published successfully!</h5>
         </div>
         <div>
@@ -196,7 +193,7 @@ function Step1(props){
             <label className="input-group-text" htmlFor="inputGroupSelect01"></label></div>
               <select name="areaOfLaw" className="custom-select" id="inputGroupSelect01" onChange={props.handleChange} value={props.areaOfLaw}>
                 <option defaultValue>Area Of Law</option>
-                <option value="FirstOption">First Option</option>
+                <option value="CRIMINAL">CRIMINAL</option>
                 <option value="SecondOption">Second Option</option>
                 <option value="ThirdOption">Third Option</option>
               </select>
@@ -226,7 +223,7 @@ function Step1(props){
           </div>
 
           <div className="input-group time" id="timepicker" style={{marginBottom: "10px"}}>
-            <input name="time"          placeholder="Time"         type="date" className="form-control" onChange={props.handleChange} value={props.time}/>
+            <input name="time"          placeholder="Time"         type="time" className="form-control" onChange={props.handleChange} value={props.time}/>
              <span className="input-group-append input-group-addon">
              <span className="input-group-text"><i  className="fa fa-clock"></i></span></span>
           </div>
@@ -236,7 +233,7 @@ function Step1(props){
           <div className="flex-space-between">
             <label> Client present or not?</label>  
             <div>
-             <input name="clientPresent" type="checkbox" id="client" className="switch-input" onChange={props.handleChange} value={props.handleChange} value={props.clientPresent} />
+             <input name="clientPresent" type="checkbox" id="client" className="switch-input" onChange={props.handleChange} value={props.clientPresent} />
              <label for="client" className="switch-label"></label>
             </div>
           </div>

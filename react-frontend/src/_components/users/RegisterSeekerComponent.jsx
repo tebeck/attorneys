@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
@@ -9,55 +9,118 @@ import Modal from 'react-awesome-modal';
 export default class RegisterForm extends Component {
 
 constructor(props) {
+
+
   super(props)
-  this.state = {
-    ...this.state,
-    emailError: false,
-    isSeeker: true,
-    currentStep: 1,
-    redirectDefineRole: false,
-    errors: {},
-    firstName: "",
-    lastName: "",
-    lawFirm:"",
-    stateBar: "",
-    officePhone: "",
-    mobilePhone: "",
-    mailingAddress: "",
-    creditCard:0,
-    policy:"",
-    insurancePolicy:"", 
-    streetaddress1: "",
-    streetaddress2: "", 
-    email: "",
-    notification: "Email"
+
+
+  if(this.props.location.state){
+    this.state = {
+      ...this.state,
+      emailError: false,
+      isSeeker: true,
+      currentStep: 1,
+      redirectDefineRole: false,
+      errors: {},
+      isAlreadyAttorney: true,
+      visible:false,
+      redirect: false,
+
+      firstName: this.props.location.state.firstName,
+      lastName: this.props.location.state.lastName,
+      lawFirm: this.props.location.state.lawFirm,
+      stateBar: this.props.location.state.stateBar,
+      officePhone: this.props.location.state.officePhone,
+      mobilePhone: this.props.location.state.mobilePhone,
+      email: this.props.location.state.email,
+      mailingAddress: {'streetAdd1': "STREEET ADDRESS 1"},
+      password: this.props.location.state.password,
+      profilePicture: this.props.location.state.profilePicture,
+      creditCard: this.props.location.state.creditCard,
+      policy: this.props.location.state.policy,
+      insurancePolicy:this.props.location.state.insurancePolicy
+    }  
+    
+  } else {
+    this.state = {
+        ...this.state,
+        emailError: false,
+        isSeeker: true,
+        currentStep: 1,
+        redirectDefineRole: false,
+        errors: {},
+        isAlreadyAttorney: false,
+        userId:10,
+        redirect:false,
+
+        firstName: "",
+        lastName: "",
+        lawFirm:"",
+        stateBar: 10,
+        officePhone: 10,
+        mobilePhone: 10,
+        email: "",
+        mailingAddress: {'streetAdd1': "STREEET ADDRESS 1"},
+        password: "",
+        profilePicture:"",
+        creditCard: 10,
+        policy: 10,
+        insurancePolicy: 10
+      }
   }
+
 }
 
-  handleSubmit = (e) =>{
-    
+handleSubmit = (e) => {
     e.preventDefault()
-    const {errors, ...noErrors} = this.state // Destructuring...
+    const {errors,...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
     this.setState({errors: result})
-    if(!Object.keys(result).length) {
-        
-        console.log(result)
 
-        userServices.register(noErrors).then(res =>{ console.log(res)
-          if(res.state === 409 || res.state === 401){
-            this.setState({emailError: true})
-          } else {
+    if (!Object.keys(result).length && this.state.isAlreadyAttorney) {
+        let data = {"email": noErrors.email,"password": noErrors.password}
 
-            this.openModal()
-          }
-        })
-    } else {
-      console.log("hay errores")
-      console.log(result)
-      this.setState({ errors: result  })
+        userServices.getSeekerAuth(data)
+            .then(res => this.setState({userId: res.result._id}
+              , function() {
+                const body = {userId: this.state.userId}
+                console.log("Return userId:" +  this.state.userId)
+                userServices.makeSeeker(body)
+                    .then(res => {
+                        if (res.state !== 200) {
+                            this.setState({aError: true})
+                            console.log(res)
+                        } else {
+                          console.log("Return state modal:" +  this.state.userId)
+                            this.openModal()
+                        }
+                    })
+            }))
     }
-  }
+
+    if (!Object.keys(result).length && !this.state.isAlreadyAttorney) {
+        userServices.register(noErrors).then(res => {
+            console.log(res)
+            if (res.state !== 200) {
+                this.setState({
+                    emailError: true,
+                    email: ""
+                })
+            } else {
+                this.openModal()
+            }
+        })
+    }
+
+    if (Object.keys(result).length) {
+        console.log("hay errores")
+        console.log(result)
+        this.setState({
+            errors: result
+        })
+    }
+
+}
 
   _next = () => {
     let currentStep = this.state.currentStep
@@ -100,18 +163,32 @@ nextButton(){
     })
   }
 
-    openModal() {
-        this.setState({
-            visible : true
-        });
-    }
+  openModal() {
+      this.setState({
+          visible : true
+      });
+  }
 
-    closeModal() {
-        this.setState({
-            visible : false
-        });
-    }
+  closeModal() {
+      this.setState({
+          visible : false  
+      });
+  }
 
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      this.props.history.push({
+        pathname: '/',
+        state: {...this.state}  
+      })
+    }
+  }
 
 
   render(){
@@ -121,7 +198,7 @@ nextButton(){
       return <Redirect push to="/definerole" />;
     }
 
-    const {isSeeker, currentStep, errors} = this.state
+    const {isSeeker, currentStep, errors, isAlreadyAttorney} = this.state
     var currentTitle = "";
     
     switch(currentStep){
@@ -138,9 +215,9 @@ nextButton(){
         currentTitle = "null"
         break;
     } 
+  
+  if(!isAlreadyAttorney){
   return(
-
-
 
     <div className="container">
       
@@ -152,11 +229,12 @@ nextButton(){
         onClickAway={() => this.closeModal()}>
         
         <div className="modalHead">
-          <i class="far fa-4x blue fa-check-circle"></i> <br/><br/>
+          <i className="far fa-4x blue fa-check-circle"></i> <br/><br/>
           <h5>Your request has been published successfully!</h5>
         </div>
         <div>
-          <button onClick={() => this.closeModal()} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> 
+          {this.renderRedirect()}
+              <button onClick={this.setRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> 
         </div>  
       </Modal>
 
@@ -172,7 +250,7 @@ nextButton(){
 
         <form onSubmit={this.handleSubmit}>
         <input type="hidden" name="isSeeker" value={isSeeker} />
-        <input type="hidden" name="notification" value={this.state.notification}  />
+        <input type="hidden" name="notification" value="Email"  />
 
         <Step1
           currentStep={currentStep}
@@ -184,22 +262,21 @@ nextButton(){
           officePhone={this.state.officePhone}
           mobilePhone={this.state.mobilePhone}
           mailingAddress={this.state.mailingAddress}
+          email={this.state.email}
         />
 
         <Step2
           currentStep={currentStep}
           handleChange={this.handleChange}
-          creditCard={this.state.creditCard}
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
-          password={this.state.password}
         />
 
         <Step3
           currentStep={currentStep}
           handleChange={this.handleChange}
-          email={this.state.email}
-
+          password={this.state.password}
+          creditCard={this.state.creditCard}
         />
 
         {this.nextButton()}
@@ -219,7 +296,34 @@ nextButton(){
         </form>
 
       </div>
-      )
+      )  
+  } else {
+    return (
+      <div>
+       <Modal 
+        visible={this.state.visible}
+        width="300"
+        height="286"
+        effect="fadeInDown"
+        onClickAway={() => this.closeModal()}>
+        
+        <div className="modalHead">
+          <i className="far fa-4x blue fa-check-circle"></i> <br/><br/>
+          <h5>Your request has been published successfully!</h5>
+        </div>
+        <div>
+          {this.renderRedirect()}
+              <button onClick={this.setRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> 
+        </div>  
+      </Modal>
+    <form onSubmit={this.handleSubmit}>
+      <input type="hidden" name="isSeeker" value={isSeeker} />
+      <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
+    </form>
+    </div>
+    )
+  }
+  
   }
 
 
@@ -263,8 +367,6 @@ function Step1(props){
       <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
         <input className="form-control" type="text" name="policy"  placeholder="Policy" value={props.policy} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="insurancePolicy"  placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetaddress1"  placeholder="Street Address 1" value={props.streetaddress1} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetaddress2"  placeholder="Street Address 2" value={props.streetaddress2} onChange={props.handleChange}></input>        
       </div>
       )
   }
@@ -280,7 +382,7 @@ function Step1(props){
       <div>
       <ProgressBar width={300} height={5} percent={100} filledBackground="blue" ></ProgressBar> <br />
         <input name="password" className="form-control" type="password"  placeholder="Password" value={props.password} onChange={props.handleChange}></input><label> Payment Info</label>
-        <input name="creditCard" className="form-control" type="text" placeholder="Credit Card Data" value={props.creditCard}></input>
+        <input name="creditCard" className="form-control" type="text" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
       )
@@ -290,7 +392,7 @@ function Step1(props){
 // Validations
 
 const validate = values => {
-  console.log(values.creditCard)
+
   const errors = {}
   if(!values.password) {
     errors.password = 'Insert password'
@@ -319,14 +421,11 @@ const validate = values => {
   if(!values.mailingAddress) {
     errors.mailingAddress = 'Insert mailingAddress'
   }
-  // if(!values.creditCard) {
-  //   errors.creditCard = 'Insert creditCard'
-  // }
+  if(!values.creditCard) {
+    errors.creditCard = 'Insert creditCard'
+  }
   if(!values.policy) {
     errors.policy = 'Insert policy'
-  }
-  if(!values.notification) {
-    errors.notification = 'Insert notification'
   }
   if(!values.insurancePolicy) {
     errors.insurancePolicy = 'Insert insurancePolicy'

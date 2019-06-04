@@ -14,6 +14,8 @@ router.post('/authenticate', userController.authenticate);
 router.get('/confirmation/:token', userController.confirmation);
 router.get('/profile', userMiddleware.isValid ,userController.getProfile);
 
+router.post('/getseekerauth', userController.getSeekerAuth)
+router.post('/makeseeker', userController.makeSeeker );
 router.post('/sendmail', userMiddleware.isValid, userController.sendMail);
 router.post('/recoverpassword', userController.recoverPassword);
 router.get('/recoverpassword/confirmation/:token', userController.recoverPasswordConfirm);

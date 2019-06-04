@@ -47,7 +47,7 @@ constructor(props) {
     const result = validate(noErrors)
     this.setState({errors: result})
     if(!Object.keys(result).length) {
-      
+      console.log(noErrors)
       userServices.authenticate(noErrors)
         .then(data => this.setState({
           errlogin: data

@@ -8,7 +8,9 @@ export const userServices = {
     recoverPassword,
     changePassword,
     getProfile,
-    sendmail
+    sendmail,
+    makeSeeker,
+    getSeekerAuth
 }
 
 function register(data){
@@ -39,6 +41,46 @@ function getProfile(){
         })
 }
 
+function makeSeeker(userId){
+
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(userId)
+    }
+
+    return fetch(`${url_backend}/users/makeseeker`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+  function getSeekerAuth(data){
+
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+
+    
+     return fetch(`${url_backend}/users/getseekerauth`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            if(data.result && data.token){
+             return data
+            }
+
+            else{
+              return data
+            }
+        });
+  }
+
+
+
+
   function authenticate(data){
 
     const requestOptions = {
@@ -47,6 +89,7 @@ function getProfile(){
         body: JSON.stringify(data)
     };
 
+    console.log(JSON.stringify(data))
      return fetch(`${url_backend}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(data => {
@@ -61,6 +104,10 @@ function getProfile(){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker}, { path: '' })   
                 }
              return window.location.assign('/');
+            }
+
+            else{
+              console.log(data)
             }
         });
   }
@@ -122,9 +169,12 @@ function handleResponse(response) {
                 return data.message
             }
             if(response.status === 409){
-                return data.message
+                console.log( data.message)
             }
             if(response.status === 400){
+                return data.message
+            }
+            if(response.status === 500){
                 return data.message
             }
         }
