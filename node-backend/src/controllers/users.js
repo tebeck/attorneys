@@ -43,16 +43,14 @@ module.exports = {
         }
 
          const subject = 'Account Verification Token'
-         const text = 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n';
+         const text = "Please verify your account by clicking the link: "+'http:\/\/' + req.headers.host + '\/users/confirmation\/' + token.token 
 
          Logger.log("REGISTER: Sending email")
-         if (!process.env.EMAIL_ENV==='sandbox'){
-           send.email(user.email, subject, text)
-          return res.status(200).send({email: user.email, message:"A verification email has been sent" , token: token.token, state: 200}) 
-         } else { 
-           return res.status(200).send({test_token: token.token, state: 200}); 
-         }
-        
+         
+         send.email(user.email, subject, text)
+           
+         return res.status(200).send({token: token.token,user: user,state: 200, message:"A verification email has been sent to "+user.email}) 
+         
         });
       });
 
@@ -102,21 +100,6 @@ module.exports = {
    },
 
 
-  getSeekerAuth: function(req, res, next) {
-    userModel.findOne({email:req.body.email}, function(err, user){
-
-      if (err) { return res.status(500).send({ message: err.message }); }
-      if (!user) { return res.status(401).send({ message: "User not found"}); }
-      
-      if(bcrypt.compareSync(req.body.password, user.password)) {
-          const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
-          return res.status(200).send({ token: token, result: user });
-      } else {
-          return res.status(409).send({ message: "Incorrect user/password", result: user });
-      }
-    });
-  },
-
 
 makeSeeker: function(req, res, next){
 
@@ -146,10 +129,9 @@ makeSeeker: function(req, res, next){
           recoverPassword.save(function (err) {
             if (err) { return res.status(500).send({ message: err.message });  
           }
+          
+          const link = process.env.URL_FRONTEND + '/createnewpassword/?token=' + recoverPassword.token
 
-          const link = req.headers.host + '/confirmation/' + recoverPassword.token;
-          console.log(link)
-         if (!process.env.EMAIL_ENV==='sandbox'){
 
 
            const subject = 'Recover password';
@@ -158,13 +140,7 @@ makeSeeker: function(req, res, next){
            
            send.email(user.email, subject, text)
              return res.status(200).send({message: "Mail sent, check your inbox"})
-         } else {
 
-             return res.status(200).send(
-               {'message': "Click this link to recover your password",
-                 'link_frontend': process.env.URL_FRONTEND + '/createnewpassword/?token=' + recoverPassword.token
-               }); 
-         }
      })
    })
   },
@@ -188,8 +164,6 @@ makeSeeker: function(req, res, next){
       const getToken = req.params;
       const payload = req.body;
 
-      console.log("llego")
-
       recoverPasswordModel.findOne({ token: JSON.parse(getToken.token).confirmationCode }, function( err, token ){
         if (!token) return res.status(409).send({ type: 'not-recovered', message: 'We were unable to find a valid token. Your token my have expired.' });
 
@@ -204,10 +178,8 @@ makeSeeker: function(req, res, next){
           .catch( err => {
             return res.status(401).send({message: "Cant update database", data: err})
           })  
-
       });  
-
-    }) //Token validation again
+    }) 
 
     },
 

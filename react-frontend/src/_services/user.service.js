@@ -1,6 +1,7 @@
 import { authHeader } from '../_helpers';
 import Cookies from 'js-cookie';
 import {url_backend} from '../config.json';
+import axios from 'axios';
 
 export const userServices = {
     authenticate,
@@ -10,7 +11,8 @@ export const userServices = {
     getProfile,
     sendmail,
     makeSeeker,
-    getSeekerAuth
+    getSeekerAuth,
+    upload
 }
 
 function register(data){
@@ -27,6 +29,10 @@ function register(data){
     })
 }
 
+function upload(image){
+    return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
+        .then(data => {return data})
+}
 
 function getProfile(){
     const requestOptions = {
@@ -42,7 +48,6 @@ function getProfile(){
 }
 
 function makeSeeker(userId){
-
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
@@ -63,9 +68,8 @@ function makeSeeker(userId){
         headers: authHeader(),
         body: JSON.stringify(data)
     };
-
     
-     return fetch(`${url_backend}/users/getseekerauth`, requestOptions)
+    return fetch(`${url_backend}/users/getseekerauth`, requestOptions)
         .then(handleResponse)
         .then(data => {
             if(data.result && data.token){

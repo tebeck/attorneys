@@ -1,7 +1,7 @@
 {
 	"name": "Esquired",
 	"version": "1",
-	"url_backend_":"http://localhost:6200",
-	"url_backend": "https://esquired-backend.herokuapp.com",
+	"url_backend":"http://localhost:6200",
+	"url_backend_test": "https://esquired-backend.herokuapp.com",
 	"url_backend_prod": ""
 }

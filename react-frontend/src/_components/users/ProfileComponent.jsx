@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import user from '../../_assets/img/user_upload.png';
 import  { Tabs, Tab } from 'react-bootstrap';
 import {userServices} from '../../_services/user.service';
 
@@ -17,11 +16,13 @@ export default class ProfileComponent extends Component {
     .then(data => this.setState({
       firstName: data.data.firstName,
       lastName: data.data.lastName,
-      firmName: data.data.firmName,
+      lawFirm: data.data.lawFirm,
       stateBar: data.data.stateBar,
       officePhone: data.data.officePhone,
       mobilePhone: data.data.mobilePhone,
-      email: data.data.email
+      email: data.data.email,
+      profilePicture: data.data.profilePicture,
+      data: data.data
     }))  
 
   }	
@@ -29,12 +30,15 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
+if(this.state.data && this.state.data.mailingAddress[0].city){
+  console.log(this.state.data)
+}
 
 		return (
 			<div className="container">
-				<h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
+				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
 				<div className="center">
-					<img width="80px" src={user} alt="user" className="img-fluid" /><br />
+					<img width="80px" src={this.state.profilePicture} alt="user" className="img-fluid" /><br />
 					<Link to="/" style={{fontSize: "14px"}}><u>Upload Profile Picture</u></Link><br/><br/>
    		        <Tabs
                   id="controlled-tab-example"
@@ -52,7 +56,7 @@ export default class ProfileComponent extends Component {
                   </div>
                   <div className="profileInputs">
                     <p className="profileInputsTitle">Firm Name</p>
-                    <p className="profileInputsValue">{this.state.firmName}</p>
+                    <p className="profileInputsValue">{this.state.lawFirm}</p>
                   </div>
                   <div className="profileInputs">
                     <p className="profileInputsTitle">State Bar Number</p>
@@ -67,8 +71,24 @@ export default class ProfileComponent extends Component {
                     <p className="profileInputsValue">{this.state.mobilePhone}</p>
                   </div>
                   <div className="profileInputs">
-                    <p className="profileInputsTitle">Mailing Address</p>
-                    <p className="profileInputsValue">{this.state.mailingAddress}</p>
+                    <p className="profileInputsTitle">Street Address 1</p>
+                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].streetAddrOne ? this.state.data.mailingAddress[0].streetAddrOne :null}</p>
+                  </div>
+                  <div className="profileInputs">
+                    <p className="profileInputsTitle">Street Address 2</p>
+                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].streetAddrTwo ? this.state.data.mailingAddress[0].streetAddrTwo :null}</p>
+                  </div>
+                  <div className="profileInputs">
+                    <p className="profileInputsTitle">City</p>
+                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].city ? this.state.data.mailingAddress[0].city :null}</p>
+                  </div>
+                  <div className="profileInputs">
+                    <p className="profileInputsTitle">State</p>
+                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].state ? this.state.data.mailingAddress[0].state :null}</p>
+                  </div>
+                  <div className="profileInputs">
+                    <p className="profileInputsTitle">Zip</p>
+                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].zip ? this.state.data.mailingAddress[0].zip :null}</p>
                   </div>
                   <div className="profileInputs">
                     <p className="profileInputsTitle">Email</p>

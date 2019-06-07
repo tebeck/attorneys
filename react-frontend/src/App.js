@@ -16,6 +16,7 @@ const Loader = x => Loadable({
 })
 
 
+const GuestComponent = Loader(() => import('./_components/GuestComponent') )
 const HomeComponent = Loader(() => import('./_components/HomeComponent') )
 const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
 const NotificationsComponents = Loader(()=> import('./_components/NotificationsComponent'))
@@ -64,7 +65,8 @@ class App extends Component {
                   <div className={`alert ${alert.type}`}>{alert.message}</div>
               }
               <Router history={history}>
-                      <PrivateRoute exact path="/" component={HomeComponent} />
+
+                      <PrivateRoute exact path="/home" component={HomeComponent} />
 
                       <PrivateRoute exact path="/createappearance" component={CreateComponent} />
 
@@ -79,7 +81,7 @@ class App extends Component {
                         () => <UpdateComponent />
                       } />                        
 
-
+                      <Route exact path="/" component={GuestComponent} />
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
                       <Route path="/registerSeeker" component={RegisterSeekerComponent} />

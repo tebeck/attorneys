@@ -36,11 +36,11 @@ var users = new Schema({
   },
   mailingAddress: [
     {
-      streetAdd1: {
+      streetAddrOne: {
         type: String,
         required: false
       },
-      streetAdd2: {
+      streetAddrTwo: {
         type: String,
         required: false
       },
@@ -76,8 +76,8 @@ var users = new Schema({
     required: true
   },
   notification: {
-    type: String,
-    default: "Email",
+    type: Boolean,
+    default: false,
     required: false
   },
   insurancePolicy:{

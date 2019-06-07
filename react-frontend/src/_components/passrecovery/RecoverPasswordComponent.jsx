@@ -72,7 +72,6 @@ export default class RecoverPasswordComponent extends Component {
                     <p>Check also in spam email.</p>
                   </div>
                     <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px", paddingTop: "20px",textAlign: "center",height:"30%", width:"100%", backgroundColor: "lightgrey"}}>
-                      <Link style={{fontSize: "13px"}} to="/">Click here to re-send the email</Link>
                     </div>  
                 </Modal><br />
             <form onSubmit={this.handleSubmit}>    

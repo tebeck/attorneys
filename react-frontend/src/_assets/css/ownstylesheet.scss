@@ -52,7 +52,13 @@ $display-block: block;
 
 
 
+label { 
+  cursor: pointer;
+  
+   /* Style as you please, it will become the visible UI component. */
+}
 
+#avatar { opacity: 0; position: absolute; z-index: -1;}
 
 
 // Button toggle!

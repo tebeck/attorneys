@@ -8,6 +8,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         Cookies.getJSON('esquired') ?
          <Component {...props} /> :
-          <Redirect to={{ pathname: '/authenticate', state: { from: props.location } }} />
+          <Redirect to={{ pathname: '/guest', state: { from: props.location } }} />
     )} />
 )
