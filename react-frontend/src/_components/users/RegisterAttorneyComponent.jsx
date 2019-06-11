@@ -11,36 +11,10 @@ export default class RegisterForm extends Component {
 constructor(props) {
   super(props)
   this.state = {
-    isAttorney: true,
     currentStep: 1,
-    backStep: false,
-    reviewError: false,
     errors: {},
-    notification: false,
-    // visible: false,
-    // redirect: false,
-    // showImage: false,
-    // location:"",
-
-    firstName: "firstName",
-    lastName: "lastName",
-    lawFirm:"lawFirm",
-    stateBar: 123,
-    officePhone: 123,
-    mobilePhone: 123,
-    email: "email",
-    streetAddrOne: "one",
-    streetAddrTwo: "two", 
-    city: "city", 
-    state: "state", 
-    zip:"zip",
-    password: "password",
-    profilePicture:"",
-    creditCard:123,
-    policy:123,
-    insurancePolicy:123
+    firstName: "firstName", lastName: "lastName", lawFirm:"lawFirm",stateBar: "1",officePhone: "2",mobilePhone: "3",email: "thombeckford+1@gmail.com",streetAddrOne: "one",streetAddrTwo: "two", city: "city", state: "state", zip:"zip",password: "password",profilePicture:"",creditCard:"5555555555554444",policy:"4",insurancePolicy:"5"
   }
-
   this.handleChangeChk = this.handleChangeChk.bind(this);
 }
 
@@ -90,7 +64,7 @@ fileSelectedHandler = ({target}) =>{
              this.setState({reviewError: true}) }
              else {
                console.log(res)
-              this.setState({link: res.link, _id: res.user._id, token: res.token})
+              this.setState({_id: res.user._id, token: res.token})
               this.openModal() 
             }
       })
@@ -133,58 +107,24 @@ nextButton(){
   return null;
 }
 
+  // Handle value forms
+  handleChange = ({target}) =>{ this.setState({ [target.name]: target.value }) }
+  handleChangeChk() { this.setState(state => ({ notification: !state.notification }));}
 
-  handleChange = ({target}) =>{
-    this.setState({
-      [target.name]: target.value
-    })
-  }
+  // Modal methods
+  openModal()  { this.setState({ visible : true }) }
+  closeModal() { this.setState({ visible : false }) }
 
-
-  handleChangeChk() {
-    this.setState(state => ({
-      notification: !state.notification
-    }));
-  }
-
-    openModal() {
-        this.setState({
-            visible : true
-        });
-    }
-
-    closeModal() {
-        this.setState({
-            visible : false
-        });
-    }
-
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  
-  
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      this.props.history.push({
-        pathname: '/registerSeeker',
-        state: {...this.state}  
-      })
-    }
-  }
-
+  // set and push register seeker Redirect.
+  setSekrRedirect = () => { this.setState({ redirect: true }) }
+  pushingRedirect = () => { if (this.state.redirect) { this.props.history.push({ pathname: '/registerSeeker',state: {...this.state}  })}}
 
 
   render(){
+    
+    if (this.state.backStep) { return <Redirect push to="/definerole" /> } // Go back to /definerole
+    const {currentStep, errors} = this.state
 
-    // Setting states
-    const {backStep, isAttorney, currentStep, errors, link} = this.state
-
-    if (backStep) {
-      return <Redirect push to="/definerole" />;
-    }
 
     let currentTitle = "";
     switch(currentStep){
@@ -201,26 +141,15 @@ nextButton(){
  return(
   <div className="container">
         
-    <Modal visible={this.state.visible}
-        width="300"
-        height="345"
-        effect="fadeInDown"
-        onClickAway={() => this.closeModal()}>
-      <div style={{padding: "30px",textAlign: "center"}}>
-        <h5>Your account has been created successfully!</h5>
-        <p>You will receive a notification once your profile is approved.</p>
-      </div>
-      <a href={link} rel="noopener noreferrer" target="_blank" >Click to confirm account</a>
+    <Modal visible={this.state.visible} width="300" height="345" effect="fadeInDown" onClickAway={() => this.closeModal()}> <div style={{padding: "30px",textAlign: "center"}}> <h5>Your account has been created successfully!</h5> <p>You will receive a notification once your profile is approved.</p></div>
         <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px",textAlign: "center",height:"50%", width:"100%", backgroundColor: "lightgrey"}}>
           <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
-          {this.renderRedirect()}
-          <p onClick={this.setRedirect} className="btn btn-block btn-primary">Click here to add it to your profile</p>
-          {this.renderRedirect()}
-          <Link to='/' className="btn btn-block btn-primary">OK</Link>
+          {this.pushingRedirect()}<p onClick={this.setSekrRedirect} className="btn btn-block btn-primary">Click here to add it to your profile</p>
+          <Link to='/home' className="btn btn-block btn-primary">OK</Link>
         </div>  
     </Modal>
 
-    <h3><span onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i></span> {currentTitle}</h3>
+    <h3 onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
       <div className={this.state.reviewError ? 'display' : 'hide'}>
         <div className="alert alert-danger" role="alert">
@@ -229,7 +158,7 @@ nextButton(){
       </div>
 
    <form onSubmit={this.handleSubmit} >
-        <input type="hidden" name="isAttorney" value={isAttorney} />
+        <input type="hidden" name="isAttorney" value={true} />
         <input type="hidden" name="notification" value="Email"  />
         <Step1
           currentStep={currentStep}
@@ -241,7 +170,9 @@ nextButton(){
           officePhone={this.state.officePhone}
           mobilePhone={this.state.mobilePhone}
           email={this.state.email}
+          errors={this.state.errors}
         />
+
         <Step2
           currentStep={currentStep}
           handleChange={this.handleChange}
@@ -252,6 +183,7 @@ nextButton(){
           zip={this.state.zip}
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
+          errors={this.state.errors}
         />
         <Step3
           currentStep={currentStep}
@@ -264,6 +196,7 @@ nextButton(){
           image={this.state.image}
           notification={this.state.notification}
           handleChangeChk={this.handleChangeChk}
+          errors={this.state.errors}
 
         />
         {this.nextButton()}
@@ -282,6 +215,7 @@ nextButton(){
         {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
         {errors.state && <div className="alert alert-danger" role="alert">{errors.state}</div>}
         {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
+        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
    </form>
  </div> 
 
@@ -294,18 +228,19 @@ function Step1(props){
       return null
     }
 
-    return(
+    return(      
       <div>
         <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
         <p>Complete info</p>
-        <input className="form-control" type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>      
-        <input className='form-control' type="text" name="lawFirm"     placeholder="Firm Name"           value={props.lawFirm}     onChange={props.handleChange}></input>      
-        <input className="form-control" type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>      
-        <input className="form-control" type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>      
+          <input className="form-control" type="text" name="firstName" placeholder="First Name"            value={props.firstName}   onChange={props.handleChange}></input>
+          <input className="form-control" type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>      
+          <input className='form-control' type="text" name="lawFirm"     placeholder="Firm Name"           value={props.lawFirm}     onChange={props.handleChange}></input>      
+          <input className="form-control" type="number" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>      
+          <input className="form-control" type="number" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
+          <input className="form-control" type="number" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
+          <input className={props.errors.email ? "error" : "form-control"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>      
       </div>
+      
       )
   }
 
@@ -322,8 +257,8 @@ function Step1(props){
         <input className="form-control" type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="state"           placeholder="State"            value={props.state}           onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
+        <input className="form-control" type="number" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        <input className="form-control" type="number" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
       </div>
       )
   }
@@ -336,19 +271,19 @@ function Step1(props){
       <div>
         <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
 
-        <label htmlFor="avatar">Upload Profile Picture</label>
+        <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
         
-        <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
-        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
+        <input className={props.errors.password ? "error" : "form-control"} type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
+        <input className="form-control" type="number"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="form-control" type="hidden"   name="avatar"                                    value={props.location}></input>
-        <label>Recive notification?</label><br />
+        <label>Notifications</label><br />
         <div className="form-check form-check-inline">
           <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
           <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br /><br />
-        <div style={{textAlign: "center"}}><Link to="/" >Terms and Conditions</Link></div><br />
+        <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
       )
@@ -357,57 +292,52 @@ function Step1(props){
 
 // Validations
 
+const validator = require('validator');
 const validate = values => {
-  const errors = {}
-  if(!values.password) {
-    errors.password = 'Insert password'
-  }
-  if(!values.streetAddrOne) {
-    errors.streetAddrOne = 'Insert streetAddrOne'
-  }
-  if(!values.streetAddrTwo) {
-    errors.streetAddrTwo = 'Insert streetAddrTwo'
-  }
-  if(!values.city) {
-    errors.city = 'Insert city'
-  }
-  if(!values.state) {
-    errors.state = 'Insert state'
-  }
-  if(!values.zip) {
-    errors.zip = 'Insert zip'
-  }
-  if(!values.email) {
-    errors.email = 'Insert email'
-  }
-  if(!values.firstName) {
-    errors.firstName = 'Insert firstName'
-  }
-  if(!values.lastName) {
-    errors.lastName = 'Insert lastName'
-  }
-  if(!values.lawFirm) {
-    errors.lawFirm = 'Insert lawFirm'
-  }
-  if(!values.stateBar) {
-    errors.stateBar = 'Insert stateBar'
-  }
-  if(!values.officePhone) {
-    errors.officePhone = 'Insert officePhone'
-  }
-  if(!values.mobilePhone) {
-    errors.mobilePhone = 'Insert mobilePhone'
-  }
-  if(!values.creditCard) {
-    errors.creditCard = 'Insert creditCard'
-  }
-  if(!values.policy) {
-    errors.policy = 'Insert policy'
-  }
-  if(!values.insurancePolicy) {
-    errors.insurancePolicy = 'Insert insurancePolicy'
-  }
 
+const errors = {}
+  // email  
+  if(!values.email) { errors.email = 'Insert email' }
+  if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
+  // password
+  if(values.password && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
+  if(!values.password) { errors.password = 'Insert password' }
+
+  if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
+
+  if(!values.streetAddrTwo) { errors.streetAddrTwo = 'Insert streetAddrTwo' }
+
+  if(!values.city) { errors.city = 'Insert city' }
+
+  if(!values.state) { errors.state = 'Insert state' }
+
+  if(!values.zip) { errors.zip = 'Insert zip' }
+
+  if(!values.firstName) { errors.firstName = 'Insert firstName' }
+
+  if(!values.lastName) { errors.lastName = 'Insert lastName' }
+
+  if(!values.lawFirm) { errors.lawFirm = 'Insert lawFirm' }
+
+  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
+  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
+
+  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
+  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
+  
+  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
+  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
+
+  if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
+  if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
+
+  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
+  if(!values.policy) { errors.policy = 'Insert policy' }
+  
+  if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' } 
+  if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
+
+  console.log(errors)
   return errors;
 }
 

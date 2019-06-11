@@ -42,7 +42,7 @@ export default class RequestsComponent extends Component {
 		<div key={x._id} className="container">
 		  <div className="appearanceBox">
 		      <div className="appearanceHeaderBox">  
-		        <Moment className="boxYear" format="LLL">{x.time}</Moment>
+		        <Moment className="boxYear" format="ll">{x.hearingDate}</Moment><span> - {x.time}</span>
 		      </div> 
 		      <p className="boxTitle">{x.caseName}</p>
 	    	  <p className="boxDescription">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>

@@ -38,18 +38,15 @@ $display-block: block;
 .moment{font-weight: 500; line-spacing:14pt; margin: 5px}
 .areaOfLaw{font-weight: 600; margin: 5px}
 
-
-
-
-// .modalHead{padding: 30px;text-align: center}
-// .modalFoot{border-radius: 0px 0px 5px 5px;padding: 30px;text-align: center;height:50%; width:100%; background-color: $lightgrey-color}
-
 .boxYear{font-weight: 500; line-spacing:14pt;margin: 5px}
 .boxTitle{padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt}
 .boxDescription{font-size: 12px; color: #000000;font-family: Montserrat}
 .boxButton{text-align: right}
 .boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
 
+.uploadLabel { text-decoration: underline; cursor: pointer }
+
+.error { border: 1px solid red; display: block; width: 100%;     padding: 0.375rem 0.75rem;border-radius: 0.25rem;height: calc(1.5em + 0.75rem + 2px);font-size: 1rem;line-height: 1.5;margin-bottom:10px }
 
 
 label { 

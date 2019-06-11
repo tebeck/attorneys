@@ -19,7 +19,7 @@ export default class NotificationsComponent extends Component {
     	return (
 
             <div className="container">
-                <h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Notifications</h3>
+                <h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Notifications</h3>
 				<hr />
                 
                 <div >

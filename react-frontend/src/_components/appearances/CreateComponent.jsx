@@ -88,26 +88,26 @@ export default class CreateComponent extends Component {
   handleChange = ({target}) =>{
     this.setState({
       [target.name]: target.value
-    })
+    });
   }
 
   openModal() {
-      this.setState({
-          visible : true
-      });
+    this.setState({
+        visible : true
+    });
   }
 
   closeModal() {
-      this.setState({
-          visible : false
-      });
+    this.setState({
+        visible : false
+    });
   }
 
 
   render() {
   
   if (this.state.backStep) {
-    return <Redirect push to="/" />;
+    return <Redirect push to="/home" />;
   }
 
   const {errors,currentStep} = this.state
@@ -248,10 +248,7 @@ function Step1(props){
 
             <input name="price" type="text" className="form-group" onChange={props.handleChange} value={props.price} />
             <input className="btn btn-block btn-primary active" type="submit" value="Create request"></input><br />
-      
-      
-
-
+     
       </div>
       
 

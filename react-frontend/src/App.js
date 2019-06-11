@@ -20,6 +20,7 @@ const GuestComponent = Loader(() => import('./_components/GuestComponent') )
 const HomeComponent = Loader(() => import('./_components/HomeComponent') )
 const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
 const NotificationsComponents = Loader(()=> import('./_components/NotificationsComponent'))
+const TermsComponent = Loader(()=> import('./_components/TermsComponent'))
 
 // Users
 const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
@@ -53,7 +54,7 @@ class App extends Component {
     //       .then( data => {return data.json().then(
     //         text=> console.log(text.stage) )} 
     //       )
-    console.log("is token valid? =>" );
+    
 
     }
 
@@ -82,6 +83,7 @@ class App extends Component {
                       } />                        
 
                       <Route exact path="/" component={GuestComponent} />
+                      <Route exact path="/terms" component={TermsComponent} />
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
                       <Route path="/registerSeeker" component={RegisterSeekerComponent} />

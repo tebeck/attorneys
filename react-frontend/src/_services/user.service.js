@@ -12,7 +12,8 @@ export const userServices = {
     sendmail,
     makeSeeker,
     getSeekerAuth,
-    upload
+    upload,
+    updatePassword
 }
 
 function register(data){
@@ -43,6 +44,7 @@ function getProfile(){
     return fetch(`${url_backend}/users/profile`, requestOptions)
         .then(handleResponse)
         .then(data => {
+          console.log(data)
             return data
         })
 }
@@ -82,9 +84,6 @@ function makeSeeker(userId){
         });
   }
 
-
-
-
   function authenticate(data){
 
     const requestOptions = {
@@ -97,6 +96,7 @@ function makeSeeker(userId){
      return fetch(`${url_backend}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(data => {
+          console.log(data)
             if(data.result && data.token){
                 if(data.result.isAttorney){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
@@ -107,11 +107,12 @@ function makeSeeker(userId){
                 if(data.result.isAttorney && data.result.isAttorney){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker}, { path: '' })   
                 }
-             return window.location.assign('/');
+             return window.location.assign('/home');
             }
 
             else{
-              console.log(data)
+              data.status = 400
+              return data
             }
         });
   }
@@ -150,6 +151,26 @@ function recoverPassword(email){
 
   }
 
+
+  function updatePassword(data){
+          const requestOptions = {
+          method: 'POST',
+          headers: authHeader(),
+          body: JSON.stringify(data)
+      };
+
+    return fetch(`${url_backend}/users/updatepassword`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            if(data && data.message){
+                return data.message
+            } else {
+                return data
+            }
+            
+        }) 
+  }
+
   function sendmail(data){
      const requestOptions = {
          method: 'POST',
@@ -170,16 +191,16 @@ function handleResponse(response) {
         
         if (!response.ok) {
             if (response.status === 401) {
-                return data.message
+                return data
             }
             if(response.status === 409){
-                console.log( data.message)
+                return data
             }
             if(response.status === 400){
-                return data.message
+                return data
             }
             if(response.status === 500){
-                return data.message
+                return data
             }
         }
         if(response.ok){

@@ -36,14 +36,10 @@ export default class CreateNewPasswordComponent extends Component {
     if(!Object.keys(result).length) {
     // Enviar form
       userServices.changePassword(noErrors)
-      .then(data => this.openModal(data))
-      
-         
-
+       .then(data => this.openModal(data))
     } else {
       this.setState({ errors: result })
     }
-
   }
 
     openModal(res) {
@@ -81,11 +77,7 @@ export default class CreateNewPasswordComponent extends Component {
                   
                   <div style={{padding: "30px",textAlign: "center"}}>
                     <h5>{data}</h5>
-                    
                   </div>
-                    <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px", paddingTop: "20px",textAlign: "center",height:"30%", width:"100%", backgroundColor: "lightgrey"}}>
-                      <Link style={{fontSize: "13px"}} to="/">Click here to re-send the email</Link>
-                    </div>  
                 </Modal>
 
                 <form onSubmit={this.handleSubmit}>

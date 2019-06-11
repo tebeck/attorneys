@@ -49,9 +49,14 @@ constructor(props) {
     if(!Object.keys(result).length) {
       console.log(noErrors)
       userServices.authenticate(noErrors)
-        .then(data => this.setState({
-          errlogin: data
-         }))
+        .then(data => {
+          if (data.status !== 200) {
+            this.setState({
+              errlogin: data.message
+             })
+           }
+          }
+      )
 
     } else {
       this.setState({ errors: result })
@@ -74,7 +79,7 @@ constructor(props) {
       <form name="form" onSubmit={this.handleSubmit}>
         <div className={errlogin ? 'display' : 'hide'}>
         <div className="alert alert-danger" role="alert">
-          Invalid credentials. Try again.
+          {this.state.errlogin}
         </div>
         </div>
           {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}

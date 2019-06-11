@@ -30,7 +30,7 @@ export default class AgendaComponent extends Component {
 	   {data.map(x =>
 	       <TimelineEvent 
 	       		key={x._id}
-	       		createdAt={x.createdAt}
+	       		createdAt={<Moment format="LLLL">{x.createdAt}</Moment>}
 	       		iconColor="#1873F3" bubbleStyle={{backgroundColor: '#1873F3', width: "10px", height:"10px",left:"11px"}} 
 	       		title="" >
 	       		<div className="appearanceHeaderBox">

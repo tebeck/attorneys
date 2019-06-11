@@ -25,7 +25,7 @@ export default class HomeComponent extends Component {
 
   handleLogout = () =>{
     Cookies.remove('esquired');
-    window.location.reload();
+    window.location.assign('/home');
 
   }
 
@@ -41,11 +41,6 @@ export default class HomeComponent extends Component {
  				        <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
-{/*                        <p>Welcome to ESQUIRED</p>
-                        <p><Link className="btn btn-primary" to="/getappearances">Get all appearances</Link></p>
-                        <p><Link className="btn btn-primary" to="/createappearance">Create new appearance</Link></p>
-                        <p><Link className="btn btn-primary" to="/deleteappearance">Delete one appearance</Link></p>
-                        <p><Link className="btn btn-primary" to="/login">Logout from {this.state.email}</Link></p>*/}
                     </Tab>
                   {isAttorney ? 
                     <Tab eventKey="myrequests" title="My Requests">

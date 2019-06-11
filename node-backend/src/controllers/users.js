@@ -92,9 +92,11 @@ module.exports = {
   },
 
   getProfile: function(req, res, next){
-     userModel.findOne({ _id: req.body.userId }, function (err, user) {
+     userModel.findById(req.body.userId , function (err, user) {
        if (err) {return res.status(500).send({ message: err.message })}
-         return res.status(200).send({data: user})
+       if (!user) {return res.status(409).send({message: "no user found"})}
+        return res.status(200).send({data: user})
+       
      })
 
    },
@@ -182,6 +184,21 @@ makeSeeker: function(req, res, next){
     }) 
 
     },
+
+    updatePassword: function(req, res, next){
+      userModel.findById( req.body._userId , function(err, user){
+        if (!user) return res.status(409).send({ message: 'We were unable to find a users.' });
+        user.password = req.body.password;
+        user.save()
+          .then( user => {
+            return res.status(200).send({message: "Password changed successfully", data: user})  
+          })
+          .catch( err => {
+            return res.status(401).send({message: "Cant update database", data: err})
+          }) 
+      }
+
+    )},
 
 
 
