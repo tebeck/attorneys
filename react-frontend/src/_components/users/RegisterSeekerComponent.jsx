@@ -28,7 +28,7 @@ export default class RegisterForm extends Component {
     visible: false, // Modal visible ?.
 
     // validation form
-    disableNext: true, //disable next button (invalid data in form)
+    enableNextAction: false, // enable next action button (invalid data in form)
     enableErrors: false, //don't show errors when form is empty
 
     emailValid: false,
@@ -132,7 +132,7 @@ handleSubmit = (e) => {
     console.log('fn::next');
     let currentStep = this.state.currentStep
 
-    if (this.state.disableNext){ // there are errors
+    if (!this.state.enableNextAction){ // there are errors
       this.setState({
         enableErrors: true
       })
@@ -163,7 +163,7 @@ nextButton(){
   if(currentStep <3){
     return (
       <button
-        //disabled={this.state.disableNext}
+        //disabled={this.state.enableNextAction}
         className="btn btn-primary btn-block"
         type="button" onClick={this._next}>
       Continue
@@ -175,7 +175,7 @@ nextButton(){
 
 
   handleChange = ({target}) =>{
-    let disableNext = true;
+    let enableNextAction = true;
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
     let lastNameValid = this.state.lastNameValid;
@@ -205,13 +205,13 @@ nextButton(){
       }
 
       if (firstNameValid && emailValid && lastNameValid){
-        disableNext=false
+        enableNextAction=true
       }
       const newState = {
         emailValid: emailValid,
         firstNameValid: firstNameValid,
         lastNameValid: lastNameValid,
-        disableNext: disableNext
+        enableNextAction: enableNextAction
       };
       console.log('newState: ',newState)
       this.setState(newState);
