@@ -21,6 +21,7 @@ export default class RegisterForm extends Component {
  }
 
  componentWillMount(){
+
   this.setState({
 
     currentStep: 1,   // Init current step at 1.
@@ -34,6 +35,12 @@ export default class RegisterForm extends Component {
     emailValid: false,
     firstNameValid: false,
     lastNameValid: false,
+    streetAddrOneValid: false,
+    streetAddrTwoValid: false,
+    cityValid: false,
+    stateValid: false,
+    zipValid: false,
+
 
     // form state
     firstName: "",
@@ -43,11 +50,11 @@ export default class RegisterForm extends Component {
     officePhone: "2",
     mobilePhone: "3",
     email: "",
-    streetAddrOne: "one",
-    streetAddrTwo: "two",
-    city: "city",
-    state: "state",
-    zip:"zip",
+    streetAddrOne: "",
+    streetAddrTwo: "",
+    city: "",
+    _state: "",
+    zip:"",
     password: "password",
     profilePicture:"",
     creditCard:"5555555555554444",
@@ -81,7 +88,7 @@ handleSubmit = (e) => {
     this.setState({errors: result})
 
      if (!Object.keys(result).length && this.state.isAttorney) {
-        let data = {"email": noErrors.email,"password": noErrors.password}
+        // let data = {"email": noErrors.email,"password": noErrors.password}
         let body = {userId: this.state._id}
 
           userServices.makeSeeker(body)
@@ -136,17 +143,25 @@ handleSubmit = (e) => {
       this.setState({
         enableErrors: true
       })
+
     }else{
       currentStep = currentStep >= 2? 3: currentStep + 1
 
       this.setState({
         currentStep: currentStep,
-        enableErrors: false
+        enableErrors: false,
+        enableNextAction: false
       })
     }
   }
 
   _prev = () => {
+
+    if(this.state.enableNextAction === false){
+      this.setState({
+        enableNextAction: true
+      })
+    }
     let currentStep = this.state.currentStep
     currentStep = currentStep <= 1 ? 0 : currentStep - 1
     this.setState({
@@ -163,7 +178,7 @@ nextButton(){
   if(currentStep <3){
     return (
       <button
-        //disabled={this.state.enableNextAction}
+        disabled={!this.state.enableNextAction}
         className="btn btn-primary btn-block"
         type="button" onClick={this._next}>
       Continue
@@ -175,22 +190,32 @@ nextButton(){
 
 
   handleChange = ({target}) =>{
-    let enableNextAction = true;
+    let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
     let lastNameValid = this.state.lastNameValid;
+    let streetAddrOneValid = this.state.streetAddrOneValid;
+    let streetAddrTwoValid = this.state.streetAddrTwoValid;
+    let stateValid = this.state.stateValid;
+    let cityValid = this.state.cityValid;
+    let zipValid = this.state.zipValid;
+
 
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
         if (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
           emailValid=true;
+          console.log("email true")
         }else{
           emailValid=false;
+          enableNextAction = false;
+          console.log("email false")
         }
       }
       if (target.name === 'firstName'){
         if (target.value.length<2) {
+          enableNextAction=false;
           firstNameValid=false;
         }else{
           firstNameValid=true;
@@ -198,6 +223,7 @@ nextButton(){
       }
       if (target.name === 'lastName'){
         if (target.value.length<2) {
+          enableNextAction=false
           lastNameValid=false;
         }else{
           lastNameValid=true;
@@ -211,6 +237,66 @@ nextButton(){
         emailValid: emailValid,
         firstNameValid: firstNameValid,
         lastNameValid: lastNameValid,
+        enableNextAction: enableNextAction
+      };
+      console.log('newState: ',newState)
+      this.setState(newState);
+    }
+
+if (this.state.currentStep === 2){
+    
+    if (target.name === 'streetAddrOne'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        streetAddrOneValid=false;
+      }else{
+        streetAddrOneValid=true;
+      }
+    }
+    if (target.name === 'streetAddrTwo'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        streetAddrTwoValid=false;
+      }else{
+        streetAddrTwoValid=true;
+      }
+    }
+    if (target.name === 'city'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        cityValid=false;
+      }else{
+        cityValid=true;
+      }
+    }
+    if (target.name === '_state'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        stateValid=false;
+      }else{
+        stateValid=true;
+      }
+    }
+    if (target.name === 'zip'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        zipValid=false;
+      }else{
+        zipValid=true;
+      }
+    }
+      if (streetAddrOneValid && streetAddrTwoValid && stateValid && cityValid && zipValid){
+        enableNextAction=true
+      }
+      const newState = {
+        emailValid: emailValid,
+        firstNameValid: firstNameValid,
+        lastNameValid: lastNameValid,
+        streetAddrOneValid: streetAddrOneValid,
+        streetAddrTwoValid: streetAddrTwoValid,
+        cityValid: cityValid,
+        stateValid: stateValid,
+        zipValid: zipValid,
         enableNextAction: enableNextAction
       };
       console.log('newState: ',newState)
@@ -297,10 +383,11 @@ nextButton(){
           streetAddrOne={this.state.streetAddrOne}
           streetAddrTwo={this.state.streetAddrTwo}
           city={this.state.city}
-          state={this.state.state}
+          _state={this.state._state}
           zip={this.state.zip}
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
+          state={this.state}
         />
         <Step3
           currentStep={currentStep}
@@ -313,6 +400,7 @@ nextButton(){
           image={this.state.image}
           notification={this.state.notification}
           handleChangeChk={this.handleChangeChk}
+          state={this.state}
         />
 
           {this.nextButton()}
@@ -362,6 +450,7 @@ function Step1(props){
     if(props.currentStep !== 1){
       return null
     }
+
     return(
       <div>
         <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
@@ -381,14 +470,15 @@ function Step1(props){
     if(props.currentStep !== 2){
       return null
     }
+
     return (
       <div>
         <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
-        <input className="form-control" type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="state"           placeholder="State"            value={props.state}           onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
+        <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
+        <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
+        <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
+        <input className={props.state.stateValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="_state"           placeholder="State"            value={props._state}           onChange={props.handleChange}></input>
+        <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
       </div>
@@ -399,6 +489,7 @@ function Step1(props){
     if(props.currentStep !== 3){
       return null
     }
+    
     return (
        <div>
         <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
