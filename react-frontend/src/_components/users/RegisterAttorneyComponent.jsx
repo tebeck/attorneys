@@ -160,6 +160,7 @@ nextButton(){
    <form onSubmit={this.handleSubmit} >
         <input type="hidden" name="isAttorney" value={true} />
         <input type="hidden" name="notification" value="Email"  />
+        
         <Step1
           currentStep={currentStep}
           handleChange={this.handleChange}
@@ -170,20 +171,19 @@ nextButton(){
           officePhone={this.state.officePhone}
           mobilePhone={this.state.mobilePhone}
           email={this.state.email}
-          errors={this.state.errors}
+          state={this.state}
         />
-
         <Step2
           currentStep={currentStep}
           handleChange={this.handleChange}
           streetAddrOne={this.state.streetAddrOne}
           streetAddrTwo={this.state.streetAddrTwo}
           city={this.state.city}
-          state={this.state.state}
+          _state={this.state._state}
           zip={this.state.zip}
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
-          errors={this.state.errors}
+          state={this.state}
         />
         <Step3
           currentStep={currentStep}
@@ -196,8 +196,7 @@ nextButton(){
           image={this.state.image}
           notification={this.state.notification}
           handleChangeChk={this.handleChangeChk}
-          errors={this.state.errors}
-
+          state={this.state}
         />
         {this.nextButton()}
         {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
@@ -228,66 +227,63 @@ function Step1(props){
       return null
     }
 
-    return(      
+    return(
       <div>
         <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
         <p>Complete info</p>
-          <input className="form-control" type="text" name="firstName" placeholder="First Name"            value={props.firstName}   onChange={props.handleChange}></input>
-          <input className="form-control" type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>      
-          <input className='form-control' type="text" name="lawFirm"     placeholder="Firm Name"           value={props.lawFirm}     onChange={props.handleChange}></input>      
-          <input className="form-control" type="number" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>      
-          <input className="form-control" type="number" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
-          <input className="form-control" type="number" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
-          <input className={props.errors.email ? "error" : "form-control"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>      
+        <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
+        <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
+        <input className='form-control' type="text" name="lawFirm"     placeholder="Firm Name"           value={props.lawFirm}     onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
+        <input className={props.state.emailValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>
       </div>
-      
-      )
+    )
   }
 
   function Step2(props){
-
     if(props.currentStep !== 2){
       return null
     }
+
     return (
       <div>
         <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
-        <input className="form-control" type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="state"           placeholder="State"            value={props.state}           onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
-        <input className="form-control" type="number" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
-        <input className="form-control" type="number" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
+        <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
+        <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
+        <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
+        <input className={props.state.stateValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="_state"           placeholder="State"            value={props._state}           onChange={props.handleChange}></input>
+        <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
       </div>
-      )
+    )
   }
 
   function Step3(props){
     if(props.currentStep !== 3){
       return null
     }
+    
     return (
-      <div>
+       <div>
         <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
-
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
-        
-        <input className={props.errors.password ? "error" : "form-control"} type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
-        <input className="form-control" type="number"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
+        <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
+        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="form-control" type="hidden"   name="avatar"                                    value={props.location}></input>
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">
-          <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
-          <label className="form-check-label" htmlFor="notification">Email</label>
-        </div><br /><br />
+         <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
+         <label className="form-check-label" htmlFor="notification">Email</label>
+        </div><br/><br/>
         <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
-      )
-
+    )
 }
 
 // Validations

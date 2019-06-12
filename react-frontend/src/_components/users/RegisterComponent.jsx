@@ -10,28 +10,19 @@ export default class RegisterForm extends Component {
 
  constructor(props) {
   super(props)
-  const recordState = this.props.location.state;
-   if(recordState){
-      this.state = {
-        ...recordState,   // Catch all state from attorney form and set it.
-        homeRedirect: false
-      }
-   }
-  this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
- }
+  const role = this.props.location.state;
+  
+  this.state = {
 
- componentWillMount(){
-
-  this.setState({
-
-    currentStep: 1,   // Init current step at 1.
-    errors: {},      // onSubmit errors stored here.
-    visible: false, // Modal visible ?.
-
-    // validation form
-    enableNextAction: false, // enable next action button (invalid data in form)
-    enableErrors: false, //don't show errors when form is empty
-
+    currentStep: 1,              // Init current step at 1.
+    errors: {},                  // onSubmit errors stored here.
+    visible: false,              // Modal visible ?.
+    isAttorney: !role.isSeeker,
+    isSeeker: !role.isAttorney,
+    
+    //validate form
+    enableNextAction: false,     // enable next action button (invalid data in form)
+    enableErrors: false,         // don't show errors when form is empty
     emailValid: false,
     firstNameValid: false,
     lastNameValid: false,
@@ -41,33 +32,34 @@ export default class RegisterForm extends Component {
     stateValid: false,
     zipValid: false,
 
-
     // form state
-    firstName: "",
-    lastName: "",
+    firstName: "asd",
+    lastName: "asd",
     lawFirm:"lawFirm",
     stateBar: "1",
     officePhone: "2",
     mobilePhone: "3",
-    email: "",
-    streetAddrOne: "",
-    streetAddrTwo: "",
-    city: "",
-    _state: "",
-    zip:"",
+    email: "asd@asd.asd",
+    streetAddrOne: "asd",
+    streetAddrTwo: "asd",
+    city: "asd",
+    _state: "asd",
+    zip:"asdd",
     password: "password",
     profilePicture:"",
     creditCard:"5555555555554444",
     policy:"4",
     insurancePolicy:"5"
-  })
+  }
+
+
+  this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
  }
 
 
 fileSelectedHandler = ({target}) => {
-
     const newForm = new FormData();
-    newForm.append('avatar',  target.files[0] , target.files[0].name)
+     newForm.append('avatar',  target.files[0] , target.files[0].name)
 
     userServices.upload(newForm)
       .then(data => { this.setState({
@@ -87,41 +79,27 @@ handleSubmit = (e) => {
     const result = validate(noErrors)
     this.setState({errors: result})
 
-     if (!Object.keys(result).length && this.state.isAttorney) {
-        // let data = {"email": noErrors.email,"password": noErrors.password}
-        let body = {userId: this.state._id}
+    if (!Object.keys(result).length) {
+     
+     const mailingAddress = { 
+       streetAddrOne: noErrors.streetAddrOne,
+       streetAddrTwo: noErrors.streetAddrTwo, 
+       city: noErrors.city, 
+       state: noErrors._state, 
+       zip: noErrors.zip
+     }
 
-          userServices.makeSeeker(body)
-           .then(res => {
-            if (res.state !== 200) {
-              this.setState({aError: true})
-            } else {
-              console.log(res)
-              this.openModal()
-            }
-          })
-    }
-
-    if (!Object.keys(result).length && !this.state.isAttorney) {
-
-      const mailingAddress = {
-         streetAddrOne: noErrors.streetAddrOne,
-         streetAddrTwo: noErrors.streetAddrTwo,
-         city: noErrors.city,
-         state: noErrors.state,
-         zip: noErrors.zip
-       }
-
-       noErrors.mailingAddress = mailingAddress;
-       console.log(noErrors)
-
+     noErrors.mailingAddress = mailingAddress;
+     noErrors.state = noErrors._state;
+     console.log(noErrors)
 
      userServices.register(noErrors).then(
       res =>{
+        console.log(res)
         if (res.state !== 200) {
-         this.setState({ emailError: true, email: "" })
+         this.setState({ error: res })
         } else {
-          console.log(res)
+          this.setState(res)
           this.openModal()
           }
       })
@@ -206,11 +184,9 @@ nextButton(){
       if (target.name === 'email'){
         if (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
           emailValid=true;
-          console.log("email true")
         }else{
           emailValid=false;
           enableNextAction = false;
-          console.log("email false")
         }
       }
       if (target.name === 'firstName'){
@@ -239,7 +215,7 @@ nextButton(){
         lastNameValid: lastNameValid,
         enableNextAction: enableNextAction
       };
-      console.log('newState: ',newState)
+      // console.log('newState: ',newState)
       this.setState(newState);
     }
 
@@ -299,13 +275,12 @@ if (this.state.currentStep === 2){
         zipValid: zipValid,
         enableNextAction: enableNextAction
       };
-      console.log('newState: ',newState)
+      // console.log('newState: ',newState)
       this.setState(newState);
     }
 
-    this.setState({
-      [target.name]: target.value
-    })
+    this.setState({ [target.name]: target.value })
+  
   }
 
   handleChangeChk() {
@@ -329,14 +304,32 @@ if (this.state.currentStep === 2){
   // set and push Redirect
   setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
   pushingRedirect = () => { if (this.state.homeRedirect) { this.props.history.push({ pathname: '/', state: {...this.state} }) }}
+  
+  // set and push register seeker Redirect.
+  setValidSeeker = (e) => {  
+   e.preventDefault();
+   console.log(e.target.insurancePolicy.value)
+   let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
+
+   console.log(body)
+    userServices.makeSeeker(body)
+     .then(res => {
+      if (res.state !== 200) {
+        console.log(res)
+    } else {
+        console.log(res)
+    }
+  })
+    
+  }
 
 
   render(){
 
     if (this.state.defineroleRedirect) { return <Redirect push to="/definerole" /> } // Go back to /definerole
 
-    const {isSeeker, currentStep, errors, isAttorney} = this.state
-    var currentTitle = "";
+    const {currentStep, errors} = this.state
+     let currentTitle = "";
 
     switch(currentStep){
       case 1:
@@ -353,9 +346,10 @@ if (this.state.currentStep === 2){
         break;
     }
 
-  if(!isAttorney){
+
    return(
     <div className="container">
+    <h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>
       <h3 onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
@@ -363,7 +357,7 @@ if (this.state.currentStep === 2){
         </div>
 
         <form onSubmit={this.handleSubmit} id="registerSeeker">
-         <input type="hidden" name="isSeeker" value={true} />
+         {this.state.isSeeker ? <input type="hidden" name="isSeeker" value={true} /> : <input type="hidden" name="isAttorney" value={true} /> }
 
         <Step1
           currentStep={currentStep}
@@ -413,37 +407,37 @@ if (this.state.currentStep === 2){
           {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
           {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
           {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
-          {errors.insurancePolicy && <div className="alert alert-danger" role="alert">{errors.insurancePolicy}</div>}
           {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
           {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
           {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
           {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
-          {errors.state && <div className="alert alert-danger" role="alert">{errors.state}</div>}
+          {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
           {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
-        </form>
+        </form>      
 
-      <Modal visible={this.state.visible} width="300" height="286" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-        <div className="modalHead"> <i className="far fa-4x blue fa-check-circle"></i> <br/><br/> <h5>Your request has been published successfully!</h5> </div> <div> {this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> </div>
-      </Modal>
+        <Modal visible={this.state.visible} width="300" height="345" effect="fadeInDown" onClickAway={() => this.closeModal()}>
+          <div style={{padding: "30px",textAlign: "center"}}> 
+           <h5>Your account has been created successfully!</h5> 
+           <p>You will receive a notification once your profile is approved.</p>
+          </div>
+            {this.state.isAttorney ? 
+            <div className="modalHead">
+              <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
+              {this.pushingRedirect()}
+              <form onSubmit={this.setValidSeeker}>
+               {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
+               <input type="submit" className="btn btn-block btn-primary" value="Click here to add it to your profile"/>
+              </form>
+            </div>  
+            : null}
+            <Link to='/home' className="btn btn-block btn-primary">Back home</Link>
+        </Modal>
+
       </div>
       )
-  } else {
-    return (
-      <div>
-       <form onSubmit={this.handleSubmit}>
-         <input type="hidden" name="isSeeker" value={isSeeker} />
-         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
-       </form>
-       <Modal visible={this.state.visible} width="300" height="286" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-        <div className="modalHead"><i className="far fa-4x blue fa-check-circle"></i> <br/><br/><h5>Your request has been published successfully!</h5></div>
-        <div>{this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> </div>
-      </Modal>
-    </div>
-    )
-  }
- }
+   }
 
-}
+  }
 
 
 function Step1(props){
@@ -476,11 +470,11 @@ function Step1(props){
         <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
-        <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
-        <input className={props.state.stateValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="_state"           placeholder="State"            value={props._state}           onChange={props.handleChange}></input>
-        <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
+        <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
+        <input className={props.state.stateValid||!props.state.enableErrors ? "form-control" : "error"}         type="text" name="_state"          placeholder="State"            value={props._state}          onChange={props.handleChange}></input>
+        <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input>
+        {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
       </div>
     )
   }
@@ -499,12 +493,14 @@ function Step1(props){
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
         <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
         <input className="form-control" type="hidden"   name="avatar"                                    value={props.location}></input>
+
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">
          <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
         <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
+        
         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
       </div>
     )
@@ -529,7 +525,7 @@ const errors = {}
 
   if(!values.city) { errors.city = 'Insert city' }
 
-  if(!values.state) { errors.state = 'Insert state' }
+  if(!values._state) { errors._state = 'Insert state' }
 
   if(!values.zip) { errors.zip = 'Insert zip' }
 
@@ -554,10 +550,10 @@ const errors = {}
   if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
   if(!values.policy) { errors.policy = 'Insert policy' }
   
-  if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' } 
-  if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
+  // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' } 
+  // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
-  console.log(errors)
+  // console.log(errors)
   return errors;
 }
 

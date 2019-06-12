@@ -82,7 +82,7 @@ var users = new Schema({
   },
   insurancePolicy:{
     type: Number,
-    required: true
+    required: false
   }, 
   termsConditions: {
     type: Boolean,

@@ -24,8 +24,9 @@ const TermsComponent = Loader(()=> import('./_components/TermsComponent'))
 
 // Users
 const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
-const RegisterSeekerComponent = Loader(() => import('./_components/users/RegisterSeekerComponent') )
-const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
+const RegisterComponent = Loader(() => import('./_components/users/RegisterComponent') )
+// const RegisterSeekerComponent = Loader(() => import('./_components/users/RegisterSeekerComponent') )
+// const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
 
 // Appearances
@@ -86,8 +87,9 @@ class App extends Component {
                       <Route exact path="/terms" component={TermsComponent} />
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
-                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
-                      <Route path="/registerAttorney" component={RegisterAttorneyComponent} />
+                      <Route path="/register" component={RegisterComponent} />
+{/*                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
+                      <Route path="/registerAttorney" component={RegisterAttorneyComponent} />*/}
                       <Route path="/recoverpassword" component={RecoverPasswordComponent} />
                       <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
               </Router>

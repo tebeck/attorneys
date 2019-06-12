@@ -14,13 +14,13 @@ export default class DefineRoleComponent extends Component {
                   <ProgressBar height={5} percent={25} filledBackground="blue" ></ProgressBar><br /> 
                 <p>Select an option</p>
 
-                <Link to="/registerAttorney">
+                <Link to={{ pathname: '/register', state: { isAttorney: true} }}>
                     <div className="userDefineRole">
                      <p className="userDefineRoleText">Attorney of Record</p>
                     </div>
                 </Link><br />
 
-                <Link to="/registerSeeker">
+                <Link to={{ pathname: '/register', state: { isSeeker: true } }}>
                     <div className="userDefineRole">
                      <p className="userDefineRoleText">Attorney of Appearance</p>
                     </div>
