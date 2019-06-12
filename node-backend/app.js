@@ -6,6 +6,7 @@ const ip = require("ip");
 const mongoose = require('mongoose')
 const isvalid = require('./src/middlewares/isvalid');
 const app = express();
+const port = 6200;
 require('dotenv').config();
 
 // DB INSTANCE
