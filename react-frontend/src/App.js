@@ -12,7 +12,7 @@ import {url_backend} from './config.json';
 
 const Loader = x => Loadable({
   loading: () => 'Loading...',
-  loader: x 
+  loader: x
 })
 
 
@@ -29,8 +29,8 @@ const RegisterAttorneyComponent = Loader(() => import('./_components/users/Regis
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
 
 // Appearances
-const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )  
-const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )  
+const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
+const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
 
 // Passrecovery
 const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
@@ -41,20 +41,20 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-  
+
     this.state = {};
-  
+
     fetch(`${url_backend}`)
           .then( data => {return data.json().then(
-            text=> console.log(text.stage) )} 
+            text=> console.log(text.stage) )}
           )
     // expirar sesion
     // const isValid = (Date.now() >= exp * 1000) ? false : null;
     // fetch(`${url_backend}/isvalid`)
     //       .then( data => {return data.json().then(
-    //         text=> console.log(text.stage) )} 
+    //         text=> console.log(text.stage) )}
     //       )
-    
+
 
     }
 
@@ -72,7 +72,7 @@ class App extends Component {
                       <PrivateRoute exact path="/createappearance" component={CreateComponent} />
 
                       <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
-                      
+
                       <PrivateRoute exact path="/requests" component={RequestsComponent} />
                       <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
                       <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
@@ -80,7 +80,7 @@ class App extends Component {
                       <PrivateRoute exact path="/findproduct" component={SearchComponent} />
                       <PrivateRoute path="/updateproduct/" component={
                         () => <UpdateComponent />
-                      } />                        
+                      } />
 
                       <Route exact path="/" component={GuestComponent} />
                       <Route exact path="/terms" component={TermsComponent} />
