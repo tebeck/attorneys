@@ -8,7 +8,10 @@ import CreateComponent from './_components/appearances/CreateComponent';
 import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
 import './_assets/css/ownstylesheet.scss';
-import {url_backend} from './config.json';
+import {url_backend} from './_helpers';
+
+console.log(url_backend);
+
 
 const Loader = x => Loadable({
   loading: () => 'Loading...',

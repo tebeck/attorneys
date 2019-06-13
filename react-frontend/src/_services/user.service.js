@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers';
 import Cookies from 'js-cookie';
-import {url_backend} from '../config.json';
 import axios from 'axios';
+import {url_backend} from '../_helpers';
 
 export const userServices = {
     authenticate,
