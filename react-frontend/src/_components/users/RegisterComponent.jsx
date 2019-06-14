@@ -11,7 +11,8 @@ export default class RegisterForm extends Component {
  constructor(props) {
   super(props)
   const role = this.props.location.state;
-  
+  const backhome = this.props.location.backhome;
+
   this.state = {
 
     currentStep: 1,              // Init current step at 1.
@@ -19,7 +20,9 @@ export default class RegisterForm extends Component {
     visible: false,              // Modal visible ?.
     isAttorney: !role.isSeeker,
     isSeeker: !role.isAttorney,
-    
+    onHold: !role.isAttorney,
+    backhome: false,
+
     //validate form
     enableNextAction: false,     // enable next action button (invalid data in form)
     enableErrors: false,         // don't show errors when form is empty
@@ -33,25 +36,26 @@ export default class RegisterForm extends Component {
     zipValid: false,
 
     // form state
-    firstName: "asd",
-    lastName: "asd",
-    lawFirm:"lawFirm",
-    stateBar: "1",
-    officePhone: "2",
-    mobilePhone: "3",
-    email: "asd@asd.asd",
-    streetAddrOne: "asd",
-    streetAddrTwo: "asd",
-    city: "asd",
-    _state: "asd",
-    zip:"asdd",
-    password: "password",
+    firstName: "",
+    lastName: "",
+    lawFirm:"",
+    stateBar: "",
+    officePhone: "",
+    mobilePhone: "",
+    email: "",
+    streetAddrOne: "",
+    streetAddrTwo: "",
+    city: "",
+    _state: "",
+    zip:"",
+    password: "",
     profilePicture:"",
     creditCard:"5555555555554444",
-    policy:"4",
-    insurancePolicy:"5"
+    policy:"",
+    insurancePolicy:""
   }
 
+console.log(this.state)
 
   this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
  }
@@ -62,7 +66,8 @@ fileSelectedHandler = ({target}) => {
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
     userServices.upload(newForm)
-      .then(data => { this.setState({
+      .then(data => {console.log(data.data)
+         this.setState({
         profilePicture: data.data.location })
       })
 
@@ -91,14 +96,13 @@ handleSubmit = (e) => {
 
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = noErrors._state;
-     console.log(noErrors)
 
      userServices.register(noErrors).then(
       res =>{
-        console.log(res)
         if (res.state !== 200) {
          this.setState({ error: res })
         } else {
+          console.log(res)
           this.setState(res)
           this.openModal()
           }
@@ -134,6 +138,10 @@ handleSubmit = (e) => {
   }
 
   _prev = () => {
+
+    if (this.props.location.backhome){
+     this.props.history.push({ pathname: '/home', state: {...this.state} })  
+    }
 
     if(this.state.enableNextAction === false){
       this.setState({
@@ -318,6 +326,7 @@ if (this.state.currentStep === 2){
         console.log(res)
     } else {
         console.log(res)
+        window.location.assign('/authenticate')
     }
   })
     
@@ -358,6 +367,7 @@ if (this.state.currentStep === 2){
 
         <form onSubmit={this.handleSubmit} id="registerSeeker">
          {this.state.isSeeker ? <input type="hidden" name="isSeeker" value={true} /> : <input type="hidden" name="isAttorney" value={true} /> }
+         {this.state.isSeeker ? <input type="hidden" name="onHold" value={true} /> : null }
 
         <Step1
           currentStep={currentStep}
@@ -389,7 +399,7 @@ if (this.state.currentStep === 2){
           handleChange={this.handleChange}
           password={this.state.password}
           creditCard={this.state.creditCard}
-          profilePicture={this.state.location}
+          profilePicture={this.state.profilePicture}
           showImage={this.state.showImage}
           image={this.state.image}
           notification={this.state.notification}
@@ -491,8 +501,8 @@ function Step1(props){
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
-        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Data" value={props.creditCard} onChange={props.handleChange}></input>
-        <input className="form-control" type="hidden"   name="avatar"                                    value={props.location}></input>
+        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange}></input>
+        <input className="form-control" type="hidden"   name="avatar"                                    value={props.profilePicture}></input>
 
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">

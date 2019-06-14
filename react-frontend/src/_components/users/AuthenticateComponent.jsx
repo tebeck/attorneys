@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { userServices } from '../../_services/user.service'
-import exampleImg from '../../_assets/img/example.png';
+import landing0 from '../../_assets/img/landing/landing_0.png'
 
 const validate = values => {
   const errors = {}
@@ -29,11 +29,7 @@ constructor(props) {
     ...this.state,
     errlogin: false
   }
-    Cookies.remove('token')
-    Cookies.remove('user')
-    Cookies.remove('email')
-    Cookies.remove('seeker')
-    Cookies.remove('attorney')
+    Cookies.remove('esquired')
 }
 
   handleChange = ({target}) =>{
@@ -54,6 +50,8 @@ constructor(props) {
             this.setState({
               errlogin: data.message
              })
+           } else {
+             window.location.assign('/home')
            }
           }
       )
@@ -64,9 +62,6 @@ constructor(props) {
 
   }
 
-    userLogin = (data) => {
-
-  }
 
   render(){
     const {errors, errlogin} = this.state
@@ -74,7 +69,7 @@ constructor(props) {
     <div>
     <div className="center">
     <h1>Esquire'd</h1>
-      <img src={exampleImg} alt="example" /> <br /><br />
+      <img src={landing0} alt="example" /> <br /><br />
     </div>  
       <form name="form" onSubmit={this.handleSubmit}>
         <div className={errlogin ? 'display' : 'hide'}>

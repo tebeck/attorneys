@@ -32,6 +32,9 @@ const RegisterComponent = Loader(() => import('./_components/users/RegisterCompo
 // const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
 
+// Admin
+const AdminComponent = Loader(() => import('./_components/admins/AdminComponent') )
+
 // Appearances
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
@@ -91,6 +94,7 @@ class App extends Component {
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
                       <Route path="/register" component={RegisterComponent} />
+                      <Route path="/admin" component={AdminComponent} />
 {/*                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
                       <Route path="/registerAttorney" component={RegisterAttorneyComponent} />*/}
                       <Route path="/recoverpassword" component={RecoverPasswordComponent} />

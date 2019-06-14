@@ -7,8 +7,6 @@ import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
 
 
-
-
 export default class HomeComponent extends Component {
 
   constructor(props, context) {
@@ -17,6 +15,7 @@ export default class HomeComponent extends Component {
       key: 'agenda',
       isAttorney: Cookies.getJSON('esquired').isAttorney,
       isSeeker: Cookies.getJSON('esquired').isSeeker,
+      onHold: Cookies.getJSON('esquired').onHold,
       user: Cookies.getJSON('esquired').user,
       email: Cookies.getJSON('esquired').email
     }
@@ -30,8 +29,11 @@ export default class HomeComponent extends Component {
   }
 
 	render() {
-    const {isAttorney, isSeeker} = this.state
-		return (
+    
+    const {isAttorney, isSeeker, onHold} = this.state
+
+
+    return (
             <div>
                 <div className="navbar">
                 	<Link to="/profile"><i className="far fa-lg fa-user-circle blue"></i></Link>
@@ -47,7 +49,7 @@ export default class HomeComponent extends Component {
                       <Requests />                       
                     </Tab>
                   :null}
-                  {isSeeker ?
+                  {isSeeker && !onHold ?
                     <Tab eventKey="myappearances" title="Appearances" >
                       <Appearances />
                     </Tab>

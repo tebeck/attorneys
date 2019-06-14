@@ -107,4 +107,21 @@ getAppearances: function(req, res, next){ // Agregar en el modelo
 
 },
 
+
+enableSeeker: function(req, res, next) {
+   console.log(req.body.email)
+   userModel.findOne({email: req.body.email}, function(err, user){
+     if(err){return res.status(409).send({status:"Error no connection", message: err})}
+     if(!user){return res.status(409).send({message:"User not found"})}
+
+         user.updateOne({onHold: false},function (err) {
+           if(err){return res.status(409).send({status:"Error setting onhold", message: err})}
+            res.status(200).send({status: 200, message: "Now you can use the seeker", res: user})
+         })
+
+
+   })
+}
+
+
 }

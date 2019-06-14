@@ -15,9 +15,26 @@ const validate = values => {
 
 export default class RecoverPasswordComponent extends Component {
 
-    state = {
+  constructor(props) {
+    super(props);
+  
+    this.state = {
       errors: {},
+      fromDesktop:false,
+      pathname: "/authenticate"
     }
+
+
+    console.log(props.location.fromDesktop)
+  }
+
+  componentWillMount(){
+   if(this.props.location.fromDesktop){
+     this.setState({
+       pathname: "/home"
+     })
+   } 
+  }
 
   handleSubmit = (e) =>{
     e.preventDefault()
@@ -53,13 +70,19 @@ export default class RecoverPasswordComponent extends Component {
             visible : false
         });
     }
+    
+
 
 	render() {
-        const {errors} = this.state
+
+
+     
+
+    const {errors, pathname} = this.state
 		return (
 
             <div className="container">
-            <h5><Link style={{color: "black"}} to="/authenticate"><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
+            <h5><Link style={{color: "black"}} to={pathname}><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
                 <Modal 
                     visible={this.state.visible}
                     width="300"

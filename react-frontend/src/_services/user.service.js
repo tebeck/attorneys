@@ -26,7 +26,17 @@ function register(data){
     return fetch(`${url_backend}/users/register`, requestOptions)
     .then(handleResponse)
     .then(data => {
-        return data;
+      console.log(data)
+      if(data.user && data.token){
+        data.status=200;
+          if(data.user.isAttorney){
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney}, { path: '' })   
+          }
+          if(data.user.isAttorney && data.user.isSeeker){
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: data.result.onHold}, { path: '' })   
+          }
+       return data;
+      }
     })
 }
 
@@ -98,16 +108,18 @@ function makeSeeker(userId){
         .then(data => {
           console.log(data)
             if(data.result && data.token){
+
+              data.status=200;
                 if(data.result.isAttorney){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
                 }
                 if(data.result.isSeeker){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker}, { path: '' })
                 }
-                if(data.result.isAttorney && data.result.isAttorney){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker}, { path: '' })   
+                if(data.result.isAttorney && data.result.isSeeker){
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   
                 }
-             return window.location.assign('/home');
+             return data;
             }
 
             else{
@@ -177,9 +189,7 @@ function recoverPassword(email){
          headers: authHeader(),
          body: JSON.stringify(data)
      };
-
-     console.log(JSON.stringify(data))
-
+     console.log("frontend -> backend " + JSON.stringify(data))
      return fetch(`${url_backend}/users/sendmail`, requestOptions)
          .then( data => {data.json().then(text=>console.log( text) )} ) 
 

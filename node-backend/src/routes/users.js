@@ -19,6 +19,6 @@ router.get('/profile', validateMiddleware.user,userController.getProfile);
 
 // const authMiddleware = require('../middlewares/authorization');
 // router.post('/resend', userController.resendTokenPost);
-// router.post('/sendmail', userMiddleware.isValid, userController.sendMail);
+router.post('/sendmail',  userController.sendMail);
 
 module.exports = router;

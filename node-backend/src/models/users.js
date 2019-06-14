@@ -131,9 +131,13 @@ var users = new Schema({
   ],
   isVerified: { 
     type: Boolean,
-    default: false 
+    default: true 
   },
   isDisabled: {
+    type: Boolean,
+    default: false
+  },
+  onHold:{
     type: Boolean,
     default: false
   }
