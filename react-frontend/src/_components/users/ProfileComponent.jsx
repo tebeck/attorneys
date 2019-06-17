@@ -68,7 +68,7 @@ export default class ProfileComponent extends Component {
    }
 
 		return (
-			<div className="container">
+			<div className="container main-body">
 				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
 				<div className="center">
 					<img width="80px" src={this.state.profilePicture} alt="user" className="img-fluid" /><br />

@@ -48,13 +48,13 @@ export default class RequestsComponent extends Component {
 	    	  <p className="boxDescription">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
 		      <p>$75</p>	
 		      <div className="boxButton">
-		      	<button onClick={this.handleClick} className="btn btn-primary">Accept</button>
+		      	<button onClick={this.handleClick} className="btn btn-primary link-button">Accept</button>
 		      </div>
 		    </div>
 		    
 		</div>
   		)}
-  		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary">Create New Request</button>
+  		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button>
 	</div>
   )}
     

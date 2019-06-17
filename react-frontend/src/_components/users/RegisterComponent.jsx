@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
+import Header from '../HeaderComponent';
 import Modal from 'react-awesome-modal';
 
 
@@ -55,7 +56,6 @@ export default class RegisterForm extends Component {
     insurancePolicy:""
   }
 
-console.log(this.state)
 
   this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
  }
@@ -85,12 +85,12 @@ handleSubmit = (e) => {
     this.setState({errors: result})
 
     if (!Object.keys(result).length) {
-     
-     const mailingAddress = { 
+
+     const mailingAddress = {
        streetAddrOne: noErrors.streetAddrOne,
-       streetAddrTwo: noErrors.streetAddrTwo, 
-       city: noErrors.city, 
-       state: noErrors._state, 
+       streetAddrTwo: noErrors.streetAddrTwo,
+       city: noErrors.city,
+       state: noErrors._state,
        zip: noErrors.zip
      }
 
@@ -140,7 +140,7 @@ handleSubmit = (e) => {
   _prev = () => {
 
     if (this.props.location.backhome){
-     this.props.history.push({ pathname: '/home', state: {...this.state} })  
+     this.props.history.push({ pathname: '/home', state: {...this.state} })
     }
 
     if(this.state.enableNextAction === false){
@@ -164,8 +164,7 @@ nextButton(){
   if(currentStep <3){
     return (
       <button
-        disabled={!this.state.enableNextAction}
-        className="btn btn-primary btn-block"
+        className="btn btn-primary link-button wizard-btn btn-block"
         type="button" onClick={this._next}>
       Continue
       </button>
@@ -228,7 +227,7 @@ nextButton(){
     }
 
 if (this.state.currentStep === 2){
-    
+
     if (target.name === 'streetAddrOne'){
       if (target.value.length<2) {
         enableNextAction=false
@@ -288,7 +287,7 @@ if (this.state.currentStep === 2){
     }
 
     this.setState({ [target.name]: target.value })
-  
+
   }
 
   handleChangeChk() {
@@ -312,9 +311,9 @@ if (this.state.currentStep === 2){
   // set and push Redirect
   setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
   pushingRedirect = () => { if (this.state.homeRedirect) { this.props.history.push({ pathname: '/', state: {...this.state} }) }}
-  
+
   // set and push register seeker Redirect.
-  setValidSeeker = (e) => {  
+  setValidSeeker = (e) => {
    e.preventDefault();
    console.log(e.target.insurancePolicy.value)
    let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
@@ -329,7 +328,7 @@ if (this.state.currentStep === 2){
         window.location.assign('/authenticate')
     }
   })
-    
+
   }
 
 
@@ -357,9 +356,11 @@ if (this.state.currentStep === 2){
 
 
    return(
-    <div className="container">
-    <h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>
-      <h3 onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
+    <div>
+      <Header guest="1" />
+      <div className="container main-body">
+      {/*<h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>*/}
+      <h3 onClick={this._prev} className="clickable"><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
           <div className="alert alert-danger" role="alert"> Email already in use. Try another.</div>
@@ -408,41 +409,48 @@ if (this.state.currentStep === 2){
         />
 
           {this.nextButton()}
+          {/*
           {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
           {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
+
           {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
           {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
+
           {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
           {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
           {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
           {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
           {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
-          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
+
           {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
           {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
           {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
           {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
           {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
-        </form>      
+          */}
+          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+        </form>
 
         <Modal visible={this.state.visible} width="300" height="345" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-          <div style={{padding: "30px",textAlign: "center"}}> 
-           <h5>Your account has been created successfully!</h5> 
+          <div style={{padding: "30px",textAlign: "center"}}>
+           <h5>Your account has been created successfully!</h5>
            <p>You will receive a notification once your profile is approved.</p>
           </div>
-            {this.state.isAttorney ? 
+            {this.state.isAttorney ?
             <div className="modalHead">
               <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
                {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
-               <input type="submit" className="btn btn-block btn-primary" value="Click here to add it to your profile"/>
+               <input type="submit" className="btn btn-block btn-primary link-button" value="Click here to add it to your profile"/>
               </form>
-            </div>  
+            </div>
             : null}
-            <Link to='/home' className="btn btn-block btn-primary">Back home</Link>
+            <Link to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
         </Modal>
 
+      </div>
       </div>
       )
    }
@@ -457,7 +465,7 @@ function Step1(props){
 
     return(
       <div>
-        <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
@@ -477,7 +485,7 @@ function Step1(props){
 
     return (
       <div>
-        <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
@@ -493,10 +501,10 @@ function Step1(props){
     if(props.currentStep !== 3){
       return null
     }
-    
+
     return (
        <div>
-        <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
+        <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
@@ -510,8 +518,8 @@ function Step1(props){
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
         <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
-        
-        <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
+
+        <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
       </div>
     )
 }
@@ -522,12 +530,12 @@ const validator = require('validator');
 const validate = values => {
 
 const errors = {}
-  // email  
+  // email
   if(!values.email) { errors.email = 'Insert email' }
   if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
   // password
   if(values.password && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
-  if(!values.password) { errors.password = 'Insert password' }
+  if(!values.password) { errors.password = 'Insert a valid password' }
 
   if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
 
@@ -550,7 +558,7 @@ const errors = {}
 
   if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
   if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
-  
+
   if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
   if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
 
@@ -559,11 +567,10 @@ const errors = {}
 
   if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
   if(!values.policy) { errors.policy = 'Insert policy' }
-  
-  // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' } 
+
+  // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
   // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
   // console.log(errors)
   return errors;
 }
-

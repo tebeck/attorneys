@@ -179,7 +179,7 @@ nextButton(){
     return (
       <button
         disabled={!this.state.enableNextAction}
-        className="btn btn-primary btn-block"
+        className="btn btn-primary link-button btn-block"
         type="button" onClick={this._next}>
       Continue
       </button>
@@ -355,7 +355,7 @@ if (this.state.currentStep === 2){
 
   if(!isAttorney){
    return(
-    <div className="container">
+    <div className="container main-body">
       <h3 onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
@@ -423,7 +423,7 @@ if (this.state.currentStep === 2){
         </form>
 
       <Modal visible={this.state.visible} width="300" height="286" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-        <div className="modalHead"> <i className="far fa-4x blue fa-check-circle"></i> <br/><br/> <h5>Your request has been published successfully!</h5> </div> <div> {this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> </div>
+        <div className="modalHead"> <i className="far fa-4x green-background fa-check-circle"></i> <br/><br/> <h5>Your request has been published successfully!</h5> </div> <div> {this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</button> </div>
       </Modal>
       </div>
       )
@@ -432,11 +432,11 @@ if (this.state.currentStep === 2){
       <div>
        <form onSubmit={this.handleSubmit}>
          <input type="hidden" name="isSeeker" value={isSeeker} />
-         <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
+         <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
        </form>
        <Modal visible={this.state.visible} width="300" height="286" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-        <div className="modalHead"><i className="far fa-4x blue fa-check-circle"></i> <br/><br/><h5>Your request has been published successfully!</h5></div>
-        <div>{this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> </div>
+        <div className="modalHead"><i className="far fa-4x green-background fa-check-circle"></i> <br/><br/><h5>Your request has been published successfully!</h5></div>
+        <div>{this.pushingRedirect()}<button onClick={this.setHomeRedirect} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</button> </div>
       </Modal>
     </div>
     )
@@ -453,7 +453,7 @@ function Step1(props){
 
     return(
       <div>
-        <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
@@ -473,7 +473,7 @@ function Step1(props){
 
     return (
       <div>
-        <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
@@ -492,7 +492,7 @@ function Step1(props){
     
     return (
        <div>
-        <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
+        <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
@@ -505,7 +505,7 @@ function Step1(props){
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
         <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
-        <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
+        <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
       </div>
     )
 }

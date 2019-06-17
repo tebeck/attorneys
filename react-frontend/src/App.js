@@ -9,13 +9,13 @@ import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
 import './_assets/css/ownstylesheet.scss';
 import {url_backend} from './_helpers';
+import LoaderAnimation from './_components/LoaderAnimation';
 
 console.log(url_backend);
 
-
 const Loader = x => Loadable({
-  loading: () => 'Loading...',
-  loader: x
+  loading: () => <div class="centered"><LoaderAnimation /></div>,
+  loader: x,
 })
 
 
@@ -68,10 +68,11 @@ class App extends Component {
   render() {
     return (
 
-          <div className="">
+          <div className="alert-container">
               {alert.message &&
                   <div className={`alert ${alert.type}`}>{alert.message}</div>
               }
+              <div class="body-container">
               <Router history={history}>
 
                       <PrivateRoute exact path="/home" component={HomeComponent} />
@@ -100,6 +101,7 @@ class App extends Component {
                       <Route path="/recoverpassword" component={RecoverPasswordComponent} />
                       <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
               </Router>
+              </div>
           </div>
     );
   }

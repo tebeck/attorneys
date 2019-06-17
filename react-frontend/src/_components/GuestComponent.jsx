@@ -12,6 +12,7 @@ import landing_features_04 from '../_assets/img/landing/landing_features_04.png'
 import landing_instagram from '../_assets/img/landing/landing_instagram.png'
 import landing_youtube from '../_assets/img/landing/landing_youtube.png'
 import landing_twitter from '../_assets/img/landing/landing_twitter.png'
+import logo from '../_assets/img/landing/logo.png'
 
 const validate = values => {
   const errors = {}
@@ -22,12 +23,12 @@ const validate = values => {
   if(!values.password) {
     errors.password = 'Insert a password'
   }
-  
+
   return errors;
 }
 
 export default class HomeComponent extends Component {
-  
+
   constructor(props, context) {
     super(props, context);
 
@@ -53,7 +54,7 @@ export default class HomeComponent extends Component {
 
     handleSubmit = (e) =>{
     e.preventDefault()
-    
+
     const {errors, ...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
     console.log(result)
@@ -82,9 +83,9 @@ export default class HomeComponent extends Component {
 
 
 	render() {
-    
-    const recoverpass = { 
-      pathname: "/recoverpassword", 
+
+    const recoverpass = {
+      pathname: "/recoverpassword",
       fromDesktop: true
     };
 
@@ -104,16 +105,16 @@ export default class HomeComponent extends Component {
 		return (
       <div>
 
-          <div className="navbar">
+          <div className="navbar header-comp">
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
-              <span className="title">Esquire'd</span>
-              
+              <div className="logo"><a href="/"><img src={logo} /></a></div>
+
                 <Popup trigger={<Link to="/"><i className="fas fa-lg fa-user green"></i></Link>} position="left top">
                   <div className="container popup-desktop"><br/>
                     <h4>Log into your account</h4><br/>
                     <form onSubmit={this.handleSubmit}>
-                      
-                      
+
+
                       <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
                       {errors.email && <div style={{fontSize: "15px", padding: "1px", margin: "0px",color:"red"}} >{errors.email}</div>}
                       <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
@@ -121,7 +122,7 @@ export default class HomeComponent extends Component {
                       <small><Link to={recoverpass} style={{display: "block",textAlign:"right"}} >Forgot your Password?</Link></small><br />
                       <input className="formbutton" type="submit" value="Log in" />
                     </form><br/>
-                    
+
                     <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p><br/>
                   </div>
                 </Popup>
@@ -170,7 +171,7 @@ export default class HomeComponent extends Component {
             <div className="padding-bottom-guest">
               <div className="registeras-square"></div>
               <Link className="link-button" to={aor}>Attorney of Record</Link>
-              <Link className="link-button" to={aoa}>Appearing Attorney</Link> 
+              <Link className="link-button" to={aoa}>Appearing Attorney</Link>
             </div>
           </div>
           <div className="footer-guest">

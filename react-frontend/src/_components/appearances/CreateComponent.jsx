@@ -113,7 +113,7 @@ export default class CreateComponent extends Component {
   const {errors,currentStep} = this.state
 
 	 return (
-     <div className="container">
+     <div className="container main-body">
      
       <Modal 
         visible={this.state.visible}
@@ -123,11 +123,11 @@ export default class CreateComponent extends Component {
         onClickAway={() => this.closeModal()}>
         
         <div className="modalHead">
-          <i className="far fa-4x blue fa-check-circle"></i> <br/><br/>
+          <i className="far fa-4x green-background fa-check-circle"></i> <br/><br/>
           <h5>Your request has been published successfully!</h5>
         </div>
         <div>
-          <button onClick={() => this.closeModal()} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary">Ok</button> 
+          <button onClick={() => this.closeModal()} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</button> 
         </div>  
       </Modal>
       
@@ -185,7 +185,7 @@ function Step1(props){
 
     return(
       <div>
-        <ProgressBar  height={5} percent={50} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar  height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
             <input name="courtHouse" placeholder="Court House" type="text" className="form-control" onChange={props.handleChange} value={props.courtHouse} ></input>
             
@@ -214,7 +214,7 @@ function Step1(props){
 
     return (
       <div>
-      <ProgressBar  height={5} percent={100} filledBackground="blue" ></ProgressBar> <br />
+      <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br />
           
           <div className="input-group date" id="datepicker" style={{marginBottom: "10px"}}>
             <input name="hearingDate"   placeholder="Hearing date" type="date" className="form-control" onChange={props.handleChange} value={props.hearingDate}/>
@@ -247,7 +247,7 @@ function Step1(props){
             </div>
 
             <input name="price" type="text" className="form-group" onChange={props.handleChange} value={props.price} />
-            <input className="btn btn-block btn-primary active" type="submit" value="Create request"></input><br />
+            <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
      
       </div>
       

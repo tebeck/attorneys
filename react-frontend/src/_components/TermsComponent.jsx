@@ -13,7 +13,7 @@ export default class TermsComponent extends Component {
 
   render() {
   	return (
-     <div className="container">
+     <div className="container main-body">
         <h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Terms</h3>
          <hr />
           <div >

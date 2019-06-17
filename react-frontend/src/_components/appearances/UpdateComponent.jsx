@@ -144,7 +144,7 @@ handleSubmit = (e) =>{
              <input type="hidden" value={avatar} name="avatar" />
              <input type="hidden" name="id" value={id}/>  
           <div className="col-md-12 mb-3">
-            <input value="Submit" type="submit" className="btn btn-primary"/>
+            <input value="Submit" type="submit" className="btn btn-primary link-button"/>
           </div>
 
         </div>

@@ -82,7 +82,7 @@ constructor(props) {
           <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
           <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
           <small><Link to="/recoverpassword">Forgot your Password?</Link></small><br /><br />
-          <input className="btn btn-block btn-primary active" type="submit" value="Login"></input>
+          <input className="btn btn-block btn-primary link-button active" type="submit" value="Login"></input>
           <div className="center"><br />
             <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p>
           </div>

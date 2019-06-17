@@ -98,7 +98,7 @@ nextButton(){
   if(currentStep <3){
     return (
       <button 
-        className="btn btn-primary btn-block" 
+        className="btn btn-primary link-button btn-block" 
         type="button" onClick={this._next}>
       Continue
       </button>        
@@ -139,13 +139,13 @@ nextButton(){
     }
 
  return(
-  <div className="container">
+  <div className="container main-body">
         
     <Modal visible={this.state.visible} width="300" height="345" effect="fadeInDown" onClickAway={() => this.closeModal()}> <div style={{padding: "30px",textAlign: "center"}}> <h5>Your account has been created successfully!</h5> <p>You will receive a notification once your profile is approved.</p></div>
         <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px",textAlign: "center",height:"50%", width:"100%", backgroundColor: "lightgrey"}}>
           <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
-          {this.pushingRedirect()}<p onClick={this.setSekrRedirect} className="btn btn-block btn-primary">Click here to add it to your profile</p>
-          <Link to='/home' className="btn btn-block btn-primary">OK</Link>
+          {this.pushingRedirect()}<p onClick={this.setSekrRedirect} className="btn btn-block btn-primary link-button">Click here to add it to your profile</p>
+          <Link to='/home' className="btn btn-block btn-primary link-button">OK</Link>
         </div>  
     </Modal>
 
@@ -229,7 +229,7 @@ function Step1(props){
 
     return(
       <div>
-        <ProgressBar height={5} percent={45} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
@@ -249,7 +249,7 @@ function Step1(props){
 
     return (
       <div>
-        <ProgressBar  height={5} percent={75} filledBackground="blue" ></ProgressBar> <br />
+        <ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
@@ -268,7 +268,7 @@ function Step1(props){
     
     return (
        <div>
-        <ProgressBar height={5} percent={100} filledBackground="blue" ></ProgressBar><br />
+        <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
@@ -281,7 +281,7 @@ function Step1(props){
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
         <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
-        <input className="btn btn-block btn-primary active" type="submit" value="Create Account"></input><br />
+        <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
       </div>
     )
 }

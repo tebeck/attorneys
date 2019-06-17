@@ -81,7 +81,7 @@ export default class RecoverPasswordComponent extends Component {
     const {errors, pathname} = this.state
 		return (
 
-            <div className="container">
+            <div className="container main-body">
             <h5><Link style={{color: "black"}} to={pathname}><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
                 <Modal 
                     visible={this.state.visible}
@@ -99,7 +99,7 @@ export default class RecoverPasswordComponent extends Component {
             <form onSubmit={this.handleSubmit}>    
                 <input className="form-control" type="text" name="email" placeholder="Email" onChange={this.handleChange}></input>
                 {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-                <input className="btn btn-block btn-primary active" type="submit" value="Send"></input>
+                <input className="btn btn-block btn-primary link-button active" type="submit" value="Send"></input>
             </form>
             </div>
 		);

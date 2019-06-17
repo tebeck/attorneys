@@ -1,32 +1,59 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
+import Header from './HeaderComponent';
 
 export default class DefineRoleComponent extends Component {
-
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      selected: false
+    }
+  }
+    goToRegister = (type) => {
+      let isAttorney=false;
+      let isSeeker=true;
+      if (type==='attorney'){
+        isAttorney=true;
+        isSeeker=false;
+      }
+      this.setState({
+        isAttorney: isAttorney,
+        isSeeker: isSeeker,
+        selected: true
+      })
+    }
     render() {
+
+      if (this.state.selected) {
+        return <Redirect push to="/register" isSeeker={this.state.isSeeker} isAttorney={this.state.isAttorney} />;
+      }
     	return (
-
-            <div className="container">
-                <h3><Link style={{color: "black"}} to="/authenticate"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
-                  <ProgressBar height={5} percent={25} filledBackground="blue" ></ProgressBar><br /> 
+          <div>
+            <Header guest="1" />
+            <div className="container main-body">
+                <h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
+                  <ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar>
+                <div>
                 <p>Select an option</p>
+                </div>
+                <div className="define-container-block">
+                  <div className="define-container" onclick={()=>this.goToRegister('attorney')}>
+                      <div className="userDefineRole noleftmargin">
+                       <p className="userDefineRoleText">Attorney of Record</p>
+                      </div>
+                  </div>
 
-                <Link to={{ pathname: '/register', state: { isAttorney: true} }}>
-                    <div className="userDefineRole">
-                     <p className="userDefineRoleText">Attorney of Record</p>
-                    </div>
-                </Link><br />
+                  <div className="define-container" onclick={()=>this.goToRegister('seeker')} >
+                      <div className="userDefineRole norightmargin">
+                       <p className="userDefineRoleText">Attorney of Appearance</p>
+                      </div>
+                  </div>
 
-                <Link to={{ pathname: '/register', state: { isSeeker: true } }}>
-                    <div className="userDefineRole">
-                     <p className="userDefineRoleText">Attorney of Appearance</p>
-                    </div>
-                </Link>
-
-            </div>
+                </div>
+              </div>
+          </div>
     	);
     }
 }

@@ -65,7 +65,7 @@ export default class CreateNewPasswordComponent extends Component {
         const {errors, confirmationCode, data} = this.state
 		return (
 
-            <div className="container">
+            <div className="container main-body">
               <h3><Link style={{color: "black"}} to="/recoverpassword"><i className="fas fa-1x fa-angle-left"></i></Link> Set up new password</h3><br />
                 
                 <Modal 
@@ -90,7 +90,7 @@ export default class CreateNewPasswordComponent extends Component {
                       {errors.confirm && <div className="alert alert-danger" role="alert">{errors.confirm}</div> }
                     </div>
                     <input type="hidden" value={confirmationCode} />
-                      <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-block btn-primary link-button">Submit</button>
                 </form>
             </div>
 		);

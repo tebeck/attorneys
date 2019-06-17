@@ -34,7 +34,7 @@ export default class AdminComponent extends Component {
 
  render() {
     return (
-        <div className="container">
+        <div className="container main-body">
          <form onSubmit={this.handleSubmit}>
            <input className="form-control" name="email" type="text" placeholder="email" value={this.state.email} onChange={this.handleChange} ></input>
            <input className="btn btn-block" type="submit" value="Send"></input>

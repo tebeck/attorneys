@@ -78,7 +78,7 @@ export default class SearchComponent extends Component {
             <label htmlFor="title">Product title or category</label><br/>  
             <input className="form-control" name="title" onChange={this.handleChange}></input>
             {errors && <p className="form-text text-danger">{errors.title}</p>}<br/>
-            <input type="submit" value="Search" className="btn btn-primary"/>
+            <input type="submit" value="Search" className="btn btn-primary link-button"/>
         </form> <br/><br/>
         {data && data.map(x=> 
           <div className="col-md-6" style={{"display":"inline-block", "border": ".5px solid grey", "margin": "1px", "padding": "5px"}} key={x._id}>
