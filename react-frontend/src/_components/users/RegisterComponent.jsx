@@ -59,7 +59,7 @@ export default class RegisterForm extends Component {
     zip:"",
     password: "",
     profilePicture:"",
-    creditCard:"5555555555554444",
+    creditCard:"4242424242424242",
     policy:"",
     insurancePolicy:""
   }
@@ -107,14 +107,17 @@ handleSubmit = (e) => {
 
      userServices.register(noErrors).then(
       res =>{
-        if (res.state !== 200) {
-         this.setState({ error: res })
-        } else {
+        if (res.state && res.state === 200) {
           console.log(res)
           this.setState(res)
           this.openModal()
+
+        } else {
+          this.setState({ error: res })
           }
       })
+    }else{
+      console.log('No keys')
     }
 
     if (Object.keys(result).length) {
@@ -364,6 +367,7 @@ if (this.state.currentStep === 2){
     <div>
       <Header guest="1" />
       <div className="container main-body">
+
       <h3 onClick={this._prev} className="clickable"><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
@@ -412,47 +416,48 @@ if (this.state.currentStep === 2){
           handleChangeChk={this.handleChangeChk}
           state={this.state}
         />
+        {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
+        {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
+        {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
+
+        {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
+        {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
+
+        {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
+        {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
+        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
+        {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
+        {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
+
+
+        {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
+        {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
+        {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
+        {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
+        {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
 
           {this.nextButton()}
-          {/*
-          {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
-          {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
 
-          {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
-          {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
-
-          {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
-          {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
-          {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-          {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
-          {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
-
-
-          {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
-          {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
-          {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
-          {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
-          {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
-          */}
           {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
           {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
         </form>
 
-        <Modal visible={this.state.visible} width="300" height="345" effect="fadeInDown" onClickAway={() => this.closeModal()}>
+        <Modal visible={this.state.visible} width="300" className="modal-popup"  effect="fadeInDown" onClickAway={() => this.closeModal()}>
           <div style={{padding: "30px",textAlign: "center"}}>
            <h5>Your account has been created successfully!</h5>
-           <p>You will receive a notification once your profile is approved.</p>
           </div>
             {this.state.isAttorney ?
             <div className="modalHead">
-              <p>In the meantime, are you also planning to act as an Attorney of Appearing?</p>
+              <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
                {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
-               <input type="submit" className="btn btn-block btn-primary link-button" value="Click here to add it to your profile"/>
+               <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div>
-            : null}
+            : <p>You will receive a notification once your profile is approved.</p>}
             <Link to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
         </Modal>
 
@@ -513,10 +518,12 @@ function Step1(props){
         <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
-        <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="300px" src={props.image} /></div>
-        <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input><label> Payment Info</label>
+        <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="200px" src={props.image} /></div>
+        <label> Password</label>
+        <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input>
+        <label> Credit Card</label>
         <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange}></input>
-        <input className="form-control" type="hidden"   name="avatar"                                    value={props.profilePicture}></input>
+        <input className="form-control" type="hidden"   name="avatar" value={props.profilePicture}></input>
 
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">
@@ -557,23 +564,24 @@ const errors = {}
 
   if(!values.lastName) { errors.lastName = 'Insert lastName' }
 
-  if(!values.lawFirm) { errors.lawFirm = 'Insert lawFirm' }
+//  if(!values.lawFirm) { errors.lawFirm = 'Insert lawFirm' }
 
-  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
-  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
+//  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
+//  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
 
-  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
-  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
+//  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
+//  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
 
-  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
-  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
+//  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
+//  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
 
   if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
   if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
 
-  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
-  if(!values.policy) { errors.policy = 'Insert policy' }
+//  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
+//  if(!values.policy) { errors.policy = 'Insert policy' }
 
+  // no below
   // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
   // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
