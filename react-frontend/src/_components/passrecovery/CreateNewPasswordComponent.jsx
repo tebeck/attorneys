@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
+import Header from '../HeaderComponent';
 
 const validate = values => {
   const errors = {}
@@ -11,14 +12,14 @@ const validate = values => {
   }
   if(!values.confirm){
     errors.confirm = 'Confirm password'
-  } 
+  }
   return errors;
 }
 
 export default class CreateNewPasswordComponent extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       confirmationCode: this.props.location.search.split('=')[1],
       errors: {},
@@ -64,17 +65,18 @@ export default class CreateNewPasswordComponent extends Component {
 	render() {
         const {errors, confirmationCode, data} = this.state
 		return (
-
-            <div className="container main-body">
+      <div>
+        <Header guest="1" />
+        <div className="container main-body">
               <h3><Link style={{color: "black"}} to="/recoverpassword"><i className="fas fa-1x fa-angle-left"></i></Link> Set up new password</h3><br />
-                
-                <Modal 
+
+                <Modal
                     visible={this.state.visible}
                     width="300"
                     height="230"
                     effect="fadeInDown"
                     onClickAway={() => this.closeModal()}>
-                  
+
                   <div style={{padding: "30px",textAlign: "center"}}>
                     <h5>{data}</h5>
                   </div>
@@ -92,6 +94,7 @@ export default class CreateNewPasswordComponent extends Component {
                     <input type="hidden" value={confirmationCode} />
                       <button type="submit" class="btn btn-block btn-primary link-button">Submit</button>
                 </form>
+            </div>
             </div>
 		);
 

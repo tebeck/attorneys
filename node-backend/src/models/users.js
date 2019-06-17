@@ -16,19 +16,19 @@ var users = new Schema({
   },
   lawFirm: {
     type: String,
-    required: true
+    required: false
   },
   stateBar: {
     type: Number,
-    required: true
+    required: false
   },
   officePhone: {
     type: String,
-    required: true
+    required: false
   },
   mobilePhone: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -73,7 +73,7 @@ var users = new Schema({
   },
   policy: {
     type: Number,
-    required: true
+    required: false
   },
   notification: {
     type: Boolean,
@@ -83,7 +83,7 @@ var users = new Schema({
   insurancePolicy:{
     type: Number,
     required: false
-  }, 
+  },
   termsConditions: {
     type: Boolean,
     required: false
@@ -129,9 +129,9 @@ var users = new Schema({
       }
     }
   ],
-  isVerified: { 
+  isVerified: {
     type: Boolean,
-    default: true 
+    default: true
   },
   isDisabled: {
     type: Boolean,
