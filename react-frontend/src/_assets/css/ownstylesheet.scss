@@ -3,10 +3,9 @@ $lightgrey-color: #E7ECEE;
 $blue-color: #1873F3;
 $lightblue-color: #B9D5FB;
 $green-color: #2ad4ae;
-$green-hover: #03c79b;
 $background-grey: #f5f5f5;
 $white: #ffffff;
-$grey-color: #ccc;
+
 $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
@@ -24,12 +23,10 @@ $display-block: block;
   cursor:pointer;
 }
 a { cursor:pointer; color: $green-color }
-a:hover,a:focus{text-decoration: none!important; outline:none; color: $grey-color}
-body {
+a:hover,a:focus{text-decoration: none!important; outline:none}
+.body-container {
   background-color: $background-grey;
-  min-height: 100vh;
-  }
-
+}
 .define-role-container{
   display:block;
 }
@@ -41,7 +38,7 @@ body {
   background-color: $white;
 }
 .main-body {
-  padding-top:30px;
+  padding-top:10px;
 }
 @media (min-width: 992px){
   .container {
@@ -54,14 +51,11 @@ body {
   }
 }
 @media screen and (max-width:768px){
-  body {
+  .body-container{
     background-color: transparent;
   }
 }
-.modal-popup{
- padding: 20px; height: auto; 
-}
-.display{ display: $display-block; margin-bottom: 20px; }
+.display{ display: $display-block; }
 .hide{ display: $hide-block; }
 .form-control{ margin-bottom: 10px; }
 .title { font-size: 22pt;font-weight: 700; }
@@ -72,49 +66,12 @@ body {
 .profileInputsTitle{ margin: 0 auto; font-size: 12px; }
 .profileInputsValue{ margin: 0px; font-size: 15px; }
 
-.headerDate{ padding-bottom: 12px}
+.appearanceBox{margin-bottom:20px;width: 100%; border: 1pt solid $lightgrey-color; border-radius: 4pt;}
+.appearanceHeaderBox { height: 35%; width: 100%; background-color: $lightgrey-color; border-radius: 4pt 4pt 0px 0px; padding: 10px; font-size: 13px; }
 
-// Appearance box styles:
-.appearanceState{
-  margin-bottom: 0px!important;
-  padding: 5px;
+.define-container-block{
+  display:block
 }
-.appearanceState p {margin-bottom: 2px}
-
-.appearanceBox {
-  background-color: #FFF;
-  border-radius: 5px
-}
-.appearanceHeaderBox {
-  height: 35%;
-  width: 100%;
-  padding: 10px;
-  font-size: 13px;
-  border-bottom: 1px solid lightgrey;
-}
-.appearanceMoment{font-weight: bold;}
-.appearanceArea{
-  font-weight: 600;
-  margin: 5px;
-  color:$blue-color
-}
-.appearanceTitle{
-  font-weight: 700;
-  line-spacing:14pt;
-  font-size: 13pt;
-  color:$green-color
-}
-.appearanceCourt{
-  font-size: 11px;
-  color: #000000;
-  font-family: "Montserrat"
-}
-.appearanceFooter{padding: 10px}
-
-
-
-.define-container-block{display:block}
-
 .define-container{
   width: 50%;
   float:left;
@@ -163,28 +120,8 @@ body {
   color: $green-color;
   text-decoration: none;
 }
-input[type=password]{
-  font-family: Tahoma;
-}
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
-  background-color: $green-color;
-  width: auto;
-  height: 40px;
-  border-radius: 45px;
-  color: #fff;
-  padding: 12px 30px;
-  border: none;
-  line-height: 1;
-  font-family: $font-family;
-  margin: 0 auto;
-}
-.btn-primary:hover {
-  background-color: $green-hover;
-  border-color: transparent;
-}
-.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus,.btn-primary:focus, .btn-primary.focus{
-  box-shadow:none;
-}
+
+
 // TimelineComponent
 .fade.tab-pane.active.show div section div div div { width: 100%!important; padding: 0px!important; border-radius: 5px;}
 
@@ -193,7 +130,7 @@ input[type=password]{
 .bold{font-weight: 500}
 
 .moment{font-weight: 500; line-spacing:14pt; margin: 5px}
-
+.areaOfLaw{font-weight: 600; margin: 5px}
 
 .boxYear{font-weight: 500; line-spacing:14pt;margin: 5px}
 .boxTitle{padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt}
@@ -202,12 +139,9 @@ input[type=password]{
 .boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
 
 .uploadLabel { text-decoration: underline; cursor: pointer }
-.form-control:focus{
-  border-color: $green-color;
-  box-shadow: none;
-}
+
 .error {
-  border: 2px solid #eaa7a7;
+  border: 1px solid red;
   display: block; width: 100%;
   padding: 0.375rem 0.75rem;
   border-radius: 0.25rem;
@@ -318,6 +252,22 @@ div.popup-content{
 .wizard-btn {
   min-width:280px;
 }
+
+.registerModal{
+  height: auto;
+  width: 350px!important;
+  padding:35px!important;
+}
+
+  .Modal {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    background-color: papayawhip;
+  }
+
 .link-button {
     background-color: $green-color;
     width: auto;
