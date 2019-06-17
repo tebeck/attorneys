@@ -11,17 +11,25 @@ export default class RegisterForm extends Component {
 
  constructor(props) {
   super(props)
-  const role = this.props.location.state;
+  let role = this.props.location.state;
   const backhome = this.props.location.backhome;
+  let isAttorney = true;
+  let isSeeker = false;
+  if (!role){
+    isAttorney = props.isAttorney;
+    isSeeker = props.isSeeker;
+  }else{
+    isAttorney = role.isAttorney;
+    isSeeker = role.isSeeker;
+  }
 
   this.state = {
-
     currentStep: 1,              // Init current step at 1.
     errors: {},                  // onSubmit errors stored here.
     visible: false,              // Modal visible ?.
-    isAttorney: !role.isSeeker,
-    isSeeker: !role.isAttorney,
-    onHold: !role.isAttorney,
+    isAttorney: isAttorney,
+    isSeeker: isSeeker,
+    onHold: isAttorney,
     backhome: false,
 
     //validate form
@@ -359,7 +367,7 @@ if (this.state.currentStep === 2){
     <div>
       <Header guest="1" />
       <div className="container main-body">
-      {/*<h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>*/}
+      <h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>
       <h3 onClick={this._prev} className="clickable"><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>

@@ -14,7 +14,7 @@ import LoaderAnimation from './_components/LoaderAnimation';
 console.log(url_backend);
 
 const Loader = x => Loadable({
-  loading: () => <div class="centered"><LoaderAnimation /></div>,
+  loading: () => <div className="centered"><LoaderAnimation /></div>,
   loader: x,
 })
 
@@ -72,7 +72,7 @@ class App extends Component {
               {alert.message &&
                   <div className={`alert ${alert.type}`}>{alert.message}</div>
               }
-              <div class="body-container">
+              <div className="body-container">
               <Router history={history}>
 
                       <PrivateRoute exact path="/home" component={HomeComponent} />

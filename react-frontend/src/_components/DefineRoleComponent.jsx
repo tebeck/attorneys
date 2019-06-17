@@ -5,12 +5,12 @@ import { ProgressBar } from "react-step-progress-bar";
 import Header from './HeaderComponent';
 
 export default class DefineRoleComponent extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selected: false
+    constructor(props) {
+      super(props)
+      this.state = {
+        selected: false
+      }
     }
-  }
     goToRegister = (type) => {
       let isAttorney=false;
       let isSeeker=true;
@@ -27,7 +27,7 @@ export default class DefineRoleComponent extends Component {
     render() {
 
       if (this.state.selected) {
-        return <Redirect push to="/register" isSeeker={this.state.isSeeker} isAttorney={this.state.isAttorney} />;
+        return <Redirect push to={{ pathname: "/register",  state:{ isSeeker: this.state.isSeeker, isAttorney: this.state.isAttorney } }} />;
       }
     	return (
           <div>
@@ -39,15 +39,15 @@ export default class DefineRoleComponent extends Component {
                 <p>Select an option</p>
                 </div>
                 <div className="define-container-block">
-                  <div className="define-container" onclick={()=>this.goToRegister('attorney')}>
-                      <div className="userDefineRole noleftmargin">
+                  <div className="define-container" >
+                      <div className="userDefineRole noleftmargin" onClick={()=>this.goToRegister('attorney')}>
                        <p className="userDefineRoleText">Attorney of Record</p>
                       </div>
                   </div>
 
-                  <div className="define-container" onclick={()=>this.goToRegister('seeker')} >
-                      <div className="userDefineRole norightmargin">
-                       <p className="userDefineRoleText">Attorney of Appearance</p>
+                  <div className="define-container"  >
+                      <div className="userDefineRole norightmargin" onClick={()=>this.goToRegister('seeker')}>
+                       <p className="userDefineRoleText">Appearing Attorney</p>
                       </div>
                   </div>
 
