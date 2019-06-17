@@ -418,28 +418,28 @@ if (this.state.currentStep === 2){
           handleChangeChk={this.handleChangeChk}
           state={this.state}
         />
+        {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
+        {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
+        {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
+
+        {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
+        {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
+
+        {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
+        {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
+        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
+        {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
+        {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
+
+
+        {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
+        {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
+        {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
+        {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
+        {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
 
           {this.nextButton()}
-          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
-
-          {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
-          {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
-
-          {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
-          {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
-
-          {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
-          {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
-          {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-          {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
-          {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
-
-
-          {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
-          {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
-          {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
-          {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
-          {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
 
         </form>
 
