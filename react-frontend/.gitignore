@@ -2,4 +2,3 @@
 Dockerfile
 yarn.lock
 .env
-.env.example

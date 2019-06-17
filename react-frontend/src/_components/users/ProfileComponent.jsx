@@ -12,9 +12,7 @@ export default class ProfileComponent extends Component {
     };
   }
 
-
   componentDidMount(){
-
     userServices.getProfile()
       .then(data => this.setState({
         firstName: data.data.firstName,
@@ -30,7 +28,6 @@ export default class ProfileComponent extends Component {
         data: data.data
         })
       )
-
   }
 
   openModal() {
