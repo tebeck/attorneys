@@ -34,13 +34,13 @@ export default class HomeComponent extends Component {
 
 
     return (
-            <div>
+            <div className="container">
                 <div className="navbar">
                 	<Link to="/profile"><i className="far fa-lg fa-user-circle green-background"></i></Link>
                       <span className="title">Esquire'd</span>
                     <Link to="/notifications"><i className="fas fa-lg fa-bell green-background"></i></Link>
                 </div>
- 				        <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+ 				        <Tabs id="controlled-tab-example" style={{alignItems: "center",justifyContent: "center"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>

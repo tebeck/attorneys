@@ -72,12 +72,49 @@ body {
 .profileInputsTitle{ margin: 0 auto; font-size: 12px; }
 .profileInputsValue{ margin: 0px; font-size: 15px; }
 
-.appearanceBox{margin-bottom:20px;width: 100%; border: 1pt solid $lightgrey-color; border-radius: 4pt;}
-.appearanceHeaderBox { height: 35%; width: 100%; background-color: $lightgrey-color; border-radius: 4pt 4pt 0px 0px; padding: 10px; font-size: 13px; }
+.headerDate{ padding-bottom: 12px}
 
-.define-container-block{
-  display:block
+// Appearance box styles:
+.appearanceState{
+  margin-bottom: 0px!important;
+  padding: 5px;
 }
+.appearanceState p {margin-bottom: 2px}
+
+.appearanceBox {
+  background-color: #FFF;
+  border-radius: 5px
+}
+.appearanceHeaderBox {
+  height: 35%;
+  width: 100%;
+  padding: 10px;
+  font-size: 13px;
+  border-bottom: 1px solid lightgrey;
+}
+.appearanceMoment{font-weight: bold;}
+.appearanceArea{
+  font-weight: 600;
+  margin: 5px;
+  color:$blue-color
+}
+.appearanceTitle{
+  font-weight: 700;
+  line-spacing:14pt;
+  font-size: 13pt;
+  color:$green-color
+}
+.appearanceCourt{
+  font-size: 11px;
+  color: #000000;
+  font-family: "Montserrat"
+}
+.appearanceFooter{padding: 10px}
+
+
+
+.define-container-block{display:block}
+
 .define-container{
   width: 50%;
   float:left;
@@ -156,7 +193,7 @@ input[type=password]{
 .bold{font-weight: 500}
 
 .moment{font-weight: 500; line-spacing:14pt; margin: 5px}
-.areaOfLaw{font-weight: 600; margin: 5px}
+
 
 .boxYear{font-weight: 500; line-spacing:14pt;margin: 5px}
 .boxTitle{padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt}

@@ -30,6 +30,7 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-select-us-states": "^0.1.2",
     "react-step-progress-bar": "^1.0.3",
     "react-toastify": "^5.1.0",
     "react-toasts": "^3.0.3",
