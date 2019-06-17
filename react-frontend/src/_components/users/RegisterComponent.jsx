@@ -55,7 +55,7 @@ export default class RegisterForm extends Component {
     streetAddrOne: "",
     streetAddrTwo: "",
     city: "",
-    _state: "",
+    _state: "AL",
     zip:"",
     password: "",
     profilePicture:"",
@@ -126,7 +126,6 @@ handleSubmit = (e) => {
 }
 
   _next = () => {
-    console.log('fn::next');
     let currentStep = this.state.currentStep
 
     if (!this.state.enableNextAction){ // there are errors
@@ -183,7 +182,6 @@ nextButton(){
 
 
   handleChange = ({target}) =>{
-    console.log(this.state._state)
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
@@ -322,10 +320,10 @@ if (this.state.currentStep === 2){
   // set and push register seeker Redirect.
   setValidSeeker = (e) => {
    e.preventDefault();
-   console.log(e.target.insurancePolicy.value)
+   // console.log(e.target.insurancePolicy.value)
    let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
 
-   console.log(body)
+   // console.log(body)
     userServices.makeSeeker(body)
      .then(res => {
       if (res.state !== 200) {
@@ -436,6 +434,7 @@ if (this.state.currentStep === 2){
           {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
           {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
           */}
+          {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
           {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
         </form>
 
@@ -578,6 +577,6 @@ const errors = {}
   // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
   // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
-  // console.log(errors)
+  console.log(errors)
   return errors;
 }

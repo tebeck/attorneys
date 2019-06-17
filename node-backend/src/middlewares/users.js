@@ -9,9 +9,7 @@ module.exports = {
       return res.json({state:"Error", message: err.message, data:null});
     }
     if(user){
-    	  let err = new Error("User already exists"+ user);
-    	  err.state = 409;
-      return res.json({state: err.state, message: "Email in use"})
+      return res.status(409).send({status: 409, message: "Email in use"})
     } else{
         next();
     }
