@@ -22,31 +22,35 @@ export default class AgendaComponent extends Component {
     render() {
     
 	const {data} = this.state
+
         return(
 
-	<div>
-	  <Timeline lineColor="#1873F3">
-	  <button className="btn btn-outline-dark btn-sm float-right">View all</button>
+	<div><br/>	
+	  <div>
+	  	<span>Past Appearances</span>
+	  	<button className="btn btn-outline-dark btn-sm float-right">UPCOMING</button>
+	  </div><br />
+
 	   {data.map(x =>
-	       <TimelineEvent 
-	       		key={x._id}
-	       		createdAt={<Moment format="LLLL">{x.createdAt}</Moment>}
-	       		iconColor="#1873F3" bubbleStyle={{backgroundColor: '#1873F3', width: "10px", height:"10px",left:"11px"}} 
-	       		title="" >
+	   	<div key={x._id}>
+	   	<div className="headerDate"><Moment format="LLLL">{x.createdAt}</Moment></div>
+	       <div className="appearanceBox">
 	       		<div className="appearanceHeaderBox">
 		 	     <div className="flex-space-between">
-		 	       <div className="moment">
-		 	       	<Moment format="ll">{x.hearingDate}</Moment><span> - {x.time}</span>
-		 	       </div>
-		 	       <p className="areaOfLaw">{x.areaOfLaw}</p>
+		 	       <div className="appearanceMoment"><Moment format="ll">{x.hearingDate}</Moment><span> - {x.time}</span></div>
+		 	       <p className="appearanceArea">{x.areaOfLaw}</p>
 		 	     </div> 
 		 	    </div> 
-		 	    <p style={{paddingTop: "10px", fontWeight: "700", lineSpacing:"14pt", fontSize: "13pt"}}>Trafic Trial</p>
-		 	    <p style={{fontSize: "11px", color: "#000000",fontFamily: "Montserrat"}}>{x.courtHouse}</p>
-
-	       </TimelineEvent>
+		 	    <div className="appearanceFooter">
+		 	     <div className="flex-space-between">
+		 	      <p className="appearanceTitle">Trafic Trial</p>
+		 	      <button className="btn btn-outline-primary">Rate Attorney</button>
+		 	     </div>
+		 	     <p className="appearanceCourt">{x.courtHouse}</p>
+		 	    </div>
+	       </div><br />
+	       </div>
 	    )}
-	  </Timeline>
 	 </div>
 
 

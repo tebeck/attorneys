@@ -110,14 +110,19 @@ function makeSeeker(userId){
             if(data.result && data.token){
 
               data.status=200;
-                if(data.result.isAttorney){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
-                }
-                if(data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker}, { path: '' })
-                }
+                console.log("ar: "+data.result.isAttorney)
+                console.log("aa: "+data.result.isSeeker)
                 if(data.result.isAttorney && data.result.isSeeker){
+                  console.log("1")
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   
+                } else 
+                if(data.result.isAttorney){
+                  console.log("2")
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
+                } else 
+                if(data.result.isSeeker){
+                  console.log("3")
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker}, { path: '' })
                 }
              return data;
             }
