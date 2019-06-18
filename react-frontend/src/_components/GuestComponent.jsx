@@ -210,7 +210,7 @@ export default class HomeComponent extends Component {
             <h3>Register now as:</h3>
             <div className="padding-bottom-guest">
               <div className="registeras-square">
-                <img className="register-as-image" src={registerAsImage} />
+                <img className="register-as-image" alt="esquired-register" src={registerAsImage} />
               </div>
               <Link className="link-button" to={aor}>Attorney of Record</Link>
               <Link className="link-button" to={aoa}>Appearing Attorney</Link>
