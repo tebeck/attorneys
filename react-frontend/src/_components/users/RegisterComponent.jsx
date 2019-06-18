@@ -12,7 +12,7 @@ export default class RegisterForm extends Component {
  constructor(props) {
   super(props)
   let role = this.props.location.state;
-  const backhome = this.props.location.backhome;
+  // const backhome = this.props.location.backhome;
   let isAttorney = true;
   let isSeeker = false;
   if (!role){
@@ -191,7 +191,7 @@ nextButton(){
     let lastNameValid = this.state.lastNameValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let streetAddrTwoValid = this.state.streetAddrTwoValid;
-    let stateValid = this.state.stateValid;
+    // let stateValid = this.state.stateValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
 
@@ -199,7 +199,7 @@ nextButton(){
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
