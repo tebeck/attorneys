@@ -159,7 +159,7 @@ handleSubmit = (e) => {
   _prev = () => {
 
     if (this.props.location.backhome){
-     this.props.history.push({ pathname: '/home', state: {...this.state} })
+     this.props.history.push({ pathname: '/', state: {...this.state} })
     }
 
     if(this.state.enableNextAction === false){
@@ -374,19 +374,19 @@ if (this.state.currentStep === 2){
 
    return(
     <div>
-       <Modal className="registerModal" width="350px" height="auto" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
-          <div style={{margin:"30px",padding: "30px",textAlign: "center"}}>
+       <Modal className="registerModal" width="350px" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
+          <div style={{padding: "30px",textAlign: "center"}}>
            <h5>Your account has been created successfully!</h5>
           </div>
             {this.state.isAttorney ?
             <div className="modalHead" style={{margin:"30px"}}>
-              <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
+              <p style={{padding:"20px"}}>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
                {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
-            </div> : <p>You will receive a notification once your profile is approved.</p>}
+            </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
             <Link style={{margin:"30px"}} to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
         </Modal>
 
@@ -462,11 +462,10 @@ if (this.state.currentStep === 2){
         {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
 
         {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
+        {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
 
           {this.nextButton()}
 
-          {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
-          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
 
         </form>
 
