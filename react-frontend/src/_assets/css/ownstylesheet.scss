@@ -3,6 +3,7 @@ $lightgrey-color: #E7ECEE;
 $blue-color: #1873F3;
 $lightblue-color: #B9D5FB;
 $green-color: #2ad4ae;
+$green-hover: #2ad4ae;
 $background-grey: #f5f5f5;
 $text-normal: #4a4a4a;
 $white: #ffffff;
@@ -147,7 +148,7 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
 .uploadLabel { text-decoration: underline; cursor: pointer }
 
 .error {
-  border: 1px solid red;
+  border: 1px solid #ff6b70;
   display: block; width: 100%;
   padding: 0.375rem 0.75rem;
   border-radius: 0.25rem;
@@ -157,6 +158,32 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
   outline: none;
 }
 
+a:hover,a:focus{text-decoration: none!important; outline:none; color: $green-color}
+
+
+
+input[type=password]{
+  font-family: Tahoma;
+}
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
+  background-color: $green-color;
+  width: auto;
+  height: 40px;
+  border-radius: 45px;
+  color: #fff;
+  padding: 12px 30px;
+  border: none;
+  line-height: 1;
+  font-family: $font-family;
+  margin: 0 auto;
+}
+.btn-primary:hover {
+  background-color: $green-hover;
+  border-color: transparent;
+}
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus,.btn-primary:focus, .btn-primary.focus{
+  box-shadow:none;
+}
 
 label {
   cursor: pointer;
