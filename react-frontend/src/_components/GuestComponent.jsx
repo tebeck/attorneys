@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from "reactjs-popup";
-import landing0 from '../_assets/img/landing/landing_0.png'
-import landing1 from '../_assets/img/landing/landing_1.png'
+// import landing0 from '../_assets/img/landing/landing_0.png'
+// import landing1 from '../_assets/img/landing/landing_1.png'
 import landing2 from '../_assets/img/landing/landing_2.png'
 import { userServices } from '../_services/user.service'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
@@ -107,7 +107,7 @@ export default class HomeComponent extends Component {
 
           <div className="navbar header-comp">
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
-              <div className="logo"><a href="/"><img src={logo} /></a></div>
+              <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
 
                 <Popup trigger={<Link to="/"><i className="fas fa-lg fa-user green"></i></Link>} position="left top">
                   <div className="container popup-desktop"><br/>

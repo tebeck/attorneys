@@ -18,7 +18,7 @@ export default class AdminComponent extends Component {
    adminServices.enableSeeker(email)
     .then( data => {
         console.log(data)
-        if(data.status == 200){
+        if(data.status === 200){
             let maildata = {email: data.res.email, subject: "Account Approved",text:"Your account of attorney of appearance has been approved!"}
             userServices.sendmail(maildata)
             alert("Attorney of Appearance enabled!")

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
 import Moment from 'react-moment';
-import {Timeline, TimelineEvent} from 'react-event-timeline';
+
 
 export default class AgendaComponent extends Component {
 	

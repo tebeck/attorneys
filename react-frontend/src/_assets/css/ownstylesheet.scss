@@ -328,13 +328,29 @@ div.popup-content{
 }
 
 .features-square {
+  padding-top: 30px;
   width: 261px;
   height: 280px;
   border-radius: 6px;
   background-color: #ffffff;
-
 }
 
+.features-square h5{
+  padding-top: 20px;
+  font-weight: bold;
+}
+
+.features-square p{
+  font-weight: lighter;
+  margin: 10px;
+  font-size: 13px;
+  color: grey;
+}
+
+.flex-justify-center{
+  align-items: center;
+  justify-content: center;
+}
 
 .registeras{
   text-align: center;
@@ -374,9 +390,6 @@ div.popup-content{
 .padding-bottom-guest {
   padding-bottom: 150px
 }
-
-
-
 
 .footer-guest{
   background-color: #000;

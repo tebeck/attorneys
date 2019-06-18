@@ -21,7 +21,7 @@ export default class RegisterForm extends Component {
  constructor(props) {
   super(props)
   let role = this.props.location.state;
-  const backhome = this.props.location.backhome;
+  // const backhome = this.props.location.backhome;
   let isAttorney = true;
   let isSeeker = false;
   if (!role){
@@ -138,7 +138,6 @@ handleSubmit = (e) => {
 }
 
   _next = () => {
-    console.log('fn::next');
     let currentStep = this.state.currentStep
 
     if (!this.state.enableNextAction){ // there are errors
@@ -201,7 +200,7 @@ nextButton(){
     let lastNameValid = this.state.lastNameValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let streetAddrTwoValid = this.state.streetAddrTwoValid;
-    let stateValid = this.state.stateValid;
+    // let stateValid = this.state.stateValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
 
@@ -209,7 +208,7 @@ nextButton(){
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
@@ -333,10 +332,10 @@ if (this.state.currentStep === 2){
   // set and push register seeker Redirect.
   setValidSeeker = (e) => {
    e.preventDefault();
-   console.log(e.target.insurancePolicy.value)
+   // console.log(e.target.insurancePolicy.value)
    let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
 
-   console.log(body)
+   // console.log(body)
     userServices.makeSeeker(body)
      .then(res => {
       if (res.state !== 200) {
@@ -466,6 +465,9 @@ if (this.state.currentStep === 2){
 
           {this.nextButton()}
 
+          {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
+          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
         </form>
 
       </div>
@@ -590,6 +592,6 @@ const errors = {}
   // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
   // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
-  // console.log(errors)
+  console.log(errors)
   return errors;
 }
