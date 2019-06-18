@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers';
 import Cookies from 'js-cookie';
-import {url_backend} from '../config.json';
 import axios from 'axios';
+import {url_backend} from '../_helpers';
 
 export const userServices = {
     authenticate,
@@ -26,7 +26,20 @@ function register(data){
     return fetch(`${url_backend}/users/register`, requestOptions)
     .then(handleResponse)
     .then(data => {
-        return data;
+      console.log(data)
+      if(data.user && data.token){
+        data.status=200;
+          if(data.user.isAttorney && data.user.isSeeker){
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: data.result.onHold}, { path: '' })   
+          } else
+          if(data.user.isAttorney){
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney}, { path: '' })   
+          }
+       return data;
+      } else{
+          data.status = 400
+          return data.message
+            }
     })
 }
 
@@ -98,16 +111,20 @@ function makeSeeker(userId){
         .then(data => {
           console.log(data)
             if(data.result && data.token){
+
+              data.status=200;
+                console.log("ar: "+data.result.isAttorney)
+                console.log("aa: "+data.result.isSeeker)
+                if(data.result.isAttorney && data.result.isSeeker){
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   
+                } else 
                 if(data.result.isAttorney){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
-                }
+                } else 
                 if(data.result.isSeeker){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker}, { path: '' })
                 }
-                if(data.result.isAttorney && data.result.isAttorney){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker}, { path: '' })   
-                }
-             return window.location.assign('/home');
+             return data;
             }
 
             else{
@@ -177,9 +194,7 @@ function recoverPassword(email){
          headers: authHeader(),
          body: JSON.stringify(data)
      };
-
-     console.log(JSON.stringify(data))
-
+     console.log("frontend -> backend " + JSON.stringify(data))
      return fetch(`${url_backend}/users/sendmail`, requestOptions)
          .then( data => {data.json().then(text=>console.log( text) )} ) 
 
@@ -188,12 +203,13 @@ function recoverPassword(email){
 
 function handleResponse(response) {
     return response.json().then(data => {
-        
+        console.log(response.status)
         if (!response.ok) {
             if (response.status === 401) {
                 return data
             }
-            if(response.status === 409){
+            if(response.status === 409){ // Email in use
+                console.log("entro")
                 return data
             }
             if(response.status === 400){

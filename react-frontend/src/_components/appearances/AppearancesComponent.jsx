@@ -45,16 +45,16 @@ export default class AppearancesComponent extends Component {
 
    if(data){
 	return (
-	 <div className="container">
+	 <div className="container main-body">
 	  <Modal visible={this.state.visible} width="370" height="445" effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "30px",textAlign: "center"}}>
-	    <i className="fas fa-4x blue fa-envelope-open-text"></i><br/><br/>
+	    <i className="fas fa-4x green-background fa-envelope-open-text"></i><br/><br/>
 	    <h5>Well done!</h5>
 	     <p>We will send you an email with confirmation and additional info.</p>
 	   
 		
 	     <p>We will send you an email with confirmation and additional info.</p>
-	     <button className="btn btn-block btn-primary">View appearances</button>
+	     <button className="btn btn-block btn-primary link-button">View appearances</button>
 	    
 	      <br /><br />
 	    
@@ -65,8 +65,8 @@ export default class AppearancesComponent extends Component {
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
 	  <p>There are 5 appearances</p>
 	  	 <div>
-	  	 <i style={{marginRight: "10px"}} className="fas blue fa-1x fa-sort"></i>
-	  	 <i className="fas blue fa-1x fa-filter"></i>
+	  	 <i style={{marginRight: "10px"}} className="fas green-background fa-1x fa-sort"></i>
+	  	 <i className="fas green-background fa-1x fa-filter"></i>
 	  	 </div>
 	</div>
 	<br/>
@@ -81,7 +81,7 @@ export default class AppearancesComponent extends Component {
     	  <p style={{fontSize: "11px", color: "#000000",fontFamily: "Montserrat"}}>Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
 	      <p style={{margin: "0px"}}>$75</p>	
 	      <div style={{textAlign: "right"}}>
-	      	<button onClick={this.handleClick} style={{margin: "0px 10px 10px 10px",padding:"5px 35px 5px 35px"}} className="btn btn-primary">Apply</button>
+	      	<button onClick={this.handleClick} style={{margin: "0px 10px 10px 10px",padding:"5px 35px 5px 35px"}} className="btn btn-primary link-button">Apply</button>
 	      </div>
 	    </div>
 

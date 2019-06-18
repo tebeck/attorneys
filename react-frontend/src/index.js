@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { history } from './_helpers';
-import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
+import App from './App';
+require('dotenv').config();
 
  ReactDOM.render(
       	<Router history={history}>

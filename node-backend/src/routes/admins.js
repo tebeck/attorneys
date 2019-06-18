@@ -7,6 +7,8 @@ router.post('/register',  adminController.register);
 router.post('/authenticate',  adminController.authenticate);
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
 
+router.post('/enable', adminController.enableSeeker);
+
 router.post('/disableuser', adminMiddleware.adminRoute, adminController.disableUser);
 router.post('/deleteuser', adminMiddleware.adminRoute, adminController.deleteUser);
 router.post('/getusers', adminMiddleware.adminRoute, adminController.getUsers);

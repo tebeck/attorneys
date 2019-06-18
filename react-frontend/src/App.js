@@ -8,11 +8,14 @@ import CreateComponent from './_components/appearances/CreateComponent';
 import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
 import './_assets/css/ownstylesheet.scss';
-import {url_backend} from './config.json';
+import {url_backend} from './_helpers';
+import LoaderAnimation from './_components/LoaderAnimation';
+
+console.log(url_backend);
 
 const Loader = x => Loadable({
-  loading: () => 'Loading...',
-  loader: x
+  loading: () => <div className="centered"><LoaderAnimation /></div>,
+  loader: x,
 })
 
 
@@ -24,9 +27,13 @@ const TermsComponent = Loader(()=> import('./_components/TermsComponent'))
 
 // Users
 const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
-const RegisterSeekerComponent = Loader(() => import('./_components/users/RegisterSeekerComponent') )
-const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
+const RegisterComponent = Loader(() => import('./_components/users/RegisterComponent') )
+// const RegisterSeekerComponent = Loader(() => import('./_components/users/RegisterSeekerComponent') )
+// const RegisterAttorneyComponent = Loader(() => import('./_components/users/RegisterAttorneyComponent') )
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
+
+// Admin
+const AdminComponent = Loader(() => import('./_components/admins/AdminComponent') )
 
 // Appearances
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
@@ -61,10 +68,11 @@ class App extends Component {
   render() {
     return (
 
-          <div className="">
+          <div className="alert-container">
               {alert.message &&
                   <div className={`alert ${alert.type}`}>{alert.message}</div>
               }
+              <div className="body-container">
               <Router history={history}>
 
                       <PrivateRoute exact path="/home" component={HomeComponent} />
@@ -86,11 +94,14 @@ class App extends Component {
                       <Route exact path="/terms" component={TermsComponent} />
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
-                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
-                      <Route path="/registerAttorney" component={RegisterAttorneyComponent} />
+                      <Route path="/register" component={RegisterComponent} />
+                      <Route path="/admin" component={AdminComponent} />
+{/*                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
+                      <Route path="/registerAttorney" component={RegisterAttorneyComponent} />*/}
                       <Route path="/recoverpassword" component={RecoverPasswordComponent} />
                       <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
               </Router>
+              </div>
           </div>
     );
   }

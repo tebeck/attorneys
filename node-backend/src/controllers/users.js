@@ -26,35 +26,39 @@ module.exports = {
           profilePicture: req.body.profilePicture, creditCard: req.body.creditCard, policy: req.body.policy,
           notification: req.body.notification, insurancePolicy: req.body.insurancePolicy, termsConditions: req.body.termsConditions,
           isSeeker: req.body.isSeeker, isAttorney: req.body.isAttorney, rating: req.body.rating, reviewTotal: req.body.reviewTotal,
-          reviews: req.body.reviews, isVerified: req.body.isVerified, isDisabled: req.body.isDisabled
+          reviews: req.body.reviews, isVerified: req.body.isVerified, isDisabled: req.body.isDisabled, onHold: req.body.onHold
       });
 
         user.save(function (err) {
           if (err) { return res.status(500).send({ message: err.message }); 
         }
 
-        let token = new tokenModel({
-          _userId: user._id,
-          token: crypto.randomBytes(16).toString('hex')
-        });
+        // let token = new tokenModel({
+        //   _userId: user._id,
+        //   token: crypto.randomBytes(16).toString('hex')
+        // });
          
-        token.save(function (err) {
-          if (err) { return res.status(500).send({ message: err.message }); 
-        }
+        // token.save(function (err) {
+        //   if (err) { return res.status(500).send({ message: err.message }); 
+        // }
 
-         const subject = 'Account Verification Token'
-         const text = "Please verify your account by clicking the link: "+'http:\/\/' + req.headers.host + '\/users/confirmation\/' + token.token 
+         //const subject = 'Account Verification Token'
+         //const text = "Please verify your account by clicking the link: "+'http:\/\/' + req.headers.host + '\/users/confirmation\/' + token.token 
+
+         const subject = 'Welcome to Esquired!'
+         const text = "Thanks for signing up to keep in touch with Esquired."
 
          Logger.log("REGISTER: Sending email")
          
          send.email(user.email, subject, text)
-           
-         return res.status(200).send({token: token.token,user: user,state: 200, message:"A verification email has been sent to "+user.email}) 
+         
+         const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
+         return res.status(200).send({token: token,user: user,state: 200, message:"A welcome email has been sent to "+user.email}) 
          
         });
       });
 
-    });
+    // });
   },
 
   authenticate: function(req, res, next) {
@@ -63,6 +67,7 @@ module.exports = {
       if (err) { return res.status(500).send({ message: err.message }); }
       if (!user) { return res.status(401).send({ message: "User not found"}); }
       if (!user.isVerified) { return res.status(401).send({ message: "Your account has not been verified"}); } 
+      if (!user.isAttorney && user.isSeeker && user.onHold) { return res.status(401).send({ message: "Account is on review, we will let you know when its active"}); } 
       if (user.isDisabled){ return res.status(401).send({ message: "User disabled" }); }
       
       if(bcrypt.compareSync(req.body.password, user.password)) {
@@ -108,10 +113,9 @@ makeSeeker: function(req, res, next){
      userModel.findById(req.body.userId, function(err, user) { 
       
       if (!user) { return res.status(401).send({ message: "User not found"}) }
-    
-      user.updateOne({isSeeker: true},function (err) {
+      user.updateOne({isSeeker: true, insurancePolicy: req.body.insurancePolicy, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
-          return res.status(200).send({state: 200,message: "The account has been verified. Please log in.", redirect: req.headers.host + "/authenticate"});
+          return res.status(200).send({state: 200,message: "Now your a seeker too"});
       });
     })
 },
@@ -200,14 +204,10 @@ makeSeeker: function(req, res, next){
 
     )},
 
-
-
+// Lo uso porque desde el frontend le pego a este metodo cuando quiero enviar un email.
     sendMail: function(req, res, next){
-      const subject = "Email contact"
-      const text = "Text for email contact"
-
-        send.email(req.body.email, subject || req.body.subject, text || req.body.text)
-        console.log("email")
+        console.log(req.body + "AAAAAAAAAAAA")
+        send.email(req.body.email, req.body.subject, req.body.text)
       return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })
     }
 

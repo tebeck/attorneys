@@ -7,8 +7,6 @@ import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
 
 
-
-
 export default class HomeComponent extends Component {
 
   constructor(props, context) {
@@ -17,6 +15,7 @@ export default class HomeComponent extends Component {
       key: 'agenda',
       isAttorney: Cookies.getJSON('esquired').isAttorney,
       isSeeker: Cookies.getJSON('esquired').isSeeker,
+      onHold: Cookies.getJSON('esquired').onHold,
       user: Cookies.getJSON('esquired').user,
       email: Cookies.getJSON('esquired').email
     }
@@ -30,15 +29,18 @@ export default class HomeComponent extends Component {
   }
 
 	render() {
-    const {isAttorney, isSeeker} = this.state
-		return (
-            <div>
+    
+    const {isAttorney, isSeeker, onHold} = this.state
+
+
+    return (
+            <div className="container">
                 <div className="navbar">
-                	<Link to="/profile"><i className="far fa-lg fa-user-circle blue"></i></Link>
+                	<Link to="/profile"><i className="far fa-lg fa-user-circle green-background"></i></Link>
                       <span className="title">Esquire'd</span>
-                    <Link to="/notifications"><i className="fas fa-lg fa-bell blue"></i></Link>
+                    <Link to="/notifications"><i className="fas fa-lg fa-bell green-background"></i></Link>
                 </div>
- 				        <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+ 				        <Tabs id="controlled-tab-example" style={{alignItems: "center",justifyContent: "center"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>
@@ -47,7 +49,7 @@ export default class HomeComponent extends Component {
                       <Requests />                       
                     </Tab>
                   :null}
-                  {isSeeker ?
+                  {isSeeker && !onHold ?
                     <Tab eventKey="myappearances" title="Appearances" >
                       <Appearances />
                     </Tab>

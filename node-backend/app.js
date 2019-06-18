@@ -27,7 +27,8 @@ app.use(bodyParser.json());
 // ROUTES
 app.use('/users', users);
 app.use('/files', filesRoute);
-app.use('/admins', isvalid.admin, adminRoutes);
+// app.use('/admins', isvalid.admin, adminRoutes);
+app.use('/admins', adminRoutes); // AGREGAR EL ISVALID.ADMIN PARA PROD!!
 app.use('/appearances',isvalid.user ,appearancesRoutes);
 app.use('/postulations',isvalid.user ,postulationsRoutes);
 app.use('/notifications',isvalid.user ,notificationsRoutes);

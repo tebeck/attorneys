@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import  { Tabs, Tab } from 'react-bootstrap';
 import {userServices} from '../../_services';
+import Header from '../HeaderComponent';
 
 export default class ProfileComponent extends Component {
-  
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -12,9 +13,7 @@ export default class ProfileComponent extends Component {
     };
   }
 
-
   componentDidMount(){
-
     userServices.getProfile()
       .then(data => this.setState({
         firstName: data.data.firstName,
@@ -30,7 +29,6 @@ export default class ProfileComponent extends Component {
         data: data.data
         })
       )
-
   }
 
   openModal() {
@@ -44,9 +42,9 @@ export default class ProfileComponent extends Component {
      const {errors, ...noErrors} = this.state // Destructuring...
      const result = validate(noErrors)
      this.setState({errors: result})
-     
+
      if(!Object.keys(result).length) {
-     
+
         userServices.updatePassword(noErrors).then(
           res =>{
            alert(res)
@@ -64,11 +62,13 @@ export default class ProfileComponent extends Component {
 
 	render() {
     if(this.state.data && this.state.data.mailingAddress[0].city){
-      
+
    }
 
 		return (
-			<div className="container">
+      <div>
+        <Header guest="1" />
+        <div className="container main-body">
 				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
 				<div className="center">
 					<img width="80px" src={this.state.profilePicture} alt="user" className="img-fluid" /><br />
@@ -134,17 +134,18 @@ export default class ProfileComponent extends Component {
                   </div>
                 </Tab>
                 <Tab eventKey="professionalinfo" title="Prof info">
-                  
+
                 </Tab>
                 <Tab eventKey="transactions" title="Transactions" >
-                  
+
                 </Tab>
             </Tabs>
 				</div>
 			</div>
+			</div>
 		);
 
-  
+
  }
 
 }
@@ -161,19 +162,3 @@ const validate = values => {
 
   return errors;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
