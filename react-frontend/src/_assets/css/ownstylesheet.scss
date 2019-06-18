@@ -306,7 +306,42 @@ div.popup-content{
   width: 350px!important;
 }
 
-.img-landing0{
+@media screen and (max-width:768px){
+  
+  body{
+    width: 100%;
+
+  }
+
+  .body-container{
+    width: 100%!important;
+  }
+
+  .home-header{
+    display: block!important;
+    width: 100%!important;
+    margin: 0 auto!important;
+  }
+
+  .img-landing0{
+    
+  }
+
+  .features-square{
+    width: 100%!important;
+  }
+
+  .mobile-features{
+    display: block
+  }
+
+  .solutions-square{
+    width: 100%!important;
+  }
+  .mobile-solutions{
+    display: block
+  }
+
 
 }
 

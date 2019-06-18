@@ -128,14 +128,14 @@ export default class HomeComponent extends Component {
                 </Popup>
           </div>
           <div className="background-esquired">
-            <div className="flex-space-around margin-sides">
-              <img className="img-landing0" src={landing2} alt="example" />
+            <div className="flex-space-around margin-sides home-header">
+              <img className="img-landing0 img-responsive" src={landing2} alt="example" />
               <p className="first-paragraph">Is a solution to connect attorneys of record or law firms who are required to appear at a hearing and appearing attorneys.</p>
             </div>
           </div>
           <div className="solutions">
             <h3>Our Solutions</h3>
-            <div className="padding-bottom-guest flex-space-around">
+            <div className="padding-bottom-guest flex-space-around mobile-solutions">
               <div className="solutions-square"></div>
               <div className="solutions-square"></div>
               <div className="solutions-square"></div>
@@ -143,7 +143,7 @@ export default class HomeComponent extends Component {
           </div>
           <div className="features">
             <h3>Features</h3>
-           <div className="padding-bottom-guest flex-space-around">
+           <div className="padding-bottom-guest flex-space-around mobile-features">
              <div className="features-square">
                <img src={landing_features_01} alt="landing_features_01" />
                <h5>Lorem ipsum dispusm</h5>

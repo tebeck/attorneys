@@ -19,6 +19,7 @@
     "react": "^16.8.6",
     "react-awesome-modal": "^2.0.5",
     "react-bootstrap": "^1.0.0-beta.8",
+    "react-bootstrap-carousel": "^3.4.1",
     "react-bootstrap4-form-validation": "^1.0.10",
     "react-data-components": "^1.2.0",
     "react-dom": "^16.8.6",
