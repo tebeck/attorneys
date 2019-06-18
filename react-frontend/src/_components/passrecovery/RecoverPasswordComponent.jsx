@@ -46,8 +46,16 @@ export default class RecoverPasswordComponent extends Component {
 
       // Enviar form
       userServices.recoverPassword(noErrors)
-
-      this.openModal()
+        .then(data => {
+          if(data.message === "No user found"){
+            this.setState({
+              errUser: data.message
+            })
+          } else{
+            this.openModal()
+          }
+        })
+      
     } else {
       this.setState({ errors: result })
     }
@@ -79,7 +87,7 @@ export default class RecoverPasswordComponent extends Component {
 
 
 
-    const {errors, pathname} = this.state
+    const {errors, pathname, errUser} = this.state
 		return (
 
       <div>
@@ -93,12 +101,14 @@ export default class RecoverPasswordComponent extends Component {
                     effect="fadeInDown"
                     onClickAway={() => this.closeModal()}>
 
-                  <div style={{padding: "30px",textAlign: "center"}}>
+                  <div className="recoverPassModal">
                     <h5>Confirmation code sent, please check your email box!</h5>
+                    <button onClick={() => this.closeModal()} className="recoverPassButton link-button">Close</button>
                   </div>
-                    <div style={{borderRadius: "0px 0px 5px 5px",padding: "30px", paddingTop: "20px",textAlign: "center",height:"30%", width:"100%", backgroundColor: "lightgrey"}}>
-                    </div>
+                     
                 </Modal><br />
+                  <div className={errUser ? 'display' : 'hide'}>
+                  <div className="alert alert-danger" role="alert">{errUser}</div></div>
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" type="text" name="email" placeholder="Email" onChange={this.handleChange}></input>
                 {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}

@@ -103,7 +103,7 @@ export default class HomeComponent extends Component {
       state: { isAttorney: true }
     }
 
-    const {errors} = this.state
+    const {errors, errlogin} = this.state
 		return (
       <div>
 
@@ -116,7 +116,8 @@ export default class HomeComponent extends Component {
                     <h4>Log into your account</h4><br/>
                     <form onSubmit={this.handleSubmit}>
 
-
+                    <div className={errlogin ? 'display' : 'hide'}>
+                    <div className="alert alert-danger" role="alert">{this.state.errlogin}</div></div>
                       <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
                       {errors.email && <div style={{fontSize: "15px", padding: "1px", margin: "0px",color:"red"}} >{errors.email}</div>}
                       <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
