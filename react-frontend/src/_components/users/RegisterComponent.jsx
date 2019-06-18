@@ -35,7 +35,7 @@ export default class RegisterForm extends Component {
   this.state = {
     currentStep: 1,              // Init current step at 1.
     errors: {},                  // onSubmit errors stored here.
-    visible: true,              // Modal visible ?.
+    visible: false,              // Modal visible ?.
     isAttorney: isAttorney,
     isSeeker: isSeeker,
     onHold: isAttorney,
