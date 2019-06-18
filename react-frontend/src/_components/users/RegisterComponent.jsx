@@ -342,7 +342,7 @@ if (this.state.currentStep === 2){
         console.log(res)
     } else {
         console.log(res)
-        window.location.assign('/authenticate')
+        window.location.assign('/')
     }
   })
 
