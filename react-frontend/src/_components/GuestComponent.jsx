@@ -13,6 +13,8 @@ import landing_instagram from '../_assets/img/landing/landing_instagram.png'
 import landing_youtube from '../_assets/img/landing/landing_youtube.png'
 import landing_twitter from '../_assets/img/landing/landing_twitter.png'
 import logo from '../_assets/img/landing/logo.png'
+import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
+import registerAsImage from '../_assets/img/landing/landing_register.png'
 
 const validate = values => {
   const errors = {}
@@ -129,16 +131,36 @@ export default class HomeComponent extends Component {
           </div>
           <div className="background-esquired">
             <div className="flex-space-around margin-sides">
+              <div className="img-landing">
               <img className="img-landing0" src={landing2} alt="example" />
+              </div>
               <p className="first-paragraph">Is a solution to connect attorneys of record or law firms who are required to appear at a hearing and appearing attorneys.</p>
             </div>
           </div>
           <div className="solutions">
             <h3>Our Solutions</h3>
-            <div className="padding-bottom-guest flex-space-around">
-              <div className="solutions-square"></div>
-              <div className="solutions-square"></div>
-              <div className="solutions-square"></div>
+            <div className="padding-bottom-guest solution-cont  ">
+              <div className="solutions-square-item">
+              <div className="solutions-square">
+                <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+                <div className="solution-title">Lorem Ipsum Title</div>
+                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+              </div>
+              </div>
+              <div className="solutions-square-item">
+              <div className="solutions-square">
+                <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+                <div className="solution-title">Lorem Ipsum Title</div>
+                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+              </div>
+              </div>
+              <div className="solutions-square-item">
+              <div className="solutions-square">
+                <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+                <div className="solution-title">Lorem Ipsum Title</div>
+                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+              </div>
+              </div>
             </div>
           </div>
           <div className="features">
@@ -169,7 +191,9 @@ export default class HomeComponent extends Component {
           <div className="registeras">
             <h3>Register now as:</h3>
             <div className="padding-bottom-guest">
-              <div className="registeras-square"></div>
+              <div className="registeras-square">
+                <img className="register-as-image" src={registerAsImage} />
+              </div>
               <Link className="link-button" to={aor}>Attorney of Record</Link>
               <Link className="link-button" to={aoa}>Appearing Attorney</Link>
             </div>
