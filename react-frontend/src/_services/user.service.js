@@ -145,7 +145,6 @@ function recoverPassword(email){
     return fetch(`${url_backend}/users/recoverpassword`, requestOptions)
         .then(handleResponse)
         .then(data => {
-          data.status = 400;
             return data
         })
 }
