@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Header from './HeaderComponent';
 
 export default class TermsComponent extends Component {
 
@@ -13,12 +14,14 @@ export default class TermsComponent extends Component {
 
   render() {
   	return (
+<div>
+      <Header />
      <div className="container main-body">
         <h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Terms and Conditions</h3>
          <hr />
           <div >
           <div>
-<h3>Terms and Conditions for Esquired</h3><br />
+
 <h4>Introduction</h4>
 These Website Standard Terms and Conditions written on this webpage shall manage your use of our website, Esquired accessible at esquired.com.
 
@@ -80,6 +83,7 @@ These Terms will be governed by and interpreted in accordance with the laws of t
           </div>
          <hr />
      </div>
+</div>
   	);
   }
 }

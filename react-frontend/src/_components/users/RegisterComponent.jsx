@@ -8,14 +8,6 @@ import Modal from 'react-awesome-modal';
 import SelectUSState from 'react-select-us-states';
 import '../../_assets/css/ownstylesheet.scss';
 
-const customStyles = {
-  overlay : {
-    width                 : '350px',
-    height                : 'auto',
-    padding               : '35px'
-  }
-};
-
 export default class RegisterForm extends Component {
 
  constructor(props) {
@@ -51,7 +43,6 @@ export default class RegisterForm extends Component {
     streetAddrTwoValid: false,
     cityValid: false,
     zipValid: false,
-    policyValid: false,
 
     // form state
     firstName: "",
@@ -203,13 +194,12 @@ nextButton(){
     let streetAddrTwoValid = this.state.streetAddrTwoValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
-    let policyValid = this.state.policyValid;
 
 
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(target.value)){
+        if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
@@ -279,15 +269,7 @@ if (this.state.currentStep === 2){
         zipValid=true;
       }
     }
-    if (target.name === 'policy'){
-      if (target.value.length<2) {
-        enableNextAction=false
-        policyValid=false;
-      }else{
-        policyValid=true;
-      }
-    }
-      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid && policyValid){
+      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid){
         enableNextAction=true
       }
       const newState = {
@@ -298,7 +280,6 @@ if (this.state.currentStep === 2){
         streetAddrTwoValid: streetAddrTwoValid,
         cityValid: cityValid,
         zipValid: zipValid,
-        policyValid: policyValid,
         enableNextAction: enableNextAction
       };
       //console.log('newState: ',newState)
@@ -380,19 +361,20 @@ if (this.state.currentStep === 2){
         break;
     }
 
+    console.log(this.state.policy)
 
    return(
     <div>
        <Modal className="registerModal" width="350px" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
-          <div style={{padding: "30px",textAlign: "center"}}>
+          <div style={{padding: "30px a 30px 0px 0px",textAlign: "center"}}>
            <h5>Your account has been created successfully!</h5>
           </div>
             {this.state.isAttorney ?
             <div className="modalHead" style={{margin:"30px"}}>
-              <p style={{padding:"20px"}}>In the meantime, are you also planning to act as an Appearing Attorney?</p>
+              <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
+               {this.state.isAttorney && !this.state.policy ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
@@ -451,27 +433,8 @@ if (this.state.currentStep === 2){
           handleChangeChk={this.handleChangeChk}
           state={this.state}
         />
-        {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
-
-        {errors.firstName && <div className="alert alert-danger" role="alert">{errors.firstName}</div>}
-        {errors.lastName && <div className="alert alert-danger" role="alert">{errors.lastName}</div>}
-
-        {errors.lawFirm && <div className="alert alert-danger" role="alert">{errors.lawFirm}</div>}
-        {errors.stateBar && <div className="alert alert-danger" role="alert">{errors.stateBar}</div>}
-
-        {errors.officePhone && <div className="alert alert-danger" role="alert">{errors.officePhone}</div>}
-        {errors.mobilePhone && <div className="alert alert-danger" role="alert">{errors.mobilePhone}</div>}
-        {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}
-        {errors.creditCard && <div className="alert alert-danger" role="alert">{errors.creditCard}</div>}
-        {errors.policy && <div className="alert alert-danger" role="alert">{errors.policy}</div>}
 
 
-        {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
-        {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
-        {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
-
-        {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
-        {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
 
           {this.nextButton()}
 
@@ -519,7 +482,7 @@ function Step1(props){
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
-        <input className={props.state.policyValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
         {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
       </div>
     )
@@ -547,9 +510,27 @@ function Step1(props){
          <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
-        <div style={{textAlign: "center"}}><Link to="/terms" >Terms and Conditions</Link></div><br />
+
+        {props.state.errors.password && <div className="alert alert-danger" role="alert">{props.state.errors.password}</div>}
+        {props.state.errors.firstName && <div className="alert alert-danger" role="alert">{props.state.errors.firstName}</div>}
+        {props.state.errors.lastName && <div className="alert alert-danger" role="alert">{props.state.errors.lastName}</div>}
+        {props.state.errors.lawFirm && <div className="alert alert-danger" role="alert">{props.state.errors.lawFirm}</div>}
+        {props.state.errors.stateBar && <div className="alert alert-danger" role="alert">{props.state.errors.stateBar}</div>}
+        {props.state.errors.officePhone && <div className="alert alert-danger" role="alert">{props.state.errors.officePhone}</div>}
+        {props.state.errors.mobilePhone && <div className="alert alert-danger" role="alert">{props.state.errors.mobilePhone}</div>}
+        {props.state.errors.email && <div className="alert alert-danger" role="alert">{props.state.errors.email}</div>}
+        {props.state.errors.creditCard && <div className="alert alert-danger" role="alert">{props.state.errors.creditCard}</div>}
+        {props.state.errors.policy && <div className="alert alert-danger" role="alert">{props.state.errors.policy}</div>}
+        {props.state.errors.streetAddOne && <div className="alert alert-danger" role="alert">{props.state.errors.streetAddOne}</div>}
+        {props.state.errors.streetAddTwo && <div className="alert alert-danger" role="alert">{props.state.errors.streetAddTwo}</div>}
+        {props.state.errors.city && <div className="alert alert-danger" role="alert">{props.state.errors.city}</div>}
+        {props.state.errors.zip && <div className="alert alert-danger" role="alert">{props.state.errors.zip}</div>}
+        {props.state.error && <div className="alert alert-danger" role="alert">{props.state.error}</div>}
+        <br />
 
         <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
+
+        <div style={{textAlign: "center"}}><Link target="_blank" to="/terms" >Terms and Conditions</Link></div><br />
       </div>
     )
 }
