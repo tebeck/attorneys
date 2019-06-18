@@ -50,8 +50,8 @@ export default class RegisterForm extends Component {
     streetAddrOneValid: false,
     streetAddrTwoValid: false,
     cityValid: false,
-    stateValid: false,
     zipValid: false,
+    policyValid: false,
 
     // form state
     firstName: "",
@@ -141,6 +141,7 @@ handleSubmit = (e) => {
     let currentStep = this.state.currentStep
 
     if (!this.state.enableNextAction){ // there are errors
+      console.log(this.state)
       this.setState({
         enableErrors: true
       })
@@ -200,9 +201,9 @@ nextButton(){
     let lastNameValid = this.state.lastNameValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let streetAddrTwoValid = this.state.streetAddrTwoValid;
-    // let stateValid = this.state.stateValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
+    let policyValid = this.state.policyValid;
 
 
 
@@ -246,7 +247,6 @@ nextButton(){
     }
 
 if (this.state.currentStep === 2){
-
     if (target.name === 'streetAddrOne'){
       if (target.value.length<2) {
         enableNextAction=false
@@ -279,7 +279,15 @@ if (this.state.currentStep === 2){
         zipValid=true;
       }
     }
-      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid){
+    if (target.name === 'policy'){
+      if (target.value.length<2) {
+        enableNextAction=false
+        policyValid=false;
+      }else{
+        policyValid=true;
+      }
+    }
+      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid && policyValid){
         enableNextAction=true
       }
       const newState = {
@@ -290,9 +298,10 @@ if (this.state.currentStep === 2){
         streetAddrTwoValid: streetAddrTwoValid,
         cityValid: cityValid,
         zipValid: zipValid,
+        policyValid: policyValid,
         enableNextAction: enableNextAction
       };
-      // console.log('newState: ',newState)
+      //console.log('newState: ',newState)
       this.setState(newState);
     }
 
@@ -510,7 +519,7 @@ function Step1(props){
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        <input className={props.state.policyValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
         {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
       </div>
     )
