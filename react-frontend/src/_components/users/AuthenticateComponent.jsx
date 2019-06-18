@@ -47,6 +47,7 @@ constructor(props) {
       userServices.authenticate(noErrors)
         .then(data => {
           if (data.status !== 200) {
+            console.log(data.message)
             this.setState({
               errlogin: data.message
              })

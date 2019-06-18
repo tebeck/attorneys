@@ -36,10 +36,14 @@ export default class RequestsComponent extends Component {
   
   const {data} = this.state
 	return (
-	 <div>
-	  <span>Active Requests</span><i className="fas fa-chevron-down"></i><br/>
+	 <div><br/>
+	  <span>Active Requests</span>
+	  <button className="btn btn-outline-dark btn-sm float-right">VIEW ALL</button><br/><br/>
 		{data.map(x =>
-		<div key={x._id} className="container">
+		<div key={x._id}>
+	      <div className="appearanceState text-center alert alert-warning">
+	      	<p>Pending assignment</p>
+	      </div>
 		  <div className="appearanceBox">
 		      <div className="appearanceHeaderBox">  
 		        <Moment className="boxYear" format="ll">{x.hearingDate}</Moment><span> - {x.time}</span>
@@ -51,7 +55,7 @@ export default class RequestsComponent extends Component {
 		      	<button onClick={this.handleClick} className="btn btn-primary link-button">Accept</button>
 		      </div>
 		    </div>
-		    
+		    <br />
 		</div>
   		)}
   		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button>

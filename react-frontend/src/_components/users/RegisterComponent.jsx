@@ -5,14 +5,23 @@ import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Header from '../HeaderComponent';
 import Modal from 'react-awesome-modal';
+import SelectUSState from 'react-select-us-states';
+import '../../_assets/css/ownstylesheet.scss';
 
+const customStyles = {
+  overlay : {
+    width                 : '350px',
+    height                : 'auto',
+    padding               : '35px'
+  }
+};
 
 export default class RegisterForm extends Component {
 
  constructor(props) {
   super(props)
   let role = this.props.location.state;
-  const backhome = this.props.location.backhome;
+  // const backhome = this.props.location.backhome;
   let isAttorney = true;
   let isSeeker = false;
   if (!role){
@@ -55,7 +64,7 @@ export default class RegisterForm extends Component {
     streetAddrOne: "",
     streetAddrTwo: "",
     city: "",
-    _state: "",
+    _state: "AL",
     zip:"",
     password: "",
     profilePicture:"",
@@ -64,7 +73,7 @@ export default class RegisterForm extends Component {
     insurancePolicy:""
   }
 
-
+  this.setNewState = this.setNewState.bind(this);
   this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
  }
 
@@ -103,7 +112,7 @@ handleSubmit = (e) => {
      }
 
      noErrors.mailingAddress = mailingAddress;
-     noErrors.state = noErrors._state;
+     noErrors.state = this.state._state;
 
      userServices.register(noErrors).then(
       res =>{
@@ -129,7 +138,6 @@ handleSubmit = (e) => {
 }
 
   _next = () => {
-    console.log('fn::next');
     let currentStep = this.state.currentStep
 
     if (!this.state.enableNextAction){ // there are errors
@@ -192,7 +200,7 @@ nextButton(){
     let lastNameValid = this.state.lastNameValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let streetAddrTwoValid = this.state.streetAddrTwoValid;
-    let stateValid = this.state.stateValid;
+    // let stateValid = this.state.stateValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
 
@@ -200,7 +208,7 @@ nextButton(){
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
@@ -263,14 +271,6 @@ if (this.state.currentStep === 2){
         cityValid=true;
       }
     }
-    if (target.name === '_state'){
-      if (target.value.length<2) {
-        enableNextAction=false
-        stateValid=false;
-      }else{
-        stateValid=true;
-      }
-    }
     if (target.name === 'zip'){
       if (target.value.length<2) {
         enableNextAction=false
@@ -279,7 +279,7 @@ if (this.state.currentStep === 2){
         zipValid=true;
       }
     }
-      if (streetAddrOneValid && streetAddrTwoValid && stateValid && cityValid && zipValid){
+      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid){
         enableNextAction=true
       }
       const newState = {
@@ -289,7 +289,6 @@ if (this.state.currentStep === 2){
         streetAddrOneValid: streetAddrOneValid,
         streetAddrTwoValid: streetAddrTwoValid,
         cityValid: cityValid,
-        stateValid: stateValid,
         zipValid: zipValid,
         enableNextAction: enableNextAction
       };
@@ -319,6 +318,13 @@ if (this.state.currentStep === 2){
       });
   }
 
+  setNewState(newValue) {
+    console.log('this is the State code:' + newValue);
+    this.setState({
+      _state: newValue
+    })
+  }
+
   // set and push Redirect
   setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
   pushingRedirect = () => { if (this.state.homeRedirect) { this.props.history.push({ pathname: '/', state: {...this.state} }) }}
@@ -326,10 +332,10 @@ if (this.state.currentStep === 2){
   // set and push register seeker Redirect.
   setValidSeeker = (e) => {
    e.preventDefault();
-   console.log(e.target.insurancePolicy.value)
+   // console.log(e.target.insurancePolicy.value)
    let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
 
-   console.log(body)
+   // console.log(body)
     userServices.makeSeeker(body)
      .then(res => {
       if (res.state !== 200) {
@@ -368,9 +374,26 @@ if (this.state.currentStep === 2){
 
    return(
     <div>
+       <Modal className="registerModal" width="350px" height="auto" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
+          <div style={{margin:"30px",padding: "30px",textAlign: "center"}}>
+           <h5>Your account has been created successfully!</h5>
+          </div>
+            {this.state.isAttorney ?
+            <div className="modalHead" style={{margin:"30px"}}>
+              <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
+              {this.pushingRedirect()}
+              <form onSubmit={this.setValidSeeker}>
+               {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
+                <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
+              </form>
+            </div> : <p>You will receive a notification once your profile is approved.</p>}
+            <Link style={{margin:"30px"}} to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
+        </Modal>
+
+
       <Header guest="1" />
       <div className="container main-body">
-      {/*<h1>{this.state.isAttorney ? "attorney of record" : "attorney of appearance" }</h1>*/}
+
       <h3 onClick={this._prev} className="clickable"><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
@@ -404,6 +427,7 @@ if (this.state.currentStep === 2){
           policy={this.state.policy}
           insurancePolicy={this.state.insurancePolicy}
           state={this.state}
+          setNewState={this.setNewState}
         />
         <Step3
           currentStep={currentStep}
@@ -436,32 +460,18 @@ if (this.state.currentStep === 2){
         {errors.streetAddOne && <div className="alert alert-danger" role="alert">{errors.streetAddOne}</div>}
         {errors.streetAddTwo && <div className="alert alert-danger" role="alert">{errors.streetAddTwo}</div>}
         {errors.city && <div className="alert alert-danger" role="alert">{errors.city}</div>}
-        {errors._state && <div className="alert alert-danger" role="alert">{errors._state}</div>}
+
         {errors.zip && <div className="alert alert-danger" role="alert">{errors.zip}</div>}
 
           {this.nextButton()}
 
+          {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
+          {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div>}
+
         </form>
 
-        <Modal visible={this.state.visible} width="300" className="modal-popup"  effect="fadeInDown" onClickAway={() => this.closeModal()}>
-          <div style={{padding: "30px",textAlign: "center"}}>
-           <h5>Your account has been created successfully!</h5>
-          </div>
-            {this.state.isAttorney ?
-            <div className="modalHead">
-              <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
-              {this.pushingRedirect()}
-              <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
-               <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
-              </form>
-            </div>
-            : <p>You will receive a notification once your profile is approved.</p>}
-            <Link to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
-        </Modal>
-
       </div>
-      </div>
+   </div>
       )
    }
 
@@ -499,7 +509,7 @@ function Step1(props){
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
-        <input className={props.state.stateValid||!props.state.enableErrors ? "form-control" : "error"}         type="text" name="_state"          placeholder="State"            value={props._state}          onChange={props.handleChange}></input>
+        <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
         {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
@@ -555,8 +565,6 @@ const errors = {}
 
   if(!values.city) { errors.city = 'Insert city' }
 
-  if(!values._state) { errors._state = 'Insert state' }
-
   if(!values.zip) { errors.zip = 'Insert zip' }
 
   if(!values.firstName) { errors.firstName = 'Insert firstName' }
@@ -584,6 +592,6 @@ const errors = {}
   // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
   // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
-  // console.log(errors)
+  console.log(errors)
   return errors;
 }

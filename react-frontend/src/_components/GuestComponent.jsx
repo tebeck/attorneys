@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from "reactjs-popup";
-import landing0 from '../_assets/img/landing/landing_0.png'
-import landing1 from '../_assets/img/landing/landing_1.png'
-import landing2 from '../_assets/img/landing/landing_2.png'
+// import landing0 from '../_assets/img/landing/landing_0.png'
+// import landing1 from '../_assets/img/landing/landing_1.png'
 import { userServices } from '../_services/user.service'
+import manWalkingImage from '../_assets/img/landing/man_walking.png'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
 import landing_features_02 from '../_assets/img/landing/landing_features_02.png'
 import landing_features_03 from '../_assets/img/landing/landing_features_03.png'
@@ -109,7 +109,7 @@ export default class HomeComponent extends Component {
 
           <div className="navbar header-comp">
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
-              <div className="logo"><a href="/"><img src={logo} /></a></div>
+              <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
 
                 <Popup trigger={<Link to="/"><i className="fas fa-lg fa-user green"></i></Link>} position="left top">
                   <div className="container popup-desktop"><br/>
@@ -131,15 +131,20 @@ export default class HomeComponent extends Component {
           </div>
           <div className="background-esquired">
             <div className="flex-space-around margin-sides">
-              <div className="img-landing">
-              <img className="img-landing0" src={landing2} alt="example" />
+            <div className="row">
+              <div className="col-sm-5 offset-sm-1 img-landing">
+              <img className="img-landing0" src={manWalkingImage} alt="example" />
               </div>
+              <div className="col-sm-5">
               <p className="first-paragraph">Is a solution to connect attorneys of record or law firms who are required to appear at a hearing and appearing attorneys.</p>
+              </div>
+              </div>
             </div>
           </div>
           <div className="solutions">
             <h3>Our Solutions</h3>
-            <div className="padding-bottom-guest solution-cont  ">
+            <div className="row padding-bottom-guest">
+            <div className="col-sm-12 ">
               <div className="solutions-square-item">
               <div className="solutions-square">
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
@@ -163,28 +168,40 @@ export default class HomeComponent extends Component {
               </div>
             </div>
           </div>
+          </div>
           <div className="features">
             <h3>Features</h3>
            <div className="padding-bottom-guest flex-space-around">
+           <div className="row">
+
+            <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_01} alt="landing_features_01" />
                <h5>Lorem ipsum dispusm</h5>
                <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
              </div>
+             </div>
+              <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_02} alt="landing_features_02" />
                <h5>Lorem ipsum dispusm</h5>
                <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
              </div>
+             </div>
+              <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_03} alt="landing_features_03" />
                <h5>Lorem ipsum dispusm</h5>
                <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
              </div>
+             </div>
+              <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_04} alt="landing_features_04" />
                <h5>Lorem ipsum dispusm</h5>
                <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
+             </div>
+             </div>
              </div>
            </div>
           </div>
