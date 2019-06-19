@@ -13,6 +13,13 @@ $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
 
+.mobile {
+  display: none;
+}
+.desktop{
+  display: block
+}
+
 body {
   background-color: $background-grey;
   min-height: 100vh;
@@ -279,15 +286,19 @@ div.popup-content{
 }
 
 .img-landing0{
+  text-align: center;
+  float: left
 
 }
-.first-paragraph{
+.slogan{
     margin-top: 50px;
     font-family: 'Noto Sans HK', sans-serif;
-    font-size: 25px;
-    font-weight: normal;
+    font-size: 20px;
+    font-weight: lighter;
     color: #ffffff;
 }
+
+
 .solution-image{
   background-repeat: no-repeat;
   background-position: center center;
@@ -351,11 +362,10 @@ div.popup-content{
 .solutions{
   text-align: center;
   margin:0 10% 0 10%;
-
 }
 
-.solutions h3{
-  padding: 70px
+.solutions h2{
+  padding: 40px
 }
 .solution-cont {
   display:block;
@@ -547,4 +557,19 @@ div.popup-content{
     font-weight: normal;
     display: block;
   }
+  
+  .mobile{
+    display: block
+  }
+
+  .desktop{
+    display: none;
+  }
+
+  .img-landing{
+    float: none
+  }
+
+
+
 }

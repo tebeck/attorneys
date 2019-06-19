@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 // import landing1 from '../_assets/img/landing/landing_1.png'
 import { userServices } from '../_services/user.service'
 import manWalkingImage from '../_assets/img/landing/man_walking.png'
+import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
 import landing_features_02 from '../_assets/img/landing/landing_features_02.png'
 import landing_features_03 from '../_assets/img/landing/landing_features_03.png'
@@ -13,8 +14,10 @@ import landing_instagram from '../_assets/img/landing/landing_instagram.png'
 import landing_youtube from '../_assets/img/landing/landing_youtube.png'
 import landing_twitter from '../_assets/img/landing/landing_twitter.png'
 import logo from '../_assets/img/landing/logo.png'
-import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
+
 import registerAsImage from '../_assets/img/landing/landing_register.png'
+import HomeSlider from './sliders/HomeSlider'
+import SolutionsSlider from './sliders/SolutionsSlider'
 
 const validate = values => {
   const errors = {}
@@ -133,19 +136,17 @@ export default class HomeComponent extends Component {
           <div className="background-esquired">
             <div className="flex-space-around margin-sides">
             <div className="row">
-              <div className="col-sm-5 offset-sm-1 img-landing">
-              <img className="img-landing0" src={manWalkingImage} alt="example" />
-              </div>
-              <div className="col-sm-5">
-              <p className="first-paragraph">Is a solution to connect attorneys of record or law firms who are required to appear at a hearing and appearing attorneys.</p>
-              </div>
-              </div>
+               <HomeSlider /> 
+             </div>
             </div>
           </div>
           <div className="solutions">
-            <h3>Our Solutions</h3>
+            <h2>Our Solutions</h2>
             <div className="row padding-bottom-guest">
-            <div className="col-sm-12 ">
+            <div className="col-sm-12">
+            
+            <SolutionsSlider />
+            <div className="desktop">
               <div className="solutions-square-item">
               <div className="solutions-square">
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
@@ -165,6 +166,7 @@ export default class HomeComponent extends Component {
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
                 <div className="solution-title">Lorem Ipsum Title</div>
                 <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+              </div>
               </div>
               </div>
             </div>
