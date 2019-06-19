@@ -25,7 +25,7 @@ export default class SolutionsSlider extends React.Component {
     const { index, direction } = this.state;
 
     return (
-      <Carousel className="mobile"
+      <Carousel className="mobile whitebackground"
         activeIndex={index}
         direction={direction}
         onSelect={this.handleSelect}
@@ -38,7 +38,7 @@ export default class SolutionsSlider extends React.Component {
             <div className="solution-title">Lorem Ipsum Title</div>
             <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
           </div>
-          </div>
+          </div><br/><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
@@ -47,7 +47,7 @@ export default class SolutionsSlider extends React.Component {
             <div className="solution-title">Lorem Ipsum Title</div>
             <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
           </div>
-          </div>
+          </div><br/><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
@@ -56,7 +56,7 @@ export default class SolutionsSlider extends React.Component {
             <div className="solution-title">Lorem Ipsum Title</div>
             <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
           </div>
-          </div>
+          </div><br/><br/>
         </Carousel.Item>        
       </Carousel>
     );

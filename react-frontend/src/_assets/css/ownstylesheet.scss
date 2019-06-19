@@ -599,4 +599,21 @@ div.popup-content{
     padding: 0
   }  
 
+.whitebackground .carousel-indicators li {
+    display: inline-block;
+    background-color: $green-color;
+    border-radius: 2px;
 }
+.whitebackground .carousel-indicators .active {
+    background-color: $green-color;
+    opacity: 20%;
+}
+
+
+}
+
+
+.carousel-indicatiors li{
+  height: 4px;
+}
+
