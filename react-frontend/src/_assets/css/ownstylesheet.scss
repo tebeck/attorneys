@@ -20,6 +20,37 @@ $display-block: block;
   display: block
 }
 
+.round-circle{
+  width:75px;
+  height: 75px;
+  border-radius: 50%;
+  margin: 20px
+}
+
+.bigInput{
+  height:50px
+}
+.btn-profile{
+  color: $green-color;
+  border-color: $green-color;
+  border-radius: 50px;
+  border-width: 1.5px;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+.link-profile{
+  margin-top: 35px;
+  display: block;
+  color: #4a4a4a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.p-profile{
+  color: #4a4a4a
+}
+
 body {
   background-color: $background-grey;
   min-height: 100vh;
