@@ -181,28 +181,28 @@ export default class HomeComponent extends Component {
              <div className="features-square">
                <img src={landing_features_01} alt="landing_features_01" />
                <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
+               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_02} alt="landing_features_02" />
                <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
+               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_03} alt="landing_features_03" />
                <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
+               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_04} alt="landing_features_04" />
                <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing commodo</p>
+               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing </p>
              </div>
              </div>
              </div>
