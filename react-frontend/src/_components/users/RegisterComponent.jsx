@@ -47,7 +47,7 @@ export default class RegisterForm extends Component {
     // form state
     firstName: "",
     lastName: "",
-    lawFirm:"",
+    firmName:"",
     stateBar: "",
     officePhone: "",
     mobilePhone: "",
@@ -400,7 +400,7 @@ if (this.state.currentStep === 2){
           handleChange={this.handleChange}
           firstName={this.state.firstName}
           lastName={this.state.lastName}
-          lawFirm={this.state.lawFirm}
+          firmName={this.state.firmName}
           stateBar={this.state.stateBar}
           officePhone={this.state.officePhone}
           mobilePhone={this.state.mobilePhone}
@@ -460,7 +460,7 @@ function Step1(props){
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
-        <input className='form-control' type="text" name="lawFirm"     placeholder="Firm Name"           value={props.lawFirm}     onChange={props.handleChange}></input>
+        <input className='form-control' type="text" name="firmName"     placeholder="Firm Name"           value={props.firmName}     onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
@@ -514,7 +514,7 @@ function Step1(props){
         {props.state.errors.password && <div className="alert alert-danger" role="alert">{props.state.errors.password}</div>}
         {props.state.errors.firstName && <div className="alert alert-danger" role="alert">{props.state.errors.firstName}</div>}
         {props.state.errors.lastName && <div className="alert alert-danger" role="alert">{props.state.errors.lastName}</div>}
-        {props.state.errors.lawFirm && <div className="alert alert-danger" role="alert">{props.state.errors.lawFirm}</div>}
+        {props.state.errors.firmName && <div className="alert alert-danger" role="alert">{props.state.errors.firmName}</div>}
         {props.state.errors.stateBar && <div className="alert alert-danger" role="alert">{props.state.errors.stateBar}</div>}
         {props.state.errors.officePhone && <div className="alert alert-danger" role="alert">{props.state.errors.officePhone}</div>}
         {props.state.errors.mobilePhone && <div className="alert alert-danger" role="alert">{props.state.errors.mobilePhone}</div>}
@@ -560,7 +560,7 @@ const errors = {}
 
   if(!values.lastName) { errors.lastName = 'Insert lastName' }
 
-//  if(!values.lawFirm) { errors.lawFirm = 'Insert lawFirm' }
+//  if(!values.firmName) { errors.firmName = 'Insert firmName' }
 
 //  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
 //  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }

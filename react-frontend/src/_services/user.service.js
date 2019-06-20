@@ -13,7 +13,8 @@ export const userServices = {
     makeSeeker,
     getSeekerAuth,
     upload,
-    updatePassword
+    updateAccountInfo,
+    updateProfInfo
 }
 
 function register(data){
@@ -113,8 +114,6 @@ function makeSeeker(userId){
             if(data.result && data.token){
 
               data.status=200;
-                console.log("ar: "+data.result.isAttorney)
-                console.log("aa: "+data.result.isSeeker)
                 if(data.result.isAttorney && data.result.isSeeker){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   
                 } else 
@@ -169,14 +168,14 @@ function recoverPassword(email){
   }
 
 
-  function updatePassword(data){
+  function updateAccountInfo(data){
           const requestOptions = {
           method: 'POST',
           headers: authHeader(),
           body: JSON.stringify(data)
       };
 
-    return fetch(`${url_backend}/users/updatepassword`, requestOptions)
+    return fetch(`${url_backend}/users/updateaccountinfo`, requestOptions)
         .then(handleResponse)
         .then(data => {
             if(data && data.message){
@@ -187,6 +186,27 @@ function recoverPassword(email){
             
         }) 
   }
+
+  function updateProfInfo(data){
+          const requestOptions = {
+          method: 'POST',
+          headers: authHeader(),
+          body: JSON.stringify(data)
+      };
+
+    return fetch(`${url_backend}/users/updateprofinfo`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            if(data && data.message){
+                return data.message
+            } else {
+                return data
+            }
+            
+        }) 
+  }
+
+
 
   function sendmail(data){
      const requestOptions = {
