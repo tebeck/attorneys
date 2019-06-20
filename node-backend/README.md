@@ -20,7 +20,7 @@
         "isAttorney": true,
         "firstName": "testName",
         "lastName": "testLN",
-        "lawFirm": "exampleLawFirm",
+        "firmName": "exampleFirmName",
         "stateBar": 111111111,
         "officePhone": "exampleOfficePhone",
         "mobilePhone": "exampleMobilePhone",

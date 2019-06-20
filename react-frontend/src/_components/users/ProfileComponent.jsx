@@ -11,6 +11,18 @@ export default class ProfileComponent extends Component {
     this.state = {
       key: 'personalinfo',
       notification: "",
+      firstName: "",
+      lastName: "",
+      email:"",
+      password:"",
+      firmName: "",
+      policy: "",
+      officePhone: "",
+      mobilePhone: "",
+      streetAddrOne: "",
+      creditCard: "",
+      showImage:true,
+      image:""
     };
 
     
@@ -21,7 +33,7 @@ export default class ProfileComponent extends Component {
       .then(data => this.setState({
         firstName: data.data.firstName,
         lastName: data.data.lastName,
-        lawFirm: data.data.lawFirm,
+        firmName: data.data.firmName,
         stateBar: data.data.stateBar,
         officePhone: data.data.officePhone,
         mobilePhone: data.data.mobilePhone,
@@ -29,20 +41,42 @@ export default class ProfileComponent extends Component {
         profilePicture: data.data.profilePicture,
         password: data.data.password,
         _userId: data.data._id,
-        data: data.data,
-        notification: data.data.notification
+        creditCard: data.data.creditCard,
+        notification: data.data.notification,
+        firmName: data.data.firmName,
+        policy: data.data.policy,
+        officePhone: data.data.officePhone,
+        mobilePhone: data.data.mobilePhone,
+        streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
+        image: data.data.profilePicture,
+        data: data.data
+        
         })
       )
       this.handleChange = this.handleChange.bind(this); // Bind boolean checkbox value.
-      console.log("will")
-  }
-
-  componentDidMount(){
-    console.log("did")
-    console.log(this.state)
   }
 
 
+
+
+
+  fileSelectedHandler = ({target}) => {
+    const newForm = new FormData();
+     newForm.append('avatar',  target.files[0] , target.files[0].name)
+
+    userServices.upload(newForm)
+      .then(data => {
+         console.log(data)
+         this.setState({
+         image: data.data.location })
+      })
+
+    this.setState({
+      profilePicture: URL.createObjectURL(target.files[0]),
+      showImage: true
+    })
+
+  }
 
 
   openModal() {
@@ -51,20 +85,36 @@ export default class ProfileComponent extends Component {
       });
   }
 
-  handleSubmit = (e) =>{
+  handleAccSubmit = (e) =>{
     e.preventDefault();
-     const {errors, ...noErrors} = this.state // Destructuring...
-     const result = validate(noErrors)
-     this.setState({errors: result})
+     const {...noErrors} = this.state // Destructuring...
+     // const result = validateAcc(noErrors)
+     // this.setState({errors: result})
 
-     if(!Object.keys(result).length) {
-
-        userServices.updatePassword(noErrors).then(
+     // if(!Object.keys(result).length) {
+       console.log(noErrors)
+        userServices.updateAccountInfo(noErrors).then(
           res =>{
            alert(res)
           }
         )
-     }
+     // }
+  }
+
+  handleProfSubmit = (e) =>{
+   e.preventDefault();
+     const {...noErrors} = this.state // Destructuring...
+     // const result = validateProf(noErrors)
+     // this.setState({errors: result})
+     console.log(noErrors)
+     // if(!Object.keys(result).length) {
+        userServices.updateProfInfo(noErrors).then(
+          res =>{
+           alert(res)
+          }
+        )
+     // } 
+     // console.log(result)
   }
 
   handleChange(event) {
@@ -75,12 +125,15 @@ export default class ProfileComponent extends Component {
     this.setState({
       [name]: value
     });
+  
   }
+
+
 
 	render() {
     if(this.state.data && this.state.data.mailingAddress[0].city){
    }
-    
+
 		return (
       <div>
         <Header guest="1" />
@@ -93,21 +146,30 @@ export default class ProfileComponent extends Component {
                   onSelect={key => this.setState({ key })}
                 >
                 <Tab eventKey="personalinfo" title="Personal info">
+  
                   <div className="text-center">
-                    <img className="round-circle" src={this.state.profilePicture} alt="user"/><br />
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">First Name</p>
-                    <p className="profileInputsValue">{this.state.firstName}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Last Name</p>
-                    <p className="profileInputsValue">{this.state.lastName}</p>
-                  </div>
-                  <p className="p-profile">Account info</p>
-                  <form onSubmit={this.handleSubmit}>
-                    <input className="form-control bigInput" name="password" type="password" placeholder="New password" onChange={this.handleChange} />
-                    <input className="form-control bigInput" name="confirm"  type="password" placeholder="Confirm"      onChange={this.handleChange} />
+                    <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
+                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />
+                    <img alt="avatar" width="200px" src={this.state.profilePicture} />
+                 </div>
+                  
+                  <form onSubmit={this.handleAccSubmit}>
+                    <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
+                    <div className="form-group">
+                      <label htmlFor="firstName" className="profileInputsTitle">First Name</label>
+                      <input id="firstName" name="firstName" className="form-control bigInput" value={this.state.firstName} placeholder={this.state.firstName} onChange={this.handleChange} type="text" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="lastName" className="profileInputsTitle">Last Name</label>
+                      <input id="lastName" name="lastName" className="form-control bigInput" value={this.state.lastName} placeholder={this.state.lastName} onChange={this.handleChange} type="text" />
+                    </div>
+
+                    <p className="p-profile">Account info</p>
+                    <input className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
+                    <input className="form-control bigInput" name="password"    type="password" placeholder="Old Password"         onChange={this.handleChange} />
+                    <input className="form-control bigInput" name="newpassword" type="password" placeholder="New Password"     onChange={this.handleChange} />
+                    <input className="form-control bigInput" name="confirm"     type="password" placeholder="Confirm"          onChange={this.handleChange} />
+                    
                     
                     <p className="p-profile">Notifications</p>
                     <div className="form-check form-check-inline">
@@ -123,49 +185,36 @@ export default class ProfileComponent extends Component {
 
                 </Tab>
                 <Tab eventKey="professionalinfo" title="Prof info">
-
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Firm Name</p>
-                    <p className="profileInputsValue">{this.state.lawFirm}</p>
-                  </div>
-
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">State Bar Number</p>
-                    <p className="profileInputsValue">{this.state.stateBar}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Office Phone</p>
-                    <p className="profileInputsValue">{this.state.officePhone}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Mobile Phone</p>
-                    <p className="profileInputsValue">{this.state.mobilePhone}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Street Address 1</p>
-                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].streetAddrOne ? this.state.data.mailingAddress[0].streetAddrOne :null}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Street Address 2</p>
-                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].streetAddrTwo ? this.state.data.mailingAddress[0].streetAddrTwo :null}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">City</p>
-                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].city ? this.state.data.mailingAddress[0].city :null}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">State</p>
-                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].state ? this.state.data.mailingAddress[0].state :null}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Zip</p>
-                    <p className="profileInputsValue">{this.state.data && this.state.data.mailingAddress[0].zip ? this.state.data.mailingAddress[0].zip :null}</p>
-                  </div>
-                  <div className="form-control bigInput">
-                    <p className="profileInputsTitle">Email</p>
-                    <p className="profileInputsValue">{this.state.email}</p>
-                  </div>
+                  <form onSubmit={this.handleProfSubmit}>
+                    <div className="form-group">
+                      <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
+                      <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="policy" className="profileInputsTitle">Practice Insurance Policy Number</label>
+                      <input id="policy" name="policy" className="form-control bigInput" value={this.state.policy} placeholder={this.state.policy} onChange={this.handleChange} type="text" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
+                      <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="mobilePhone" className="profileInputsTitle">Mobile Phone</label>
+                      <input id="mobilePhone" name="mobilePhone" className="form-control bigInput" value={this.state.mobilePhone} placeholder={this.state.mobilePhone} onChange={this.handleChange} type="text" />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
+                      <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
+                    </div>
+                    <p className="p-profile">Payment Info</p>
+                    <div className="form-group">
+                      <label htmlFor="creditCard" className="profileInputsTitle">Credit Card</label>
+                      <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" />
+                    </div>
+                    <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
+                  </form>
                 </Tab>
+                
                 <Tab eventKey="transactions" title="Transactions" >
 
                 </Tab>
@@ -178,17 +227,4 @@ export default class ProfileComponent extends Component {
 
  }
 
-}
-
-
-const validate = values => {
-  const errors = {}
-  if(!values.password) {
-    errors.password = 'Insert password'
-  }
-  if(!values.confirm) {
-    errors.confirm = 'Insert confirm password'
-  }
-
-  return errors;
 }

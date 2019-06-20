@@ -10,7 +10,8 @@ router.post('/recoverpassword', userController.recoverPassword);
 router.get('/recoverpassword/confirmation/:token', userController.recoverPasswordConfirm);
 router.post('/changepassword/:token', userController.changepassword);
 
-router.post('/updatepassword', userController.updatePassword);
+router.post('/updateaccountinfo', userController.updateaccountinfo);
+router.post('/updateprofinfo', userController.updateprofinfo);
 router.post('/makeseeker', userController.makeSeeker );
 
 router.get('/confirmation/:token', userController.confirmation);

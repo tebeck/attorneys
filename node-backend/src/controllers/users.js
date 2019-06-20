@@ -13,6 +13,7 @@ const Logger = require("cute-logger")
 const send = require('../services/sendmail');
 
 
+
 module.exports = {
 
   register: function(req, res, next) {
@@ -20,7 +21,7 @@ module.exports = {
 
       if (user) return res.status(400).send({ message: 'The email address you have entered is already associated with another account.' });
       user = new userModel({ 
-          firstName: req.body.firstName, lastName: req.body.lastName, lawFirm: req.body.lawFirm,
+          firstName: req.body.firstName, lastName: req.body.lastName, firmName: req.body.firmName,
           stateBar: req.body.stateBar, officePhone: req.body.officePhone, mobilePhone: req.body.mobilePhone,
           email: req.body.email, mailingAddress: req.body.mailingAddress, password: req.body.password,
           profilePicture: req.body.profilePicture, creditCard: req.body.creditCard, policy: req.body.policy,
@@ -189,24 +190,77 @@ makeSeeker: function(req, res, next){
 
     },
 
-    updatePassword: function(req, res, next){
+
+
+//Profile section
+    updateaccountinfo: function (req, res, next){
       userModel.findById( req.body._userId , function(err, user){
         if (!user) return res.status(409).send({ message: 'We were unable to find a users.' });
-        user.password = req.body.password;
-        user.save()
-          .then( user => {
-            return res.status(200).send({message: "Password changed successfully", data: user})  
-          })
-          .catch( err => {
-            return res.status(401).send({message: "Cant update database", data: err})
-          }) 
-      }
 
-    )},
+          user.firstName = req.body.firstName;
+          user.lastName = req.body.lastName;
+          user.email = req.body.email;
+          user.notification = req.body.notification;   
+          user.profilePicture = req.body.image;    
 
-// Lo uso porque desde el frontend le pego a este metodo cuando quiero enviar un email.
+          if(req.body.newpassword && req.body.password && req.body.confirm){
+            bcrypt.compare(req.body.password, user.password, function(err, resp) {
+              if(err) {return res.status(500).send({message: err.message})}
+              if(!resp){ return res.status(409).send({message: "Invalid password!"}) }
+               if(resp) { 
+                bcrypt.hash(req.body.newpassword, 10, function(err, hash) {
+                    user.password = hash; 
+                    console.log("1")
+
+                    console.log("2") 
+
+                    user.updateOne(user,function (err) {  
+                     if (err) { return res.status(500).send({ message: err.message }); }
+                       console.log("Account updated")
+                       return res.status(200).send({message: 'Account updated!'})
+                    });
+
+                });
+               } 
+            })
+          } else {
+            user.updateOne(user,function (err) {  
+             if (err) { return res.status(500).send({ message: err.message }); }
+              console.log("2")
+             return res.status(200).send({message: 'Account updated!'})
+         });
+          }
+        
+
+
+ 
+      });
+
+    },
+
+    updateprofinfo: function(req, res, next){
+      userModel.findById( req.body._userId , function(err, user){
+        if(err) {return res.status(500).send({message: err.message})}
+        if (!user) return res.status(409).send({ message: 'We were unable to find a users.' });
+
+         user.firmName = req.body.firmName;
+         user.policy = req.body.policy;
+         user.officePhone = req.body.officePhone;
+         user.mobilePhone = req.body.mobilePhone;
+         user.mailingAddress[0].streetAddrOne = req.body.streetAddrOne;
+         user.creditCard = req.body.creditCard;
+          
+         console.log(user)
+        
+         user.updateOne(user,function (err) {
+            if (err) { return res.status(500).send({ message: err.message }); }
+            return res.status(200).send({message: 'Account updated!'})
+         }); 
+          
+      })
+    },
+
     sendMail: function(req, res, next){
-        console.log(req.body + "AAAAAAAAAAAA")
         send.email(req.body.email, req.body.subject, req.body.text)
       return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })
     }

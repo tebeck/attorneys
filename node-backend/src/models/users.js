@@ -14,7 +14,7 @@ var users = new Schema({
     type: String,
     required: true
   },
-  lawFirm: {
+  firmName: {
     type: String,
     required: false
   },
