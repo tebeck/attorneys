@@ -4,15 +4,6 @@ import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
 import Header from '../HeaderComponent';
 
-const validate = values => {
-  const errors = {}
-
-  if(!values.email){
-    errors.email = 'Insert an email'
-  }
-
-  return errors;
-}
 
 export default class RecoverPasswordComponent extends Component {
 
@@ -49,7 +40,7 @@ export default class RecoverPasswordComponent extends Component {
         .then(data => {
           if(data.message === "No user found"){
             this.setState({
-              errUser: data.message
+              errUser: "The user does not exist"
             })
           } else{
             this.openModal()
@@ -118,10 +109,20 @@ export default class RecoverPasswordComponent extends Component {
             </div>
 		);
 
-        }
-	}
+   }
+ }
+
+const validator = require('validator');
+const validate = values => {
+  const errors = {}
+
+  if(!values.email) { errors.email = 'Please check the email"' }
+  if(values.email && !validator.isEmail(values.email)){ errors.email = "Please check the email"}
+  
+  return errors;
+
+  }
+
+  
 
 
-
-
-export { RecoverPasswordComponent };

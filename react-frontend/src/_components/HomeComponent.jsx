@@ -40,7 +40,7 @@ export default class HomeComponent extends Component {
                       <span className="title">Esquire'd</span>
                     <Link to="/notifications"><i className="fas fa-lg fa-bell green-background"></i></Link>
                 </div>
- 				        <Tabs id="controlled-tab-example" style={{flexWrap: "none", alignItems: "center",justifyContent: "center"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+ 				        <Tabs id="controlled-tab-example" style={{flexWrap: "nowrap", alignItems: "center",justifyContent: "center", fontSize: "11.5px"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>

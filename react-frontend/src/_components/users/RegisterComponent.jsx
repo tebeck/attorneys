@@ -322,10 +322,16 @@ if (this.state.currentStep === 2){
   // set and push register seeker Redirect.
   setValidSeeker = (e) => {
    e.preventDefault();
-   // console.log(e.target.insurancePolicy.value)
-   let body = {userId: this.state.user._id, insurancePolicy: e.target.insurancePolicy.value}
-
-   // console.log(body)
+   
+   let body = {
+     userId: this.state.user._id
+   }
+   
+   if(e.target.insurancePolicy){
+     body.insurancePolicy = e.target.insurancePolicy.value
+   }
+   
+   console.log(body)
     userServices.makeSeeker(body)
      .then(res => {
       if (res.state !== 200) {
