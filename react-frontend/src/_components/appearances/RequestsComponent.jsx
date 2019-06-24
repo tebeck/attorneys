@@ -35,6 +35,8 @@ export default class RequestsComponent extends Component {
  render() {
   
   const {data} = this.state
+
+  if(data){
 	return (
 	 <div><br/>
 	  <span>Active Requests</span>
@@ -61,5 +63,7 @@ export default class RequestsComponent extends Component {
   		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button>
 	</div>
   )}
-    
+    else { return ( <div><p>No requests found</p></div> ) }
+}
+
 }

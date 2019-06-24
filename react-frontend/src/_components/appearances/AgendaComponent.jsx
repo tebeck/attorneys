@@ -23,10 +23,8 @@ export default class AgendaComponent extends Component {
     
 	const {data} = this.state
 
-	if(data && data.length > 0)
-	 {
+	if(data && data.length > 0) {
     return(
-
 	<div><br/>	
 	  <div>
 	  	<span>Past Appearances</span>
@@ -59,7 +57,7 @@ export default class AgendaComponent extends Component {
 	} else {
 		return (
 
-			<p>No data available</p>
+			<p>No data found</p>
 			)
 	}
 

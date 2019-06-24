@@ -189,7 +189,7 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
 .boxButton{text-align: right}
 .boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
 
-.uploadLabel { text-decoration: underline; cursor: pointer }
+.uploadLabel img { cursor: pointer; border-radius: 100%; border: 1px solid black }
 
 .error {
   border: 1px solid #ff6b70;
