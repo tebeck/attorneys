@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import  { Tabs, Tab } from 'react-bootstrap';
 import {userServices} from '../../_services';
 import Header from '../HeaderComponent';
+import uploadImg from '../../_assets/img/upload_picture.png'
 
 export default class ProfileComponent extends Component {
 
@@ -88,17 +89,17 @@ export default class ProfileComponent extends Component {
   handleAccSubmit = (e) =>{
     e.preventDefault();
      const {...noErrors} = this.state // Destructuring...
-     // const result = validateAcc(noErrors)
-     // this.setState({errors: result})
+     const result = validate(noErrors)
+     this.setState({errors: result})
 
-     // if(!Object.keys(result).length) {
+     if(!Object.keys(result).length) {
        console.log(noErrors)
         userServices.updateAccountInfo(noErrors).then(
           res =>{
            alert(res)
           }
         )
-     // }
+     }
   }
 
   handleProfSubmit = (e) =>{
@@ -131,15 +132,18 @@ export default class ProfileComponent extends Component {
 
 
 	render() {
+
     if(this.state.data && this.state.data.mailingAddress[0].city){
    }
+
+   const {errors} = this.state
 
 		return (
       <div>
         <Header guest="1" />
         <div className="container main-body">
 				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
-        <div className="center" style={{flexWrap: "none"}}>
+        <div className="center" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
 
                <Tabs
                   id="controlled-tab-example"
@@ -148,13 +152,15 @@ export default class ProfileComponent extends Component {
                   style={{flexWrap: "nowrap", fontSize: "11.5px", margin: "0 auto"}}
                 >
                 <Tab eventKey="personalinfo" title="Account info">
-  
-                  <div className="text-center uploadLabel" htmlFor="avatar">
-                    {/*<label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>*/}
-                     <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />
-                     <img alt="avatar" width="200px" src={this.state.profilePicture} />
-                 </div>
+                    
+                    <div className="text-center">
+                       <label className="uploadLabel" htmlFor="avatar">Upload image</label>
+                       <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
+                       { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
+                   </div>
+
                   
+                 
                   <form onSubmit={this.handleAccSubmit}>
                     <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
                     <div className="form-group">
@@ -167,7 +173,7 @@ export default class ProfileComponent extends Component {
                     </div>
 
                     <p className="p-profile">Account info</p>
-                    <input className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
+                    <input disabled className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
                     <input className="form-control bigInput" name="password"    type="password" placeholder="Old Password"         onChange={this.handleChange} />
                     <input className="form-control bigInput" name="newpassword" type="password" placeholder="New Password"     onChange={this.handleChange} />
                     <input className="form-control bigInput" name="confirm"     type="password" placeholder="Confirm"          onChange={this.handleChange} />
@@ -179,8 +185,8 @@ export default class ProfileComponent extends Component {
                      <label className="form-check-label" htmlFor="notification">Email</label>
                     </div>
 
-                    <Link className="link-profile" to="/">Delete Account</Link>
-                    
+                    <Link className="link-profile" to="/">Delete Account</Link><br /> 
+                    {errors && errors.password ? <div className="alert alert-danger" role="alert">{errors.password}</div> : null}
 
                     <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
                   </form>
@@ -230,3 +236,56 @@ export default class ProfileComponent extends Component {
  }
 
 }
+
+
+// Validations
+
+const validator = require('validator');
+const validate = values => {
+
+const errors = {}
+  // email
+  // if(!values.email) { errors.email = 'Insert email' }
+  // if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
+  
+  // password
+  if(values.password && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
+  if(!values.password) { errors.password = 'Insert a valid password' }
+
+  // if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
+
+  // if(!values.streetAddrTwo) { errors.streetAddrTwo = 'Insert streetAddrTwo' }
+
+  // if(!values.city) { errors.city = 'Insert city' }
+
+  // if(!values.zip) { errors.zip = 'Insert zip' }
+
+  // if(!values.firstName) { errors.firstName = 'Insert firstName' }
+
+  // if(!values.lastName) { errors.lastName = 'Insert lastName' }
+
+  //  if(!values.firmName) { errors.firmName = 'Insert firmName' }
+
+  //  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
+  //  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
+
+  //  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
+  //  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
+
+  //  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
+  //  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
+
+  // if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
+  // if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
+
+  //  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
+  //  if(!values.policy) { errors.policy = 'Insert policy' }
+
+  // no below
+  // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
+  // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
+
+  console.log(errors)
+  return errors;
+}
+

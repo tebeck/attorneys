@@ -96,10 +96,11 @@ export default class CreateNewPasswordComponent extends Component {
                 </form>
             </div>
             </div>
-		);
-
-        }
+		 );
+    }
 	}
 
 
-export { CreateNewPasswordComponent };
+
+
+
