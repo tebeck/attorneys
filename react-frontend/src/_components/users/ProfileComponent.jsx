@@ -139,18 +139,20 @@ export default class ProfileComponent extends Component {
         <Header guest="1" />
         <div className="container main-body">
 				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
-				<div className="center">
-   		        <Tabs
+        <div className="center" style={{flexWrap: "none"}}>
+
+               <Tabs
                   id="controlled-tab-example"
                   activeKey={this.state.key}
                   onSelect={key => this.setState({ key })}
+                  style={{flexWrap: "nowrap", fontSize: "11.5px", margin: "0 auto"}}
                 >
-                <Tab eventKey="personalinfo" title="Personal info">
+                <Tab eventKey="personalinfo" title="Account info">
   
-                  <div className="text-center">
-                    <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
-                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />
-                    <img alt="avatar" width="200px" src={this.state.profilePicture} />
+                  <div className="text-center uploadLabel" htmlFor="avatar">
+                    {/*<label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>*/}
+                     <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />
+                     <img alt="avatar" width="200px" src={this.state.profilePicture} />
                  </div>
                   
                   <form onSubmit={this.handleAccSubmit}>
@@ -184,7 +186,7 @@ export default class ProfileComponent extends Component {
                   </form>
 
                 </Tab>
-                <Tab eventKey="professionalinfo" title="Prof info">
+                <Tab eventKey="professionalinfo" title="Professional info">
                   <form onSubmit={this.handleProfSubmit}>
                     <div className="form-group">
                       <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
