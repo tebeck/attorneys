@@ -30,7 +30,7 @@ export default class RegisterForm extends Component {
     visible: false,              // Modal visible ?.
     isAttorney: isAttorney,
     isSeeker: isSeeker,
-    onHold: isAttorney,
+    onHold: isSeeker,
     backhome: false,
 
     //validate form
@@ -90,6 +90,10 @@ handleSubmit = (e) => {
     e.preventDefault()
     const {errors,...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
+    if(this.state.isSeeker && this.state.stateBar == ""){
+      result.stateBar = "Please insert state bar"
+    }
+    console.log(result)
     this.setState({errors: result})
 
     if (!Object.keys(result).length) {
@@ -346,6 +350,7 @@ if (this.state.currentStep === 2){
 
 
   render(){
+    console.log(this.state)
 
     if (this.state.defineroleRedirect) { return <Redirect push to="/definerole" /> } // Go back to /definerole
 
@@ -367,12 +372,11 @@ if (this.state.currentStep === 2){
         break;
     }
 
-    console.log(this.state.policy)
 
    return(
     <div>
        <Modal className="registerModal" width="350px" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
-          <div style={{padding: "30px a 30px 0px 0px",textAlign: "center"}}>
+          <div style={{padding: "30px 30px 0px 0px",textAlign: "center"}}>
            <h5>Your account has been created successfully!</h5>
           </div>
             {this.state.isAttorney ?
@@ -380,7 +384,7 @@ if (this.state.currentStep === 2){
               <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney && !this.state.policy ? <input className="form-control" type="text" placeholder="Insurance Policy" name="insurancePolicy" onChange={this.onChange} required />: null }
+               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="insurancePolicy" onChange={this.onChange} required />: null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
@@ -568,8 +572,8 @@ const errors = {}
 
 //  if(!values.firmName) { errors.firmName = 'Insert firmName' }
 
-//  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
-//  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
+ // if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
+ // if(this.state.isSeeker && this.state.stateBar == "") { errors.stateBar = 'Insert state bar' }
 
 //  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
 //  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }

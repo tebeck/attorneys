@@ -5,7 +5,7 @@ import  { Tabs, Tab } from 'react-bootstrap';
 import Appearances from './appearances/AppearancesComponent'
 import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
-
+import {userServices} from '../_services/user.service'
 
 export default class HomeComponent extends Component {
 
@@ -19,6 +19,15 @@ export default class HomeComponent extends Component {
       user: Cookies.getJSON('esquired').user,
       email: Cookies.getJSON('esquired').email
     }
+
+    if(!userServices.validate() ){
+      console.log("usuario invalido")
+      Cookies.remove('esquired');
+      window.location.assign('/home');
+   }  else {
+
+     console.log("usuario valido")
+   }
 
   }
 

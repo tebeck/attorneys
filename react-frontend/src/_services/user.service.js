@@ -4,6 +4,7 @@ import axios from 'axios';
 import {url_backend} from '../_helpers';
 
 export const userServices = {
+    validate,
     authenticate,
     register,
     recoverPassword,
@@ -50,6 +51,21 @@ function upload(image){
 }
 
 function getProfile(){
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    }
+
+    return fetch(`${url_backend}/users/profile`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+          console.log(data)
+            return data
+        })
+}
+
+
+function validate(){
     const requestOptions = {
         method: 'GET',
         headers: authHeader()

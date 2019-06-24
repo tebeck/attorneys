@@ -445,7 +445,7 @@ div.popup-content{
 
 .features h3{
   color: #FFF;
-  padding: 70px
+  padding: 70px;
 }
 
 .features-square {
@@ -509,11 +509,12 @@ div.popup-content{
 }
 
 .formbutton{
-    background-color: $green-color;
+  background-color: $green-color;
   width: 310px;
   height: 50px;
   border-radius: 25px;
-  color: #fff
+  color: #fff;
+  border-style: none;
 }
 
 
@@ -530,11 +531,11 @@ div.popup-content{
 
 .footer-shape{
   display: inline-block;
-  margin: 5px;
+  margin: 0px 16px 0 16px;
   border-radius: 5px;
   width: 36.8px;
   height: 36.9px;
-  background-color: #ffffff;
+  background-color: inherit;
 }
 
 .footer-guest h3{
@@ -624,7 +625,7 @@ div.popup-content{
 
   .features h3{
     padding: 40px 0 40px ;
-    text-align: left;
+    text-align: center;
   }
 
   .features-square{

@@ -249,8 +249,9 @@ const errors = {}
   // if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
   
   // password
-  if(values.password && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
-  if(!values.password) { errors.password = 'Insert a valid password' }
+  if(values.newpassword && values.newpassword.length > 0 && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
+  
+
 
   // if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
 
