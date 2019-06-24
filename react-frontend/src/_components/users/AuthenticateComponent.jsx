@@ -51,7 +51,8 @@ constructor(props) {
             this.setState({
               errlogin: data.message
              })
-           } else {
+           }
+           else {
              window.location.assign('/home')
            }
           }

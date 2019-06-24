@@ -35,6 +35,3 @@ export default class NotificationsComponent extends Component {
     	);
     }
 }
-
-
-export { NotificationsComponent };    
