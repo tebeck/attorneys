@@ -6,6 +6,9 @@ import Appearances from './appearances/AppearancesComponent'
 import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
 import {userServices} from '../_services/user.service'
+import logo from '../_assets/img/landing/logo.png'
+import userIcon from '../_assets/img/profile.png'
+import bellIcon from '../_assets/img/notifications.png'
 
 export default class HomeComponent extends Component {
 
@@ -45,9 +48,9 @@ export default class HomeComponent extends Component {
     return (
             <div className="container">
                 <div className="navbar">
-                	<Link to="/profile"><i className="far fa-lg fa-user-circle green-background"></i></Link>
-                      <span className="title">Esquire'd</span>
-                    <Link to="/notifications"><i className="fas fa-lg fa-bell green-background"></i></Link>
+                	<Link to="/profile"><img alt="userIcon" width="20px" src={userIcon} /></Link>
+                      <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
+                    <Link to="/notifications"><img width="20px" src={bellIcon} alt="esquired" /></Link>
                 </div>
  				        <Tabs id="controlled-tab-example" style={{flexWrap: "nowrap", alignItems: "center",justifyContent: "center", fontSize: "11.5px"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">

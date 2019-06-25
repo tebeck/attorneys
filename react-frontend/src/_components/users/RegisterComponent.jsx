@@ -375,8 +375,8 @@ if (this.state.currentStep === 2){
 
    return(
     <div>
-       <Modal className="registerModal" width="350px" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
-          <div style={{padding: "30px 30px 0px 0px",textAlign: "center"}}>
+       <Modal className="registerModal" width="450px" visible={this.state.visible} effect="fadeInDown" onClickAway={() => this.closeModal()} >
+          <div style={{padding: "30px 30px 0px 30px", textAlign: "center"}}>
            <h5>Your account has been created successfully!</h5>
           </div>
             {this.state.isAttorney ?
