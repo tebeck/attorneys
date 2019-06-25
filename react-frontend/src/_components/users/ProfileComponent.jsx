@@ -188,9 +188,9 @@ export default class ProfileComponent extends Component {
                     <Link className="link-profile" to="/">Delete Account</Link><br /> 
                     {errors && errors.password ? <div className="alert alert-danger" role="alert">{errors.password}</div> : null}
 
-                    <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
+                    <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form>
-
+                  <br /><br />
                 </Tab>
                 <Tab eventKey="professionalinfo" title="Professional info">
                   <form onSubmit={this.handleProfSubmit}>
@@ -217,14 +217,15 @@ export default class ProfileComponent extends Component {
                     <p className="p-profile">Payment Info</p>
                     <div className="form-group">
                       <label htmlFor="creditCard" className="profileInputsTitle">Credit Card</label>
-                      <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" />
+                      <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" maxLength={16} />
                     </div>
                     <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
+                    <br /><br />
                   </form>
                 </Tab>
                 
                 <Tab eventKey="transactions" title="Transactions" >
-
+                  <br /><br /><p>You don't have transactions</p>
                 </Tab>
             </Tabs>
 				</div>

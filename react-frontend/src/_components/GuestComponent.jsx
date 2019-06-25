@@ -89,6 +89,12 @@ export default class HomeComponent extends Component {
   }
 
 
+  handleLogout = () =>{
+    Cookies.remove('esquired');
+    window.location.assign('/home');
+
+  }
+
     handleSubmit = (e) =>{
     e.preventDefault()
 
@@ -164,7 +170,16 @@ export default class HomeComponent extends Component {
                     <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p><br/>
                   </div>
                 </Popup>
-                : <div>Go home: <Link to="/home">{this.state.email}</Link></div>}
+                : 
+
+                <Popup trigger={<Link to="/"><img alt="userIcon" width="20px" src={userIcon} /></Link>} position="left top">
+                  <div className="container"><br/>
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} to="/home"> My Account</Link><br />
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} onClick={this.handleLogout}> Log Out</Link><br />
+                    <br />
+                  </div>
+                </Popup>
+              }
           </div>
           <div className="background-esquired">
             <div className="flex-space-around margin-sides">
