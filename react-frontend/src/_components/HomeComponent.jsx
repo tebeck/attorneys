@@ -20,7 +20,7 @@ export default class HomeComponent extends Component {
       email: Cookies.getJSON('esquired').email
     }
 
-    if(!userServices.validate() ){
+    if(!userServices.getProfile() ){
       console.log("usuario invalido")
       Cookies.remove('esquired');
       window.location.assign('/home');
