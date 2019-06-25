@@ -47,7 +47,10 @@ module.exports = {
          //const text = "Please verify your account by clicking the link: "+'http:\/\/' + req.headers.host + '\/users/confirmation\/' + token.token 
 
          const subject = 'Welcome to Esquired!'
-         const text = "Thanks for signing up to keep in touch with Esquired."
+         
+         console.log(user)
+         
+         let text = "Thanks for signing up to keep in touch with Esquired. If you register as Appearance Attorney, please wait until your account is reviewed"
 
          Logger.log("REGISTER: Sending email")
          

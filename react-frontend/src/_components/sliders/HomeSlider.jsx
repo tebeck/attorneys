@@ -35,7 +35,7 @@ export default class HomeSlider extends React.Component {
           <div className="img-landing offset-md-1">
             <img className="img-landing0" src={manWalkingImage} alt="example" />
           </div>
-          <div className="col-md-5 offset-md-6">
+          <div className="col-md-5 offset-md-6 offset-sm-0">
             <p className="slogan">Is a solution to connect attorneys of record or law firms who are required to appear at a hearing and appearing attorneys.</p>
           </div><br/><br/>
         </Carousel.Item>

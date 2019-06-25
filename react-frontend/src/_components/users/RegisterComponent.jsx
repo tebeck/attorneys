@@ -59,7 +59,7 @@ export default class RegisterForm extends Component {
     zip:"",
     password: "",
     profilePicture:"",
-    creditCard:"4242424242424242",
+    creditCard:"",
     policy:"",
     insurancePolicy:""
   }
@@ -466,7 +466,9 @@ function Step1(props){
 
     return(
       <div>
-        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <br />
+        <br />
+        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> 
+        <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
@@ -486,6 +488,7 @@ function Step1(props){
 
     return (
       <div>
+      <br />
         <ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
@@ -505,14 +508,15 @@ function Step1(props){
 
     return (
        <div>
+       <br />
         <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
         <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="200px" src={props.image} /></div>
         <label> Password</label>
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input>
-        <label> Credit Card</label>
-        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange}></input>
+        <label> Payment Info</label>
+        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange} maxLength={16}></input>
         <input className="form-control" type="hidden"   name="avatar" value={props.profilePicture}></input>
 
         <label>Notifications</label><br />
@@ -538,9 +542,14 @@ function Step1(props){
         {props.state.error && <div className="alert alert-danger" role="alert">{props.state.error}</div>}
         <br />
 
+        <div class="termsLabel">
+          <Link target="_blank" to="/terms" style={{color: "black"}}>Terms and Conditions</Link>
+        </div>
+        <br />
+
         <input className="btn btn-block btn-primary link-button active" type="submit" value="Create Account"></input><br />
 
-        <div style={{textAlign: "center"}}><Link target="_blank" to="/terms" >Terms and Conditions</Link></div><br />
+        
       </div>
     )
 }

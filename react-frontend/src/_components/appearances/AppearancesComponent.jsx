@@ -4,6 +4,8 @@ import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import Modal from 'react-awesome-modal';
 import Cookie from 'js-cookie'
+import listFilterImg from '../../_assets/img/listing_filter.png'
+import listSortImg from '../../_assets/img/listing_sort.png'
 
 
 export default class AppearancesComponent extends Component {
@@ -48,7 +50,7 @@ export default class AppearancesComponent extends Component {
 	 <div className="container main-body">
 	  <Modal visible={this.state.visible} width="370" height="445" effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "30px",textAlign: "center"}}>
-	    <i className="fas fa-4x green-background fa-envelope-open-text"></i><br/><br/>
+	    <i className="fas fa-4x fa-envelope-open-text"></i><br/><br/>
 	    <h5>Well done!</h5>
 	     <p>We will send you an email with confirmation and additional info.</p>
 	   
@@ -64,9 +66,9 @@ export default class AppearancesComponent extends Component {
   		
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
 	  <p>There are 5 appearances</p>
-	  	 <div>
-	  	 <i style={{marginRight: "10px"}} className="fas green-background fa-1x fa-sort"></i>
-	  	 <i className="fas green-background fa-1x fa-filter"></i>
+	  	 <div className="flex-space-between">
+		 	<img style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
+	  	 	<img alt="esquired" src={listFilterImg} width="18px" height="18px" /><br/><br/>
 	  	 </div>
 	</div>
 	<br/>

@@ -34,7 +34,9 @@ export default class DefineRoleComponent extends Component {
             <Header guest="1" />
             <div className="container main-body">
                 <h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
+                  <br />
                   <ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar>
+                  <br />
                 <div>
                 <p>Select an option</p>
                 </div>
