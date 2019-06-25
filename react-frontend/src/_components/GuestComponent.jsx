@@ -61,21 +61,23 @@ export default class HomeComponent extends Component {
 
 
   componentDidMount(){
-        if(!userServices.validate() ){
-      console.log("token expiraado")
-      Cookies.remove('esquired');
-   }  else {
-
-     console.log("usuario valido")
-     this.setState({
-      loggedIn: true,
-      isAttorney: Cookies.getJSON('esquired').isAttorney,
-      isSeeker: Cookies.getJSON('esquired').isSeeker,
-      onHold: Cookies.getJSON('esquired').onHold,
-      user: Cookies.getJSON('esquired').user,
-      email: Cookies.getJSON('esquired').email
-     })
-   }
+      userServices.getProfile()
+       .then(res => {
+         if(res.data == null){
+            console.log("token expiraado")
+            Cookies.remove('esquired');
+         } else {
+            console.log("usuario valido")
+            this.setState({
+            loggedIn: true,
+            isAttorney: Cookies.getJSON('esquired').isAttorney,
+            isSeeker: Cookies.getJSON('esquired').isSeeker,
+            onHold: Cookies.getJSON('esquired').onHold,
+            user: Cookies.getJSON('esquired').user,
+            email: Cookies.getJSON('esquired').email
+           })
+         }
+       })
   }
 
     handleChange = ({target}) =>{
