@@ -63,8 +63,6 @@ function getProfile(){
         })
 }
 
-
-
 function makeSeeker(userId){
     const requestOptions = {
         method: 'POST',
@@ -80,24 +78,22 @@ function makeSeeker(userId){
 }
 
   function getSeekerAuth(data){
-
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
         body: JSON.stringify(data)
     };
-    
+
     return fetch(`${url_backend}/users/getseekerauth`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            if(data.result && data.token){
-             return data
-            }
-
-            else{
-              return data
-            }
-        });
+          if(data.result && data.token){
+           return data
+          }
+          else{
+           return data
+        }
+    });
   }
 
   function authenticate(data){
@@ -114,7 +110,7 @@ function makeSeeker(userId){
         .then(data => {
           console.log(data)
             if(data.result && data.token){
-
+              
               data.status=200;
                 if(data.result.isAttorney && data.result.isSeeker){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   

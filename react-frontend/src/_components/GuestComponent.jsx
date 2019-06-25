@@ -15,6 +15,8 @@ import landing_instagram from '../_assets/img/landing/landing_instagram.png'
 import landing_youtube from '../_assets/img/landing/landing_youtube.png'
 import landing_twitter from '../_assets/img/landing/landing_twitter.png'
 import logo from '../_assets/img/landing/logo.png'
+import logoWhite from '../_assets/img/landing/logo_white.png'
+import userIcon from '../_assets/img/landing/landing_login.png'
 
 import registerAsImage from '../_assets/img/landing/landing_register.png'
 import HomeSlider from './sliders/HomeSlider'
@@ -144,7 +146,7 @@ export default class HomeComponent extends Component {
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
               <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
               { !this.state.loggedIn ?
-                <Popup trigger={<Link to="/"><i className="fas fa-lg fa-user green"></i></Link>} position="left top">
+                <Popup trigger={<Link to="/"><img alt="userIcon" width="20px" src={userIcon} /></Link>} position="left top">
                   <div className="container popup-desktop"><br/>
                     <h4>Log In into your account</h4><br/>
                     <form onSubmit={this.handleSubmit}>
@@ -250,7 +252,7 @@ export default class HomeComponent extends Component {
             </div>
           </div>
           <div className="footer-guest">
-            <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
+            <div className="logo"><a href="/"><img src={logoWhite} alt="esquired" /></a></div><br /><br />
               <img className="footer-shape" src={landing_instagram} alt=""/>
               <img className="footer-shape" src={landing_youtube} alt=""/>
               <img className="footer-shape" src={landing_twitter} alt=""/>
