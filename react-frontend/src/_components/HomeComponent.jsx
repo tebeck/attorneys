@@ -9,6 +9,7 @@ import {userServices} from '../_services/user.service'
 import logo from '../_assets/img/landing/logo.png'
 import userIcon from '../_assets/img/profile.png'
 import bellIcon from '../_assets/img/notifications.png'
+import Popup from "reactjs-popup";
 
 export default class HomeComponent extends Component {
 
@@ -23,14 +24,19 @@ export default class HomeComponent extends Component {
       email: Cookies.getJSON('esquired').email
     }
 
-    if(!userServices.getProfile() ){
-      console.log("usuario invalido")
-      Cookies.remove('esquired');
-      window.location.assign('/home');
-   }  else {
-
-     console.log("usuario valido")
-   }
+    userServices.getProfile()
+      .then(res => {
+        if(res.data){
+          console.log("usuario valido")
+         this.setState({
+          imgUrl: res.data.profilePicture
+         })
+        } else {
+          console.log("usuario invalido")
+          Cookies.remove('esquired');
+          window.location.assign('/home');
+        }
+      })
 
   }
 
@@ -47,12 +53,22 @@ export default class HomeComponent extends Component {
 
     return (
             <div className="container">
-                <div className="navbar">
-                	<Link to="/profile"><img alt="userIcon" width="20px" src={userIcon} /></Link>
-                      <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
-                    <Link to="/notifications"><img width="20px" src={bellIcon} alt="esquired" /></Link>
+              
+              <div className="navbar">
+              	<Popup trigger={<Link to="/home"> <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl} /></Link>} position="right top">
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} to="/profile"> Profile</Link><br />
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} onClick={this.handleLogout}> Log Out</Link><br />
+                </Popup>
+                
+                 <div className="logo">
+                 <a href="/"><img src={logo} alt="esquired" /></a>
                 </div>
- 				        <Tabs id="controlled-tab-example" style={{flexWrap: "nowrap", alignItems: "center",justifyContent: "center", fontSize: "11.5px"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+                <Link to="/notifications">
+                  <img width="20px" src={bellIcon} alt="esquired" />
+                </Link>
+              </div> <hr/>
+
+ 				        <Tabs id="controlled-tab-example" className="tabs-control" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>

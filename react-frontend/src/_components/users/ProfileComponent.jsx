@@ -63,6 +63,8 @@ export default class ProfileComponent extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
+    if(!target.value == ""){
+
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
     userServices.upload(newForm)
@@ -76,6 +78,10 @@ export default class ProfileComponent extends Component {
       profilePicture: URL.createObjectURL(target.files[0]),
       showImage: true
     })
+
+  } else {
+    console.log("No image selected")
+  }
 
   }
 
@@ -118,6 +124,8 @@ export default class ProfileComponent extends Component {
      // console.log(result)
   }
 
+
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -142,21 +150,24 @@ export default class ProfileComponent extends Component {
       <div>
         <Header guest="1" />
         <div className="container main-body">
-				<h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Profile</h3>
+				  <Link class="black" to="/home"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Profile</h3></Link>
         <div className="center" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
 
                <Tabs
                   id="controlled-tab-example"
                   activeKey={this.state.key}
                   onSelect={key => this.setState({ key })}
-                  style={{flexWrap: "nowrap", fontSize: "11.5px", margin: "0 auto"}}
+                  className="tabs-control"
                 >
                 <Tab eventKey="personalinfo" title="Account info">
-                    
+                    <br />
                     <div className="text-center">
-                       <label className="uploadLabel" htmlFor="avatar">Upload image</label>
+                       <label className="uploadLabel" htmlFor="avatar">Upload profile picture<br /><br />
+                        { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
+                       </label>
+                       
                        <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
-                       { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
+                       
                    </div>
 
                   

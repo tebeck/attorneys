@@ -25,7 +25,8 @@ export default class AgendaComponent extends Component {
 
 	if(data && data.length > 0) {
     return(
-	<div><br/>	
+	<div>
+	<br/><br/>
 	  <div>
 	  	<span>Past Appearances</span>
 	  	<button className="btn btn-outline-dark btn-sm float-right">UPCOMING</button>

@@ -38,7 +38,7 @@ export default class RequestsComponent extends Component {
 
   if(data){
 	return (
-	 <div><br/>
+	 <div><br/><br/>
 	  <span>Active Requests</span>
 	  <button className="btn btn-outline-dark btn-sm float-right">VIEW ALL</button><br/><br/>
 		{data.map(x =>
