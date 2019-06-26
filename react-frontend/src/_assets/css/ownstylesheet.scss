@@ -31,6 +31,23 @@ $display-block: block;
   display: block
 }
 
+.nav-tabs{
+  border: none;
+  background-color: inherit!important;
+}
+
+.nav-tabs a {
+  margin-left:10px;
+}
+
+.nav-link.active{
+  border:none;
+  border-bottom: 2.5px solid $green-color!important;
+  color: $green-color!important;
+  font-weight: bold;
+  background-color: inherit!important;
+}
+
 .round-circle{
   width:75px;
   height: 75px;
@@ -118,9 +135,7 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
   }
 }
 @media screen and (max-width:768px){
-  .body-container{
-    background-color: transparent;
-  }
+
 }
 .hide{ display: $hide-block; }
 .form-control{ margin-bottom: 10px; }

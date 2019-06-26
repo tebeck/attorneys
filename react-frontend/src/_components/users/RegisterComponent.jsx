@@ -7,6 +7,8 @@ import Header from '../HeaderComponent';
 import Modal from 'react-awesome-modal';
 import SelectUSState from 'react-select-us-states';
 import '../../_assets/css/ownstylesheet.scss';
+import uploadImg from '../../_assets/img/upload_picture.png'
+
 
 export default class RegisterForm extends Component {
 
@@ -510,9 +512,13 @@ function Step1(props){
        <div>
        <br />
         <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
-        <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture</label>
-        <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br />
-        <div className={props.showImage ? 'display' : 'hide'} ><img alt="avatar" width="200px" src={props.image} /></div>
+        
+        <div className="text-center">
+        <label className="uploadLabel" htmlFor="avatar">Upload image</label>
+        <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
+        { props.state.profilePicture ? <img alt="avatar" width="200px" src={props.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" width="150px" /> }
+        </div>
+
         <label> Password</label>
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input>
         <label> Payment Info</label>
@@ -542,7 +548,7 @@ function Step1(props){
         {props.state.error && <div className="alert alert-danger" role="alert">{props.state.error}</div>}
         <br />
 
-        <div class="termsLabel">
+        <div className="termsLabel">
           <Link target="_blank" to="/terms" style={{color: "black"}}>Terms and Conditions</Link>
         </div>
         <br />

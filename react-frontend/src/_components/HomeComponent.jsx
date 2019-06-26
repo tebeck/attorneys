@@ -52,7 +52,7 @@ export default class HomeComponent extends Component {
                       <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
                     <Link to="/notifications"><img width="20px" src={bellIcon} alt="esquired" /></Link>
                 </div>
- 				        <Tabs id="controlled-tab-example" style={{flexWrap: "nowrap", alignItems: "center",justifyContent: "center", fontSize: "11.5px"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+ 				        <Tabs id="controlled-tab-example" style={{ flexWrap: "nowrap", alignItems: "center",justifyContent: "center", fontSize: "11.5px"}} activeKey={this.state.key} onSelect={key => this.setState({ key })} >
                     <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>
