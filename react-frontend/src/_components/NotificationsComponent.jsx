@@ -9,29 +9,24 @@ export default class NotificationsComponent extends Component {
 	  this.state = {
 	  };
 	}
-
-    render() {
-
-    	const {fakedata} = this.state
-
-    	console.log(fakedata)
-
-    	return (
-
-            <div className="container main-body">
-                <h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Notifications</h3>
-				<hr />
-                
-                <div >
-                  <h5>Title</h5>
-                  <p>Subtitle</p>
-                 <hr />
-                  <h5>Title</h5>
-                  <p>Subtitle</p>
-                 </div>
-                 <hr />
-
-            </div>
-    	);
-    }
+  render() {
+   
+   return (
+    <div className="container main-body">
+      <Link style={{color: "black"}} to="/home">
+       <i className="fas fa-2x fa-angle-left"></i>
+       <h3 style={{display: "inline"}  }> Notifications</h3>
+      </Link>			
+       <hr />
+      <div >
+        <h5>Title</h5>
+        <p>Subtitle</p>
+        <hr />
+        <h5>Title</h5>
+        <p>Subtitle</p>
+      </div>
+       <hr />
+    </div>
+  	);
+  }
 }

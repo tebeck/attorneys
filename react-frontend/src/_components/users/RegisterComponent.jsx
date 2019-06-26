@@ -71,20 +71,27 @@ export default class RegisterForm extends Component {
  }
 
 
-fileSelectedHandler = ({target}) => {
+  fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
+    if(!target.value == ""){
+
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
     userServices.upload(newForm)
-      .then(data => {console.log(data.data)
+      .then(data => {
+         console.log(data)
          this.setState({
-        profilePicture: data.data.location })
+         image: data.data.location })
       })
 
     this.setState({
-      image: URL.createObjectURL(target.files[0]),
+      profilePicture: URL.createObjectURL(target.files[0]),
       showImage: true
     })
+
+  } else {
+    console.log("No image selected")
+  }
 
   }
 
@@ -352,7 +359,6 @@ if (this.state.currentStep === 2){
 
 
   render(){
-    console.log(this.state)
 
     if (this.state.defineroleRedirect) { return <Redirect push to="/definerole" /> } // Go back to /definerole
 
@@ -514,9 +520,10 @@ function Step1(props){
         <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
         
         <div className="text-center">
-        <label className="uploadLabel" htmlFor="avatar">Upload image</label>
-        <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
+        <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture<br /><br />
         { props.state.profilePicture ? <img alt="avatar" width="200px" src={props.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" width="150px" /> }
+        </label>
+        <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
         </div>
 
         <label> Password</label>
