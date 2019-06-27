@@ -5,12 +5,6 @@ import backbutton from '../_assets/img/btnback.png'
 
 export default class TermsComponent extends Component {
 
-	constructor(props) {
-	  super(props);
-	
-	  this.state = {
-	  };
-	}
 
 
   render() {

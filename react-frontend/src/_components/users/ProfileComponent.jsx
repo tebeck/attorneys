@@ -147,7 +147,11 @@ export default class ProfileComponent extends Component {
     }
 
 
-  
+    handleLogout = () =>{
+    Cookies.remove('esquired');
+    window.location.assign('/home');
+
+  }
 
 
   handleChange(event) {
