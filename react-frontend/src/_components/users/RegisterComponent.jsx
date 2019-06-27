@@ -74,7 +74,7 @@ export default class RegisterForm extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
-    if(!target.value === ""){
+    if(target.value !== ""){
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 

@@ -60,7 +60,8 @@ export default class ProfileComponent extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
-    if(!target.value === ""){
+    console.log(target.value)
+    if(target.value !== ""){
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
@@ -121,6 +122,11 @@ export default class ProfileComponent extends Component {
      // console.log(result)
   }
 
+  handleAttorney = () =>{
+    // userServices.makeAttorney()
+    alert("under construction")
+
+  }
 
 
   handleChange(event) {
@@ -190,10 +196,12 @@ export default class ProfileComponent extends Component {
                     </div>
 
                     <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
-                    {errors && errors.password ? <div className="alert alert-danger" role="alert">{errors.password}</div> : null}
+                    
+                    <button type="button" className="btn btn-block btn-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button><br/>
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form>
+
                   <br/><br/>
                 </Tab>
                 <Tab eventKey="professionalinfo" title="Professional info">
