@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import backbutton from '../_assets/img/btnback.png'
+
 
 export default class NotificationsComponent extends Component {
 
@@ -14,7 +16,7 @@ export default class NotificationsComponent extends Component {
    return (
     <div className="container main-body">
       <Link style={{color: "black"}} to="/home">
-       <i className="fas fa-2x fa-angle-left"></i>
+       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
        <h3 style={{display: "inline"}  }> Notifications</h3>
       </Link>			
        <hr />

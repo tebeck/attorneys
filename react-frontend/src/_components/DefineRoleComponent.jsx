@@ -4,6 +4,7 @@ import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Header from './HeaderComponent';
 import checkImg from '../_assets/img/appearance/appearance_check.png'
+import backbutton from '../_assets/img/btnback.png'
 
 export default class DefineRoleComponent extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ export default class DefineRoleComponent extends Component {
           <div>
             <Header guest="1" />
             <div className="container main-body">
-                <Link style={{color: "black"}} to="/"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Define your role</h3></Link>
+                <Link style={{color: "black"}} to="/"><img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" /><h3 style={{display: "inline"}  }> Define your role</h3></Link>
                   <br />
                   <div className="center"><ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div>
                   <br />

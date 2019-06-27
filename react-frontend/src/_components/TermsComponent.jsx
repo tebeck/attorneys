@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './HeaderComponent';
+import backbutton from '../_assets/img/btnback.png'
 
 export default class TermsComponent extends Component {
 
@@ -17,7 +18,7 @@ export default class TermsComponent extends Component {
 <div>
       <Header />
      <div className="container main-body">
-        <h3><Link style={{color: "black"}} to="/home"><i className="fas fa-1x fa-angle-left"></i></Link> Terms and Conditions</h3>
+        <h3><Link style={{color: "black"}} to="/home"><img width="16px" src={backbutton} alt="esquired" /></Link> Terms and Conditions</h3>
          <hr />
           <div >
           <div>

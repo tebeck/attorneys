@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
 import Header from '../HeaderComponent';
+import backbutton from '../../_assets/img/btnback.png'
 
 
 export default class RecoverPasswordComponent extends Component {
@@ -84,7 +85,7 @@ export default class RecoverPasswordComponent extends Component {
       <div>
         <Header guest="1" />
         <div className="container main-body">
-            <h5><Link style={{color: "black"}} to={pathname}><i className="fas fa-1x fa-angle-left"></i></Link> Send email notification</h5>
+            <h5><Link style={{color: "black"}} to={pathname}><img width="16px" src={backbutton} alt="esquired" /></Link> Send email notification</h5>
                 <Modal
                     visible={this.state.visible}
                     width="300"

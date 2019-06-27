@@ -56,23 +56,26 @@ export default class HomeComponent extends Component {
             <div className="container">
               
               <div className="navbar">
-              	<Popup trigger={ this.state.imgUrl ? <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/> : <img alt="userIcon" className="userIcon" width="24px" src={greyFaceImg} /> } position="bottom left">
-                    <div className="container">
-                     <Link className="home-popup-links" to="/profile"> Profile</Link><br />
-                     <Link className="home-popup-links" to="/home" onClick={this.handleLogout}> Log Out</Link><br />
-                    </div>
-                </Popup>
-                
-                 <div className="logo">
+                  <Link className="home-popup-links" to="/profile">
+                    { this.state.imgUrl ? 
+                       <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/>
+                    :
+                       <img alt="userIcon" className="userIcon" width="24px" src={greyFaceImg} />
+                    }
+                  </Link>
+                      
+              <div className="logo">
                  <a href="/"><img src={logo} alt="esquired" /></a>
-                </div>
-                <Link to="/notifications">
+              </div>
+                
+              <Link to="/notifications">
                   <img width="20px" src={bellIcon} alt="esquired" />
-                </Link>
-              </div> <hr/>
+              </Link>
+              </div>
 
+              <hr/>
  				        <Tabs id="controlled-tab-example" className="tabs-control" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
-                    <Tab eventKey="agenda" title="Agenda">
+                  <Tab eventKey="agenda" title="Agenda">
                       <Agenda />
                     </Tab>
                   {isAttorney ? 
@@ -86,7 +89,7 @@ export default class HomeComponent extends Component {
                     </Tab>
                   :null}
                 </Tabs>
-                <br /><br /><button onClick={this.handleLogout}>Logout</button>
+                
             </div>
 		);
 	}

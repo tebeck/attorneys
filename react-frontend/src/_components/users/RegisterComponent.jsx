@@ -9,6 +9,7 @@ import SelectUSState from 'react-select-us-states';
 import '../../_assets/css/ownstylesheet.scss';
 import uploadImg from '../../_assets/img/upload_picture.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
+import backbutton from '../../_assets/img/btnback.png'
 
 
 export default class RegisterForm extends Component {
@@ -64,7 +65,9 @@ export default class RegisterForm extends Component {
     profilePicture:"",
     creditCard:"",
     policy:"",
-    insurancePolicy:""
+    insurancePolicy:"",
+    image: ""
+
   }
 
   this.setNewState = this.setNewState.bind(this);
@@ -82,7 +85,9 @@ export default class RegisterForm extends Component {
       .then(data => {
          console.log(data)
          this.setState({
-         image: data.data.location })
+         image: data.data.location,
+         profilePicture: data.data.location
+          })
       })
 
     this.setState({
@@ -118,7 +123,7 @@ handleSubmit = (e) => {
 
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = this.state._state;
-
+     console.log(noErrors)
      userServices.register(noErrors).then(
       res =>{
         if (res.state && res.state === 200) {
@@ -404,7 +409,7 @@ if (this.state.currentStep === 2){
       <Header guest="1" />
       <div className="container main-body">
 
-      <h3 onClick={this._prev} className="clickable"><i className="fas fa-1x fa-angle-left"></i> {currentTitle}</h3>
+      <h3 onClick={this._prev} className="clickable"><img style={{marginBottom: "5px"}} width="16px" src={backbutton} alt="esquired" /> {currentTitle}</h3>
 
         <div className={this.state.emailError ? 'display' : 'hide'}>
           <div className="alert alert-danger" role="alert"> Email already in use. Try another.</div>
@@ -414,6 +419,8 @@ if (this.state.currentStep === 2){
          {this.state.isSeeker ? <input type="hidden" name="isSeeker" value={true} /> : <input type="hidden" name="isAttorney" value={true} /> }
          {this.state.isSeeker ? <input type="hidden" name="onHold" value={true} /> : null }
 
+         <input className="form-control" type="hidden" value={this.state.image}></input>
+        
         <Step1
           currentStep={currentStep}
           handleChange={this.handleChange}
@@ -533,7 +540,7 @@ function Step1(props){
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input>
         <label> Payment Info</label>
         <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange} maxLength={16}></input>
-        <input className="form-control" type="hidden"   name="avatar" value={props.profilePicture}></input>
+        
 
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">
