@@ -14,7 +14,8 @@ export const userServices = {
     getSeekerAuth,
     upload,
     updateAccountInfo,
-    updateProfInfo
+    updateProfInfo,
+    makeAttorney
 }
 
 function register(data){
@@ -44,6 +45,8 @@ function register(data){
     })
 }
 
+
+
 function upload(image){
     return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
         .then(data => {return data})
@@ -59,6 +62,21 @@ function getProfile(){
         .then(handleResponse)
         .then(data => {
           console.log(data)
+            return data
+        })
+}
+
+
+function makeAttorney(userId){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(userId)
+    }
+
+    return fetch(`${url_backend}/users/makeattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
             return data
         })
 }

@@ -25,8 +25,10 @@ export default class CreateComponent extends Component {
       hearingDate:"",
       time:"",
       instructions:"",
-      price:0
+      price:75,
+      caseNumber:""
     }
+    this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
   }
 
   handleSubmit = (e) =>{
@@ -40,10 +42,10 @@ export default class CreateComponent extends Component {
 
       console.log(noErrors)
 
-      appearanceService.create(noErrors)
-        .then(data => console.log(data))
+      // appearanceService.create(noErrors)
+      //   .then(data => console.log(data))
 
-        this.openModal()
+      //   this.openModal()
         
     } else {
       this.setState({ errors: result  })
@@ -104,6 +106,25 @@ export default class CreateComponent extends Component {
   }
 
 
+  handleChangeChk(e) {
+    if(e.target.name === "lateCall"){
+      this.setState(state => ({
+        lateCall: !state.lateCall
+      }))
+    }
+    if(e.target.name === "clientPresent"){
+      this.setState(state => ({
+        clientPresent: !state.clientPresent
+      })) 
+    }
+
+
+    
+    
+  }
+
+
+
   render() {
   
   if (this.state.backStep) {
@@ -155,6 +176,7 @@ export default class CreateComponent extends Component {
           lateCall={this.state.lateCall}
           documents={this.state.documents}
           price={this.state.price}
+          handleChangeChk={this.handleChangeChk}
         />
 
         {this.nextButton()}
@@ -233,20 +255,20 @@ function Step1(props){
           <div className="flex-space-between">
             <label> Client present or not?</label>  
             <div>
-             <input name="clientPresent" type="checkbox" id="client" className="switch-input" onChange={props.handleChange} value={props.clientPresent} />
-             <label for="client" className="switch-label"></label>
+             <input name="clientPresent" type="checkbox" id="client" className="switch-input" onClick={props.handleChangeChk} value={props.clientPresent} />
+             <label htmlFor="client" className="switch-label"></label>
             </div>
           </div>
           
             <div className="flex-space-between">
               <label> Late call accepted?</label>
                 <div>
-                 <input type="checkbox" id="call" name="lateCall" className="switch-input" onChange={props.handleChange} value={props.lateCall} /> 
-                 <label for="call" className="switch-label"></label>
+                 <input type="checkbox" id="call" name="lateCall" className="switch-input" onClick={props.handleChangeChk} value={props.lateCall} /> 
+                 <label htmlFor="call" className="switch-label"></label>
                 </div>
             </div>
 
-            <input name="price" type="text" className="form-group" onChange={props.handleChange} value={props.price} />
+            <input name="price" type="hidden" className="form-group" value={props.price} />
             <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
      
       </div>

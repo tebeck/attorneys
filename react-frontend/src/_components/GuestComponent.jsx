@@ -45,7 +45,8 @@ export default class HomeComponent extends Component {
 
     this.state = {
       show: false,
-      errors: {}
+      errors: {},
+      loggedIn: false
     };
 
     this.handleShow = () => {
@@ -65,9 +66,13 @@ export default class HomeComponent extends Component {
   componentDidMount(){
       userServices.getProfile()
        .then(res => {
+         console.log("aaaaa " + res.data)
          if(res.data == null){
             console.log("token expiraado")
             Cookies.remove('esquired');
+            this.setState({
+              loggedIn: false
+            })
          } else {
             console.log("usuario valido")
             this.setState({
@@ -151,7 +156,15 @@ export default class HomeComponent extends Component {
           <div className="navbar header-comp">
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
               <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
-              { !this.state.loggedIn ?
+              { this.state.loggedIn ?
+                <Popup trigger={<Link to="/"><img alt="userIcon" width="20px" src={userIcon} /></Link>} position="left top">
+                  <div className="container"><br/>
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} to="/home"> My Account</Link><br />
+                    <Link style={{textDecoration: "underline", cursor: "pointer"}} onClick={this.handleLogout}> Log Out</Link><br />
+                    <br />
+                  </div>
+                </Popup>
+                :
                 <Popup trigger={<img alt="userIcon" width="20px" src={userIcon} />} position="left top">
                   <div className="container popup-desktop"><br/>
                     <h4>Log In into your account</h4><br/>
@@ -168,15 +181,6 @@ export default class HomeComponent extends Component {
                     </form><br/>
 
                     <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p><br/>
-                  </div>
-                </Popup>
-                : 
-
-                <Popup trigger={<Link to="/"><img alt="userIcon" width="20px" src={userIcon} /></Link>} position="left top">
-                  <div className="container"><br/>
-                    <Link style={{textDecoration: "underline", cursor: "pointer"}} to="/home"> My Account</Link><br />
-                    <Link style={{textDecoration: "underline", cursor: "pointer"}} onClick={this.handleLogout}> Log Out</Link><br />
-                    <br />
                   </div>
                 </Popup>
               }
