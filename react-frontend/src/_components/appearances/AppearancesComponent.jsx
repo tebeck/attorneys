@@ -83,11 +83,11 @@ export default class AppearancesComponent extends Component {
 	      </div> 
 	      <p className="titlebox">Trafic Trial</p>
     	  <div className="divmailing">
-	    	<img width="20px" src={pingImg}></img>
+	    	<img alt="Esquired" width="20px" src={pingImg}></img>
 	    	<p className="mailing">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
     	  </div>
     	  <div className="divprice">
-	       <img width="17px" src={priceImg}></img>
+	       <img alt="Esquired" width="17px" src={priceImg}></img>
 	       <p className="price"> $75</p>	
 	      </div>
 	      <div className="right">

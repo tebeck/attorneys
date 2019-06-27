@@ -8,6 +8,7 @@ import Modal from 'react-awesome-modal';
 import SelectUSState from 'react-select-us-states';
 import '../../_assets/css/ownstylesheet.scss';
 import uploadImg from '../../_assets/img/upload_picture.png'
+import checkImg from '../../_assets/img/appearance/appearance_check.png'
 
 
 export default class RegisterForm extends Component {
@@ -73,7 +74,7 @@ export default class RegisterForm extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
-    if(!target.value == ""){
+    if(!target.value === ""){
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
@@ -99,7 +100,7 @@ handleSubmit = (e) => {
     e.preventDefault()
     const {errors,...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
-    if(this.state.isSeeker && this.state.stateBar == ""){
+    if(this.state.isSeeker && this.state.stateBar === ""){
       result.stateBar = "Please insert state bar"
     }
     console.log(result)
@@ -362,7 +363,7 @@ if (this.state.currentStep === 2){
 
     if (this.state.defineroleRedirect) { return <Redirect push to="/definerole" /> } // Go back to /definerole
 
-    const {currentStep, errors} = this.state
+    const {currentStep} = this.state
      let currentTitle = "";
 
     switch(currentStep){
@@ -475,7 +476,7 @@ function Step1(props){
     return(
       <div>
         <br />
-        <ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> 
+        <div className="center"><ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
@@ -497,7 +498,8 @@ function Step1(props){
     return (
       <div>
       <br />
-        <ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <br />
+        <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /> </div>
+        <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
@@ -517,7 +519,8 @@ function Step1(props){
     return (
        <div>
        <br />
-        <ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar><br />
+        <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img width="18px" src={checkImg} /></div>
+        <br />
         
         <div className="text-center">
         <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture<br /><br />

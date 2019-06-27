@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Header from './HeaderComponent';
+import checkImg from '../_assets/img/appearance/appearance_check.png'
 
 export default class DefineRoleComponent extends Component {
     constructor(props) {
@@ -33,22 +34,22 @@ export default class DefineRoleComponent extends Component {
           <div>
             <Header guest="1" />
             <div className="container main-body">
-                <h3><Link style={{color: "black"}} to="/"><i className="fas fa-1x fa-angle-left"></i></Link> Define your role</h3>
+                <Link style={{color: "black"}} to="/"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Define your role</h3></Link>
                   <br />
-                  <ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar>
+                  <div className="center"><ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div>
                   <br />
                 <div>
                 <p>Select an option</p>
                 </div>
                 <div className="define-container-block">
-                  <div className="define-container" >
-                      <div className="userDefineRole noleftmargin" onClick={()=>this.goToRegister('attorney')}>
+                  <div className="define-container">
+                      <div className="userDefineRole noleftmargin" onClick={() => this.goToRegister('attorney')}>
                        <p className="userDefineRoleText">Attorney of Record</p>
                       </div>
                   </div>
 
                   <div className="define-container"  >
-                      <div className="userDefineRole norightmargin" onClick={()=>this.goToRegister('seeker')}>
+                      <div className="userDefineRole norightmargin" onClick={() => this.goToRegister('seeker')}>
                        <p className="userDefineRoleText">Appearing Attorney</p>
                       </div>
                   </div>
