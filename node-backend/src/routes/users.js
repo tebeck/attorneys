@@ -13,6 +13,7 @@ router.post('/changepassword/:token', userController.changepassword);
 router.post('/updateaccountinfo', userController.updateaccountinfo);
 router.post('/updateprofinfo', userController.updateprofinfo);
 router.post('/makeseeker', userController.makeSeeker );
+router.post('/makeattorney', userController.makeAttorney );
 
 router.get('/confirmation/:token', userController.confirmation);
 router.get('/profile', validateMiddleware.user,userController.getProfile);

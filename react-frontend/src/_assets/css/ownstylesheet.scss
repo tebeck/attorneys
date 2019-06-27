@@ -84,7 +84,7 @@ $display-block: block;
 }
 
 .tabs-control{
-  flex-wrap: nowrap;align-items: center;justify-content: center ;font-size: 11.5px
+  flex-wrap: nowrap;align-items: center;justify-content: center ;font-size: 16px
 }
 
 .nav-tabs a {
@@ -339,10 +339,18 @@ text-align: right;
 .boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
 
 
-.uploadLabel { cursor: pointer; text-decoration: underline; text-transform: uppercase; margin: 0px;}
+.uploadLabel { cursor: pointer; text-decoration: underline; margin: 0px;}
 .uploadLabel img { cursor: pointer; border-radius: 100%; border: 1px solid black; margin: 0px;
 width: 75px;
 height: 75px;
+background-repeat:no-repeat;
+background-position: center center;
+background-size: cover;
+ }
+
+ .userIcon { cursor: pointer; border-radius: 100%;  margin: 0px;
+width: 27px;
+height: 27px;
 background-repeat:no-repeat;
 background-position: center center;
 background-size: cover;

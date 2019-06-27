@@ -86,7 +86,7 @@ export default class HomeComponent extends Component {
                     </Tab>
                   :null}
                 </Tabs>
-                <br /><br /><button onClick={this.handleLogout}>Logout</button>
+                
             </div>
 		);
 	}

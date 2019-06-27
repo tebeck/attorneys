@@ -124,6 +124,18 @@ makeSeeker: function(req, res, next){
     })
 },
 
+makeAttorney: function(req, res, next){
+
+     userModel.findById(req.body.userId, function(err, user) { 
+      
+      if (!user) { return res.status(401).send({ message: "User not found"}) }
+      user.updateOne({isAttorney: true},function (err) {
+          if (err) { return res.status(500).send({ message: err.message }); }
+          return res.status(200).send({state: 200,message: "Now your a attorney too", data: user});
+      });
+    })
+},
+
 
 
    recoverPassword: function(req, res, next){

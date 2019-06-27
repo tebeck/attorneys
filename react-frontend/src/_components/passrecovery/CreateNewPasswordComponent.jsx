@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
 import Header from '../HeaderComponent';
+import backbutton from '../../_assets/img/btnback.png'
 
 const validate = values => {
   const errors = {}
@@ -68,7 +69,7 @@ export default class CreateNewPasswordComponent extends Component {
       <div>
         <Header guest="1" />
         <div className="container main-body">
-              <h3><Link style={{color: "black"}} to="/recoverpassword"><i className="fas fa-1x fa-angle-left"></i></Link> Set up new password</h3><br />
+              <h3><Link style={{color: "black"}} to="/recoverpassword"><img width="16px" src={backbutton} alt="esquired" /></Link> Set up new password</h3><br />
 
                 <Modal
                     visible={this.state.visible}

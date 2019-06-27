@@ -4,6 +4,8 @@ import  { Tabs, Tab } from 'react-bootstrap';
 import {userServices} from '../../_services';
 import Header from '../HeaderComponent';
 import uploadImg from '../../_assets/img/upload_picture.png'
+import Cookies from 'js-cookie';
+import backbutton from '../../_assets/img/btnback.png'
 
 export default class ProfileComponent extends Component {
 
@@ -69,7 +71,9 @@ export default class ProfileComponent extends Component {
       .then(data => {
          console.log(data)
          this.setState({
-         image: data.data.location })
+         image: data.data.location,
+         profilePicture: data.data.location
+          })
       })
 
     this.setState({
@@ -123,10 +127,27 @@ export default class ProfileComponent extends Component {
   }
 
   handleAttorney = () =>{
-    // userServices.makeAttorney()
-    alert("under construction")
 
-  }
+   let body = {
+     userId: this.state._userId
+   }
+
+    userServices.makeAttorney(body)
+      .then(res => {
+        if (res.state !== 200) {
+          console.log(res)
+      } else {
+          console.log(res)
+          let token = Cookies.getJSON('esquired').token;
+          Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true,onHold: false}, { path: '' })   
+
+      
+    } 
+  })
+    }
+
+
+  
 
 
   handleChange(event) {
@@ -144,17 +165,14 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-    if(this.state.data && this.state.data.mailingAddress[0].city){
-   }
-
    const {errors} = this.state
 
 		return (
       <div>
         <Header guest="1" />
           <div className="container main-body">
-  				  <Link className="black" to="/home"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Profile</h3></Link>
-          <div className="center" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
+  				  <Link style={{color: "black"}} to="/home"><img style={{marginBottom: "11px"}} width="16px" src={backbutton} alt="esquired" /><h3 style={{display: "inline"}  }> Profile</h3></Link>
+          <div className="" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
             <Tabs 
               id="controlled-tab-example"
               activeKey={this.state.key}
@@ -165,8 +183,9 @@ export default class ProfileComponent extends Component {
                
                <br />
                 <div className="text-center">
-                   <label className="uploadLabel" htmlFor="avatar">Upload profile picture<br /><br />
+                   <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
+                     <br/><br/>Upload Profile Picture
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
@@ -197,10 +216,11 @@ export default class ProfileComponent extends Component {
 
                     <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
                     
-                    <button type="button" className="btn btn-block btn-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button><br/>
+                    { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
-                  </form>
+                  </form><br/><br/>
+                  <button className="btn btn-block btn-danger" onClick={this.handleLogout}>Logout</button>
 
                   <br/><br/>
                 </Tab>
