@@ -61,7 +61,7 @@ export default class RequestsComponent extends Component {
 		</div>
   		)}
   		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button>
-	</div>
+	<br/><br/></div>
   )}
     else { return ( <div><p>No requests found</p></div> ) }
 }
