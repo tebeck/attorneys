@@ -51,21 +51,14 @@ $display-block: block;
 .termsLabel{
   text-align: center;
   color: #000;
-  text-transform: uppercase;
   text-decoration: underline;
 }
 .termaLabel a{
   color: #000;
 }
 
-.grey-bg{
+body{
   background-color: $background-grey;
-;
-  
-.userIcon{
-
-}
-
 }
 .mobile {
   display: none;
@@ -116,6 +109,10 @@ $display-block: block;
   border-width: 1.5px;
   padding: 10px;
   margin-top: 40px;
+}
+
+.btn-rounded{
+  border-radius: 50px;
 }
 
 
@@ -340,7 +337,7 @@ text-align: right;
 
 
 .uploadLabel { cursor: pointer; text-decoration: underline; margin: 0px;}
-.uploadLabel img { cursor: pointer; border-radius: 100%; border: 1px solid black; margin: 0px;
+.uploadLabel img { cursor: pointer; border-radius: 100%;  margin: 0px;
 width: 75px;
 height: 75px;
 background-repeat:no-repeat;
@@ -728,7 +725,7 @@ div.popup-content{
 }
 @media screen and (max-width:768px){
   body {
-    background-color: transparent;
+    background-color: $background-grey;
   }
 
   .slogan {

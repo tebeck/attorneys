@@ -193,11 +193,13 @@ nextButton(){
   let currentStep = this.state.currentStep;
   if(currentStep <3){
     return (
+      <div>
       <button
         className="btn btn-primary link-button wizard-btn btn-block"
         type="button" onClick={this._next}>
       Continue
-      </button>
+      </button><br/><br/>
+      </div>
     )
   }
   return null;
@@ -530,8 +532,9 @@ function Step1(props){
         <br />
         
         <div className="text-center">
-        <label className="uploadLabel" htmlFor="avatar">Upload Profile Picture<br /><br />
-        { props.state.profilePicture ? <img alt="avatar" width="200px" src={props.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" width="150px" /> }
+        <label className="uploadLabel" htmlFor="avatar">
+        { props.state.profilePicture ? <img alt="avatar" width="200px" src={props.state.profilePicture} /> : <div><img src={uploadImg} alt="profileImg" width="150px" /><br />Upload Profile Picture<br /></div> }
+        
         </label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
         </div>

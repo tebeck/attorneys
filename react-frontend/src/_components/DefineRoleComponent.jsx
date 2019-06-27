@@ -42,20 +42,17 @@ export default class DefineRoleComponent extends Component {
                 <div>
                 <p>Select an option</p>
                 </div>
-                <div className="define-container-block">
-                  <div className="define-container">
-                      <div className="userDefineRole noleftmargin" onClick={() => this.goToRegister('attorney')}>
+                  <div>
+                      <div className="userDefineRole" onClick={() => this.goToRegister('attorney')}>
                        <p className="userDefineRoleText">Attorney of Record</p>
                       </div>
                   </div>
-
-                  <div className="define-container"  >
-                      <div className="userDefineRole norightmargin" onClick={() => this.goToRegister('seeker')}>
+                  <div>
+                      <div className="userDefineRole" onClick={() => this.goToRegister('seeker')}>
                        <p className="userDefineRoleText">Appearing Attorney</p>
                       </div>
-                  </div>
-
-                </div>
+                  </div><br/><br/>
+                
               </div>
           </div>
     	);

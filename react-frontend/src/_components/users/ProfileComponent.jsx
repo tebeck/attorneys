@@ -188,8 +188,7 @@ export default class ProfileComponent extends Component {
                <br />
                 <div className="text-center">
                    <label className="uploadLabel" htmlFor="avatar">
-                     { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
-                     <br/><br/>Upload Profile Picture
+                     { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <div><img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br /></div> }
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
@@ -224,7 +223,7 @@ export default class ProfileComponent extends Component {
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form><br/><br/>
-                  <button className="btn btn-block btn-danger" onClick={this.handleLogout}>Logout</button>
+                  <button className="btn btn-block btn-danger btn-rounded" onClick={this.handleLogout}>Logout</button>
 
                   <br/><br/>
                 </Tab>
