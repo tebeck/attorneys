@@ -7,9 +7,10 @@ import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
 import {userServices} from '../_services/user.service'
 import logo from '../_assets/img/landing/logo.png'
-import userIcon from '../_assets/img/profile.png'
+// import userIcon from '../_assets/img/profile.png'
 import bellIcon from '../_assets/img/notifications.png'
 import Popup from "reactjs-popup";
+import greyFaceImg from '../_assets/img/grey-user.png'
 
 export default class HomeComponent extends Component {
 
@@ -50,14 +51,16 @@ export default class HomeComponent extends Component {
     
     const {isAttorney, isSeeker, onHold} = this.state
 
-
+    console.log(this.state.imgUrl)
     return (
             <div className="container">
               
               <div className="navbar">
-              	<Popup trigger={<Link to="/home"> <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl} /></Link>} position="right top">
-                    <Link style={{textDecoration: "underline", cursor: "pointer"}} to="/profile"> Profile</Link><br />
-                    <Link style={{textDecoration: "underline", cursor: "pointer"}} onClick={this.handleLogout}> Log Out</Link><br />
+              	<Popup trigger={ this.state.imgUrl ? <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/> : <img alt="userIcon" className="userIcon" width="24px" src={greyFaceImg} /> } position="bottom left">
+                    <div className="container">
+                     <Link className="home-popup-links" to="/profile"> Profile</Link><br />
+                     <Link className="home-popup-links" to="/home" onClick={this.handleLogout}> Log Out</Link><br />
+                    </div>
                 </Popup>
                 
                  <div className="logo">

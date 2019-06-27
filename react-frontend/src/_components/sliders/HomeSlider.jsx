@@ -2,7 +2,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import React, { Component } from 'react';
 import manWalkingImage from '../../_assets/img/landing/man_walking.png'
 
-export default class HomeSlider extends React.Component {
+export default class HomeSlider extends Component {
   constructor(props, context) {
     super(props, context);
 

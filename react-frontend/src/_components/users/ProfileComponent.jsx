@@ -44,10 +44,7 @@ export default class ProfileComponent extends Component {
         _userId: data.data._id,
         creditCard: data.data.creditCard,
         notification: data.data.notification,
-        firmName: data.data.firmName,
         policy: data.data.policy,
-        officePhone: data.data.officePhone,
-        mobilePhone: data.data.mobilePhone,
         streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
         image: data.data.profilePicture,
         data: data.data
@@ -63,7 +60,7 @@ export default class ProfileComponent extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
-    if(!target.value == ""){
+    if(!target.value === ""){
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
@@ -149,29 +146,25 @@ export default class ProfileComponent extends Component {
 		return (
       <div>
         <Header guest="1" />
-        <div className="container main-body">
-				  <Link class="black" to="/home"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Profile</h3></Link>
-        <div className="center" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
+          <div className="container main-body">
+  				  <Link className="black" to="/home"><i className="fas fa-2x fa-angle-left"></i><h3 style={{display: "inline"}  }> Profile</h3></Link>
+          <div className="center" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
+            <Tabs 
+              id="controlled-tab-example"
+              activeKey={this.state.key}
+              onSelect={key => this.setState({ key })}
+              className="tabs-control"
+            >
+             <Tab eventKey="personalinfo" title="Account info">
+               
+               <br />
+                <div className="text-center">
+                   <label className="uploadLabel" htmlFor="avatar">Upload profile picture<br /><br />
+                     { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
+                   </label>
+                   <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
+                </div>
 
-               <Tabs
-                  id="controlled-tab-example"
-                  activeKey={this.state.key}
-                  onSelect={key => this.setState({ key })}
-                  className="tabs-control"
-                >
-                <Tab eventKey="personalinfo" title="Account info">
-                    <br />
-                    <div className="text-center">
-                       <label className="uploadLabel" htmlFor="avatar">Upload profile picture<br /><br />
-                        { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <img src={uploadImg} alt="profileImg" /> }
-                       </label>
-                       
-                       <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
-                       
-                   </div>
-
-                  
-                 
                   <form onSubmit={this.handleAccSubmit}>
                     <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
                     <div className="form-group">
@@ -196,12 +189,12 @@ export default class ProfileComponent extends Component {
                      <label className="form-check-label" htmlFor="notification">Email</label>
                     </div>
 
-                    <Link className="link-profile" to="/">Delete Account</Link><br /> 
+                    <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
                     {errors && errors.password ? <div className="alert alert-danger" role="alert">{errors.password}</div> : null}
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form>
-                  <br /><br />
+                  <br/><br/>
                 </Tab>
                 <Tab eventKey="professionalinfo" title="Professional info">
                   <form onSubmit={this.handleProfSubmit}>
@@ -231,7 +224,7 @@ export default class ProfileComponent extends Component {
                       <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" maxLength={16} />
                     </div>
                     <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
-                    <br /><br />
+                    <br/><br/>
                   </form>
                 </Tab>
                 
@@ -262,8 +255,6 @@ const errors = {}
   
   // password
   if(values.newpassword && values.newpassword.length > 0 && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
-  
-
 
   // if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
 

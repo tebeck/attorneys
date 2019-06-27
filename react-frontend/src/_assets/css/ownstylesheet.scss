@@ -18,6 +18,25 @@ $display-block: block;
   background-color: #FFF;
 }
 
+.grey-check-icon{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.link-delete{
+  text-align: center;
+}
+
+.home-popup-links{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.RSPBprogressBar{
+  width: 90%;
+  display: inline-block;
+}
+
 .pointer{
   cursor: pointer
 }
@@ -139,6 +158,10 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
 }
 .define-role-container{
   display:block;
+}
+
+.center{
+  text-align: center;
 }
 
 .centered {

@@ -2,7 +2,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import React, { Component } from 'react';
 import solutionImage from '../../_assets/img/landing/landing_oursolutions.png'
 
-export default class SolutionsSlider extends React.Component {
+export default class SolutionsSlider extends Component {
   constructor(props, context) {
     super(props, context);
 

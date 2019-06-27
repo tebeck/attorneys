@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 // import landing0 from '../_assets/img/landing/landing_0.png'
 // import landing1 from '../_assets/img/landing/landing_1.png'
 import { userServices } from '../_services/user.service'
-import manWalkingImage from '../_assets/img/landing/man_walking.png'
+// import manWalkingImage from '../_assets/img/landing/man_walking.png'
 import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
 import landing_features_02 from '../_assets/img/landing/landing_features_02.png'
@@ -152,7 +152,7 @@ export default class HomeComponent extends Component {
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
               <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
               { !this.state.loggedIn ?
-                <Popup trigger={<Link to="/"><img alt="userIcon" width="20px" src={userIcon} /></Link>} position="left top">
+                <Popup trigger={<img alt="userIcon" width="20px" src={userIcon} />} position="left top">
                   <div className="container popup-desktop"><br/>
                     <h4>Log In into your account</h4><br/>
                     <form onSubmit={this.handleSubmit}>
