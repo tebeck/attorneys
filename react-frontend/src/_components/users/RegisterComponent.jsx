@@ -207,6 +207,9 @@ nextButton(){
 
 
   handleChange = ({target}) =>{
+
+    this.state.errors.creditCard = false;
+
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
