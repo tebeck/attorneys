@@ -18,6 +18,11 @@ $display-block: block;
   background-color: #FFF;
 }
 
+
+.button-upcoming{
+  border-radius: 13.5px;
+  font-weight: bold;
+}
 .grey-check-icon{
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
@@ -327,7 +332,29 @@ text-align: right;
 .bold{font-weight: 500}
 
 .moment{font-weight: 500; line-spacing:14pt; margin: 5px}
-.areaOfLaw{font-weight: 600; margin: 5px}
+.areaOfLaw{font-weight: 600; margin: 5px; }
+
+.areaoflaw{ width: 58px;
+  height: 17px;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #1873f3;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+
+.agenda-rate-button{
+  margin-top: 20px;
+}
+
+.paddingUpDown{
+  padding: 20px 0px 20px 0px
+}
 
 .boxYear{font-weight: 500; line-spacing:14pt;margin: 5px}
 .boxTitle{padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt}
@@ -816,4 +843,23 @@ div.popup-content{
 .carousel-indicatiors li{
   height: 4px;
 }
+
+
+
+
+
+@media (max-width: 525px){
+.appearanceBox .apply-button{
+    background-color: $green-color;
+    border: none;
+    border-radius: 17px;
+    padding: 3px 30px;
+    color: #FFF;
+    margin: 10px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+}
+
 

@@ -45,6 +45,8 @@ export default class AppearancesComponent extends Component {
 
  render() {
 
+ 	console.log(this.state.data)
+
   const { data } = this.state
 
    if(data){
