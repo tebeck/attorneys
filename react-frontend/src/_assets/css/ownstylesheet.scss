@@ -18,6 +18,32 @@ $display-block: block;
   background-color: #FFF;
 }
 
+.btn-outline-secondary{
+  border-radius: 30px;
+
+}
+
+.btn-rate-attorney{
+  border-radius: 30px;
+  margin-right: 10px;
+  border-color: $green-color;
+  color: $green-color;
+  border-width: 1.3px;
+  padding: 10px 15px
+}
+
+.btn-rate-attorney:hover{
+  background-color: $green-color;
+  border-color: $green-color;
+}
+
+img.edit-photo-img{
+  width: 18px!important;
+  height: 18px!important;
+  position: absolute;
+  margin-left: 55px!important;
+
+}
 
 .button-upcoming{
   border-radius: 13.5px;

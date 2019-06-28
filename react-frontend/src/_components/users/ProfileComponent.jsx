@@ -6,6 +6,7 @@ import Header from '../HeaderComponent';
 import uploadImg from '../../_assets/img/upload_picture.png'
 import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
+import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 
 export default class ProfileComponent extends Component {
 
@@ -175,7 +176,9 @@ export default class ProfileComponent extends Component {
       <div>
         <Header guest="1" />
           <div className="container main-body">
-  				  <Link style={{color: "black"}} to="/home"><img style={{marginBottom: "11px"}} width="16px" src={backbutton} alt="esquired" /><h3 style={{display: "inline"}  }> Profile</h3></Link>
+  				  <Link style={{color: "black"}} to="/home">
+            <img style={{marginBottom: "11px"}} width="16px" src={backbutton} alt="esquired" />
+            <h3 style={{display: "inline"}  }> Profile</h3></Link>
           <div className="" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
             <Tabs 
               id="controlled-tab-example"
@@ -188,7 +191,16 @@ export default class ProfileComponent extends Component {
                <br />
                 <div className="text-center">
                    <label className="uploadLabel" htmlFor="avatar">
-                     { this.state.profilePicture ? <img alt="avatar" width="200px" src={this.state.profilePicture} /> : <div><img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br /></div> }
+                     { this.state.profilePicture ? 
+                       <div>
+                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img  alt="avatar" width="200px" src={this.state.profilePicture} />
+                       </div>
+                       : 
+                       <div>
+                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br />
+                       </div> }
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
@@ -219,7 +231,7 @@ export default class ProfileComponent extends Component {
 
                     <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
                     
-                    { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
+                    { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form><br/><br/>

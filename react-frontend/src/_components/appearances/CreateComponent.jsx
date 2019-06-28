@@ -26,8 +26,15 @@ export default class CreateComponent extends Component {
       time:"",
       instructions:"",
       price:75,
-      caseNumber:""
+      caseNumber:"",
+
+      enableNextAction: false,     // enable next action button (invalid data in form)
+      enableErrors: false,         // don't show errors when form is empty
+      courtHouseValid: false,
+
+
     }
+
     this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
   }
 
@@ -52,35 +59,92 @@ export default class CreateComponent extends Component {
     }
   }
 
-    _next = () => {
-      let currentStep = this.state.currentStep
-      currentStep = currentStep >= 2? 3: currentStep + 1
+    // _next = () => {
+    //   let currentStep = this.state.currentStep
+    //   currentStep = currentStep >= 2? 3: currentStep + 1
+    //   this.setState({
+    //     currentStep: currentStep
+    //   })
+    // }
+    
+  _next = () => {
+    let currentStep = this.state.currentStep
+
+    if (!this.state.enableNextAction){ // there are errors
+      console.log("no errors, setting enableErrors: true")
       this.setState({
-        currentStep: currentStep
+        enableErrors: true
+      })
+
+    }else{
+      currentStep = currentStep >= 2? 3: currentStep + 1
+
+      this.setState({
+        currentStep: currentStep,
+        enableErrors: false,
+        enableNextAction: false
       })
     }
-    
+  }
+
+
+  // _prev = () => {
+  //   let currentStep = this.state.currentStep
+  //   currentStep = currentStep <= 1 ? 0 : currentStep - 1
+  //   this.setState({
+  //     currentStep: currentStep
+  //   })
+  //   if (currentStep <= 0){
+  //      this.setState({backStep: true});
+  //   }
+  // }
+
   _prev = () => {
+
+    if (this.props.location.backhome){
+     this.props.history.push({ pathname: '/', state: {...this.state} })
+    }
+
+    if(this.state.enableNextAction === false){
+      this.setState({
+        enableNextAction: true
+      })
+    }
     let currentStep = this.state.currentStep
     currentStep = currentStep <= 1 ? 0 : currentStep - 1
     this.setState({
       currentStep: currentStep
     })
     if (currentStep <= 0){
-       this.setState({backStep: true});
+       this.setState({defineroleRedirect: true});
     }
   }
 
+  // nextButton(){
+  //   let currentStep = this.state.currentStep;
+  //   if(currentStep <2){
+  //     return (
+  //       <button 
+  //         className="btn btn-outline-primary btn-block" 
+  //         type="button" onClick={this._next}>
+  //       Next
+  //       </button>        
+  //     )
+  //   }
+  //   return null;
+  // }
 
   nextButton(){
     let currentStep = this.state.currentStep;
     if(currentStep <2){
       return (
-        <button 
-          className="btn btn-outline-primary btn-block" 
+        <div>
+        <button
+          className="btn btn-primary link-button wizard-btn btn-block"
           type="button" onClick={this._next}>
-        Next
-        </button>        
+        Continue
+        </button><br/><br/>
+        </div>
       )
     }
     return null;
@@ -88,10 +152,48 @@ export default class CreateComponent extends Component {
 
 
   handleChange = ({target}) =>{
+  
+
+    this.state.errors.creditCard = false;
+
+    let enableNextAction = this.state.enableNextAction;
+    let courtHouseValid = this.state.courtHouseValid;
+
+
+    if (this.state.currentStep === 1){
+      if (target.name === 'courtHouse'){
+      
+        if (target.value.length<2) {
+          enableNextAction=false
+          courtHouseValid=false;
+        }else{
+          courtHouseValid=true;
+        }
+      }
+
+      if (courtHouseValid){
+        enableNextAction=true
+      }
+      const newState = {
+        courtHouseValid: courtHouseValid,
+        enableNextAction: enableNextAction
+      };
+
+      console.log(newState)
+      this.setState(newState);
+    }
+
+
+
+
     this.setState({
       [target.name]: target.value
     });
+  
   }
+
+
+  setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
 
   openModal() {
     this.setState({
@@ -165,6 +267,7 @@ export default class CreateComponent extends Component {
           caseName={this.state.caseName}
           caseNumber={this.state.caseNumber}
           goal={this.state.goal}
+          state={this.state}
         />
         <Step2
           currentStep={currentStep}
@@ -177,6 +280,7 @@ export default class CreateComponent extends Component {
           documents={this.state.documents}
           price={this.state.price}
           handleChangeChk={this.handleChangeChk}
+          state={this.state}
         />
 
         {this.nextButton()}
@@ -204,12 +308,13 @@ function Step1(props){
     if(props.currentStep !== 1){
       return null;
     }
+    console.log(props.state.enableErrors)
 
     return(
       <div>
         <ProgressBar  height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
-            <input name="courtHouse" placeholder="Court House" type="text" className="form-control" onChange={props.handleChange} value={props.courtHouse} ></input>
+            <input className={props.state.courtHouseValid||!props.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="inputGroupSelect01"></label></div>

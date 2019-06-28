@@ -52,7 +52,7 @@ export default class AgendaComponent extends Component {
     	  </div>
     	  </div>
 	      <div className="agenda-rate-button">
-	       <button onClick={this.handleClick} className="apply-button">Rate Attorney</button>
+	       <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button>
 	      </div>
 	      </div>
 	    </div>
