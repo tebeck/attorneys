@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Router, Route } from 'react-router-dom';
 import { history } from './_helpers';
-import { PrivateRoute }  from './_helpers';
+import { PrivateRoute, AdminRoute}  from './_helpers';
 import Loadable from 'react-loadable'
 import SearchComponent from './_components/appearances/SearchComponent';
 import CreateComponent from './_components/appearances/CreateComponent';
@@ -34,6 +34,7 @@ const ProfileComponent = Loader(() => import('./_components/users/ProfileCompone
 
 // Admin
 const AdminComponent = Loader(() => import('./_components/admins/AdminComponent') )
+const AdminPanelComponent = Loader(() => import('./_components/admins/AdminPanelComponent') )
 
 // Appearances
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
@@ -95,9 +96,10 @@ class App extends Component {
                       <Route exact path="/authenticate" component={AuthenticateComponent} />
                       <Route exact path="/definerole" component={DefineRoleComponent} />
                       <Route path="/register" component={RegisterComponent} />
+                      
                       <Route path="/admin" component={AdminComponent} />
-{/*                      <Route path="/registerSeeker" component={RegisterSeekerComponent} />
-                      <Route path="/registerAttorney" component={RegisterAttorneyComponent} />*/}
+                      <AdminRoute path="/adminpanel" component={AdminPanelComponent} />
+
                       <Route path="/recoverpassword" component={RecoverPasswordComponent} />
                       <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
               </Router>

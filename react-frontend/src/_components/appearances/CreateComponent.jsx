@@ -459,12 +459,6 @@ function Step1(props){
   if(!values.instructions) {
     errors.instructions = 'Insert instructions'
   }
-  // if(!values.clientPresent) {
-  //   errors.clientPresent = 'Insert clientPresent'
-  // }
-  // if(!values.lateCall) {
-  //   errors.lateCall = 'Insert lateCall'
-  // }
   if(!values.price) {
     errors.price = 'Insert price'
   }

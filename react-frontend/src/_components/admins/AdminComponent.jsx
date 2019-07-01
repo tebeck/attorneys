@@ -1,30 +1,45 @@
 import React, { Component } from 'react';
 import {adminServices} from '../../_services';
 import {userServices} from '../../_services'
+import { Redirect, Link } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 export default class AdminComponent extends Component {
     
  constructor(props) {
    super(props);
- 
+
    this.state = {
-       email: ""
+       email: "",
+       password: "",
+       validUser: false
    };
  }
 
  handleSubmit = (e) =>{
    e.preventDefault();
-   let email = {email: this.state.email}
-   adminServices.enableSeeker(email)
+   let data = {email: this.state.email, password: this.state.password}
+   adminServices.login(data)
     .then( data => {
-        console.log(data)
-        if(data.status === 200){
-            let maildata = {email: data.res.email, subject: "Account Approved",text:"Your account of attorney of appearance has been approved!"}
-            userServices.sendmail(maildata)
-            alert("Attorney of Appearance enabled!")
-        }
-    } )
+        if(data.status == 200){
+
+         this.setState({
+           validUser: true
+         })
+         Cookies.set('esqadm', {token: "faketoken"}, { path: '' })   
+   } else {
+     this.setState({
+       errLogin: "Invald username/password"
+     })
+     }
+  })
+
+
+
  }
+
+
+
 
  handleChange = ({target}) =>{
    this.setState({
@@ -33,12 +48,23 @@ export default class AdminComponent extends Component {
  }
 
  render() {
+
+   if(this.state.validUser){
+    window.location.assign('/adminpanel')
+   }
+    
+
     return (
         <div className="container main-body">
          <form onSubmit={this.handleSubmit}>
-           <input className="form-control" name="email" type="text" placeholder="email" value={this.state.email} onChange={this.handleChange} ></input>
-           <input className="btn btn-block" type="submit" value="Send"></input>
+           <input className="form-control" name="email" type="text" placeholder="Email" value={this.state.email} onChange={this.handleChange} ></input>
+           <input className="form-control" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} ></input>
+           <input className="btn btn-primary btn-block" type="submit" value="Login"></input>
          </form>
+
+         <div>
+
+         </div>
         </div>
     );
   }
