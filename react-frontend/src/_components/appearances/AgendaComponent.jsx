@@ -48,7 +48,7 @@ export default class AgendaComponent extends Component {
 	      <p className="titlebox">Trafic Trial</p>
     	  <div className="divmailing">
 	    	<img alt="Esquired" width="20px" src={pingImg}></img>
-	    	<p className="mailing">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
+	    	<p className="mailing">{x.courtHouse}</p>
     	  </div>
     	  </div>
 	      <div className="agenda-rate-button">
