@@ -41,7 +41,7 @@ export default class AgendaComponent extends Component {
     	<div className="appearanceBox">
 	      <div className="appearanceHeaderBox flex-space-between">  
 	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
-	        <div><span class="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
+	        <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
 	      </div> 
 	      <div className="flex-space-between paddingUpDown">
 	      <div>
