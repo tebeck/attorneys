@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
+import DatePicker from 'react-date-picker';
+import TimePicker from 'react-time-picker';
    
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -22,19 +24,25 @@ export default class CreateComponent extends Component {
       department:"",
       caseName:"",
       goal:"",
-      hearingDate:"",
-      time:"",
+      hearingDate: new Date(),
+      time: new Date(),
       instructions:"",
       price:75,
       caseNumber:"",
 
+
       enableNextAction: false,     // enable next action button (invalid data in form)
       enableErrors: false,         // don't show errors when form is empty
       courtHouseValid: false,
-
+      areaOfLawValid: false,
+      departmentValid: false,
+      caseNameValid: false,
+      caseNumberValid: false,
+      goalValid: false
 
     }
-
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
   }
 
@@ -49,29 +57,20 @@ export default class CreateComponent extends Component {
 
       console.log(noErrors)
 
-      // appearanceService.create(noErrors)
-      //   .then(data => console.log(data))
+      appearanceService.create(noErrors)
+        .then(data => console.log(data))
 
-      //   this.openModal()
+        this.openModal()
         
     } else {
       this.setState({ errors: result  })
     }
   }
-
-    // _next = () => {
-    //   let currentStep = this.state.currentStep
-    //   currentStep = currentStep >= 2? 3: currentStep + 1
-    //   this.setState({
-    //     currentStep: currentStep
-    //   })
-    // }
     
   _next = () => {
     let currentStep = this.state.currentStep
-
     if (!this.state.enableNextAction){ // there are errors
-      console.log("no errors, setting enableErrors: true")
+      console.log("errors, setting enableErrors: true")
       this.setState({
         enableErrors: true
       })
@@ -88,17 +87,6 @@ export default class CreateComponent extends Component {
   }
 
 
-  // _prev = () => {
-  //   let currentStep = this.state.currentStep
-  //   currentStep = currentStep <= 1 ? 0 : currentStep - 1
-  //   this.setState({
-  //     currentStep: currentStep
-  //   })
-  //   if (currentStep <= 0){
-  //      this.setState({backStep: true});
-  //   }
-  // }
-
   _prev = () => {
 
     if (this.props.location.backhome){
@@ -111,28 +99,14 @@ export default class CreateComponent extends Component {
       })
     }
     let currentStep = this.state.currentStep
-    currentStep = currentStep <= 1 ? 0 : currentStep - 1
+    currentStep = currentStep <= 2 ? 1 : currentStep - 1
     this.setState({
       currentStep: currentStep
     })
-    if (currentStep <= 0){
-       this.setState({defineroleRedirect: true});
+    if (currentStep < 1){
+       window.location.assign('/home')
     }
   }
-
-  // nextButton(){
-  //   let currentStep = this.state.currentStep;
-  //   if(currentStep <2){
-  //     return (
-  //       <button 
-  //         className="btn btn-outline-primary btn-block" 
-  //         type="button" onClick={this._next}>
-  //       Next
-  //       </button>        
-  //     )
-  //   }
-  //   return null;
-  // }
 
   nextButton(){
     let currentStep = this.state.currentStep;
@@ -153,12 +127,13 @@ export default class CreateComponent extends Component {
 
   handleChange = ({target}) =>{
   
-
-    this.state.errors.creditCard = false;
-
     let enableNextAction = this.state.enableNextAction;
     let courtHouseValid = this.state.courtHouseValid;
-
+    let areaOfLawValid = this.state.areaOfLawValid;
+    let departmentValid = this.state.departmentValid;
+    let caseNameValid = this.state.caseNameValid;
+    let caseNumberValid = this.state.caseNumberValid;
+    let goalValid = this.state.goalValid;
 
     if (this.state.currentStep === 1){
       if (target.name === 'courtHouse'){
@@ -170,12 +145,55 @@ export default class CreateComponent extends Component {
           courtHouseValid=true;
         }
       }
+      if (target.name === 'department'){
+      
+        if (target.value.length<2) {
+          enableNextAction=false
+          departmentValid=false;
+        }else{
+          departmentValid=true;
+        }
+      }
 
-      if (courtHouseValid){
+      if (target.name === 'caseName'){
+      
+        if (target.value.length<2) {
+          enableNextAction=false
+          caseNameValid=false;
+        }else{
+          caseNameValid=true;
+        }
+      }
+
+      if (target.name === 'caseNumber'){
+      
+        if (target.value.length<2) {
+          enableNextAction=false
+          caseNumberValid=false;
+        }else{
+          caseNumberValid=true;
+        }
+      }
+      if (target.name === 'goal'){
+      
+        if (target.value.length<2) {
+          enableNextAction=false
+          goalValid=false;
+        }else{
+          goalValid=true;
+        }
+      }
+
+      if (courtHouseValid && departmentValid && caseNameValid && goalValid && caseNumberValid){
         enableNextAction=true
       }
+      
       const newState = {
         courtHouseValid: courtHouseValid,
+        departmentValid: departmentValid,
+        caseNumberValid: caseNumberValid,
+        caseNameValid: caseNameValid,
+        goalValid: goalValid,
         enableNextAction: enableNextAction
       };
 
@@ -218,11 +236,20 @@ export default class CreateComponent extends Component {
       this.setState(state => ({
         clientPresent: !state.clientPresent
       })) 
-    }
+    }    
+  }
 
 
-    
-    
+  handleDateChange(date) {
+    this.setState({
+      hearingDate: date
+    });
+  }
+
+  handleTimeChange(time){
+    this.setState({
+      time: time
+    });   
   }
 
 
@@ -232,6 +259,8 @@ export default class CreateComponent extends Component {
   if (this.state.backStep) {
     return <Redirect push to="/home" />;
   }
+
+  console.log(this.state.currentStep)
 
   const {errors,currentStep} = this.state
 
@@ -250,7 +279,7 @@ export default class CreateComponent extends Component {
           <h5>Your request has been published successfully!</h5>
         </div>
         <div>
-          <button onClick={() => this.closeModal()} style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</button> 
+          <Link to="/home" style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</Link> 
         </div>  
       </Modal>
       
@@ -268,6 +297,7 @@ export default class CreateComponent extends Component {
           caseNumber={this.state.caseNumber}
           goal={this.state.goal}
           state={this.state}
+          
         />
         <Step2
           currentStep={currentStep}
@@ -281,6 +311,8 @@ export default class CreateComponent extends Component {
           price={this.state.price}
           handleChangeChk={this.handleChangeChk}
           state={this.state}
+          handleDateChange={this.handleDateChange}
+          handleTimeChange={this.handleTimeChange}
         />
 
         {this.nextButton()}
@@ -308,28 +340,25 @@ function Step1(props){
     if(props.currentStep !== 1){
       return null;
     }
-    console.log(props.state.enableErrors)
-
     return(
       <div>
         <ProgressBar  height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <br />
         <p>Complete info</p>
-            <input className={props.state.courtHouseValid||!props.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
-            
+            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="inputGroupSelect01"></label></div>
               <select name="areaOfLaw" className="custom-select" id="inputGroupSelect01" onChange={props.handleChange} value={props.areaOfLaw}>
                 <option defaultValue>Area Of Law</option>
                 <option value="CRIMINAL">CRIMINAL</option>
-                <option value="SecondOption">Second Option</option>
-                <option value="ThirdOption">Third Option</option>
+                <option value="SECOPTION">Second Option</option>
+                <option value="THROPTION">Third Option</option>
               </select>
             </div>
 
-            <input name="department" placeholder="Department"  type="text" className="form-control" onChange={props.handleChange} value={props.department} ></input>
-            <input name="caseName"   placeholder="Case Name"   type="text" className="form-control" onChange={props.handleChange} value={props.caseName} ></input>
-            <input name="caseNumber" placeholder="Case Number" type="text" className="form-control" onChange={props.handleChange} value={props.caseNumber} ></input>
-            <input name="goal"       placeholder="Goal"        type="text" className="form-control" onChange={props.handleChange} value={props.goal} ></input>
+            <input name="department" placeholder="Department"  type="text" className={props.state.departmentValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.department} ></input>
+            <input name="caseName"   placeholder="Case Name"   type="text" className={props.state.caseNameValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseName} ></input>
+            <input name="caseNumber" placeholder="Case Number" type="text" className={props.state.caseNumberValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseNumber} ></input>
+            <input name="goal"       placeholder="Goal"        type="text" className={props.state.goalValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.goal} ></input>
       </div>
       )
   }
@@ -339,18 +368,34 @@ function Step1(props){
       return null;
     }
 
+    console.log(props)
+
     return (
       <div>
-      <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br />
+      <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br /><br />
           
           <div className="input-group date" id="datepicker" style={{marginBottom: "10px"}}>
-            <input name="hearingDate"   placeholder="Hearing date" type="date" className="form-control" onChange={props.handleChange} value={props.hearingDate}/>
+            <DatePicker
+              className="form-control"
+              selected={ props.state.hearingDate }
+              onChange={ props.handleDateChange }
+              name="hearingDate"
+              value={ props.state.hearingDate }
+              dateFormat="MM/DD/YYYY"
+            />
+
+        {/*    <input name="hearingDate" placeholder={props.hearingDate} type="date" className="form-control" onChange={props.handleChange} value={props.hearingDate}/>*/}
              <span className="input-group-append input-group-addon">
              <span className="input-group-text"><i style={{paddingLeft:"2px"}} className="fa fa-calendar"></i></span></span>
           </div>
 
           <div className="input-group time" id="timepicker" style={{marginBottom: "10px"}}>
-            <input name="time"          placeholder="Time"         type="time" className="form-control" onChange={props.handleChange} value={props.time}/>
+            <TimePicker
+            className="form-control"
+              onChange={props.handleTimeChange}
+              value={props.state.time} />
+
+            {/*<input name="time"          placeholder="Time"         type="time" className="form-control" onChange={props.handleChange} value={props.time}/>*/}
              <span className="input-group-append input-group-addon">
              <span className="input-group-text"><i  className="fa fa-clock"></i></span></span>
           </div>
@@ -414,12 +459,12 @@ function Step1(props){
   if(!values.instructions) {
     errors.instructions = 'Insert instructions'
   }
-  if(!values.clientPresent) {
-    errors.clientPresent = 'Insert clientPresent'
-  }
-  if(!values.lateCall) {
-    errors.lateCall = 'Insert lateCall'
-  }
+  // if(!values.clientPresent) {
+  //   errors.clientPresent = 'Insert clientPresent'
+  // }
+  // if(!values.lateCall) {
+  //   errors.lateCall = 'Insert lateCall'
+  // }
   if(!values.price) {
     errors.price = 'Insert price'
   }
