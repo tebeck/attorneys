@@ -138,7 +138,7 @@ rejectSeeker: function(req, res, next) {
      if(err){return res.status(409).send({status:"Error no connection", message: err})}
      if(!user){return res.status(409).send({message:"User not found"})}
 
-         user.updateOne({onHold: false, isSeeker: false},function (err) {
+         user.updateOne({onHold: true, isSeeker: false},function (err) {
            if(err){return res.status(409).send({status:"Error setting onhold", message: err})}
             res.status(200).send({status: 200, message: "Role seeker rejected", res: user})
          })

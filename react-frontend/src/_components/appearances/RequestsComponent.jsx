@@ -44,14 +44,14 @@ export default class RequestsComponent extends Component {
 		{data.map(x =>
 		<div key={x._id}>
 	      <div className="appearanceState text-center alert alert-warning">
-	      	<p>Pending assignment</p>
+	      	<p className="pending-assignment">Pending assignment</p>
 	      </div>
 		  <div className="appearanceBox">
 		      <div className="appearanceHeaderBox">  
 		        <Moment className="boxYear" format="ll">{x.hearingDate}</Moment><span> - {x.time}</span>
 		      </div> 
 		      <p className="boxTitle">{x.caseName}</p>
-	    	  <p className="boxDescription">Hall of Justice - 2610 Riverside Drive, Susanville CA</p>
+	    	  <p className="boxDescription">{x.courtHouse}</p>
 		      <p>$75</p>	
 		      <div className="boxButton">
 		      	<button onClick={this.handleClick} className="btn btn-primary link-button">Accept</button>

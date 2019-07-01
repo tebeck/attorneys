@@ -6,6 +6,7 @@ import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
+import backbutton from '../../_assets/img/btnback.png'
    
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -99,13 +100,16 @@ export default class CreateComponent extends Component {
       })
     }
     let currentStep = this.state.currentStep
-    currentStep = currentStep <= 2 ? 1 : currentStep - 1
+    // currentStep = currentStep <= 2 ? 1 : currentStep - 1
+    currentStep = currentStep <= 1 ? 0 : currentStep - 1
     this.setState({
       currentStep: currentStep
     })
-    if (currentStep < 1){
-       window.location.assign('/home')
+    
+    if (currentStep <= 0){
+       this.setState({homeRedirect: true});
     }
+
   }
 
   nextButton(){
@@ -263,7 +267,7 @@ export default class CreateComponent extends Component {
   console.log(this.state.currentStep)
 
   const {errors,currentStep} = this.state
-
+  if (this.state.homeRedirect) { return <Redirect push to="/home" /> } // Go back to /definerole
 	 return (
      <div className="container main-body">
      
@@ -283,7 +287,7 @@ export default class CreateComponent extends Component {
         </div>  
       </Modal>
       
-      <h3><span onClick={this._prev}><i className="fas fa-1x fa-angle-left"></i></span> New request</h3>
+      <h3 onClick={this._prev} style={{cursor: "pointer"}}> <img  style={{marginBottom: "5px"}} width="16px" src={backbutton} alt="esquired" /> New request</h3>
         
         <form onSubmit={this.handleSubmit}>
         <Step1
@@ -373,7 +377,7 @@ function Step1(props){
     return (
       <div>
       <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br /><br />
-          
+        <p>Complete info</p>
           <div className="input-group date" id="datepicker" style={{marginBottom: "10px"}}>
             <DatePicker
               className="form-control"
@@ -381,10 +385,10 @@ function Step1(props){
               onChange={ props.handleDateChange }
               name="hearingDate"
               value={ props.state.hearingDate }
-              dateFormat="MM/DD/YYYY"
+              dateFormat="DD/MM/YYYY"
+              locale="en"
             />
 
-        {/*    <input name="hearingDate" placeholder={props.hearingDate} type="date" className="form-control" onChange={props.handleChange} value={props.hearingDate}/>*/}
              <span className="input-group-append input-group-addon">
              <span className="input-group-text"><i style={{paddingLeft:"2px"}} className="fa fa-calendar"></i></span></span>
           </div>
@@ -395,7 +399,7 @@ function Step1(props){
               onChange={props.handleTimeChange}
               value={props.state.time} />
 
-            {/*<input name="time"          placeholder="Time"         type="time" className="form-control" onChange={props.handleChange} value={props.time}/>*/}
+
              <span className="input-group-append input-group-addon">
              <span className="input-group-text"><i  className="fa fa-clock"></i></span></span>
           </div>
