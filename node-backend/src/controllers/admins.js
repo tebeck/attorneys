@@ -40,18 +40,27 @@ make: function(req, res, next){
 
   });
  },
- authenticate: function(req, res, next){
-   adminModel.findOne({email:req.body.email}, function(err, admin){
-    if (err) { return res.status(500).send({ message: err.message   }); }
-    if (!admin) { return res.status(401).send({ message: "User not found"}); }
+ // authenticate: function(req, res, next){
+ //   adminModel.findOne({email:req.body.email}, function(err, admin){
+ //    if (err) { return res.status(500).send({ message: err.message   }); }
+ //    if (!admin) { return res.status(401).send({ message: "User not found"}); }
 
-    if(bcrypt.compareSync(req.body.password, admin.password)) {
-        const token = jwt.sign({ _id:admin._id }, process.env.TOKEN_KEY_ADMIN, { expiresIn: process.env.TOKEN_LIFE_ADMIN})
-        return res.status(200).send({ token: token, result: admin });
-    } else {
-        return res.status(409).send({ message: "Incorrect user/password", result: admin });
-    }
-  });
+ //    if(bcrypt.compareSync(req.body.password, admin.password)) {
+ //        const token = jwt.sign({ _id:admin._id }, process.env.TOKEN_KEY_ADMIN, { expiresIn: process.env.TOKEN_LIFE_ADMIN})
+ //        return res.status(200).send({ token: token, result: admin });
+ //    } else {
+ //        return res.status(409).send({ message: "Incorrect user/password", result: admin });
+ //    }
+ //  });
+ // },
+
+ authenticate: function(req, res, next){
+   if (req.body.email === "admin" && req.body.password === "test"){
+     return res.status(200).send({message: "User logged in"})
+   }
+   else {
+     return res.status(400).send({message: "Invalid user/pass"})
+   }
  },
 
  disableUser: function(req, res, next){
@@ -121,7 +130,21 @@ enableSeeker: function(req, res, next) {
 
 
    })
-}
+},
 
+rejectSeeker: function(req, res, next) {
+   console.log(req.body.email)
+   userModel.findOne({email: req.body.email}, function(err, user){
+     if(err){return res.status(409).send({status:"Error no connection", message: err})}
+     if(!user){return res.status(409).send({message:"User not found"})}
+
+         user.updateOne({onHold: false, isSeeker: false},function (err) {
+           if(err){return res.status(409).send({status:"Error setting onhold", message: err})}
+            res.status(200).send({status: 200, message: "Role seeker rejected", res: user})
+         })
+
+
+   })
+}
 
 }
