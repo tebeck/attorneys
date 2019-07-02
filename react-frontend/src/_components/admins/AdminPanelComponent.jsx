@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import {adminServices} from '../../_services';
 import {userServices} from '../../_services'
+// var DataTable = require('react-data-components').DataTable;
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
+
+
 
 export default class AdminComponent extends Component {
     
@@ -75,50 +80,65 @@ export default class AdminComponent extends Component {
 
 
  render() {
+var data = this.state.users;
+
+const columns = [
+  {
+    id: 'creationdate',
+    Header: 'Creation Date',
+    accessor: row => row.createdAt.substring(0, 10)
+  },
+  {
+    Header: 'Email',
+    accessor: 'email',
+    minWidth: 200
+  },
+  {
+    Header: 'State Bar',
+    accessor: 'stateBar',
+  },
+  {
+    id: 'role',
+    Header: "Role",
+    accessor: x => x.isAttorney && x.isSeeker ? "Both" : (x.isAttorney && !x.isSeeker) ? "Attorney Of Record" : "Appearing Attorney", 
+  },
+  {
+    id: 'status',
+    Header: 'Status',
+    accessor: x => x.onHold ? "Pending" : "OK",
+  },
+  {
+    id: 'buttonaccept',
+    Header: '',
+    accessor: x => x.onHold ? 
+      <div>
+       <button style={{marginRight: "4px"}} value={x.email} onClick={this.handleSubmitApprove} className="btn btn-info">Approve</button>
+       <button value={x.email} onClick={this.handleSubmitReject} className="btn btn-danger">Reject</button>
+      </div> : null,
+  },
+]
+
+
+
+
 
 
 if(this.state && this.state.users){
   console.log(this.state.users)
     return (
-<div className=" tablecont">
+<div >
       
-
   
-  <table className="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Email</th>
-        <th scope="col">State Bar</th>
-        <th scope="col">Role</th>
-        <th scope="col">Status</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
- 
-{
-        this.state.users.map(x =>
-    <tbody key={x._id} >
-      <tr>
-        <td>{x.email}</td>
-        <td>{x.stateBar}</td>
-        <td>
-          {x.isAttorney && x.isSeeker ? "Both" : null}
-          {x.isAttorney && !x.isSeeker ? "AOR" : null}
-          {!x.isAttorney && x.isSeeker ? "AOA" : null}
-        </td>
-        <td>{x.onHold ? "holded" : "ok"}</td>
-        
-        <td>{x.onHold ? <button value={x.email} onClick={this.handleSubmitApprove} className="btn btn-info">Approve</button> : null}</td>
-        <td>{x.onHold ? <button value={x.email} onClick={this.handleSubmitReject} className="btn btn-danger">Reject</button> : null}</td>
-      </tr>
-    </tbody>
-      )} 
 
-  </table>
+<ReactTable
+  data={data}
+  columns={columns}
+  defaultPageSize={50}
+  sorted={[{ id: 'createdAt', desc: false }]}
+  filterable
+/>
 
- 
-      
+
 
 
 

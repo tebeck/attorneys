@@ -24,8 +24,18 @@ $display-block: block;
 
 }
 
+
+table {
+    
+    margin: 0 auto;
+}
+
+table td {
+    overflow:hidden;
+}
+
 .tablecont {
-    max-width: 900px !important;
+    max-width: 1300px !important;
         width: 100%;
     padding-right: 15px;
     padding-left: 15px;
