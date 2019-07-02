@@ -4,18 +4,25 @@ import {appearanceService} from '../../_services/appearance.service';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
-import DatePicker from 'react-date-picker';
-import TimePicker from 'react-time-picker';
+import TimePicker from 'rc-time-picker';
 import backbutton from '../../_assets/img/btnback.png'
-   
+import moment from 'moment';
+import 'rc-time-picker/assets/index.css';
+import 'moment/locale/it.js';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
+const format = 'h:mm a';
+
 export default class CreateComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ...this.state,
       visible: false,
-      clientPresent:true,
-      lateCall:true,
+      clientPresent:false,
+      lateCall:false,
       responseCreate: {},
       errors: {},
       currentStep: 1,
@@ -26,7 +33,7 @@ export default class CreateComponent extends Component {
       caseName:"",
       goal:"",
       hearingDate: new Date(),
-      time: new Date(),
+      time: moment().hour(0).minute(0),
       instructions:"",
       price:75,
       caseNumber:"",
@@ -244,6 +251,7 @@ export default class CreateComponent extends Component {
   }
 
 
+
   handleDateChange(date) {
     this.setState({
       hearingDate: date
@@ -378,33 +386,30 @@ function Step1(props){
       <div>
       <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br /><br />
         <p>Complete info</p>
-          <div className="input-group date" id="datepicker" style={{marginBottom: "10px"}}>
+            
             <DatePicker
-              className="form-control"
+              className="form-control inputdatepicker"
               selected={ props.state.hearingDate }
               onChange={ props.handleDateChange }
               name="hearingDate"
               value={ props.state.hearingDate }
-              dateFormat="DD/MM/YYYY"
+              dateFormat="dd/mm/yyyy"
               locale="en"
             />
+            
 
-             <span className="input-group-append input-group-addon">
-             <span className="input-group-text"><i style={{paddingLeft:"2px"}} className="fa fa-calendar"></i></span></span>
-          </div>
-
-          <div className="input-group time" id="timepicker" style={{marginBottom: "10px"}}>
+            
             <TimePicker
-            className="form-control"
+              showSecond={false}
+              defaultValue={props.time}
+              className="form-control"
               onChange={props.handleTimeChange}
-              value={props.state.time} />
+              format={format}
+              use12Hours
+              inputReadOnly
+            />
 
-
-             <span className="input-group-append input-group-addon">
-             <span className="input-group-text"><i  className="fa fa-clock"></i></span></span>
-          </div>
-
-            <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control" onChange={props.handleChange} value={props.instructions} ></input>
+          <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control" onChange={props.handleChange} value={props.instructions} ></input>
             
           <div className="flex-space-between">
             <label> Client present or not?</label>  
