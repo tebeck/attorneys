@@ -109,7 +109,7 @@ const columns = [
   },
   {
     id: 'buttonaccept',
-    Header: '',
+    filterable: false,
     accessor: x => x.onHold ? 
       <div>
        <button style={{marginRight: "4px"}} value={x.email} onClick={this.handleSubmitApprove} className="btn btn-info">Approve</button>
