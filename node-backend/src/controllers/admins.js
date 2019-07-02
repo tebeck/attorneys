@@ -85,7 +85,7 @@ getUsers: function(req, res, next){
   userModel.find({},function(err, users){
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: users })
-  });
+  }).sort({createdAt : -1 })
 },
 
 getAttorneys: function(req, res, next){
