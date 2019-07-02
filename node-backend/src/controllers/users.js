@@ -55,6 +55,12 @@ module.exports = {
          Logger.log("REGISTER: Sending email")
          
          send.email(user.email, subject, text)
+
+         if(user.isSeeker){
+           let subject = "Esquired: Action needed"
+           let text = "New appearing attorney registered. "+user.email+" is pending your approve/reject action"
+           send.email(process.env.ADMIN_EMAIL, subject, text)           
+         }
          
          const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
          return res.status(200).send({token: token,user: user,state: 200, message:"A welcome email has been sent to "+user.email}) 
