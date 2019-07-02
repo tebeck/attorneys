@@ -89,9 +89,19 @@ const columns = [
     accessor: row => row.createdAt.substring(0, 10)
   },
   {
+    id: 'name',
+    Header: 'Name',
+    accessor: row => row.firstName,
+  },
+  {
+    id: 'lname',
+    Header: 'Last Name',
+    accessor: row => row.lastName,
+  },
+  {
     Header: 'Email',
     accessor: 'email',
-    minWidth: 200
+    minWidth: 150
   },
   {
     Header: 'State Bar',
@@ -150,7 +160,7 @@ else {
   return(
 
     <div>
-    No users found
+    Loading...
     </div>
     )
 }

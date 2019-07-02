@@ -140,6 +140,10 @@ var users = new Schema({
   onHold:{
     type: Boolean,
     default: false
+  },
+  status:{
+    type: String,
+    default: "OK"
   }
 },{
     collection: 'users', timestamps: true
