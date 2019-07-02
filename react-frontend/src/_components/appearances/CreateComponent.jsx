@@ -402,6 +402,7 @@ function Step1(props){
             <TimePicker
               showSecond={false}
               defaultValue={props.time}
+              value={props.time}
               className="form-control"
               onChange={props.handleTimeChange}
               format={format}
