@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import {appearanceService} from '../../_services/appearance.service';
+import {appearanceService, userServices} from '../../_services';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
@@ -11,6 +11,7 @@ import 'rc-time-picker/assets/index.css';
 import 'moment/locale/it.js';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import uploadImg from '../../_assets/img/request/request_upload.png'
 
 
 const format = 'h:mm a';
@@ -133,6 +134,33 @@ export default class CreateComponent extends Component {
       )
     }
     return null;
+  }
+
+
+  fileSelectedHandler = ({target}) => {
+    const newForm = new FormData();
+    if(target.value !== ""){
+
+     newForm.append('avatar',  target.files[0] , target.files[0].name)
+
+    userServices.upload(newForm)
+      .then(data => {
+         console.log(data)
+         this.setState({
+         image: data.data.location,
+         profilePicture: data.data.location
+          })
+      })
+
+    this.setState({
+      profilePicture: URL.createObjectURL(target.files[0]),
+      showImage: true
+    })
+
+  } else {
+    console.log("No image selected")
+  }
+
   }
 
 
@@ -426,6 +454,16 @@ function Step1(props){
                  <input type="checkbox" id="call" name="lateCall" className="switch-input" onClick={props.handleChangeChk} value={props.lateCall} /> 
                  <label htmlFor="call" className="switch-label"></label>
                 </div>
+            </div>
+
+            <div>
+              <p><b>Documents</b></p>
+              <label className="uploadLabel squareUpload" htmlFor="avatar" >
+               <div className="squareImg" >
+                 <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
+                 <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
+                </div>
+              </label>
             </div>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />

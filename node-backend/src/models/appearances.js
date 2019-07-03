@@ -14,6 +14,10 @@ var appearances = new Schema({
     type: String,
     required: true
   },
+  caseName: {
+    type: String,
+    required: true
+  },
   goal: {
     type: String,
     required: true
