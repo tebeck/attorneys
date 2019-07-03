@@ -115,7 +115,7 @@ const columns = [
   {
     id: 'status',
     Header: 'Status',
-    accessor: x => x.onHold ? "Pending" : "OK",
+    accessor: x => x.status =="rejected" ? "Rejected" : (x.onHold) ? "Pending" : "OK",
   },
   {
     id: 'buttonaccept',
