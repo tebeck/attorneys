@@ -79,7 +79,7 @@ module.exports = {
       if (!user.isVerified) { return res.status(401).send({ message: "Your account has not been verified"}); } 
       if (!user.isAttorney && user.isSeeker && user.onHold) { return res.status(401).send({ message: "Account is on review, we will let you know when its active"}); } 
       if (user.isDisabled){ return res.status(401).send({ message: "User disabled" }); }
-      if(user.status === "rejected"){return res.status(401).send({message: "You account was rejected, please contact the admin"})}
+      if(user.status === "rejected"){return res.status(401).send({message: "Your account was rejected, please contact the admin"})}
 
       if(bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })

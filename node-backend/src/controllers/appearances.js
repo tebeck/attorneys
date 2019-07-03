@@ -1,5 +1,7 @@
 const appearanceModel = require('../models/appearances');
 const postulationsModel = require('../models/postulations');
+const send = require('../services/sendmail');
+
 
 module.exports = {
 
@@ -18,12 +20,17 @@ getOwn: function(req, res, next){
   })
 },
 create: function(req, res, next){
-  console.log(req.body)
   const payload = req.body;
-  payload.attorneyId = payload.userId;
-  const appearance = new appearanceModel(payload);
-      appearance.save()
+   payload.attorneyId = payload.userId;
+
+   appearance = new appearanceModel(payload);
+    appearance.save()
     .then(appearance => {
+      let subject = "New appearance created!"
+      let text = ":)"
+      Logger.log("APPEARANCE CREATED: Sending email")
+      send.email(payload.attorneyId, subject, text)
+
     res.status(200).send({message: "Appearance created", data:{appearance: appearance}});
     })
     .catch(err => {

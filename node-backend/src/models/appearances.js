@@ -43,10 +43,9 @@ var appearances = new Schema({
     required: true
   },
   documents: {
-    type: String,
-    default:"no docs",
-    required: true
-  },
+     type: Array,
+     required: false
+    },
   status: {
     type: String,
     default: 'published',

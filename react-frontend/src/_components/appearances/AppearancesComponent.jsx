@@ -21,7 +21,8 @@ export default class AppearancesComponent extends Component {
 	
 	  appearanceService.getAppearances()
 	    .then((result) => this.setState({
-	  	  data: result.data
+	  	  data: result.data,
+	  	  number: result.data.length
 	  	})) 	
 	}
 
@@ -69,7 +70,7 @@ export default class AppearancesComponent extends Component {
 	  </Modal>
   		
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
-	  <p>There are 5 appearances</p>
+	  <p>There are {this.state.number} appearances</p>
 	  	 <div className="flex-space-between">
 		 	<img style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
 	  	 	<img alt="esquired" src={listFilterImg} width="18px" height="18px" /><br/><br/>

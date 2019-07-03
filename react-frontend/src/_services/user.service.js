@@ -15,7 +15,8 @@ export const userServices = {
     upload,
     updateAccountInfo,
     updateProfInfo,
-    makeAttorney
+    makeAttorney,
+    multiupload
 }
 
 function register(data){
@@ -49,6 +50,11 @@ function register(data){
 
 function upload(image){
     return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
+        .then(data => {return data})
+}
+
+function multiupload(images){
+    return axios.post(`${url_backend}/files/multiupload`, images , {headers: authHeader()})
         .then(data => {return data})
 }
 

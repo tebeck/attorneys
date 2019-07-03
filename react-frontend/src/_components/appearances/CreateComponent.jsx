@@ -13,6 +13,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 
+import { FilePond } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
 
 const format = 'h:mm a';
 
@@ -38,7 +40,7 @@ export default class CreateComponent extends Component {
       instructions:"",
       price:75,
       caseNumber:"",
-
+      documents:[],
 
       enableNextAction: false,     // enable next action button (invalid data in form)
       enableErrors: false,         // don't show errors when form is empty
@@ -65,7 +67,6 @@ export default class CreateComponent extends Component {
     if(!Object.keys(result).length) {
 
       console.log(noErrors)
-
       appearanceService.create(noErrors)
         .then(data => console.log(data))
 
@@ -79,7 +80,6 @@ export default class CreateComponent extends Component {
   _next = () => {
     let currentStep = this.state.currentStep
     if (!this.state.enableNextAction){ // there are errors
-      console.log("errors, setting enableErrors: true")
       this.setState({
         enableErrors: true
       })
@@ -139,23 +139,19 @@ export default class CreateComponent extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
+    
     if(target.value !== ""){
+      for(var i = 0; i < target.files.length; i++){
+        newForm.append('avatar',  target.files[i] , target.files[i].name)
+      }
 
-     newForm.append('avatar',  target.files[0] , target.files[0].name)
-
-    userServices.upload(newForm)
+    userServices.multiupload(newForm)
       .then(data => {
-         console.log(data)
+        console.log(data)
          this.setState({
-         image: data.data.location,
-         profilePicture: data.data.location
+           documents: data.data.location
           })
       })
-
-    this.setState({
-      profilePicture: URL.createObjectURL(target.files[0]),
-      showImage: true
-    })
 
   } else {
     console.log("No image selected")
@@ -236,7 +232,6 @@ export default class CreateComponent extends Component {
         enableNextAction: enableNextAction
       };
 
-      console.log(newState)
       this.setState(newState);
     }
 
@@ -293,6 +288,22 @@ export default class CreateComponent extends Component {
   }
 
 
+ deleteFile = ({target}) =>{
+  var array = [...this.state.documents]; // Copio el array
+  var index = target.id
+  console.log(target.id)
+  if (index !== -1) {
+  
+   array.splice(index, 1);
+      
+      this.setState({
+        documents: array
+      });
+
+    }
+  }
+
+
 
   render() {
   
@@ -300,7 +311,7 @@ export default class CreateComponent extends Component {
     return <Redirect push to="/home" />;
   }
 
-  console.log(this.state.currentStep)
+ 
 
   const {errors,currentStep} = this.state
   if (this.state.homeRedirect) { return <Redirect push to="/home" /> } // Go back to /definerole
@@ -353,6 +364,8 @@ export default class CreateComponent extends Component {
           state={this.state}
           handleDateChange={this.handleDateChange}
           handleTimeChange={this.handleTimeChange}
+          fileSelectedHandler={this.fileSelectedHandler}
+          deleteFile={this.deleteFile}
         />
 
         {this.nextButton()}
@@ -408,7 +421,16 @@ function Step1(props){
       return null;
     }
 
-    console.log(props)
+
+   let files = [];
+
+    if(props.state.documents){
+      for(var i = 0; i < props.state.documents.length; i++){
+        console.log(props.state.documents)
+      files.push(<div key={i}><li style={{listStyleType: "none"}} key={i}>{props.state.documents[i].originalname}<button type="button" id={i} name={props.state.documents[i].originalname} onClick={props.deleteFile} style={{marginLeft: "5px"}}>X</button></li><br /></div>);
+    }
+    }
+    
 
     return (
       <div>
@@ -461,11 +483,15 @@ function Step1(props){
               <label className="uploadLabel squareUpload" htmlFor="avatar" >
                <div className="squareImg" >
                  <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
-                 <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
+                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
                 </div>
-              </label>
+              </label><br/>
             </div>
+            
 
+            <div>{files}</div>
+            
+            {/*<FilePond allowMultiple={true} onChange={props.fileSelectedHandler} id="avatar" name="avatar" />*/}
             <input name="price" type="hidden" className="form-group" value={props.price} />
             <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
      
