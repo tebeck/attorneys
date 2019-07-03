@@ -28,6 +28,7 @@ export default class RegisterForm extends Component {
     isSeeker = role.isSeeker;
   }
 
+
   this.state = {
     currentStep: 1,              // Init current step at 1.
     errors: {},                  // onSubmit errors stored here.
@@ -44,7 +45,6 @@ export default class RegisterForm extends Component {
     firstNameValid: false,
     lastNameValid: false,
     streetAddrOneValid: false,
-    streetAddrTwoValid: false,
     cityValid: false,
     zipValid: false,
 
@@ -73,6 +73,7 @@ export default class RegisterForm extends Component {
   this.setNewState = this.setNewState.bind(this);
   this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
  }
+
 
 
   fileSelectedHandler = ({target}) => {
@@ -209,13 +210,13 @@ nextButton(){
   handleChange = ({target}) =>{
 
     this.state.errors.creditCard = false;
+    
 
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
     let lastNameValid = this.state.lastNameValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
-    let streetAddrTwoValid = this.state.streetAddrTwoValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
 
@@ -269,14 +270,6 @@ if (this.state.currentStep === 2){
         streetAddrOneValid=true;
       }
     }
-    if (target.name === 'streetAddrTwo'){
-      if (target.value.length<2) {
-        enableNextAction=false
-        streetAddrTwoValid=false;
-      }else{
-        streetAddrTwoValid=true;
-      }
-    }
     if (target.name === 'city'){
       if (target.value.length<2) {
         enableNextAction=false
@@ -293,23 +286,25 @@ if (this.state.currentStep === 2){
         zipValid=true;
       }
     }
-      if (streetAddrOneValid && streetAddrTwoValid && cityValid && zipValid){
+      if (streetAddrOneValid && cityValid && zipValid){
         enableNextAction=true
+        console.log("ahora es true!")
       }
       const newState = {
         emailValid: emailValid,
         firstNameValid: firstNameValid,
         lastNameValid: lastNameValid,
         streetAddrOneValid: streetAddrOneValid,
-        streetAddrTwoValid: streetAddrTwoValid,
         cityValid: cityValid,
         zipValid: zipValid,
         enableNextAction: enableNextAction
       };
-      //console.log('newState: ',newState)
+      console.log('newState: ',newState)
       this.setState(newState);
     }
 
+    this.state.error = false;
+    
     this.setState({ [target.name]: target.value })
 
   }
@@ -390,7 +385,6 @@ if (this.state.currentStep === 2){
         currentTitle = "null"
         break;
     }
-
 
    return(
     <div>
@@ -506,6 +500,11 @@ function Step1(props){
     if(props.currentStep !== 2){
       return null
     }
+   
+   
+      if (props.state.streetAddrOneValid && props.state.cityValid && props.state.zipValid){
+        props.state.enableNextAction=true
+      }
 
     return (
       <div>
@@ -513,7 +512,7 @@ function Step1(props){
         <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /> </div>
         <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
-        <input className={props.state.streetAddrTwoValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
+        <input className="form-control" type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
@@ -592,13 +591,14 @@ const errors = {}
   // email
   if(!values.email) { errors.email = 'Insert email' }
   if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
+
+
   // password
   if(values.password && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
   if(!values.password) { errors.password = 'Insert a valid password' }
 
   if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
 
-  if(!values.streetAddrTwo) { errors.streetAddrTwo = 'Insert streetAddrTwo' }
 
   if(!values.city) { errors.city = 'Insert city' }
 
@@ -608,26 +608,8 @@ const errors = {}
 
   if(!values.lastName) { errors.lastName = 'Insert lastName' }
 
-//  if(!values.firmName) { errors.firmName = 'Insert firmName' }
-
- // if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
- // if(this.state.isSeeker && this.state.stateBar == "") { errors.stateBar = 'Insert state bar' }
-
-//  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
-//  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
-
-//  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
-//  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
-
   if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
   if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
-
-//  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
-//  if(!values.policy) { errors.policy = 'Insert policy' }
-
-  // no below
-  // if(values.insurancePolicy && !validator.isInt(values.insurancePolicy)){ errors.insurancePolicy = 'Insurance policy must be numeric' }
-  // if(!values.insurancePolicy) { errors.insurancePolicy = 'Insert insurancePolicy' }
 
   console.log(errors)
   return errors;

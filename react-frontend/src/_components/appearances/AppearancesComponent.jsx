@@ -83,7 +83,7 @@ export default class AppearancesComponent extends Component {
 	      <div className="appearanceHeaderBox">  
 	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
 	      </div> 
-	      <p className="titlebox">Trafic Trial</p>
+	      <p className="titlebox">{x.caseName}</p>
     	  <div className="divmailing">
 	    	<img alt="Esquired" width="20px" src={pingImg}></img>
 	    	<p className="mailing">{x.courtHouse}</p>

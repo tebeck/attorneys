@@ -45,7 +45,7 @@ export default class AgendaComponent extends Component {
 	      </div> 
 	      <div className="flex-space-between paddingUpDown">
 	      <div>
-	      <p className="titlebox">Trafic Trial</p>
+	      <p className="titlebox">{x.caseName}</p>
     	  <div className="divmailing">
 	    	<img alt="Esquired" width="20px" src={pingImg}></img>
 	    	<p className="mailing">{x.courtHouse}</p>
