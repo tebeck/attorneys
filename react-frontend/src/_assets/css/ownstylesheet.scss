@@ -24,6 +24,14 @@ $display-block: block;
 
 }
 
+.modalRequestHead{
+margin: 50px;
+text-align: center;
+}
+
+.modalRequestHead img{
+  width: 300px
+}
 
 .squareUpload{
   border-radius: 10px;
@@ -686,7 +694,7 @@ div.popup-content{
     height: 40px;
     border-radius: 45px;
     color: #fff;
-    padding: 12px 30px;
+    padding: 10px 30px;
     border: none;
     line-height: 1;
     font-family: $font-family;

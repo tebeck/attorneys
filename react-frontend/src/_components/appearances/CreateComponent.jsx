@@ -12,6 +12,7 @@ import 'moment/locale/it.js';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
+import requestImg from '../../_assets/img/request/request_published.png'
 
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
@@ -320,18 +321,17 @@ export default class CreateComponent extends Component {
      
       <Modal 
         visible={this.state.visible}
-        width="300"
-        height="286"
+        width="400"
+        height="500"
         effect="fadeInDown"
         onClickAway={() => this.closeModal()}>
         
-        <div className="modalHead">
-          <i className="far fa-4x green-background fa-check-circle"></i> <br/><br/>
-          <h5>Your request has been published successfully!</h5>
+        <div className="modalRequestHead">
+          <img src={requestImg} alt="esquired" /> <br/><br/>
+          <h5>Your request has been published<br/> successfully!</h5>
+          <Link to="/home" style={{margin: "40px", marginBottom: "30px"}} className="btn btn-lg btn-block btn-primary link-button">Done</Link> 
         </div>
-        <div>
-          <Link to="/home" style={{margin: "20px", width: "86%"}} className="btn btn-lg btn-block btn-primary link-button">Ok</Link> 
-        </div>  
+   
       </Modal>
       
       <h3 onClick={this._prev} style={{cursor: "pointer"}}> <img  style={{marginBottom: "5px"}} width="16px" src={backbutton} alt="esquired" /> New request</h3>
