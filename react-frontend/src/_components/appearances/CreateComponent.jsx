@@ -17,7 +17,10 @@ import requestImg from '../../_assets/img/request/request_published.png'
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 
+const newForm = new FormData();
 const format = 'h:mm a';
+let doc = [];
+let i = 0;
 
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -139,16 +142,24 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-    const newForm = new FormData();
+    
     
     if(target.value !== ""){
-      for(var i = 0; i < target.files.length; i++){
-        newForm.append('avatar',  target.files[i] , target.files[i].name)
+      
+      if(target.files.length > 1){
+      for(i; i < target.files.length; i++){
+        doc.push([target.files[i],target.files[i].name])
+         newForm.append('avatar', doc[i][0] , doc[i][1])
       }
+    } else {
+        doc.push([target.files[0],target.files[0].name])
+         newForm.append('avatar', doc[i][0] , doc[i][1])
+         i = i + 1;
+    }
 
     userServices.multiupload(newForm)
       .then(data => {
-        console.log(data)
+        // console.log(data)
          this.setState({
            documents: data.data.location
           })
@@ -426,7 +437,6 @@ function Step1(props){
 
     if(props.state.documents){
       for(var i = 0; i < props.state.documents.length; i++){
-        console.log(props.state.documents)
       files.push(<div key={i}><li style={{listStyleType: "none"}} key={i}>{props.state.documents[i].originalname}<button type="button" id={i} name={props.state.documents[i].originalname} onClick={props.deleteFile} style={{marginLeft: "5px"}}>X</button></li><br /></div>);
     }
     }
