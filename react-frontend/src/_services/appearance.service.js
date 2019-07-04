@@ -12,7 +12,9 @@ export const appearanceService = {
     upload,
     getSpecificById,
     getAppearances,
-    expire
+    expire,
+    getAgenda,
+    getRequests
 }
 
 function expire(){
@@ -43,6 +45,30 @@ function getAppearances() {
             return data.json()
         });
 }
+
+
+function getAgenda(userId){
+    console.log("entro aca")
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(userId)
+    };
+    return fetch(`${url_backend}/postulations/agenda`, requestOptions)
+        .then(data=>{ return data.json() });
+}
+
+function getRequests(userId){
+    console.log("entro aca")
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(userId)
+    };
+    return fetch(`${url_backend}/appearances/requests`, requestOptions)
+        .then(data=>{ return data.json() });
+}
+
 
 function getSpecificById(id){
     const requestOptions = {

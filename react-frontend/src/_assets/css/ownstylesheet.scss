@@ -19,9 +19,25 @@ $display-block: block;
 }
 
 .pending-assignment{
-  color: #f5a623;
-  margin: 5px
+  margin-bottom: 0px;
+}
 
+.alert-warning{
+  color: #f5a623;
+  background-color: #fff6e8;
+  border-radius: 4pt 4pt 0 0;
+}
+.accepted-assignment{
+ margin-bottom: 0px;
+}
+
+
+.alert-success{
+  border: none;
+  background-color: #e3faf5;
+  color: $green-color!important;
+  margin-bottom: 0px;
+  border-radius: 4pt 4pt 0 0;
 }
 
 .modalRequestHead{
@@ -31,6 +47,19 @@ text-align: center;
 
 .modalRequestHead img{
   width: 300px
+}
+
+.outlinebtn {
+  background-color: transparent!important;
+  border: 2px solid $green-color!important;
+  color: $green-color!important;
+}
+
+.requestTitle{
+  padding-top: 10px;font-weight: 700;line-spacing:14pt;font-size: 13pt;
+  color: $green-color;
+  margin-left: 10px;
+
 }
 
 .squareUpload{
@@ -294,7 +323,7 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
   width: 100%;
   border: 1pt solid $lightgrey-color;
   background-color: #FFF;
-  border-radius: 4pt;
+  border-radius: 0 0 4pt 4pt;
 }
 .appearanceHeaderBox { height: 35%; width: 100%; background-color: #FFF;border-bottom: 1pt solid $lightgrey-color; border-radius: 4pt 4pt 0px 0px; padding: 10px; font-size: 13px; }
 

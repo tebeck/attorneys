@@ -14,7 +14,7 @@ export default class AgendaComponent extends Component {
 	  	data: []
       };
 	
-	  appearanceService.getAppearances()
+	  appearanceService.getAgenda()
 	    .then((result) => this.setState({
 	  	  data: result.data
 	  	})) 	

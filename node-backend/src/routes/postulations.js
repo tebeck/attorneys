@@ -8,7 +8,7 @@ router.get('/', postController.get);
 
 router.post('/create', appMiddleware.isSeeker, postController.create); // appearanceId (frontend)
 router.post('/cancel', appMiddleware.isSeeker, postController.cancel);
-router.get('/agenda', appMiddleware.isSeeker, postController.getOwn);
+router.post('/agenda', postController.getAgenda);
 router.post('/upload', appMiddleware.isSeeker, postController.uploadProof);
 router.post('/completed', appMiddleware.isSeeker, postController.completed);
 router.post('/rateattorney', appMiddleware.isSeeker, postController.rateAttorney);
