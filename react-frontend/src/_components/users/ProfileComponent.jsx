@@ -7,6 +7,7 @@ import uploadImg from '../../_assets/img/upload_picture.png'
 import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
 import editPhotoImg from '../../_assets/img/btn_editphoto.png'
+import LoaderAnimation from '../LoaderAnimation';
 
 export default class ProfileComponent extends Component {
 
@@ -26,7 +27,8 @@ export default class ProfileComponent extends Component {
       streetAddrOne: "",
       creditCard: "",
       showImage:true,
-      image:""
+      image:"",
+      showLoader: false
     };
 
     
@@ -68,12 +70,12 @@ export default class ProfileComponent extends Component {
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
-    userServices.upload(newForm)
+      userServices.upload(newForm)
       .then(data => {
          console.log(data)
          this.setState({
-         image: data.data.location,
-         profilePicture: data.data.location
+           image: data.data.location,
+           profilePicture: data.data.location
           })
       })
 
@@ -96,19 +98,22 @@ export default class ProfileComponent extends Component {
   }
 
   handleAccSubmit = (e) =>{
-    e.preventDefault();
+    e.preventDefault()
+    this.setState({
+      showLoader: true
+    })
      const {...noErrors} = this.state // Destructuring...
      const result = validate(noErrors)
      this.setState({errors: result})
-
      if(!Object.keys(result).length) {
-       console.log(noErrors)
-        userServices.updateAccountInfo(noErrors).then(
-          res =>{
-           alert(res)
-          }
-        )
+      setTimeout(() => userServices.updateAccountInfo(noErrors).then( res => { 
+          alert(res) 
+          this.setState({
+            showLoader: false
+          })
+        }), 1200)
      }
+    
   }
 
   handleProfSubmit = (e) =>{
@@ -170,8 +175,12 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-   const {errors} = this.state
-
+   const {errors, showLoader} = this.state
+  if(showLoader){
+  return (
+      <div className="centered"><LoaderAnimation /></div>
+  )
+  }
 		return (
       <div>
         <Header guest="1" />

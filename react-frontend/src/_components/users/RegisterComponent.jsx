@@ -10,7 +10,7 @@ import '../../_assets/css/ownstylesheet.scss';
 import uploadImg from '../../_assets/img/upload_picture.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import backbutton from '../../_assets/img/btnback.png'
-
+import LoaderAnimation from '../LoaderAnimation';
 
 export default class RegisterForm extends Component {
 
@@ -47,6 +47,8 @@ export default class RegisterForm extends Component {
     streetAddrOneValid: false,
     cityValid: false,
     zipValid: false,
+
+    showLoader: false,
 
     // form state
     firstName: "",
@@ -104,6 +106,9 @@ export default class RegisterForm extends Component {
 
 handleSubmit = (e) => {
     e.preventDefault()
+    this.setState({
+      showLoader: true
+    })
     const {errors,...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
     if(this.state.isSeeker && this.state.stateBar === ""){
@@ -125,17 +130,19 @@ handleSubmit = (e) => {
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = this.state._state;
      console.log(noErrors)
-     userServices.register(noErrors).then(
+     setTimeout(() => userServices.register(noErrors).then(
       res =>{
         if (res.state && res.state === 200) {
           console.log(res)
           this.setState(res)
           this.openModal()
-
+          this.setState({
+            showLoader: false
+          })
         } else {
           this.setState({ error: res })
           }
-      })
+      }), 1200)
     }else{
       console.log('No keys')
     }
@@ -365,7 +372,11 @@ if (this.state.currentStep === 2){
 
 
   render(){
-
+ 
+  if(this.state.showLoader){
+  return (
+      <div className="centered"><LoaderAnimation /></div>
+  )}
     if (this.state.defineroleRedirect) { return <Redirect push to="/definerole" /> } // Go back to /definerole
 
     const {currentStep} = this.state
