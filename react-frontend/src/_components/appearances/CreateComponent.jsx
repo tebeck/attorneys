@@ -73,6 +73,10 @@ export default class CreateComponent extends Component {
       console.log(noErrors)
       appearanceService.create(noErrors)
         .then(data => console.log(data))
+        doc = [];
+        this.state.documents = [];
+        i = 0;
+
 
         this.openModal()
         
