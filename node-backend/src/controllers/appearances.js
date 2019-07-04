@@ -13,13 +13,13 @@ get: function(req, res, next){
   }).sort({ createdAt:-1 });
 },
 
-getOwn: function(req, res, next){
-  const payload = req.body;
-  appearanceModel.find({ attorneyId: payload.userId },function (err, data){
+getRequests: function(req, res, next){ 
+  appearanceModel.find({ attorneyId: req.body.userId },function (err, data){
     if(err){ return res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data })
   })
 },
+
 create: function(req, res, next){
   const payload = req.body;
    payload.attorneyId = payload.userId;
@@ -27,8 +27,8 @@ create: function(req, res, next){
    appearance = new appearanceModel(payload);
     appearance.save()
     .then(appearance => {
-      let subject = "New appearance created!"
-      let text = ":)"
+      let subject = "Request created"
+      let text = "Congrats! Your request was successfully published."
         userModel.findById(payload.attorneyId, function( err, user){
          if(err) {return res.status(500).send({message: err.message})}
          if(!user) {return res.status(401).send({message: "No user found"})}
@@ -79,7 +79,7 @@ getAccepted: function(req, res, next){
       res.json(result);
     }
   }).sort({createdAt:-1}); 
-},
+}
 
 }
 

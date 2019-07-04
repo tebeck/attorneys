@@ -9,7 +9,7 @@ router.post('/create', appMiddleware.isAttorney, validateMiddleware.user, appCon
 router.post('/delete', appMiddleware.isAttorney, validateMiddleware.user, appController.delete);
 router.post('/update', appMiddleware.isAttorney, validateMiddleware.user, appController.update);
 router.get('/confirmed', appMiddleware.isAttorney, validateMiddleware.user, appController.getAccepted);
-
+router.post('/requests', appMiddleware.isAttorney, validateMiddleware.user, appController.getRequests);
 
 
 // router.get('/seekers', appController.getOwn);

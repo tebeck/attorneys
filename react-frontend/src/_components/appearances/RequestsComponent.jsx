@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
 import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
+import priceImg from '../../_assets/img/appearance/appearance_price.png'
+import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 
 export default class RequestsComponent extends Component {
 	
@@ -12,7 +14,7 @@ export default class RequestsComponent extends Component {
 	  	redirect: false
       };
 	
-	  appearanceService.getAppearances()
+	  appearanceService.getRequests()
 	    .then((result) => this.setState({
 	  	  data: result.data
 	  	})) 	
@@ -35,7 +37,7 @@ export default class RequestsComponent extends Component {
  render() {
   
   const {data} = this.state
-
+  
   if(data){
 	return (
 	 <div><br/><br/>
@@ -43,20 +45,29 @@ export default class RequestsComponent extends Component {
 	  <button className="btn btn-outline-dark btn-sm float-right">VIEW ALL</button><br/><br/>
 		{data.map(x =>
 		<div key={x._id}>
-	      <div className="appearanceState text-center alert alert-warning">
-	      	<p className="pending-assignment">Pending assignment</p>
+	      
+	      {x.status == "published" ? 
+	      <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
+	       x.status === "accepted" ? 
+	       <p className="text-center accepted-assigment alert alert-success">Accepted</p> : null } 
+	      
+    	<div key={x._id} className="appearanceBox">
+	      <div className="appearanceHeaderBox">  
+	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
+	      </div> 
+	      <p className="titlebox">{x.caseName}</p>
+    	  <div className="divmailing">
+	    	<img alt="Esquired" width="20px" src={pingImg}></img>
+	    	<p className="mailing">{x.courtHouse}</p>
+    	  </div>
+    	  <div className="divprice">
+	       <img alt="Esquired" width="17px" src={priceImg}></img>
+	       <p className="price"> $75</p>	
 	      </div>
-		  <div className="appearanceBox">
-		      <div className="appearanceHeaderBox">  
-		        <Moment className="boxYear" format="ll">{x.hearingDate}</Moment><span> - {x.time}</span>
-		      </div> 
-		      <p className="boxTitle">{x.caseName}</p>
-	    	  <p className="boxDescription">{x.courtHouse}</p>
-		      <p>$75</p>	
-		      <div className="boxButton">
-		      	<button onClick={this.handleClick} className="btn btn-primary link-button">Accept</button>
-		      </div>
-		    </div>
+	      <div className="right">
+	       <button onClick={this.handleClick} className="apply-button outlinebtn">Edit</button>
+	      </div>
+	    </div>
 		    <br />
 		</div>
   		)}

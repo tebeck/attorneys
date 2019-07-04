@@ -72,6 +72,13 @@ getOwn: function(req, res, next){
   sort:{ createdAt: -1}
 },
 
+getAgenda: function(req, res, next){ 
+  postModel.find({ attorneyId: req.body.userId },function (err, data){
+    if(err){ return res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: data })
+  })
+},
+
 uploadProof: function(req, res, next){
   const userId = req.body.userId;
   singleUpload(req, res, function(err, some) {
