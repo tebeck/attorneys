@@ -57,6 +57,11 @@ export default class CreateComponent extends Component {
       goalValid: false
 
     }
+
+    console.log(doc)
+    console.log(...newForm)
+    console.log(this.state.documents)
+
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
@@ -74,8 +79,14 @@ export default class CreateComponent extends Component {
       console.log(noErrors)
       appearanceService.create(noErrors)
         .then(data => console.log(data))
+        
         doc = [];
         this.state.documents = [];
+        this.setState({
+          documents: []
+        })
+        
+        newForm = new FormData();
         i = 0;
 
 
@@ -153,11 +164,11 @@ export default class CreateComponent extends Component {
 
     if(target.value !== ""){
       if(target.files.length > 1){
-        console.log("mas de un file")
-        console.log(i)
+        // console.log("mas de un file")
+        // console.log(i)
 
       for(var z = 0; z < target.files.length; z++){
-         console.log(doc)
+         // console.log(doc)
          doc.push([target.files[z],target.files[z].name])
          newForm.append('avatar', doc[i][0] , doc[i][1])
          i = i + 1;
@@ -168,13 +179,13 @@ export default class CreateComponent extends Component {
          i = i + 1;
     }
     
-    console.log(i)
-    console.log(...newForm)
+    // console.log(i)
+    // console.log(...newForm)
     
     userServices.multiupload(newForm)
       .then(data => {
         console.log(data)
-         console.log("documents: "+ this.state.documents.length)
+         // console.log("documents: "+ this.state.documents.length)
          this.setState({
            documents: data.data.location
           })
@@ -453,8 +464,10 @@ function Step1(props){
     }
 
     console.log("llega ")
-    let files = []
-    console.log(props.state.documents)
+    let files = [];
+    
+
+    
 
     if(props.state.documents){
       for(var x = 0; x < props.state.documents.length; x++){
