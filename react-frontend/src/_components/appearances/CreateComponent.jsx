@@ -17,10 +17,11 @@ import requestImg from '../../_assets/img/request/request_published.png'
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 
-const newForm = new FormData();
+let newForm = new FormData();
 const format = 'h:mm a';
 let doc = [];
 let i = 0;
+
 
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -146,24 +147,34 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-    
-    
+
+
+    i = this.state.documents.length;
+
     if(target.value !== ""){
-      
       if(target.files.length > 1){
-      for(i; i < target.files.length; i++){
-        doc.push([target.files[i],target.files[i].name])
+        console.log("mas de un file")
+        console.log(i)
+
+      for(var z = 0; z < target.files.length; z++){
+         console.log(doc)
+         doc.push([target.files[z],target.files[z].name])
          newForm.append('avatar', doc[i][0] , doc[i][1])
+         i = i + 1;
       }
     } else {
         doc.push([target.files[0],target.files[0].name])
-         newForm.append('avatar', doc[i][0] , doc[i][1])
+         newForm.append('avatar', doc[i][0] , doc[i][1])  
          i = i + 1;
     }
-
+    
+    console.log(i)
+    console.log(...newForm)
+    
     userServices.multiupload(newForm)
       .then(data => {
-        // console.log(data)
+        console.log(data)
+         console.log("documents: "+ this.state.documents.length)
          this.setState({
            documents: data.data.location
           })
@@ -309,12 +320,17 @@ export default class CreateComponent extends Component {
   var index = target.id
   console.log(target.id)
   if (index !== -1) {
-  
+ 
    array.splice(index, 1);
-      
-      this.setState({
-        documents: array
-      });
+   this.setState({ documents: array });
+   // this.state.documents = array;
+   // files = files.splice(index, 1)
+   doc.splice(index, 1)
+    i = i - 1
+   newForm.delete("avatar", index)
+
+
+      console.log(...newForm)
 
     }
   }
@@ -436,13 +452,17 @@ function Step1(props){
       return null;
     }
 
-
-   let files = [];
+    console.log("llega ")
+    let files = []
+    console.log(props.state.documents)
 
     if(props.state.documents){
-      for(var i = 0; i < props.state.documents.length; i++){
-      files.push(<div key={i}><li style={{listStyleType: "none"}} key={i}>{props.state.documents[i].originalname}<button type="button" id={i} name={props.state.documents[i].originalname} onClick={props.deleteFile} style={{marginLeft: "5px"}}>X</button></li><br /></div>);
+      for(var x = 0; x < props.state.documents.length; x++){
+      files.push(<div key={x}><li style={{listStyleType: "none"}} key={x}>{props.state.documents[x].originalname}<button type="button" id={x} name={props.state.documents[x].originalname} onClick={props.deleteFile} style={{marginLeft: "5px"}}>X</button></li><br /></div>);
     }
+
+
+    
     }
     
 
