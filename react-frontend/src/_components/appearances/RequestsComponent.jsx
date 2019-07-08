@@ -33,11 +33,27 @@ export default class RequestsComponent extends Component {
     }
   }
 
+	handleClick = (x) =>{
+		this.setState({
+		  goToDetail: true,
+		  appearanceData: x
+		})
+	}
 
  render() {
   
   const {data} = this.state
-  
+   
+  if(this.state.goToDetail && this.state.appearanceData){
+  	return (
+  	 <Redirect to={{
+	   pathname: "/appearancedetail",
+	   state: { appearanceData: this.state.appearanceData,
+	    isAttorney: true 
+	   }
+	 }}/>)
+  }
+
   if(data){
 	return (
 	 <div><br/><br/>
@@ -65,7 +81,7 @@ export default class RequestsComponent extends Component {
 	       <p className="price"> $75</p>	
 	      </div>
 	      <div className="right">
-	       <button onClick={this.handleClick} className="apply-button outlinebtn">Edit</button>
+	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button>
 	      </div>
 	    </div>
 		    <br />
