@@ -99,8 +99,9 @@ export default class CreateComponent extends Component {
 
     userServices.multiupload(uploadForm)
       .then(data => {
-
-         this.setState({ location: data.data.location })
+         this.setState({
+          documents: data.data.location 
+         })
       })
   }
 
@@ -114,7 +115,7 @@ export default class CreateComponent extends Component {
   //  newDocuments.splice(id, 1); // Delete with ID from newFiles
   //  doc.splice(id, 1)
    e.preventDefault()
-   this.setState({ location: [] });
+   this.setState({ documents: [] });
 
    uploadForm.delete('avatar')
     
@@ -352,8 +353,6 @@ function Step1(props){
       return null;
     }
 
-    console.log("Step 2")
-
 
     return (
       <div>
@@ -412,11 +411,11 @@ function Step1(props){
             </div>
 
             <ul>
-            {props.state.location ? 
-              props.state.location.map((x,i) => (
+            {props.state.documents ? 
+              props.state.documents.map((x,i) => (
             <div key={i}><li>{x.originalname}</li></div>
               )): null}
-              {props.state.location ? <button onClick={props.deleteFiles}>Clean list</button> : null }
+              {props.state.documents ? <button onClick={props.deleteFiles}>Clean list</button> : null }
             </ul>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
