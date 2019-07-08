@@ -18,6 +18,32 @@ $display-block: block;
   background-color: #FFF;
 }
 
+.btn-request{
+  padding: 0px 60px 0px 60px!important;
+  margin: 0 auto;
+  display:block
+}
+
+.flex{
+  display: flex
+}
+
+.adTitle{
+  color: #4a4a4a;
+  font-size: 12px;
+  margin: 0;
+}
+
+.adTime{
+  font-size:16px;
+  font-weight: bold;
+}
+
+.appearanceDate{
+  background-color: rgba(42,212,174,.1);
+  padding: 20px
+}
+
 .pending-assignment{
   margin-bottom: 0px;
 }

@@ -38,6 +38,7 @@ const AdminPanelComponent = Loader(() => import('./_components/admins/AdminPanel
 
 // Appearances
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
+const AppearanceDetailComponent = Loader(() => import('./_components/appearances/AppearanceDetailComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
 
 // Passrecovery
@@ -85,6 +86,7 @@ class App extends Component {
                       <PrivateRoute exact path="/requests" component={RequestsComponent} />
                       <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
                       <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
+                      <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
                       <PrivateRoute exact path="/profile" component={ProfileComponent} />
                       <PrivateRoute exact path="/findproduct" component={SearchComponent} />
                       <PrivateRoute path="/updateproduct/" component={

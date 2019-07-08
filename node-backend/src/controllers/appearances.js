@@ -20,6 +20,14 @@ getRequests: function(req, res, next){
   })
 },
 
+
+getSpecific: function(req, res, next){
+  appearanceModel.findById(req.body.appId,function (err, data){
+    if(err){ return res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: data })
+  })
+},
+
 create: function(req, res, next){
   const payload = req.body;
    payload.attorneyId = payload.userId;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
 import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
@@ -16,7 +17,8 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
 	  	data: [],
-	  	email: Cookie.get('esquired').email
+	  	email: Cookie.get('esquired').email,
+	  	goToDetail: false
       };
 	
 	  appearanceService.getAppearances()
@@ -26,11 +28,13 @@ export default class AppearancesComponent extends Component {
 	  	})) 	
 	}
 
-	handleClick = () =>{
-		const data = ["tebeckford@gmail.com", "aaa", "232323"]
-		userServices.sendmail(data)
-		this.openModal()
-	}
+	handleClick = (x) =>{
+		this.setState({
+			goToDetail: true,
+			appearanceData: x
+		})
+
+		}
 
 	openModal() {
      this.setState({
@@ -46,28 +50,23 @@ export default class AppearancesComponent extends Component {
 
  render() {
 
- 	console.log(this.state.data)
-
   const { data } = this.state
+
+  if(this.state.goToDetail && this.state.appearanceData){
+  	return (
+  	 <Redirect to={{
+	   pathname: "/appearancedetail",
+	   state: { 
+	   	appearanceData: this.state.appearanceData,
+	    isAttorney: false 
+	   }
+	 }}/>)
+  }
 
    if(data){
 	return (
 	 <div className="container main-body">
-	  <Modal visible={this.state.visible} width="370" height="445" effect="fadeInDown" onClickAway={() => this.closeModal()}>
-	   <div style={{padding: "30px",textAlign: "center"}}>
-	    <i className="fas fa-4x fa-envelope-open-text"></i><br/><br/>
-	    <h5>Well done!</h5>
-	     <p>We will send you an email with confirmation and additional info.</p>
-	   
-		
-	     <p>We will send you an email with confirmation and additional info.</p>
-	     <button className="btn btn-block btn-primary link-button">View appearances</button>
-	    
-	      <br /><br />
-	    
-	    <button onClick={() => this.closeModal()} className="btn btn-block btn-outline-primary">Maybe later</button>
-	  </div>
-	  </Modal>
+
   		
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
 	  <p>There are {this.state.number} appearances</p>
@@ -94,7 +93,9 @@ export default class AppearancesComponent extends Component {
 	       <p className="price"> $75</p>	
 	      </div>
 	      <div className="right">
-	       <button onClick={this.handleClick} className="apply-button">Apply</button>
+	       <button 
+	        onClick={this.handleClick.bind(this, x)}  
+	      	className="apply-button">Apply</button>
 	      </div>
 	    </div>
 

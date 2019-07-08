@@ -10,7 +10,6 @@ export const appearanceService = {
     _delete,
     updateSpecific,
     upload,
-    getSpecificById,
     getAppearances,
     expire,
     getAgenda,
@@ -59,7 +58,6 @@ function getAgenda(userId){
 }
 
 function getRequests(userId){
-    console.log("entro aca")
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
@@ -70,27 +68,16 @@ function getRequests(userId){
 }
 
 
-function getSpecificById(id){
+function getSpecific(appId) {
     const requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: authHeader(),
+        body: JSON.stringify(appId)
     };
 
 
-    return fetch(`${url_backend}/products/id/${id}`, requestOptions)
-        .then( data => {return data.json().then(text=>text)} )
-}
-
-// Getting by title or category.
-function getSpecific(data) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader(),
-    };
-    const title = data.title;
-
-    return fetch(`${url_backend}/products/${title}?&size=50`, requestOptions)
-        .then( data => {return data.json().then(text=>text)} )
+    return fetch(`${url_backend}/appearances/getspecific`, requestOptions)
+        .then( data => {return data.json()} )
 
 }
 
