@@ -13,15 +13,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
-
-import { FilePond } from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
-
-let newForm = new FormData();
 const format = 'h:mm a';
 let doc = [];
-let i = 0;
-
+let uploadForm = new FormData();
+let file;
 
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -58,144 +53,85 @@ export default class CreateComponent extends Component {
 
     }
 
-    console.log(doc)
-    console.log(...newForm)
-    console.log(this.state.documents)
-
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
+
   }
+
+
+
+
+
+
+
+
+
+
+
 
   handleSubmit = (e) =>{
     
     e.preventDefault()
-    const {errors, ...noErrors} = this.state // Destructuring...
+    const {errors, ...noErrors} = this.state // seteo todo en el estado.
     const result = validate(noErrors)
     this.setState({errors: result})
 
     if(!Object.keys(result).length) {
-
       console.log(noErrors)
       appearanceService.create(noErrors)
         .then(data => console.log(data))
-        
-        doc = [];
-        this.state.documents = [];
-        this.setState({
-          documents: []
-        })
-        
-        newForm = new FormData();
-        i = 0;
+         this.openModal()
 
-
-        this.openModal()
-        
-    } else {
+    } 
+    else {
       this.setState({ errors: result  })
     }
   }
-    
-  _next = () => {
-    let currentStep = this.state.currentStep
-    if (!this.state.enableNextAction){ // there are errors
-      this.setState({
-        enableErrors: true
-      })
 
-    }else{
-      currentStep = currentStep >= 2? 3: currentStep + 1
-
-      this.setState({
-        currentStep: currentStep,
-        enableErrors: false,
-        enableNextAction: false
-      })
-    }
-  }
-
-
-  _prev = () => {
-
-    if (this.props.location.backhome){
-     this.props.history.push({ pathname: '/', state: {...this.state} })
-    }
-
-    if(this.state.enableNextAction === false){
-      this.setState({
-        enableNextAction: true
-      })
-    }
-    let currentStep = this.state.currentStep
-    // currentStep = currentStep <= 2 ? 1 : currentStep - 1
-    currentStep = currentStep <= 1 ? 0 : currentStep - 1
-    this.setState({
-      currentStep: currentStep
-    })
-    
-    if (currentStep <= 0){
-       this.setState({homeRedirect: true});
-    }
-
-  }
-
-  nextButton(){
-    let currentStep = this.state.currentStep;
-    if(currentStep <2){
-      return (
-        <div>
-        <button
-          className="btn btn-primary link-button wizard-btn btn-block"
-          type="button" onClick={this._next}>
-        Continue
-        </button><br/><br/>
-        </div>
-      )
-    }
-    return null;
-  }
 
 
   fileSelectedHandler = ({target}) => {
-
-
-    i = this.state.documents.length;
-
-    if(target.value !== ""){
-      if(target.files.length > 1){
-        // console.log("mas de un file")
-        // console.log(i)
-
-      for(var z = 0; z < target.files.length; z++){
-         // console.log(doc)
-         doc.push([target.files[z],target.files[z].name])
-         newForm.append('avatar', doc[i][0] , doc[i][1])
-         i = i + 1;
-      }
-    } else {
-        doc.push([target.files[0],target.files[0].name])
-         newForm.append('avatar', doc[i][0] , doc[i][1])  
-         i = i + 1;
-    }
     
-    // console.log(i)
-    // console.log(...newForm)
-    
-    userServices.multiupload(newForm)
+   for (var i = 0; i < target.files.length; i++) {
+     uploadForm.append('avatar', target.files[i] , target.files[i].name)
+   }
+
+    userServices.multiupload(uploadForm)
       .then(data => {
-        console.log(data)
-         // console.log("documents: "+ this.state.documents.length)
-         this.setState({
-           documents: data.data.location
-          })
+
+         this.setState({ location: data.data.location })
       })
-
-  } else {
-    console.log("No image selected")
   }
 
+
+  deleteFiles = (e) => {
+  
+  // var newDocuments = this.state.location; // Copio el array
+  // var id = target.id
+  //  console.log(id)
+  //  console.log(uploadForm.getAll('avatar'))
+  //  newDocuments.splice(id, 1); // Delete with ID from newFiles
+  //  doc.splice(id, 1)
+   e.preventDefault()
+   this.setState({ location: [] });
+
+   uploadForm.delete('avatar')
+    
+   console.log(uploadForm.getAll('avatar'))
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   handleChange = ({target}) =>{
@@ -210,7 +146,6 @@ export default class CreateComponent extends Component {
 
     if (this.state.currentStep === 1){
       if (target.name === 'courtHouse'){
-      
         if (target.value.length<2) {
           enableNextAction=false
           courtHouseValid=false;
@@ -219,7 +154,6 @@ export default class CreateComponent extends Component {
         }
       }
       if (target.name === 'department'){
-      
         if (target.value.length<2) {
           enableNextAction=false
           departmentValid=false;
@@ -229,7 +163,6 @@ export default class CreateComponent extends Component {
       }
 
       if (target.name === 'caseName'){
-      
         if (target.value.length<2) {
           enableNextAction=false
           caseNameValid=false;
@@ -237,9 +170,7 @@ export default class CreateComponent extends Component {
           caseNameValid=true;
         }
       }
-
       if (target.name === 'caseNumber'){
-      
         if (target.value.length<2) {
           enableNextAction=false
           caseNumberValid=false;
@@ -248,7 +179,6 @@ export default class CreateComponent extends Component {
         }
       }
       if (target.name === 'goal'){
-      
         if (target.value.length<2) {
           enableNextAction=false
           goalValid=false;
@@ -272,89 +202,48 @@ export default class CreateComponent extends Component {
 
       this.setState(newState);
     }
-
-
-
-
-    this.setState({
-      [target.name]: target.value
-    });
+    
+    this.setState({ [target.name]: target.value });
   
   }
-
-
-  setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
-
-  openModal() {
-    this.setState({
-        visible : true
-    });
-  }
-
-  closeModal() {
-    this.setState({
-        visible : false
-    });
-  }
-
-
   handleChangeChk(e) {
-    if(e.target.name === "lateCall"){
-      this.setState(state => ({
-        lateCall: !state.lateCall
-      }))
-    }
-    if(e.target.name === "clientPresent"){
-      this.setState(state => ({
-        clientPresent: !state.clientPresent
-      })) 
-    }    
+    if(e.target.name === "lateCall"){ this.setState(state => ({ lateCall: !state.lateCall}))}
+    if(e.target.name === "clientPresent"){this.setState(state => ({clientPresent: !state.clientPresent})) }    
+  }
+  setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
+  openModal()  {this.setState({visible : true})}
+  closeModal() {this.setState({visible : false})}
+  handleDateChange(date) { this.setState({ hearingDate: date })}
+  handleTimeChange(time){ this.setState({ time: time })}
+  _next = () => {
+    let currentStep = this.state.currentStep
+    if (!this.state.enableNextAction){ // there are errors
+     this.setState({ enableErrors: true }) }
+    else{
+     currentStep = currentStep >= 2? 3: currentStep + 1
+     this.setState({ currentStep: currentStep, enableErrors: false, enableNextAction: false }) }
+  }
+  _prev = () => {
+    if (this.props.location.backhome){ this.props.history.push({ pathname: '/', state: {...this.state} }) }
+    if(this.state.enableNextAction === false){ this.setState({ enableNextAction: true })}
+    let currentStep = this.state.currentStep
+    currentStep = currentStep <= 1 ? 0 : currentStep - 1
+     this.setState({ currentStep: currentStep})
+    if (currentStep <= 0){ this.setState({homeRedirect: true}) }
+  }
+
+  nextButton(){
+    let currentStep = this.state.currentStep;
+    if(currentStep <2){return (<div><button className="btn btn-primary link-button wizard-btn btn-block" type="button" onClick={this._next}>Continue </button><br/><br/></div>)}
+     return null;
   }
 
 
 
-  handleDateChange(date) {
-    this.setState({
-      hearingDate: date
-    });
-  }
-
-  handleTimeChange(time){
-    this.setState({
-      time: time
-    });   
-  }
+ render() {
 
 
- deleteFile = ({target}) =>{
-  var array = [...this.state.documents]; // Copio el array
-  var index = target.id
-  console.log(target.id)
-  if (index !== -1) {
- 
-   array.splice(index, 1);
-   this.setState({ documents: array });
-   // this.state.documents = array;
-   // files = files.splice(index, 1)
-   doc.splice(index, 1)
-    i = i - 1
-   newForm.delete("avatar", index)
-
-
-      console.log(...newForm)
-
-    }
-  }
-
-
-
-  render() {
-  
-  if (this.state.backStep) {
-    return <Redirect push to="/home" />;
-  }
-
- 
+  if (this.state.backStep) { return <Redirect push to="/home" />; }
 
   const {errors,currentStep} = this.state
   if (this.state.homeRedirect) { return <Redirect push to="/home" /> } // Go back to /definerole
@@ -378,7 +267,7 @@ export default class CreateComponent extends Component {
       
       <h3 onClick={this._prev} style={{cursor: "pointer"}}> <img  style={{marginBottom: "5px"}} width="16px" src={backbutton} alt="esquired" /> New request</h3>
         
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} >
         <Step1
           currentStep={currentStep}
           nextButton={this.nextButton()}
@@ -407,7 +296,7 @@ export default class CreateComponent extends Component {
           handleDateChange={this.handleDateChange}
           handleTimeChange={this.handleTimeChange}
           fileSelectedHandler={this.fileSelectedHandler}
-          deleteFile={this.deleteFile}
+          deleteFiles={this.deleteFiles}
         />
 
         {this.nextButton()}
@@ -463,21 +352,8 @@ function Step1(props){
       return null;
     }
 
-    console.log("llega ")
-    let files = [];
-    
+    console.log("Step 2")
 
-    
-
-    if(props.state.documents){
-      for(var x = 0; x < props.state.documents.length; x++){
-      files.push(<div key={x}><li style={{listStyleType: "none"}} key={x}>{props.state.documents[x].originalname}<button type="button" id={x} name={props.state.documents[x].originalname} onClick={props.deleteFile} style={{marginLeft: "5px"}}>X</button></li><br /></div>);
-    }
-
-
-    
-    }
-    
 
     return (
       <div>
@@ -534,11 +410,15 @@ function Step1(props){
                 </div>
               </label><br/>
             </div>
-            
 
-            <div>{files}</div>
-            
-            {/*<FilePond allowMultiple={true} onChange={props.fileSelectedHandler} id="avatar" name="avatar" />*/}
+            <ul>
+            {props.state.location ? 
+              props.state.location.map((x,i) => (
+            <div key={i}><li>{x.originalname}</li></div>
+              )): null}
+              {props.state.location ? <button onClick={props.deleteFiles}>Clean list</button> : null }
+            </ul>
+
             <input name="price" type="hidden" className="form-group" value={props.price} />
             <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
      
