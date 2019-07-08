@@ -61,15 +61,6 @@ export default class CreateComponent extends Component {
 
 
 
-
-
-
-
-
-
-
-
-
   handleSubmit = (e) =>{
     
     e.preventDefault()
@@ -115,21 +106,14 @@ export default class CreateComponent extends Component {
   //  newDocuments.splice(id, 1); // Delete with ID from newFiles
   //  doc.splice(id, 1)
    e.preventDefault()
-   this.setState({ documents: [] });
+    var r = window.confirm("Do you want to clear all files?");
+    if (r == true) {
+     this.setState({ documents: [] });
+     uploadForm.delete('avatar')
+     console.log(uploadForm.getAll('avatar'))
+    }
 
-   uploadForm.delete('avatar')
-    
-   console.log(uploadForm.getAll('avatar'))
   }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -415,7 +399,7 @@ function Step1(props){
               props.state.documents.map((x,i) => (
             <div key={i}><li>{x.originalname}</li></div>
               )): null}
-              {props.state.documents ? <button onClick={props.deleteFiles}>Clean list</button> : null }
+              {props.state.documents ? <button onClick={props.deleteFiles}>Clear files</button> : null }
             </ul>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
