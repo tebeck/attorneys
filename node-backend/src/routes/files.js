@@ -3,7 +3,7 @@ const upload = require('../services/file-upload');
 var app = express();
 var router = express.Router();
 const singleUpload = upload.single('avatar');
-const multiUpload = upload.array('avatar');
+const multiUpload = upload.array('avatar',12 );
 
 router.post('/upload', function(req, res) {
   
