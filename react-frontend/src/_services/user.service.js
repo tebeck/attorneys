@@ -29,7 +29,6 @@ function register(data){
     return fetch(`${url_backend}/users/register`, requestOptions)
     .then(handleResponse)
     .then(data => {
-      console.log(data)
       if(data.user && data.token){
         data.status=200;
           if(data.user.isAttorney && data.user.isSeeker){
@@ -41,7 +40,7 @@ function register(data){
        return data;
       } else{
           data.status = 400
-          return data.message
+          return data
             }
     })
 }
@@ -251,7 +250,8 @@ function handleResponse(response) {
                 return data
             }
             if(response.status === 409){ // Email in use
-                console.log("entro")
+                console.log("a")
+                console.log(data)
                 return data
             }
             if(response.status === 400){

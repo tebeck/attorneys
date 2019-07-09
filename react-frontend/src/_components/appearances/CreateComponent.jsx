@@ -14,9 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
 const format = 'h:mm a';
-let doc = [];
-let uploadForm = new FormData();
-let file;
+
+
 
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -72,8 +71,8 @@ export default class CreateComponent extends Component {
       console.log(noErrors)
       appearanceService.create(noErrors)
         .then(data => console.log(data))
-         this.openModal()
-
+         .then(this.setState({ documents: []}))
+         .then(this.openModal())
     } 
     else {
       this.setState({ errors: result  })
@@ -83,7 +82,9 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-    
+   
+   const uploadForm = new FormData();
+   
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
    }
@@ -98,7 +99,6 @@ export default class CreateComponent extends Component {
 
 
   deleteFiles = (e) => {
-  
   // var newDocuments = this.state.location; // Copio el array
   // var id = target.id
   //  console.log(id)
@@ -110,6 +110,7 @@ export default class CreateComponent extends Component {
     if (r == true) {
      this.setState({ documents: [] });
      uploadForm.delete('avatar')
+     const uploadForm = new FormData();
      console.log(uploadForm.getAll('avatar'))
     }
 
