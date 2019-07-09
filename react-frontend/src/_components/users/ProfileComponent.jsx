@@ -151,12 +151,27 @@ export default class ProfileComponent extends Component {
           console.log(res)
           let token = Cookies.getJSON('esquired').token;
           Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true,onHold: false}, { path: '' })   
+     } 
+   })
+  }
+  
+  // handleSeeker = () =>{
 
-      
-    } 
-  })
-    }
+  //  let body = {
+  //    userId: this.state._userId
+  //  }
 
+  //   userServices.makeSeeker(body)
+  //     .then(res => {
+  //       if (res.state !== 200) {
+  //         console.log(res)
+  //     } else {
+  //         console.log(res)
+  //         let token = Cookies.getJSON('esquired').token;
+  //         Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true,onHold: false}, { path: '' })   
+  //    } 
+  //  })
+  // }
 
     handleLogout = () =>{
     Cookies.remove('esquired');
@@ -246,6 +261,7 @@ export default class ProfileComponent extends Component {
                     <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
                     
                     { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
+                    {/*{ !Cookies.getJSON('esquired').isSeeker ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleSeeker}>Be Appearing Attorney</button> : null }<br/>*/}
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form><br/><br/>

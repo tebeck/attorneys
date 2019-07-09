@@ -112,52 +112,45 @@ export default class RegisterForm extends Component {
 
 handleSubmit = (e) => {
     e.preventDefault()
-    this.setState({
-      showLoader: true
-    })
+    this.setState({ showLoader: true })
     const {errors,...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
+    
     if(this.state.isSeeker && this.state.stateBar === ""){
       result.stateBar = "Please insert state bar"
     }
-    console.log(result)
+
     this.setState({errors: result})
 
-    if (!Object.keys(result).length) {
-
-     const mailingAddress = {
-       streetAddrOne: noErrors.streetAddrOne,
-       streetAddrTwo: noErrors.streetAddrTwo,
-       city: noErrors.city,
-       state: noErrors._state,
-       zip: noErrors.zip
-     }
+    if (!Object.keys(result).length) {  
+      this.setState({ showLoader: false })
+      const mailingAddress = {
+        streetAddrOne: noErrors.streetAddrOne,
+        streetAddrTwo: noErrors.streetAddrTwo,
+        city: noErrors.city,
+        state: noErrors._state,
+        zip: noErrors.zip
+      }
 
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = this.state._state;
-     console.log(noErrors)
      
-     userServices.register(noErrors).then(
-      setTimeout(() => res =>{
-
-        if (res.state && res.state === 200) {
-          console.log(res)
-          this.setState(res)
+     userServices.register(noErrors).then(response => {
+        if (response.state && response.state === 200) {
           this.openModal()
-          this.setState({
-            showLoader: false
+        } 
+        else {
+        // Error validating email
+          this.setState({ 
+            error: response.message,
+            showLoader: false 
           })
-        } else {
-          this.setState({ error: res })
-          }
+        }
       })
-      , 1000)
-
     } else {
-      console.log("entro acas")
-        this.setState({
-            errors: result,
-            showLoader: false
+        this.setState({ 
+          errors: result,
+          showLoader: false
         })
     }
 
