@@ -44,6 +44,12 @@ export default class RegisterForm extends Component {
     emailValid: false,
     firstNameValid: false,
     lastNameValid: false,
+    
+    firmNameValid: false,
+    stateBarValid: false,
+    officePhoneValid: false,
+    mobilePhoneValid: false,
+
     streetAddrOneValid: false,
     cityValid: false,
     zipValid: false,
@@ -130,8 +136,10 @@ handleSubmit = (e) => {
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = this.state._state;
      console.log(noErrors)
-     setTimeout(() => userServices.register(noErrors).then(
-      res =>{
+     
+     userServices.register(noErrors).then(
+      setTimeout(() => res =>{
+
         if (res.state && res.state === 200) {
           console.log(res)
           this.setState(res)
@@ -142,14 +150,14 @@ handleSubmit = (e) => {
         } else {
           this.setState({ error: res })
           }
-      }), 1200)
-    }else{
-      console.log('No keys')
-    }
+      })
+      , 1000)
 
-    if (Object.keys(result).length) {
+    } else {
+      console.log("entro acas")
         this.setState({
-            errors: result
+            errors: result,
+            showLoader: false
         })
     }
 
@@ -223,6 +231,10 @@ nextButton(){
     let emailValid = this.state.emailValid;
     let firstNameValid = this.state.firstNameValid;
     let lastNameValid = this.state.lastNameValid;
+    let firmNameValid = this.state.firmNameValid;
+    let stateBarValid = this.state.stateBarValid;
+    let officePhoneValid = this.state.officePhoneValid;
+    let mobilePhoneValid = this.state.mobilePhoneValid;
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
@@ -254,14 +266,51 @@ nextButton(){
           lastNameValid=true;
         }
       }
+      if (target.name === 'firmName'){
+        if (target.value.length<2) {
+          enableNextAction=false
+          firmNameValid=false;
+        }else{
+          firmNameValid=true;
+        }
+      }
+      if (target.name === 'stateBar'){
+        if (target.value.length<2) {
+          enableNextAction=false
+          stateBarValid=false;
+        }else{
+          stateBarValid=true;
+        }
+      }
+      if (target.name === 'officePhone'){
+        if(isNaN(target.value)) {
+          enableNextAction=false
+          officePhoneValid=false;
+        }else{
+          officePhoneValid=true;
+        }
+      }
+      if (target.name === 'mobilePhone'){
+        if(isNaN(target.value)) {
+          enableNextAction=false
+          mobilePhoneValid=false;
+        }else{
+          mobilePhoneValid=true;
+        }
+      }
 
-      if (firstNameValid && emailValid && lastNameValid){
+
+      if (firstNameValid && emailValid && lastNameValid && firmNameValid && stateBarValid && officePhoneValid && mobilePhoneValid){
         enableNextAction=true
       }
       const newState = {
         emailValid: emailValid,
         firstNameValid: firstNameValid,
         lastNameValid: lastNameValid,
+        firmNameValid: firmNameValid,
+        stateBarValid: stateBarValid,
+        officePhoneValid: officePhoneValid,
+        mobilePhoneValid: mobilePhoneValid,
         enableNextAction: enableNextAction
       };
       // console.log('newState: ',newState)
@@ -498,10 +547,10 @@ function Step1(props){
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
-        <input className='form-control' type="text" name="firmName"     placeholder="Firm Name"           value={props.firmName}     onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
-        <input className="form-control" type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
+        <input className={props.state.firmNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firmName"     placeholder="Firm Name"           value={props.firmName}     onChange={props.handleChange}></input>
+        <input className={props.state.stateBarValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>
+        <input className={props.state.officePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
+        <input className={props.state.mobilePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
         <input className={props.state.emailValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>
       </div>
     )
@@ -527,7 +576,17 @@ function Step1(props){
         <input className={props.state.cityValid||!props.state.enableErrors ? "form-control" : "error"}          type="text" name="city"            placeholder="City"             value={props.city}            onChange={props.handleChange}></input>
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
+        
+        {/*<input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>*/}
+        <div className="flex-space-between">
+          <label> Do you have professional liability insurance?</label>
+            <div>
+             <input type="checkbox" id="policy" name="policy" className="switch-input" onClick={props.handleChangeChk} value={props.policy} /> 
+             <label htmlFor="policy" className="switch-label"></label>
+            </div>
+        </div>
         <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        
         {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
       </div>
     )

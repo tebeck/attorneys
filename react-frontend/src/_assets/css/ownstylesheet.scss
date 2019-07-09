@@ -18,6 +18,16 @@ $display-block: block;
   background-color: #FFF;
 }
 
+.colorGrey{
+  color: grey;
+}
+
+.outline-btn{
+    background-color: white!important;
+    border: 1px solid $green-color!important;
+    color: $green-color!important;
+}
+
 .btn-request{
   padding: 0px 60px 0px 60px!important;
   margin: 0 auto;
@@ -387,7 +397,7 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
 }
 
 .divprice{
- margin-left: 10px; 
+ margin-left: 12px; 
 }
 
 .appearanceBox p.price {

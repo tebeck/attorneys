@@ -112,6 +112,11 @@ export default class ProfileComponent extends Component {
             showLoader: false
           })
         }), 1200)
+     } else {
+        this.setState({
+            errors: result,
+            showLoader: false
+        })
      }
     
   }
