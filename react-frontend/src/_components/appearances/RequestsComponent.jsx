@@ -77,8 +77,8 @@ export default class RequestsComponent extends Component {
 	    	<p className="mailing">{x.courtHouse}</p>
     	  </div>
     	  <div className="divprice">
-	       <img alt="Esquired" width="17px" src={priceImg}></img>
-	       <p className="price"> $75</p>	
+	       <img alt="Esquired" width="18px" src={priceImg}></img>
+	       <p className="price">$75</p>	
 	      </div>
 	      <div className="right">
 	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button>
