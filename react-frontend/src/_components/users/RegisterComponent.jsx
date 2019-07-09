@@ -11,6 +11,7 @@ import uploadImg from '../../_assets/img/upload_picture.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import backbutton from '../../_assets/img/btnback.png'
 import LoaderAnimation from '../LoaderAnimation';
+import Switch from "react-switch";
 
 export default class RegisterForm extends Component {
 
@@ -72,7 +73,8 @@ export default class RegisterForm extends Component {
     password: "",
     profilePicture:"",
     creditCard:"",
-    policy:"",
+    // policy:"",
+    policy: false,
     insurancePolicy:"",
     image: ""
 
@@ -80,6 +82,8 @@ export default class RegisterForm extends Component {
 
   this.setNewState = this.setNewState.bind(this);
   this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
+  this.handleChangeCheck = this.handleChangeCheck.bind(this); // Bind boolean checkbox value.
+
  }
 
 
@@ -134,7 +138,7 @@ handleSubmit = (e) => {
 
      noErrors.mailingAddress = mailingAddress;
      noErrors.state = this.state._state;
-     
+     console.log(noErrors)
      userServices.register(noErrors).then(response => {
         if (response.state && response.state === 200) {
           this.openModal()
@@ -412,6 +416,10 @@ if (this.state.currentStep === 2){
 
   }
 
+  handleChangeCheck(policy) {
+    this.setState({ policy });
+  }
+
 
   render(){
  
@@ -497,6 +505,7 @@ if (this.state.currentStep === 2){
           insurancePolicy={this.state.insurancePolicy}
           state={this.state}
           setNewState={this.setNewState}
+          handleChangeCheck={this.handleChangeCheck}
         />
         <Step3
           currentStep={currentStep}
@@ -510,6 +519,7 @@ if (this.state.currentStep === 2){
           notification={this.state.notification}
           handleChangeChk={this.handleChangeChk}
           state={this.state}
+          handleChangeCheck={this.handleChangeCheck}
         />
 
 
@@ -554,7 +564,8 @@ function Step1(props){
       return null
     }
    
-   
+     console.log(props.policy)
+     
       if (props.state.streetAddrOneValid && props.state.cityValid && props.state.zipValid){
         props.state.enableNextAction=true
       }
@@ -571,14 +582,12 @@ function Step1(props){
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         
         {/*<input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>*/}
+        <br/>
         <div className="flex-space-between">
           <label> Do you have professional liability insurance?</label>
-            <div>
-             <input type="checkbox" id="policy" name="policy" className="switch-input" onClick={props.handleChangeChk} value={props.policy} /> 
-             <label htmlFor="policy" className="switch-label"></label>
-            </div>
+             <Switch onChange={props.handleChangeCheck} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.policy} />
         </div>
-        <input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>
+        <br/>
         
         {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
       </div>

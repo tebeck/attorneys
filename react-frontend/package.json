@@ -50,6 +50,7 @@
     "react-select-us-states": "^0.1.2",
     "react-step-progress-bar": "^1.0.3",
     "react-swipe": "^6.0.4",
+    "react-switch": "^5.0.0",
     "react-table": "^6.10.0",
     "react-time-picker": "^3.5.2",
     "react-toastify": "^5.1.0",
