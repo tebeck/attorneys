@@ -13,6 +13,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
+import Switch from "react-switch";  
+let uploadForm = new FormData();
 const format = 'h:mm a';
 
 
@@ -54,8 +56,8 @@ export default class CreateComponent extends Component {
 
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleChangeChk = this.handleChangeChk.bind(this); // Bind boolean checkbox value.
-
+    this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
+    this.handleChangeCP= this.handleChangeCP.bind(this); // client present input
   }
 
 
@@ -71,7 +73,7 @@ export default class CreateComponent extends Component {
       console.log(noErrors)
       appearanceService.create(noErrors)
         .then(data => console.log(data))
-         .then(this.setState({ documents: []}))
+         .then(uploadForm.delete('avatar'))
          .then(this.openModal())
     } 
     else {
@@ -82,8 +84,6 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-   
-   const uploadForm = new FormData();
    
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
@@ -110,7 +110,7 @@ export default class CreateComponent extends Component {
     if (r == true) {
      this.setState({ documents: [] });
      uploadForm.delete('avatar')
-     const uploadForm = new FormData();
+
      console.log(uploadForm.getAll('avatar'))
     }
 
@@ -192,10 +192,16 @@ export default class CreateComponent extends Component {
     this.setState({ [target.name]: target.value });
   
   }
-  handleChangeChk(e) {
-    if(e.target.name === "lateCall"){ this.setState(state => ({ lateCall: !state.lateCall}))}
-    if(e.target.name === "clientPresent"){this.setState(state => ({clientPresent: !state.clientPresent})) }    
+
+
+
+  handleChangeLC(lateCall){
+    this.setState({ lateCall });
   }
+  handleChangeCP(clientPresent){
+    this.setState({ clientPresent });
+  }
+
   setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
   openModal()  {this.setState({visible : true})}
   closeModal() {this.setState({visible : false})}
@@ -277,7 +283,8 @@ export default class CreateComponent extends Component {
           lateCall={this.state.lateCall}
           documents={this.state.documents}
           price={this.state.price}
-          handleChangeChk={this.handleChangeChk}
+          handleChangeCP={this.handleChangeCP}
+          handleChangeLC={this.handleChangeLC}
           state={this.state}
           handleDateChange={this.handleDateChange}
           handleTimeChange={this.handleTimeChange}
@@ -369,21 +376,23 @@ function Step1(props){
 
           <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control" onChange={props.handleChange} value={props.instructions} ></input>
             
-          <div className="flex-space-between">
-            <label> Client present or not?</label>  
-            <div>
-             <input name="clientPresent" type="checkbox" id="client" className="switch-input" onClick={props.handleChangeChk} value={props.clientPresent} />
-             <label htmlFor="client" className="switch-label"></label>
+
+
+
+            <br/>
+            <div className="flex-space-between">
+              <label> Client present or not?</label>
+                 <Switch onChange={props.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.clientPresent} />
             </div>
-          </div>
-          
+            <br/>
+
+
+            <br/>
             <div className="flex-space-between">
               <label> Late call accepted?</label>
-                <div>
-                 <input type="checkbox" id="call" name="lateCall" className="switch-input" onClick={props.handleChangeChk} value={props.lateCall} /> 
-                 <label htmlFor="call" className="switch-label"></label>
-                </div>
+                 <Switch onChange={props.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.lateCall} />
             </div>
+            <br/>
 
             <div>
               <p><b>Documents</b></p>

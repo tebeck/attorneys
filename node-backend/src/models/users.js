@@ -72,8 +72,8 @@ var users = new Schema({
     required: true
   },
   policy: {
-    type: Number,
-    required: false
+    type: Boolean,
+    required: true
   },
   notification: {
     type: Boolean,
