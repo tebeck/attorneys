@@ -26,6 +26,9 @@ export default class RequestsComponent extends Component {
     })
   }
   
+      markAsFinished(){
+    	alert("Appearance finished, please rate attorney here")
+    }
   
   renderRedirect = () => {
     if (this.state.redirect) {
@@ -81,7 +84,11 @@ export default class RequestsComponent extends Component {
 	       <p className="price">$75</p>	
 	      </div>
 	      <div className="right">
-	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button>
+	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/>
+	       { x.status === "completed" ?
+	       <button onClick={this.markAsFinished} className="apply-button btn" >Mark as finished / Rate Appearing</button>
+	       : null
+	       }
 	      </div>
 	    </div>
 		    <br />

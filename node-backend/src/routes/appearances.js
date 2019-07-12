@@ -11,9 +11,12 @@ router.post('/update', appMiddleware.isAttorney, validateMiddleware.user, appCon
 router.get('/confirmed', appMiddleware.isAttorney, validateMiddleware.user, appController.getAccepted);
 router.post('/requests', appMiddleware.isAttorney, validateMiddleware.user, appController.getRequests);
 router.post('/getspecific', appController.getSpecific);
+router.post('/updateall', appMiddleware.isAttorney, validateMiddleware.user, appController.updateAll);
 
-// router.get('/seekers', appController.getOwn);
-// router.post('/find',appController.find);
-// router.post('/postulate', appMiddleware.isAttorney, appController.postulate);
+router.post('/agenda', appController.getAgenda);
+// Appearing Attorney
+router.post('/subscribe', appMiddleware.isSeeker, appController.subscribe); // appearanceId (frontend)
+router.post('/unsubscribe', appMiddleware.isSeeker, appController.unsubscribe); // appearanceId (frontend)
+
 
 module.exports = router;

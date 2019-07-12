@@ -13,7 +13,10 @@ export const appearanceService = {
     getAppearances,
     expire,
     getAgenda,
-    getRequests
+    getRequests,
+    updateAll,
+    subscribe,
+    unsubscribe
 }
 
 function expire(){
@@ -34,6 +37,8 @@ function appearances(pageNo) {
         });
 }
 
+
+
 function getAppearances() {
     const requestOptions = {
         method: 'GET',
@@ -45,6 +50,17 @@ function getAppearances() {
         });
 }
 
+  function updateAll(data){
+          const requestOptions = {
+          method: 'POST',
+          headers: authHeader(),
+          body: JSON.stringify(data)
+      };
+
+    return fetch(`${url_backend}/appearances/updateall`, requestOptions)
+        .then(data => {return data}) 
+    }
+
 
 function getAgenda(userId){
     console.log("entro aca")
@@ -53,7 +69,7 @@ function getAgenda(userId){
         headers: authHeader(),
         body: JSON.stringify(userId)
     };
-    return fetch(`${url_backend}/postulations/agenda`, requestOptions)
+    return fetch(`${url_backend}/appearances/agenda`, requestOptions)
         .then(data=>{ return data.json() });
 }
 
@@ -131,3 +147,29 @@ function updateSpecific(data){
     })
 }
 
+
+function subscribe(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+
+  console.log(requestOptions)
+    
+  return fetch(`${url_backend}/appearances/subscribe`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+function unsubscribe(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+
+  console.log(requestOptions)
+    
+  return fetch(`${url_backend}/appearances/unsubscribe`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}

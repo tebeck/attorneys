@@ -18,6 +18,10 @@ var postulations = new Schema({
     type: String,
     default: 'pending',
     required: false
+  },
+  state:{
+    type: Object,
+    required: false
   }
 },{
     collection: 'postulations', timestamps: true

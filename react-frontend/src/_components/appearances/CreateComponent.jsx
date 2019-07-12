@@ -32,7 +32,7 @@ export default class CreateComponent extends Component {
       currentStep: 1,
       backStep: false,
       courtHouse: "",
-      areaOfLaw:0,
+      areaOfLaw:"",
       department:"",
       caseName:"",
       goal:"",
@@ -42,11 +42,12 @@ export default class CreateComponent extends Component {
       price:75,
       caseNumber:"",
       documents:[],
+      redirectHome: false,
+      
 
       enableNextAction: false,     // enable next action button (invalid data in form)
       enableErrors: false,         // don't show errors when form is empty
       courtHouseValid: false,
-      areaOfLawValid: false,
       departmentValid: false,
       caseNameValid: false,
       caseNumberValid: false,
@@ -84,7 +85,7 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-   
+    console.log("a")
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
    }
@@ -94,7 +95,9 @@ export default class CreateComponent extends Component {
          this.setState({
           documents: data.data.location 
          })
+
       })
+      .then(target.value = '')
   }
 
 
@@ -108,10 +111,11 @@ export default class CreateComponent extends Component {
    e.preventDefault()
     var r = window.confirm("Do you want to clear all files?");
     if (r == true) {
-     this.setState({ documents: [] });
+     
      uploadForm.delete('avatar')
 
      console.log(uploadForm.getAll('avatar'))
+     this.setState({ documents: [] });
     }
 
   }
@@ -121,10 +125,11 @@ export default class CreateComponent extends Component {
 
 
   handleChange = ({target}) =>{
+
+    
   
     let enableNextAction = this.state.enableNextAction;
     let courtHouseValid = this.state.courtHouseValid;
-    let areaOfLawValid = this.state.areaOfLawValid;
     let departmentValid = this.state.departmentValid;
     let caseNameValid = this.state.caseNameValid;
     let caseNumberValid = this.state.caseNumberValid;
@@ -203,8 +208,11 @@ export default class CreateComponent extends Component {
   }
 
   setHomeRedirect = () => { this.setState({ homeRedirect: true }) }
+  
   openModal()  {this.setState({visible : true})}
-  closeModal() {this.setState({visible : false})}
+  
+  closeModal() {this.setState({visible : false, redirectHome: true})}
+
   handleDateChange(date) { this.setState({ hearingDate: date })}
   handleTimeChange(time){ this.setState({ time: time })}
   _next = () => {
@@ -221,7 +229,7 @@ export default class CreateComponent extends Component {
     let currentStep = this.state.currentStep
     currentStep = currentStep <= 1 ? 0 : currentStep - 1
      this.setState({ currentStep: currentStep})
-    if (currentStep <= 0){ this.setState({homeRedirect: true}) }
+    if (currentStep <= 0){ this.setState({redirectHome: true}) }
   }
 
   nextButton(){
@@ -234,12 +242,14 @@ export default class CreateComponent extends Component {
 
  render() {
 
-
-  if (this.state.backStep) { return <Redirect push to="/home" />; }
-
   const {errors,currentStep} = this.state
-  if (this.state.homeRedirect) { return <Redirect push to="/home" /> } // Go back to /definerole
-	 return (
+	
+  if (this.state.redirectHome) { return <Redirect to={{
+      pathname: '/home',
+      state: { key: "myrequests"} }} />
+   } // Go back to /definerole
+
+   return (
      <div className="container main-body">
      
       <Modal 
@@ -252,7 +262,7 @@ export default class CreateComponent extends Component {
         <div className="modalRequestHead">
           <img src={requestImg} alt="esquired" /> <br/><br/>
           <h5>Your request has been published<br/> successfully!</h5>
-          <Link to="/home" style={{margin: "40px", marginBottom: "30px"}} className="btn btn-lg btn-block btn-primary link-button">Done</Link> 
+          <button onClick={() => this.closeModal()}  style={{marginTop: "10px"}} className="btn btn-lg btn-block btn-primary link-button">Done</button> 
         </div>
    
       </Modal>
@@ -323,12 +333,12 @@ function Step1(props){
         <p>Complete info</p>
             <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
-            <label className="input-group-text" htmlFor="inputGroupSelect01"></label></div>
-              <select name="areaOfLaw" className="custom-select" id="inputGroupSelect01" onChange={props.handleChange} value={props.areaOfLaw}>
+            <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
+              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" onChange={props.handleChange} value={props.areaOfLaw}>
                 <option defaultValue>Area Of Law</option>
                 <option value="CRIMINAL">CRIMINAL</option>
-                <option value="SECOPTION">Second Option</option>
-                <option value="THROPTION">Third Option</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="COMMON">COMMON</option>
               </select>
             </div>
 
@@ -374,11 +384,7 @@ function Step1(props){
               inputReadOnly
             />
 
-          <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control" onChange={props.handleChange} value={props.instructions} ></input>
-            
-
-
-
+          <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control instructions" onChange={props.handleChange} value={props.instructions} ></input>
             <br/>
             <div className="flex-space-between">
               <label> Client present or not?</label>

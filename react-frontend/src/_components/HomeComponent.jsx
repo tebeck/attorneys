@@ -17,13 +17,15 @@ export default class HomeComponent extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      key: 'agenda',
+      key: "agenda",
       isAttorney: Cookies.getJSON('esquired').isAttorney,
       isSeeker: Cookies.getJSON('esquired').isSeeker,
       onHold: Cookies.getJSON('esquired').onHold,
       user: Cookies.getJSON('esquired').user,
       email: Cookies.getJSON('esquired').email
     }
+
+
 
     userServices.getProfile()
       .then(res => {
@@ -41,6 +43,15 @@ export default class HomeComponent extends Component {
 
   }
 
+
+  componentWillMount(){
+    if(this.props.location.state && this.props.location.state.key){
+      this.setState({
+        key: this.props.location.state.key
+      })
+    }
+  }
+
   handleLogout = () =>{
     Cookies.remove('esquired');
     window.location.assign('/home');
@@ -48,6 +59,8 @@ export default class HomeComponent extends Component {
   }
 
 	render() {
+
+
     
     const {isAttorney, isSeeker, onHold} = this.state
 

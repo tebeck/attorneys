@@ -12,6 +12,7 @@ import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import backbutton from '../../_assets/img/btnback.png'
 import LoaderAnimation from '../LoaderAnimation';
 import Switch from "react-switch";
+import Cookies from 'js-cookie';
 
 export default class RegisterForm extends Component {
 
@@ -396,7 +397,7 @@ if (this.state.currentStep === 2){
    e.preventDefault();
    
    let body = {
-     userId: this.state.user._id
+     userId: Cookies.getJSON('esquired').userId
    }
    
    if(e.target.insurancePolicy){

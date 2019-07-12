@@ -5,20 +5,38 @@ import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
+import Cookie from 'js-cookie'
 
 export default class AgendaComponent extends Component {
 	
 	constructor(props) {
 	  super(props);
 	  this.state = {
-	  	data: []
+	  	data: [],
+	  	userId: Cookie.getJSON('esquired').userId
       };
 	
-	  appearanceService.getAgenda()
+	  appearanceService.getAppearances()
 	    .then((result) => this.setState({
-	  	  data: result.data
+	  	  data: result.data,
+	  	  appId: result.data._id
 	  	})) 	
 	}
+
+
+    unsubscribeAppearance = (x) => {
+
+      let body = {
+       appId: x._id,
+       userId: this.state.userId
+      }
+	 	
+	  appearanceService.unsubscribe(body)
+       .then(data => console.log(data))
+
+       	// userServices.sendmail(data)
+	    // this.openModal()
+	 }
 
 
 
@@ -52,7 +70,10 @@ export default class AgendaComponent extends Component {
     	  </div>
     	  </div>
 	      <div className="agenda-rate-button">
-	       <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button>
+	       { x.subscription.seekerId != this.state.userId ?
+	        <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> :
+	        <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button>
+	       }
 	      </div>
 	      </div>
 	    </div>

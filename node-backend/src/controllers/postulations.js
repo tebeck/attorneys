@@ -11,22 +11,26 @@ module.exports = {
 create: function(req, res, next){ // Pasar en el body el id de appearance (frontend)
   const payload = req.body;
 
-  appModel.findById(payload.appearanceId, function(err,appearance){
+  console.log(payload)
+
+  appModel.findById(payload.appId, function(err,appearance){
     if(err){ return res.status(500).send(err) }
+    
     let attorneyId = appearance.attorneyId;
 
-   postModel.find({appearanceId: payload.appearanceId, seekerId: payload.userId}, function(err, postulation) {
+    postModel.find({appearanceId: payload.appId, seekerId: payload.userId}, function(err, post) {
      if(err){ return res.status(500).send(err) }
-     if(postulation.length > 0){ return res.status(409).send({message: "user is already postulated"}) }
-     if(payload.userId == appearance.attorneyId){ return res.status(409).send({message: "cant postulate to you own appearance"}) }
+     // if(post.length > 0){ return res.status(409).send({message: "user is already postulated"}) }
+     // if(firstPayload.userId == appearance.attorneyId){ return res.status(409).send({message: "cant postulate to you own appearance"}) }
 
-     const postulations = new postModel(payload);
+     postulations = new postModel(payload);
+     postulations.appearanceId = payload.appId;
      postulations.seekerId = payload.userId;
      postulations.attorneyId = attorneyId;
      postulations.status = 'pending';
      const subject = 'New postulation';
      const text = 'test text create postulation';
-
+     
      postulations.save()
       .then(postulations => {
           userModel.findById(postulations.attorneyId, function(err,user){
@@ -35,9 +39,12 @@ create: function(req, res, next){ // Pasar en el body el id de appearance (front
         return res.status(200).send({message: "postulations created", data: {postulations: postulations}});
       })
       .catch(err => {
+        console.log(err)
         return res.status(409).send("unable to save to database => "+err);
       });
      })
+
+
   })
 
 
