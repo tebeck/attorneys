@@ -14,9 +14,14 @@ router.post('/getspecific', appController.getSpecific);
 router.post('/updateall', appMiddleware.isAttorney, validateMiddleware.user, appController.updateAll);
 
 router.post('/agenda', appController.getAgenda);
+
+// Record Attorney
+router.post('/deletedoc', appMiddleware.isAttorney, appController.deleteSingleDocument);
+
 // Appearing Attorney
 router.post('/subscribe', appMiddleware.isSeeker, appController.subscribe); // appearanceId (frontend)
 router.post('/unsubscribe', appMiddleware.isSeeker, appController.unsubscribe); // appearanceId (frontend)
+router.post('/completed', appMiddleware.isSeeker, appController.completed); // appearanceId (frontend)
 
 
 module.exports = router;

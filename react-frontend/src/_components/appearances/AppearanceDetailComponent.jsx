@@ -49,7 +49,8 @@ export default class AppearancesComponent extends Component {
 	      		courtHouse: result.data.courtHouse,
 	      		areaOfLaw: result.data.areaOfLaw,
 	      		department: result.data.department,
-	      		instructions: result.data.instructions
+	      		instructions: result.data.instructions,
+	      		documents: result.data.documents
 
 	      	})
 	      ) 
@@ -82,15 +83,19 @@ export default class AppearancesComponent extends Component {
      	}
     )}
 
+
+    cancelAppearance = (e) =>{
+    	e.preventDefault()
+    	alert("Delete appearance?")
+    }
 	
 
 	handleUpdate = (e) => {
 	 e.preventDefault()
 	 console.log(this.state.files)
 
-
-	 // appearanceService.updateAll(this.state)
-	 // 	.then(data => console.log(data))
+	 appearanceService.updateAll(this.state)
+	 	.then(data => console.log(data))
 
 	}
 
@@ -131,11 +136,53 @@ export default class AppearancesComponent extends Component {
   }
 
 
+
+
+
+
+
+
+  handleDelete = (e) =>{
+  	e.preventDefault()
+   
+	var _delete = window.confirm("Are you sure you wish to delete this item?");
+	if (_delete == true) {
+   
+	   let etag = {
+	  	 etag: e.target.name,
+	  	 appId: this.state.appId,
+	   }
+
+	   let docs = this.state.documents
+	   docs.splice(e.target.id, 1)
+	  
+
+	   appearanceService.deleteSingleDocument(etag)
+	  	.then(data => {
+	  		if(data.status == 200){
+	  			console.log(data)
+			  this.setState({
+			  	documents: docs
+		 	  })
+	  	 	}
+	  	 })
+
+	} else {
+	  
+	}
+
+
+
+  }
+
+
+
+
  render() {
 
- 	const {result} = this.state
+ 	const {result, documents} = this.state
  	
-
+ 	console.log(this.state.documents)
 // 	const serverUpload = `${url_backend}/files/multiupload`;
 
 	const serverConfig = {
@@ -208,10 +255,10 @@ export default class AppearancesComponent extends Component {
 	      	  <hr />
 	      	  <form >
 	      	    <p className="adTitle">Case Name</p>
-	      	    <input type="text" className="form-control" value={this.state.caseName} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Court House</p>
-	            <input type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Area of Law</p>
 	            <div className="input-group mb-3"><div className="input-group-prepend">
@@ -225,7 +272,7 @@ export default class AppearancesComponent extends Component {
 	            </div>
 	            <hr />
 	            <p className="adTitle">Department</p>
-	            <input type="text" className="form-control" value={this.state.department} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Client present or not?</p>
 	            <br/>
@@ -242,13 +289,18 @@ export default class AppearancesComponent extends Component {
 	            <br/>
 	            <hr />
 	            <p className="adTitle">Pay Amount</p>
-	            <input type="text" className="form-control" value="50" disabled />
+	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
 	            <p className="adTitle">Description</p>
-	            <input type="text" className="form-control" value={this.state.instructions} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Files</p>
-	             {result.documents.map(x => <p key={x.etag}>{x.originalname}</p>)}
+	             {
+	             	documents.map((x,index) => 
+	             		<div key={index}><span >{x.location} </span>
+	             		 <button id={index} name={x.etag} onClick={this.handleDelete}> X</button></div>
+	                )
+	             }
 	            
 	              <FilePond 
 	              name="avatar" 

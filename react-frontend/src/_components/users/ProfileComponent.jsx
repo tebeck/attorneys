@@ -275,10 +275,10 @@ export default class ProfileComponent extends Component {
                       <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
                       <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
                     </div>
-                    <div className="form-group">
+{/*                    <div className="form-group">
                       <label htmlFor="policy" className="profileInputsTitle">Practice Insurance Policy Number</label>
                       <input id="policy" name="policy" className="form-control bigInput" value={this.state.policy} placeholder={this.state.policy} onChange={this.handleChange} type="text" />
-                    </div>
+                    </div>*/}
                     <div className="form-group">
                       <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
                       <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />

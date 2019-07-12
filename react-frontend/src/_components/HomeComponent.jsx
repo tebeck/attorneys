@@ -25,8 +25,6 @@ export default class HomeComponent extends Component {
       email: Cookies.getJSON('esquired').email
     }
 
-
-
     userServices.getProfile()
       .then(res => {
         if(res.data){
@@ -40,17 +38,10 @@ export default class HomeComponent extends Component {
           window.location.assign('/home');
         }
       })
+    
 
   }
 
-
-  componentWillMount(){
-    if(this.props.location.state && this.props.location.state.key){
-      this.setState({
-        key: this.props.location.state.key
-      })
-    }
-  }
 
   handleLogout = () =>{
     Cookies.remove('esquired');
@@ -58,54 +49,48 @@ export default class HomeComponent extends Component {
 
   }
 
-	render() {
+  render(){
 
+   console.log(this.state.key)
+  const {isAttorney, isSeeker, onHold} = this.state
 
-    
-    const {isAttorney, isSeeker, onHold} = this.state
+  return (
+     <div className="container">
+        <div className="navbar">
+          <Link className="home-popup-links" to="/profile">
+            { this.state.imgUrl ? 
+                <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/> :
+                <img alt="userIcon" className="userIcon" width="24px" src={greyFaceImg} />
+            }
+          </Link>
 
-    console.log(this.state.imgUrl)
-    return (
-            <div className="container">
-              
-              <div className="navbar">
-                  <Link className="home-popup-links" to="/profile">
-                    { this.state.imgUrl ? 
-                       <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/>
-                    :
-                       <img alt="userIcon" className="userIcon" width="24px" src={greyFaceImg} />
-                    }
-                  </Link>
-                      
-              <div className="logo">
-                 <a href="/"><img src={logo} alt="esquired" /></a>
-              </div>
-                
-              <Link to="/notifications">
-                  <img width="20px" src={bellIcon} alt="esquired" />
-              </Link>
-              </div>
-
-              <hr/>
- 				        <Tabs id="controlled-tab-example" className="tabs-control" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
-                  <Tab eventKey="agenda" title="Agenda">
-                      <Agenda />
-                    </Tab>
-                  {isAttorney ? 
-                    <Tab eventKey="myrequests" title="My Requests">
-                      <Requests />                       
-                    </Tab>
-                  :null}
-                  {isSeeker && !onHold ?
-                    <Tab eventKey="myappearances" title="Appearances" >
-                      <Appearances />
-                    </Tab>
-                  :null}
-                </Tabs>
-                
-            </div>
-		);
-	}
+          <div className="logo">
+            <a href="/"><img src={logo} alt="esquired" /></a>
+          </div>    
+          
+          <Link to="/notifications">
+            <img width="20px" src={bellIcon} alt="esquired" />
+          </Link>
+        </div>
+        <hr/>
+          <Tabs id="controlled-tab-example" className="tabs-control" activeKey={this.state.key} onSelect={key => this.setState({ key })} >
+                <Tab eventKey="agenda" title="Agenda">
+                  <Agenda />
+                </Tab>
+              { isAttorney ? 
+                <Tab eventKey="myrequests" title="My Requests">
+                  <Requests />
+                </Tab> : null
+              }
+              { isSeeker && !onHold ? 
+                <Tab eventKey="myappearances" title="Appearances">
+                   <Appearances />
+                </Tab> : null
+              }
+          </Tabs>
+    </div>
+   );
+   }
 }
 
 

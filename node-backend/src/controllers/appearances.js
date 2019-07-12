@@ -73,26 +73,24 @@ update: function(req, res, next){
 },
 
 updateAll: function(req, res, next){
-    appearanceModel.findById(req.body.result._id, function(err, appearance) {
-    if (!appearance)return next(new Error('Could not load Document'))
-     else {
-      appearance.areaOfLaw = req.body.areaOfLaw
-      appearance.caseName = req.body.caseName
-      appearance.clientPresent = req.body.clientPresent
-      appearance.courtHouse = req.body.courtHouse
-      appearance.department = req.body.department
-      appearance.instructions = req.body.instructions
-      appearance.lateCall = req.body.lateCall
+    appearanceModel.updateOne( { "_id": req.body.result._id},
+        {$set: {
+          areaOfLaw: req.body.areaOfLaw,
+          caseName: req.body.caseName,
+          clientPresent: req.body.clientPresent,
+          courtHouse: req.body.courtHouse,
+          department: req.body.department,
+          instructions: req.body.instructions,
+          lateCall: req.body.lateCall
+        }}) 
 
-      appearance.save()
-      .then(appearance => {
-          return res.status(200).send({ message:'appearance updated', data: appearance });
-      })
-      .catch(err => {
-          return res.status(409).send("unable to update the database");
-      });
-    }
-  });
+      .then(obj => {
+        console.log('Updated - ' + obj);
+          return res.status(200).send({message: "Update OK", status: 200})
+         })
+        .catch(err => {
+           console.log('Error: ' + err);
+      }) 
 },
 
 delete: function(req, res, next){
@@ -122,7 +120,33 @@ getAgenda: function(req, res, next){
   })
 },
 
+completed: function(req, res, next){ 
+  let seekerEmail = req.body.email
+  console.log(seekerEmail)
+  appearanceModel.findById({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, appearance){
+    if (err){ return res.status(500).send({message: err.message}) }
+    if (!appearance){ return res.status(409).send({message: "Not found"}) }
+     
+     const subject = 'Work done!';
+     const text = 'test text appearance completed';
+      appearance.status = 'completed';
+      appearance.save()
+        .then(appearance => {
+          Logger.log("SUBSCRIPTION COMPLETED: Sending email")
+            userModel.findById(appearance.attorneyId, function(err,attorney){
+              send.email(attorney.email, subject, text)
+              Logger.log(attorney.email + " " + subject)
+            })
+              send.email(seekerEmail, subject, text)
+              Logger.log(seekerEmail + " " + subject)
 
+        return res.status(200).send({ message:'Work completed', status: 200 });
+      })
+      .catch(err => {
+        return res.status(401).send({ message: "unable to update the database", msg: err.message});
+      });
+    });
+},
 
 
 unsubscribe: function(req, res, next){ 
@@ -138,7 +162,7 @@ unsubscribe: function(req, res, next){
     }
 
       appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": ""}} ) 
-      .then(obj => { return res.status(200).send({message: "Unsubscribed OK"})})
+      .then(obj => { return res.status(200).send({message: "Unsubscribed OK", status: 200})})
       .catch(err => { console.log('Error: ' + err)}) 
     
   })
@@ -153,5 +177,46 @@ unsubscribe: function(req, res, next){
         .catch(err => {
            console.log('Error: ' + err);
       }) 
-    }
+ },
+
+
+
+ deleteSingleDocument: function(req, res, next){
+  appearanceModel.updateOne({ _id: req.body.appId },{ $pull: { documents: { etag: req.body.etag } }}, function(err, doc){
+    console.log(doc)
+    console.log(err)
+    console.log(req.body.etag)
+    return res.status(200).send({message: "deleted", status: 200, data: doc})
+ })
+
 }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
