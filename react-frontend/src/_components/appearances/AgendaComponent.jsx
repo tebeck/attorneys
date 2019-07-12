@@ -6,88 +6,125 @@ import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Cookie from 'js-cookie'
+import { Redirect} from 'react-router-dom';
 
 export default class AgendaComponent extends Component {
-	
-	constructor(props) {
-	  super(props);
-	  this.state = {
-	  	data: [],
-	  	userId: Cookie.getJSON('esquired').userId
+    
+    constructor(props) {
+      super(props);
+      this.state = {
+          data: [],
+          userId: Cookie.getJSON('esquired').userId,
+          email: Cookie.getJSON('esquired').email,
+          setTab: ""
       };
-	
-	  appearanceService.getAppearances()
-	    .then((result) => this.setState({
-	  	  data: result.data,
-	  	  appId: result.data._id
-	  	})) 	
-	}
+    
+      appearanceService.getAppearances()
+        .then((result) => this.setState({
+            data: result.data,
+            appId: result.data._id
+          }))     
+    }
 
 
     unsubscribeAppearance = (x) => {
 
       let body = {
        appId: x._id,
-       userId: this.state.userId
+       userId: this.state.userId,
+       email: this.state.email
       }
-	 	
-	  appearanceService.unsubscribe(body)
-       .then(data => console.log(data))
+         
+      appearanceService.unsubscribe(body)
+       .then(data => {
+         if(data.status === 200){
+             
+          // userServices.sendmail()
+           alert("unsubscription successfull")
+           this.setState({
+             key: "agenda"
+           })
+           window.location.reload()
+          }
+       })
 
-       	// userServices.sendmail(data)
-	    // this.openModal()
-	 }
+     }
+
+    completedAppearance = (x) => {
+
+      let body = {
+       appId: x._id,
+       userId: this.state.userId,
+       email: this.state.email
+      }
+         
+      appearanceService.completed(body)
+       .then(data => {
+           if(data.status === 200){
+               console.log("completed")
+               this.setState({
+               	key: "agenda"
+               })
+               window.location.reload()
+           }
+       })
+
+     }
 
 
 
-    render() {
-    
-	const {data} = this.state
-	console.log(data)
-	if(data && data.length > 0) {
+ render() {
+
+
+
+
+
+  const {data} = this.state
+   if(data && data.length > 0) {
     return(
-	<div>
-	<br/><br/>
-	  <div>
-	  	<span>Past Appearances</span>
-	  	<button className="btn btn-outline-dark btn-sm float-right button-upcoming">UPCOMING</button>
-	  </div><br />
+    <div>
+    <br/><br/>
+      <div>
+          <span>Past Appearances</span>
+          <button className="btn btn-outline-dark btn-sm float-right button-upcoming">UPCOMING</button>
+      </div><br />
 
-	   {data.map(x =>
-	   	<div key={x._id}>
-	   	<div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
-    	<div className="appearanceBox">
-	      <div className="appearanceHeaderBox flex-space-between">  
-	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
-	        <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
-	      </div> 
-	      <div className="flex-space-between paddingUpDown">
-	      <div>
-	      <p className="titlebox">{x.caseName}</p>
-    	  <div className="divmailing">
-	    	<img alt="Esquired" width="20px" src={pingImg}></img>
-	    	<p className="mailing">{x.courtHouse}</p>
-    	  </div>
-    	  </div>
-	      <div className="agenda-rate-button">
-	       { x.subscription.seekerId != this.state.userId ?
-	        <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> :
-	        <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button>
-	       }
-	      </div>
-	      </div>
-	    </div>
-	       </div>
-	    )}
-	 </div>
+       {data.map(x =>
+           <div key={x._id}>
+           <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
+        <div className="appearanceBox">
+          <div className="appearanceHeaderBox flex-space-between">  
+            <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
+            <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
+          </div> 
+          <div className="flex-space-between paddingUpDown">
+          <div>
+          <p className="titlebox">{x.caseName}</p>
+          <div className="divmailing">
+            <img alt="Esquired" width="20px" src={pingImg}></img>
+            <p className="mailing">{x.courtHouse}</p>
+          </div>
+          </div>
+          <div className="agenda-rate-button">
+           { x.subscription.seekerId != this.state.userId ?
+            <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> :
+            <div><button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button>
+            <button onClick={this.completedAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Mark as completed</button></div>
+           }
+          </div>
+          </div>
+        </div>
+           </div>
+        )}
+     </div>
         )
 
-	} else {
-		return (
+    } else {
+        return (
 
-			<p>No data found</p>
-			)
-	}
+            <p>You don't have future appearances to attend</p>
+            )
+    }
 
     }
 }

@@ -65,7 +65,7 @@ export default class RequestsComponent extends Component {
 		{data.map(x =>
 		<div key={x._id}>
 	      
-	      {x.status == "published" ? 
+	      {x.status == "pending" ? 
 	      <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
 	       x.status === "accepted" ? 
 	       <p className="text-center accepted-assigment alert alert-success">Accepted</p> : null } 
@@ -85,10 +85,6 @@ export default class RequestsComponent extends Component {
 	      </div>
 	      <div className="right">
 	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/>
-	       { x.status === "completed" ?
-	       <button onClick={this.markAsFinished} className="apply-button btn" >Mark as finished / Rate Appearing</button>
-	       : null
-	       }
 	      </div>
 	    </div>
 		    <br />

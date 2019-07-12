@@ -16,7 +16,9 @@ export const appearanceService = {
     getRequests,
     updateAll,
     subscribe,
-    unsubscribe
+    unsubscribe,
+    completed,
+    deleteSingleDocument
 }
 
 function expire(){
@@ -37,7 +39,18 @@ function appearances(pageNo) {
         });
 }
 
+function deleteSingleDocument(etag){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(etag)
+  };
 
+  console.log(requestOptions)
+    
+  return fetch(`${url_backend}/appearances/deletedoc`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
 
 function getAppearances() {
     const requestOptions = {
@@ -58,7 +71,7 @@ function getAppearances() {
       };
 
     return fetch(`${url_backend}/appearances/updateall`, requestOptions)
-        .then(data => {return data}) 
+        .then( data => {return data.json().then(text=>text)} )
     }
 
 
@@ -171,5 +184,18 @@ function unsubscribe(appId){
   console.log(requestOptions)
     
   return fetch(`${url_backend}/appearances/unsubscribe`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+function completed(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+
+  console.log(requestOptions)
+    
+  return fetch(`${url_backend}/appearances/completed`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
 }

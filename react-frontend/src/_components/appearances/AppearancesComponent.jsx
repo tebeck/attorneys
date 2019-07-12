@@ -21,7 +21,7 @@ export default class AppearancesComponent extends Component {
 	  	email: Cookie.getJSON('esquired').email,
 	  	userId: Cookie.getJSON('esquired').userId,
 	  	goToDetail: false
-      };
+    };
 	
 	appearanceService.getAppearances()
 	 .then((result) => this.setState({
