@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
+
 import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import Modal from 'react-awesome-modal';
@@ -17,24 +18,25 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
 	  	data: [],
-	  	email: Cookie.get('esquired').email,
+	  	email: Cookie.getJSON('esquired').email,
+	  	userId: Cookie.getJSON('esquired').userId,
 	  	goToDetail: false
       };
 	
-	  appearanceService.getAppearances()
-	    .then((result) => this.setState({
-	  	  data: result.data,
-	  	  number: result.data.length
-	  	})) 	
-	}
+	appearanceService.getAppearances()
+	 .then((result) => this.setState({
+	    data: result.data,
+	  	number: result.data.length
+	 }))
+
+    }
 
 	handleClick = (x) =>{
-		this.setState({
-			goToDetail: true,
-			appearanceData: x
-		})
-
-		}
+	 this.setState({
+	  goToDetail: true,
+	  appearanceData: x
+	 })
+    }
 
 	openModal() {
      this.setState({
@@ -64,12 +66,20 @@ export default class AppearancesComponent extends Component {
   }
 
    if(data){
-	return (
-	 <div className="container main-body">
 
-  		
+
+   let b = 0;
+   	for (var i = data.length - 1; i >= 0; i--) {
+   		if(this.state.userId != data[i].attorneyId){
+   			b = b +1
+   		}
+   	}
+
+
+   return (
+	<div className="container main-body">
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
-	  <p>There are {this.state.number} appearances</p>
+	  <p>There are {b} appearances</p>
 	  	 <div className="flex-space-between">
 		 	<img style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
 	  	 	<img alt="esquired" src={listFilterImg} width="18px" height="18px" /><br/><br/>
@@ -78,8 +88,9 @@ export default class AppearancesComponent extends Component {
 	<br/>
 	
 	{data.map(x =>
-
-    	<div key={x._id} className="appearanceBox">
+	<div key={x._id}> 
+     {x.attorneyId != this.state.userId ?	
+    	<div  className="appearanceBox">
 	      <div className="appearanceHeaderBox">  
 	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
 	      </div> 
@@ -93,15 +104,17 @@ export default class AppearancesComponent extends Component {
 	       <p className="price">$75</p>	
 	      </div>
 	      <div className="right">
-	       <button 
-	        onClick={this.handleClick.bind(this, x)}  
-	      	className="apply-button">Apply</button>
-	      </div>
+	       {
+	         x.subscription.seekerId != this.state.userId? 
+		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
+		     <button onClick={this.handleClick.bind(this, x)} disabled className=" btn apply-button disabled">Applied</button>	
+		   }
+          </div>
 	    </div>
-
+		 :  null }
+    </div>
 	)}	
 	</div>
-
 	 )} else { return ( <div><p>No appearances found</p></div> ) }
   }
 }

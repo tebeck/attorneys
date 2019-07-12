@@ -62,6 +62,17 @@ var appearances = new Schema({
   attorneyId: {
     type: String,
     required: true
+  },
+  subscription: {
+   seekerId: {
+    type: String,
+    required: true,
+    default: ""
+  },
+   date: {
+     type: Date,
+     required: false
+   }
   }
 
 },{

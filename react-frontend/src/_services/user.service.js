@@ -32,10 +32,10 @@ function register(data){
       if(data.user && data.token){
         data.status=200;
           if(data.user.isAttorney && data.user.isSeeker){
-            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: data.result.onHold}, { path: '' })   
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: data.result.onHold, userId: data.user._id}, { path: '' })   
           } else
           if(data.user.isAttorney){
-            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney}, { path: '' })   
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, userId: data.user._id}, { path: '' })   
           }
        return data;
       } else{
@@ -136,13 +136,13 @@ function makeSeeker(userId){
               
               data.status=200;
                 if(data.result.isAttorney && data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold}, { path: '' })   
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold, userId: data.result._id}, { path: '' })   
                 } else 
                 if(data.result.isAttorney){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney}, { path: '' })   
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, userId: data.result._id}, { path: '' })   
                 } else 
                 if(data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker}, { path: '' })
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.user._id}, { path: '' })
                 }
              return data;
             }
