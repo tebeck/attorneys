@@ -83,6 +83,7 @@ module.exports = {
 
       if(bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
+          console.log(user)
           return res.status(200).send({ token: token, result: user });
       } else {
           return res.status(409).send({ message: "Incorrect user/password", result: user });

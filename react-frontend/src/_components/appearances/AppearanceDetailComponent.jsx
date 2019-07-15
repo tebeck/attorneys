@@ -18,8 +18,10 @@ import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import LoaderAnimation from '../LoaderAnimation';
 import {url_backend} from '../../_helpers';
+import uploadImg from '../../_assets/img/request/request_upload.png'
 
-
+let docs = []
+let uploadForm = new FormData();
 const formData = new FormData(); // Currently empty
 export default class AppearancesComponent extends Component {
 	
@@ -35,11 +37,13 @@ export default class AppearancesComponent extends Component {
       	showLoader: true
       };
       
+
+		docs = this.state.documents
       
 	   let body = {
 	     appId: props.location.state.appearanceData._id
 	   }
-   		appearanceService.getSpecific(body)
+   		appearanceService.getAppDetail(body)
 	      .then((result) => 	
 	      	this.setState({
 	      		result: result.data,
@@ -50,7 +54,8 @@ export default class AppearancesComponent extends Component {
 	      		areaOfLaw: result.data.areaOfLaw,
 	      		department: result.data.department,
 	      		instructions: result.data.instructions,
-	      		documents: result.data.documents
+	      		documents: result.data.documents,
+	      		goal: result.data.goal
 
 	      	})
 	      ) 
@@ -85,17 +90,25 @@ export default class AppearancesComponent extends Component {
 
 
     cancelAppearance = (e) =>{
-    	e.preventDefault()
-    	alert("Delete appearance?")
+      e.preventDefault()
+	  var _deleteApp = window.confirm("Are you sure you want to delete this appearance?");
+	  if (_deleteApp == true) {
+      let body = {
+     	appId: this.state.appId
+      }
+      console.log(body)
+       appearanceService._delete(body)
+        .then(alert("Appearance deleted"))
+        .then(window.location.assign('/home'))
+      }
     }
 	
 
 	handleUpdate = (e) => {
 	 e.preventDefault()
-	 console.log(this.state.files)
 
-	 appearanceService.updateAll(this.state)
-	 	.then(data => console.log(data))
+	 appearanceService.update(this.state)
+	 	.then(data => alert("Your request was succesfully updated"))
 
 	}
 
@@ -145,7 +158,7 @@ export default class AppearancesComponent extends Component {
   handleDelete = (e) =>{
   	e.preventDefault()
    
-	var _delete = window.confirm("Are you sure you wish to delete this item?");
+	var _delete = window.confirm("Are you sure you want to delete this item?");
 	if (_delete == true) {
    
 	   let etag = {
@@ -153,7 +166,7 @@ export default class AppearancesComponent extends Component {
 	  	 appId: this.state.appId,
 	   }
 
-	   let docs = this.state.documents
+	   
 	   docs.splice(e.target.id, 1)
 	  
 
@@ -177,43 +190,48 @@ export default class AppearancesComponent extends Component {
 
 
 
+  fileSelectedHandler = ({target}) => {
+   for (var i = 0; i < target.files.length; i++) {
+     uploadForm.append('avatar', target.files[i] , target.files[i].name)
+   }
+
+    userServices.multiupload(uploadForm)
+      .then(data => {
+         // this.setState({
+         //  documents: data.data.location 
+         // })
+		
+		// this.setState(prevState => ({
+		//   myArray: [...prevState.myArray, "new value"]
+		// }))
+        
+  //       console.log(this.state.documents)
+		// this.state.documents.concat(data.data.location)
+		// console.log(this.state.documents)
+      })
+      .then(target.value = '')
+  }
+
+
+
+
+
 
  render() {
 
  	const {result, documents} = this.state
  	
- 	console.log(this.state.documents)
-// 	const serverUpload = `${url_backend}/files/multiupload`;
-
-	const serverConfig = {
-	       url: `${url_backend}/files/multiupload`,
-        timeout: 7000,
-        process: {
-            method: 'POST',
-        	onload: (response) => { console.log(JSON.parse(response).map(x => x.location) ) }
-        },
-        
-        revert: null,
-        restore: './restore/',
-        load: './load/'
-    };
-
-
-
-
 	if(result){
 
 
-		 		
-	let location = result.documents.map(z =>
-		z.location )
 
+console.log(this.state.documents)
 
 
   if (this.state.redirectHome) { return <Redirect to={{
       pathname: '/home',
       state: { key: "myappearances"} }} />
-   } // Go back to /definerole
+   }
 
 
 
@@ -291,6 +309,9 @@ export default class AppearancesComponent extends Component {
 	            <p className="adTitle">Pay Amount</p>
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
+	            <p className="adTitle">Goal</p>
+	             <input name="goal" type="text" className="form-control" value={this.state.goal} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <hr />
 	            <p className="adTitle">Description</p>
 	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
 	            <hr />
@@ -302,18 +323,15 @@ export default class AppearancesComponent extends Component {
 	                )
 	             }
 	            
-	              <FilePond 
-	              name="avatar" 
-	              maxFiles={12}
-	              allowMultiple={true} 
-	              oninit={() => this.handleInit() }
-                  server={serverConfig}
-                  onupdatefiles={(fileItems) => {this.setState({ files: fileItems.map(fileItem => fileItem.file)}) }}
-				  allowMultiple={true}
-			      labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                  >
-
-	              </FilePond>
+				 <div>
+	              <p><b>Documents</b></p>
+	              <label className="uploadLabel squareUpload" htmlFor="avatar" >
+	               <div className="squareImg" >
+	                 <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
+	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
+	                </div>
+	              </label><br/>
+	            </div>
 
 	            <hr /> <br/>
 	            {!this.state.isAttorney ? 
@@ -336,5 +354,4 @@ export default class AppearancesComponent extends Component {
 }
 
 }
-
 

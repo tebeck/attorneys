@@ -7,25 +7,10 @@ const Logger = require("cute-logger")
 module.exports = {
 
 get: function(req, res, next){
-  appearanceModel.find({'status': 'published'},function (err, data){
+  appearanceModel.find({'status': 'published'} ,function (err, data){
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data });
   }).sort({ createdAt:-1 });
-},
-
-getRequests: function(req, res, next){ 
-  appearanceModel.find({ attorneyId: req.body.userId },function (err, data){
-    if(err){ return res.status(500).send({ message: err.message }) }
-      return res.status(200).send({ data: data })
-  })
-},
-
-
-getSpecific: function(req, res, next){
-  appearanceModel.findById(req.body.appId,function (err, data){
-    if(err){ return res.status(500).send({ message: err.message }) }
-      return res.status(200).send({ data: data })
-  })
 },
 
 create: function(req, res, next){
@@ -52,27 +37,18 @@ create: function(req, res, next){
       res.status(401).send("unable to save to database => UNAUTHORIZED");
     });
 },
-update: function(req, res, next){
-     appearanceModel.findById(req.body.id, function(err, appearance) {
-    if (!appearance)
-      return next(new Error('Could not load Document'));
-    else {
-      appearance.title = req.body.title;
-      appearance.description = req.body.description;
-      appearance.status = req.body.status;
-      
-      appearance.save()
-      .then(appearance => {
-          return res.status(200).send({ message:'appearance updated', data: appearance });
-      })
-      .catch(err => {
-          return res.status(409).send("unable to update the database");
-      });
-    }
-  });
+
+delete: function(req, res, next){
+  console.log(req.body)
+  appearanceModel.findOneAndDelete({_id: req.body.appId}, function(err, appearance){
+      if(err){ return res.status(500).send({err: err.message})} 
+      if(!appearance) {return res.status(409).send({ message: "cant find appearance", data:{appearance: appearance}}) }
+        if(appearance){console.log("deleted")}
+      if(appearance) { return res.status(200).send({message: "appearance deleted", data:{appearance: appearance}}) }
+  })
 },
 
-updateAll: function(req, res, next){
+update: function(req, res, next){
     appearanceModel.updateOne( { "_id": req.body.result._id},
         {$set: {
           areaOfLaw: req.body.areaOfLaw,
@@ -93,13 +69,79 @@ updateAll: function(req, res, next){
       }) 
 },
 
-delete: function(req, res, next){
-  appearanceModel.findByIdAndRemove(req.body.id, function(err, appearance){
-      if(err){ return res.status(500).send({err: err.message})} 
-      if(!appearance) {return res.status(409).send({ message: "cant find product", data:{appearance: appearance}}) }
-      if(appearance) { return res.status(200).send({message: "product deleted", data:{appearance: appearance}}) }
+getAppearancesTab: function(req, res, next){
+  appearanceModel.find({"attorneyId": { $ne: req.body.userId } }  ,function (err, data){
+    if(err){ console.log(err) }
+      return res.status(200).send({ data: data });
+  }).sort({ createdAt:-1 });
+},
+
+getAgendaTab: function(req, res, next){
+  appearanceModel.find({$or: [ { 'attorneyId': req.body.userId, $and: [{'status': 'accepted', 'status': 'finished' }]}, { 'subscription.seekerId': req.body.userId } ] } ,function (err, data){
+    if(err){ res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: data });
+  }).sort({ createdAt:-1 });
+},
+
+
+
+
+ deleteFile: function(req, res, next){
+  appearanceModel.updateOne({ _id: req.body.appId },{ $pull: { documents: { etag: req.body.etag } }}, function(err, doc){
+    console.log(doc)
+    console.log(err)
+    console.log(req.body.etag)
+    return res.status(200).send({message: "deleted", status: 200, data: doc})
+ })
+
+},
+
+getAppDetail: function(req, res, next){
+  appearanceModel.findById(req.body.appId,function (err, data){
+    if(err){ return res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: data })
   })
 },
+
+getRequestsTab: function(req, res, next){ 
+  appearanceModel.find({ attorneyId: req.body.userId },function (err, data){
+    if(err){ return res.status(500).send({ message: err.message }) }
+      return res.status(200).send({ data: data })
+  })
+},
+
+unsubscribe: function(req, res, next){ 
+  console.log(req.body.appId)
+  console.log(req.body.userId)
+  appearanceModel.findOne({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, result){
+    if(err) {return res.status(500).send({message: err.message})}
+    if(result && result.subscription.date) {
+
+       validTo = new Date(new Date(result.subscription.date).getTime() + 60 * 60 * 24 * 1000);  // check if appearance is valid or not to cancel
+
+      if (new Date() > validTo){ return res.status(409).send({message: "Can't unsubscribe", validTo: validTo})}
+    }
+
+      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": ""}} ) 
+      .then(obj => { return res.status(200).send({message: "Unsubscribed OK", status: 200})})
+      .catch(err => { console.log('Error: ' + err)}) 
+    
+  })
+},
+
+ subscribe: function(req, res, next){
+    appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "pending", "subscription.status": "pending"}} ) 
+      .then(obj => {
+        console.log('Updated - ' + obj);
+          return res.status(200).send({message: "Postulated OK", status: 200})
+         })
+        .catch(err => {
+           console.log('Error: ' + err);
+      }) 
+ },
+
+
+
 
 getAccepted: function(req, res, next){
   appearanceModel.find({ status: 'accepted' }, function(err, result) { // ?????
@@ -112,13 +154,6 @@ getAccepted: function(req, res, next){
 },
 
 
-getAgenda: function(req, res, next){ 
-  console.log("get agenda")
-  appearanceModel.find({ seekerId: req.body.userId },function (err, data){
-    if(err){ return res.status(500).send({ message: err.message }) }
-      return res.status(200).send({ data: data })
-  })
-},
 
 completed: function(req, res, next){ 
   let seekerEmail = req.body.email
@@ -146,59 +181,11 @@ completed: function(req, res, next){
         return res.status(401).send({ message: "unable to update the database", msg: err.message});
       });
     });
-},
-
-
-unsubscribe: function(req, res, next){ 
-  console.log(req.body.appId)
-  console.log(req.body.userId)
-  appearanceModel.findOne({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, result){
-    if(err) {return res.status(500).send({message: err.message})}
-    if(result && result.subscription.date) {
-
-       validTo = new Date(new Date(result.subscription.date).getTime() + 60 * 60 * 24 * 1000);  // check if appearance is valid or not to cancel
-
-      if (new Date() > validTo){ return res.status(409).send({message: "Can't unsubscribe", validTo: validTo})}
-    }
-
-      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": ""}} ) 
-      .then(obj => { return res.status(200).send({message: "Unsubscribed OK", status: 200})})
-      .catch(err => { console.log('Error: ' + err)}) 
-    
-  })
-},
-
- subscribe: function(req, res, next){
-    appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now()}} ) 
-      .then(obj => {
-        console.log('Updated - ' + obj);
-          return res.status(200).send({message: "Postulated OK", status: 200})
-         })
-        .catch(err => {
-           console.log('Error: ' + err);
-      }) 
- },
-
-
-
- deleteSingleDocument: function(req, res, next){
-  appearanceModel.updateOne({ _id: req.body.appId },{ $pull: { documents: { etag: req.body.etag } }}, function(err, doc){
-    console.log(doc)
-    console.log(err)
-    console.log(req.body.etag)
-    return res.status(200).send({message: "deleted", status: 200, data: doc})
- })
-
 }
 
 
 
-
 }
-
-
-
-
 
 
 

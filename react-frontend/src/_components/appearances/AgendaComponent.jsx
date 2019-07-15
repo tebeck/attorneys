@@ -19,7 +19,7 @@ export default class AgendaComponent extends Component {
           setTab: ""
       };
     
-      appearanceService.getAppearances()
+      appearanceService.getAgendaTab()
         .then((result) => this.setState({
             data: result.data,
             appId: result.data._id
@@ -28,7 +28,6 @@ export default class AgendaComponent extends Component {
 
 
     unsubscribeAppearance = (x) => {
-
       let body = {
        appId: x._id,
        userId: this.state.userId,
@@ -72,6 +71,13 @@ export default class AgendaComponent extends Component {
      }
 
 
+  finishAppearance = (x) =>{
+
+  }
+  acceptAppearing = (x) =>{
+    
+  }
+
 
  render() {
 
@@ -82,6 +88,7 @@ export default class AgendaComponent extends Component {
   const {data} = this.state
    if(data && data.length > 0) {
     return(
+    
     <div>
     <br/><br/>
       <div>
@@ -89,10 +96,13 @@ export default class AgendaComponent extends Component {
           <button className="btn btn-outline-dark btn-sm float-right button-upcoming">UPCOMING</button>
       </div><br />
 
+      
+
        {data.map(x =>
-           <div key={x._id}>
+
+      <div key={x._id}>
            <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
-        <div className="appearanceBox">
+          <div className="appearanceBox">
           <div className="appearanceHeaderBox flex-space-between">  
             <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
@@ -106,25 +116,30 @@ export default class AgendaComponent extends Component {
           </div>
           </div>
           <div className="agenda-rate-button">
-           { x.subscription.seekerId != this.state.userId ?
-            <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> :
-            <div><button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button>
-            <button onClick={this.completedAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Mark as completed</button></div>
+           { x.subscription.seekerId != this.state.userId  && x.subscription.status === "finished" ?
+             <div>
+              <button onClick={this.completedAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Mark as completed</button>
+              <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> 
+             </div> :
+             x.subscription.seekerId != this.state.userId && x.subscription.status === "pending" ?
+             <button onClick={this.acceptAppearing.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Accept Appearing Attorney</button> :
+             
+             x.subscription.seekerId == this.state.userId && x.subscription.status === "accepted" ?
+             <div>
+              <button onClick={this.finishAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Veredict</button>
+              <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button> 
+             </div>: <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button> 
            }
           </div>
           </div>
-        </div>
-           </div>
+          </div> 
+      </div> 
         )}
-     </div>
-        )
-
-    } else {
-        return (
-
-            <p>You don't have future appearances to attend</p>
-            )
+    </div>)
+    
+    }else {
+        return ( <div> <br/><br/> <p>You don't have future appearances to attend</p><br/><br/> </div> )
     }
-
-    }
+  }
+ 
 }

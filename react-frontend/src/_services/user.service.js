@@ -142,7 +142,7 @@ function makeSeeker(userId){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, userId: data.result._id}, { path: '' })   
                 } else 
                 if(data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.user._id}, { path: '' })
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.result._id}, { path: '' })
                 }
              return data;
             }

@@ -63,7 +63,7 @@ var appearances = new Schema({
     type: String,
     required: true
   },
-  subscription: {
+  subscriptions: {
    seekerId: {
     type: String,
     required: false,
@@ -73,9 +73,9 @@ var appearances = new Schema({
      type: Date,
      required: false
    },
-   status:{
+   status: {
      type: String,
-     default: "pending",
+     default: "",
      required: false
    }
   }

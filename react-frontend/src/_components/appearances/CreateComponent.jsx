@@ -14,6 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
 import Switch from "react-switch";  
+import checkImg from '../../_assets/img/appearance/appearance_check.png'
+
 let uploadForm = new FormData();
 const format = 'h:mm a';
 
@@ -22,6 +24,7 @@ const format = 'h:mm a';
 export default class CreateComponent extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       ...this.state,
       visible: false,
@@ -85,7 +88,6 @@ export default class CreateComponent extends Component {
 
 
   fileSelectedHandler = ({target}) => {
-    console.log("a")
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
    }
@@ -102,12 +104,7 @@ export default class CreateComponent extends Component {
 
 
   deleteFiles = (e) => {
-  // var newDocuments = this.state.location; // Copio el array
-  // var id = target.id
-  //  console.log(id)
-  //  console.log(uploadForm.getAll('avatar'))
-  //  newDocuments.splice(id, 1); // Delete with ID from newFiles
-  //  doc.splice(id, 1)
+
    e.preventDefault()
     var r = window.confirm("Do you want to clear all files?");
     if (r == true) {
@@ -329,7 +326,7 @@ function Step1(props){
     }
     return(
       <div>
-        <ProgressBar  height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <br />
+        <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
             <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
@@ -358,7 +355,7 @@ function Step1(props){
 
     return (
       <div>
-      <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br /><br />
+      <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img className="check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
             
             <DatePicker
@@ -367,8 +364,8 @@ function Step1(props){
               onChange={ props.handleDateChange }
               name="hearingDate"
               value={ props.state.hearingDate }
-              dateFormat="dd/mm/yyyy"
               locale="en"
+              dateFormat="yyyy-dd-MM"
             />
             
 
@@ -380,6 +377,7 @@ function Step1(props){
               className="form-control"
               onChange={props.handleTimeChange}
               format={format}
+              name="time"
               use12Hours
               inputReadOnly
             />

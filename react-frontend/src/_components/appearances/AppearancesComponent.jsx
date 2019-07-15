@@ -23,7 +23,7 @@ export default class AppearancesComponent extends Component {
 	  	goToDetail: false
     };
 	
-	appearanceService.getAppearances()
+	appearanceService.getAppearancesTab()
 	 .then((result) => this.setState({
 	    data: result.data,
 	  	number: result.data.length
@@ -105,7 +105,7 @@ export default class AppearancesComponent extends Component {
 	      </div>
 	      <div className="right">
 	       {
-	         x.subscription.seekerId != this.state.userId? 
+	         x.subscription.seekerId != this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
 		     <button onClick={this.handleClick.bind(this, x)} disabled className=" btn apply-button disabled">Applied</button>	
 		   }

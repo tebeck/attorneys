@@ -14,7 +14,7 @@ export default class RequestsComponent extends Component {
 	  	redirect: false
       };
 	
-	  appearanceService.getRequests()
+	  appearanceService.getRequestsTab()
 	    .then((result) => this.setState({
 	  	  data: result.data
 	  	})) 	
