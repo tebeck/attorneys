@@ -4,7 +4,7 @@ import {appearanceService, userServices} from '../../_services';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
-import TimePicker from 'rc-time-picker';
+// import TimePicker from 'rc-time-picker';
 import backbutton from '../../_assets/img/btnback.png'
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
@@ -15,10 +15,9 @@ import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
 import Switch from "react-switch";  
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
+import TimeKeeper from 'react-timekeeper';
 
 let uploadForm = new FormData();
-const format = 'h:mm a';
-
 
 
 export default class CreateComponent extends Component {
@@ -40,7 +39,7 @@ export default class CreateComponent extends Component {
       caseName:"",
       goal:"",
       hearingDate: new Date(),
-      time: moment().hour(0).minute(0),
+      time: '12:30 pm',
       instructions:"",
       price:75,
       caseNumber:"",
@@ -62,6 +61,7 @@ export default class CreateComponent extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input
+    console.log(this.state)
   }
 
 
@@ -211,7 +211,12 @@ export default class CreateComponent extends Component {
   closeModal() {this.setState({visible : false, redirectHome: true})}
 
   handleDateChange(date) { this.setState({ hearingDate: date })}
-  handleTimeChange(time){ this.setState({ time: time })}
+  handleTimeChange(newTime){
+    this.setState({ 
+      time: newTime.formatted 
+    })
+  }
+  
   _next = () => {
     let currentStep = this.state.currentStep
     if (!this.state.enableNextAction){ // there are errors
@@ -370,17 +375,29 @@ function Step1(props){
             
 
             
-            <TimePicker
+{/*            <TimePicker
               showSecond={false}
-              defaultValue={props.time}
+              defaultValue={moment().hour(0).minute(0)}
               value={props.time}
               className="form-control"
               onChange={props.handleTimeChange}
-              format={format}
+              format='h:mm a'
               name="time"
               use12Hours
               inputReadOnly
-            />
+            />*/}
+             
+             <TimeKeeper 
+               time={props.state.time}
+               name="time" 
+               onChange={props.handleTimeChange} 
+               config={{
+                    TIME_SELECTED_COLOR: '#2ad4ae'
+                    }}
+             />
+
+
+
 
           <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control instructions" onChange={props.handleChange} value={props.instructions} ></input>
             <br/>

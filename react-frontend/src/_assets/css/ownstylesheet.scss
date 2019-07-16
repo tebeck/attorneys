@@ -14,6 +14,43 @@ $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
 
+.link-file{
+  text-decoration: underline;
+}
+
+.link-new-file{
+  text-decoration: underline;
+}
+
+
+.clear-files{
+    background-color: $green-color;
+  border-radius: 45px;
+    margin: 0 auto;
+    padding: 5px 20px 5px 20px;
+  border: none;
+color: #fff;
+margin-bottom: 5px;
+}
+.xdelete{
+  background-color: $green-color;
+  border-radius: 45px;
+    margin: 0 auto;
+    padding: 0px 8px 0px 8px;
+  border: none;
+color: #fff;
+font-weight: 300;
+font-family: Arial, sans-serif;
+margin-left: 10px;
+margin-bottom: 5px;
+}
+
+.xdelete:active{
+  background-color: $grey-color;
+  border: none;
+}
+
+
 .container{
   background-color: #FFF;
 }
@@ -21,6 +58,11 @@ $display-block: block;
 .instructions{
   padding-bottom: 130px!important;
   padding-top: 20px;
+}
+
+
+.react-timekeeper__clock-wrapper{
+  display: none
 }
 
 .colorGrey{
@@ -217,6 +259,44 @@ img.edit-photo-img{
 }
 .termaLabel a{
   color: #000;
+}
+
+div.react-timekeeper__time-dropdown{
+  top:32px!important;
+  padding:14px;
+  left: 23px!important;
+  right: -52px!important;
+}
+span.react-timekeeper__hour-select{
+  font-size: 20px!important;
+  padding-right: 5px!important;
+}
+span.react-timekeeper__minute-select{
+  font-size: 20px!important;
+
+}
+.react-timekeeper div{
+  left: 0px!important;
+  padding: 0px!important;
+}
+.react-timekeeper div div{
+  width: auto!important;
+  padding-left: 5px!important;
+}
+.react-timekeeper span{
+ font-size: 20px!important; 
+ margin:0px!important
+}
+.react-timekeeper{
+  border:1px solid #ced4da;
+  margin-bottom: 10px;
+  padding: 0px;
+  width: 100%!important;
+  box-shadow: none!important;
+
+  left: 0px;
+  font-size: 15px!important;
+  background: inherit!important;
 }
 
 body{

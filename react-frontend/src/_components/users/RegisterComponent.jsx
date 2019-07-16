@@ -459,7 +459,7 @@ if (this.state.currentStep === 2){
               <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="insurancePolicy" onChange={this.onChange} required />: null }
+               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="stateBar" onChange={this.onChange} required />: null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
@@ -582,7 +582,7 @@ function Step1(props){
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         
-        {/*<input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>*/}
+        
         <br/>
         <div className="flex-space-between">
           <label> Do you have professional liability insurance?</label>
@@ -590,7 +590,7 @@ function Step1(props){
         </div>
         <br/>
         
-        {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
+        
       </div>
     )
   }

@@ -54,7 +54,10 @@ function upload(image){
 
 function multiupload(images){
     return axios.post(`${url_backend}/files/multiupload`, images , {headers: authHeader()})
-        .then(data => {return data})
+        .then(data => {
+          console.log(data)
+          return data
+        })
 }
 
 function getProfile(){

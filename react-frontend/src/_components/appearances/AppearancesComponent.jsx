@@ -92,7 +92,7 @@ export default class AppearancesComponent extends Component {
      {x.attorneyId != this.state.userId ?	
     	<div  className="appearanceBox">
 	      <div className="appearanceHeaderBox">  
-	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
+	        <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
 	      </div> 
 	      <p className="titlebox">{x.caseName}</p>
     	  <div className="divmailing">
@@ -105,7 +105,7 @@ export default class AppearancesComponent extends Component {
 	      </div>
 	      <div className="right">
 	       {
-	         x.subscription.seekerId != this.state.userId ? 
+	         x.subscription && x.subscription.seekerId != this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
 		     <button onClick={this.handleClick.bind(this, x)} disabled className=" btn apply-button disabled">Applied</button>	
 		   }

@@ -127,7 +127,10 @@ makeSeeker: function(req, res, next){
       if (!user) { return res.status(401).send({ message: "User not found"}) }
       user.updateOne({isSeeker: true, insurancePolicy: req.body.insurancePolicy, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
-          return res.status(200).send({state: 200,message: "Now your a seeker too"});
+          let subject ="Appearing request"
+          let text = "Appearing request"
+          send.email(process.env.ADMIN_EMAIL, subject, text)
+          return res.status(200).send({state: 200,data: user,message: "Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted"});
       });
     })
 },

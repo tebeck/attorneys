@@ -92,7 +92,7 @@ function deleteFile(etag){
 
   console.log(requestOptions)
     
-  return fetch(`${url_backend}/appearances/deletedoc`, requestOptions)
+  return fetch(`${url_backend}/appearances/deleteFile`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
 }
 
@@ -128,7 +128,10 @@ function deleteFile(etag){
 
  function upload(image){
     return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
-        .then(data => {return data})
+        .then(data => {
+          console.log(data)
+          return data
+        })
  }
 
 function getAppDetail(appId) {

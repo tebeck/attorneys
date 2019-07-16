@@ -57,7 +57,8 @@ update: function(req, res, next){
           courtHouse: req.body.courtHouse,
           department: req.body.department,
           instructions: req.body.instructions,
-          lateCall: req.body.lateCall
+          lateCall: req.body.lateCall,
+          documents: req.body.documents
         }}) 
 
       .then(obj => {
@@ -111,8 +112,8 @@ getRequestsTab: function(req, res, next){
 },
 
 unsubscribe: function(req, res, next){ 
-  console.log(req.body.appId)
-  console.log(req.body.userId)
+  let subject = "Unsubscribed"
+  let text = "Appearing successfully unsubscribed to appearance"
   appearanceModel.findOne({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, result){
     if(err) {return res.status(500).send({message: err.message})}
     if(result && result.subscription.date) {
@@ -123,7 +124,11 @@ unsubscribe: function(req, res, next){
     }
 
       appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": ""}} ) 
-      .then(obj => { return res.status(200).send({message: "Unsubscribed OK", status: 200})})
+      .then(obj => { 
+        send.email(req.body.userId, subject, text)
+        send.email(result.attorneyId, subject, text)
+        return res.status(200).send({message: "Unsubscribed OK", status: 200})
+      })
       .catch(err => { console.log('Error: ' + err)}) 
     
   })

@@ -34,7 +34,8 @@ export default class AppearancesComponent extends Component {
 	  	appId: props.location.state.appearanceData._id,
       	files: [],
       	redirectHome: false,
-      	showLoader: true
+      	showLoader: true,
+      	redirectMyRequests: false
       };
       
 
@@ -107,8 +108,18 @@ export default class AppearancesComponent extends Component {
 	handleUpdate = (e) => {
 	 e.preventDefault()
 
+	 if(this.state.newDocuments){
+	 this.state.newDocuments.map(x =>{
+	 	this.state.documents.push(x)
+	 })
+	}
+
 	 appearanceService.update(this.state)
 	 	.then(data => alert("Your request was succesfully updated"))
+	 	.then(uploadForm.delete('avatar'))
+	 	.then(this.setState({
+	 	  redirectMyRequests: true
+	 	}))
 
 	}
 
@@ -169,8 +180,7 @@ export default class AppearancesComponent extends Component {
 	   
 	   docs.splice(e.target.id, 1)
 	  
-
-	   appearanceService.deleteSingleDocument(etag)
+	   appearanceService.deleteFile(etag)
 	  	.then(data => {
 	  		if(data.status == 200){
 	  			console.log(data)
@@ -197,22 +207,27 @@ export default class AppearancesComponent extends Component {
 
     userServices.multiupload(uploadForm)
       .then(data => {
-         // this.setState({
-         //  documents: data.data.location 
-         // })
-		
-		// this.setState(prevState => ({
-		//   myArray: [...prevState.myArray, "new value"]
-		// }))
-        
-  //       console.log(this.state.documents)
-		// this.state.documents.concat(data.data.location)
-		// console.log(this.state.documents)
+         this.setState({
+          newDocuments: data.data.location 
+         })
+
       })
       .then(target.value = '')
   }
 
+  clearFiles = (e) => {
 
+   e.preventDefault()
+    var r = window.confirm("Do you want to clear all files?");
+    if (r == true) {
+     
+     uploadForm.delete('avatar')
+
+     console.log(uploadForm.getAll('avatar'))
+     this.setState({ newDocuments: [] });
+    }
+
+  }
 
 
 
@@ -220,17 +235,22 @@ export default class AppearancesComponent extends Component {
  render() {
 
  	const {result, documents} = this.state
- 	
+ 	docs = this.state.documents
 	if(result){
 
 
 
-console.log(this.state.documents)
+
+console.log(docs)
 
 
   if (this.state.redirectHome) { return <Redirect to={{
       pathname: '/home',
       state: { key: "myappearances"} }} />
+   }
+  if (this.state.redirectMyRequests) { return <Redirect to={{
+      pathname: '/home',
+      state: { key: "myrequests"} }} />
    }
 
 
@@ -266,7 +286,7 @@ console.log(this.state.documents)
 	      	  	  <img src={dateImg} style={{marginRight: "25px", width: "40px", height: "40px"}}/>
 	      	  	  <div>
 	      	  	  	<p className="adTitle">Appearance date</p>
-	      	  	    <Moment className="timeformat adTime" format="LLL">{result.createdAt}</Moment> 
+	      	  	    <Moment className="timeformat" format="LL">{result.hearingDate}</Moment><span className="timeformat"> {result.time}</span>
 	      	  	  </div>
 				</div>
 	      	  </div>
@@ -318,12 +338,12 @@ console.log(this.state.documents)
 	            <p className="adTitle">Files</p>
 	             {
 	             	documents.map((x,index) => 
-	             		<div key={index}><span >{x.location} </span>
-	             		 <button id={index} name={x.etag} onClick={this.handleDelete}> X</button></div>
+	             		<div key={index}><a href={x.location} className="link-file" target="_blank">{x.originalname}</a>
+	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button></div>
 	                )
 	             }
 	            
-				 <div>
+	            <div><br/>
 	              <p><b>Documents</b></p>
 	              <label className="uploadLabel squareUpload" htmlFor="avatar" >
 	               <div className="squareImg" >
@@ -331,6 +351,14 @@ console.log(this.state.documents)
 	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
 	                </div>
 	              </label><br/>
+	            </div>
+
+	            <div>
+	            {this.state.newDocuments ? 
+	              this.state.newDocuments.map((x,i) => (
+	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" target="_blank">{x.originalname}</a></div>
+	              )): null}
+	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
 	            </div>
 
 	            <hr /> <br/>

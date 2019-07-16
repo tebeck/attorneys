@@ -104,7 +104,7 @@ export default class AgendaComponent extends Component {
            <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
           <div className="appearanceBox">
           <div className="appearanceHeaderBox flex-space-between">  
-            <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
+            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
           </div> 
           <div className="flex-space-between paddingUpDown">

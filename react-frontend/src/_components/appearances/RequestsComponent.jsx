@@ -72,7 +72,7 @@ export default class RequestsComponent extends Component {
 	      
     	<div key={x._id} className="appearanceBox">
 	      <div className="appearanceHeaderBox">  
-	        <Moment className="timeformat" format="LLL">{x.createdAt}</Moment>
+	        <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
 	      </div> 
 	      <p className="titlebox">{x.caseName}</p>
     	  <div className="divmailing">

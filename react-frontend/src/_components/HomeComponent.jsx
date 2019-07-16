@@ -40,6 +40,7 @@ export default class HomeComponent extends Component {
       })
     
 
+
   }
 
 
@@ -51,7 +52,6 @@ export default class HomeComponent extends Component {
 
   render(){
 
-   console.log(this.state.key)
   const {isAttorney, isSeeker, onHold} = this.state
 
   return (
