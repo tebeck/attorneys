@@ -56,7 +56,7 @@ export default class HomeComponent extends Component {
 
   return (
      <div className="container">
-        <div className="navbar">
+        <div className="navbar header-comp">
           <Link className="home-popup-links" to="/profile">
             { this.state.imgUrl ? 
                 <img alt="userIcon" className="userIcon" width="24px" src={this.state.imgUrl}/> :

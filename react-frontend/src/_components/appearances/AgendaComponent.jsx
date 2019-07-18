@@ -16,7 +16,8 @@ export default class AgendaComponent extends Component {
           data: [],
           userId: Cookie.getJSON('esquired').userId,
           email: Cookie.getJSON('esquired').email,
-          setTab: ""
+          setTab: "",
+          veredict: false
       };
     
       appearanceService.getAgendaTab()
@@ -49,7 +50,7 @@ export default class AgendaComponent extends Component {
 
      }
 
-    completedAppearance = (x) => {
+    finishAppearance = (x) => {
 
       let body = {
        appId: x._id,
@@ -57,10 +58,10 @@ export default class AgendaComponent extends Component {
        email: this.state.email
       }
          
-      appearanceService.completed(body)
+      appearanceService.finishAppearance(body)
        .then(data => {
            if(data.status === 200){
-               console.log("completed")
+               console.log("finished")
                this.setState({
                	key: "agenda"
                })
@@ -71,27 +72,60 @@ export default class AgendaComponent extends Component {
      }
 
 
-  finishAppearance = (x) =>{
-
+  completeAppearance = (x) =>{
+    this.setState({
+      veredict: true,
+      veredictState: x
+    })
   }
+
+  
   acceptAppearing = (x) =>{
     
+    let body = {
+      appId: x._id,
+      seekerId: x.subscription.seekerId
+    }
+
+    appearanceService.acceptAppearing(body)
+      .then(alert("appearance accepted"))
+      .then(window.location.reload())
+
+  }
+
+  rejectAppearing = (x) =>{
+    
+    let body = {
+      appId: x._id,
+      seekerId: x.subscription.seekerId
+    } 
+    appearanceService.rejectAppearing(body)
+      .then(alert("appearance rejected"))
+      .then(window.location.reload())
+
+  }
+
+
+  getInfoAppearing = (x) => {
+
   }
 
 
  render() {
 
 
-
+   if(this.state.veredict){
+     return <Redirect to={{ pathname: '/veredict',state: this.state.veredictState }} />
+   }
 
 
   const {data} = this.state
    if(data && data.length > 0) {
     return(
     
-    <div>
+    <div >
     <br/><br/>
-      <div>
+      <div >
           <span>Past Appearances</span>
           <button className="btn btn-outline-dark btn-sm float-right button-upcoming">UPCOMING</button>
       </div><br />
@@ -100,7 +134,7 @@ export default class AgendaComponent extends Component {
 
        {data.map(x =>
 
-      <div key={x._id}>
+      <div key={x._id} >
            <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
           <div className="appearanceBox">
           <div className="appearanceHeaderBox flex-space-between">  
@@ -116,19 +150,26 @@ export default class AgendaComponent extends Component {
           </div>
           </div>
           <div className="agenda-rate-button">
-           { x.subscription.seekerId != this.state.userId  && x.subscription.status === "finished" ?
+           { x.subscription.seekerId != this.state.userId  && x.status === "completed" ?
              <div>
-              <button onClick={this.completedAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Mark as completed</button>
-              <button onClick={this.handleClick} className="btn btn-outline-primary btn-rate-attorney ">Rate Attorney</button> 
+              <button onClick={this.finishAppearance.bind(this, x)} className="btn apply-button ">Mark as finished</button>
+              <button onClick={this.handleClick} className="btn apply-button ">Rate Attorney</button> 
              </div> :
-             x.subscription.seekerId != this.state.userId && x.subscription.status === "pending" ?
-             <button onClick={this.acceptAppearing.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Accept Appearing Attorney</button> :
-             
-             x.subscription.seekerId == this.state.userId && x.subscription.status === "accepted" ?
+             x.subscription.seekerId != this.state.userId && x.status === "applied" ?
              <div>
-              <button onClick={this.finishAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Veredict</button>
-              <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button> 
-             </div>: <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn btn-outline-primary btn-rate-attorney ">Unsubscribe</button> 
+              <button onClick={this.acceptAppearing.bind(this, x)} className="btn apply-button ">Accept</button>
+              <button onClick={this.rejectAppearing.bind(this, x)} className="btn apply-button ">Reject</button>
+              <button onClick={this.getInfoAppearing.bind(this, x)} className="btn apply-button ">Appearing info</button>
+             </div> :
+             
+             x.subscription.seekerId == this.state.userId && x.status === "accepted" ?
+             <div>
+              <button onClick={this.completeAppearance.bind(this, x)} className="btn apply-button">Veredict</button>
+              <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn apply-button">Unsubscribe</button> 
+             </div>:
+              x.subscription.seekerId != this.state.userId  && x.finished === "finished" ?
+              null :
+              null 
            }
           </div>
           </div>

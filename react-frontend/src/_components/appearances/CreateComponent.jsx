@@ -9,13 +9,14 @@ import backbutton from '../../_assets/img/btnback.png'
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import 'moment/locale/it.js';
-import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
 import Switch from "react-switch";  
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import TimeKeeper from 'react-timekeeper';
+import DatePicker from "react-datepicker";
 
 let uploadForm = new FormData();
 
@@ -72,6 +73,10 @@ export default class CreateComponent extends Component {
     const {errors, ...noErrors} = this.state // seteo todo en el estado.
     const result = validate(noErrors)
     this.setState({errors: result})
+    
+    var confirmFiles = window.confirm("You're submitting the request without files, is it correct?");
+    if (confirmFiles == true) {
+
 
     if(!Object.keys(result).length) {
       console.log(noErrors)
@@ -83,6 +88,10 @@ export default class CreateComponent extends Component {
     else {
       this.setState({ errors: result  })
     }
+    } else {
+
+    }
+
   }
 
 
@@ -142,7 +151,7 @@ export default class CreateComponent extends Component {
         }
       }
       if (target.name === 'department'){
-        if (target.value.length<2) {
+        if (target.value.length >= 2) {
           enableNextAction=false
           departmentValid=false;
         }else{
@@ -333,7 +342,7 @@ function Step1(props){
       <div>
         <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
-            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
+            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Courthouse" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
               <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" onChange={props.handleChange} value={props.areaOfLaw}>
@@ -372,20 +381,6 @@ function Step1(props){
               locale="en"
               dateFormat="yyyy-dd-MM"
             />
-            
-
-            
-{/*            <TimePicker
-              showSecond={false}
-              defaultValue={moment().hour(0).minute(0)}
-              value={props.time}
-              className="form-control"
-              onChange={props.handleTimeChange}
-              format='h:mm a'
-              name="time"
-              use12Hours
-              inputReadOnly
-            />*/}
              
              <TimeKeeper 
                time={props.state.time}
@@ -403,7 +398,8 @@ function Step1(props){
             <br/>
             <div className="flex-space-between">
               <label> Client present or not?</label>
-                 <Switch onChange={props.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.clientPresent} />
+                <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span><Switch onChange={props.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.clientPresent} /><span style={{marginLeft:"5px"}}>Yes</span></div>
             </div>
             <br/>
 
@@ -411,7 +407,9 @@ function Step1(props){
             <br/>
             <div className="flex-space-between">
               <label> Late call accepted?</label>
-                 <Switch onChange={props.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.lateCall} />
+                 <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span>
+                 <Switch onChange={props.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.lateCall} /><span style={{marginLeft:"5px"}}>Yes</span></div>
             </div>
             <br/>
 
@@ -425,13 +423,13 @@ function Step1(props){
               </label><br/>
             </div>
 
-            <ul>
+            <div>
             {props.state.documents ? 
               props.state.documents.map((x,i) => (
-            <div key={i}><li>{x.originalname}</li></div>
+                  <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
               )): null}
               {props.state.documents ? <button onClick={props.deleteFiles}>Clear files</button> : null }
-            </ul>
+            </div>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
             <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />

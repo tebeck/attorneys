@@ -40,6 +40,7 @@ const AdminPanelComponent = Loader(() => import('./_components/admins/AdminPanel
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
 const AppearanceDetailComponent = Loader(() => import('./_components/appearances/AppearanceDetailComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
+const VeredictComponent = Loader(() => import('./_components/appearances/VeredictComponent') )
 
 // Passrecovery
 const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
@@ -49,64 +50,37 @@ const CreateNewPasswordComponent = Loader(() => import('./_components/passrecove
 class App extends Component {
 
   constructor(props) {
-    super(props);
-
-    this.state = {};
-
+    super(props)
     fetch(`${url_backend}`)
-          .then( data => {return data.json().then(
-            text=> console.log(text.stage) )}
-          )
-    // expirar sesion
-    // const isValid = (Date.now() >= exp * 1000) ? false : null;
-    // fetch(`${url_backend}/isvalid`)
-    //       .then( data => {return data.json().then(
-    //         text=> console.log(text.stage) )}
-    //       )
-
-
-    }
+     .then( data => {return data.json().then( text=> console.log(text.stage) )} )
+  }
 
   render() {
-    return (
 
-          <div className="alert-container">
-              {alert.message &&
-                  <div className={`alert ${alert.type}`}>{alert.message}</div>
-              }
-              <div className="body-container">
-              <Router history={history}>
-
-                      <PrivateRoute exact path="/home" component={HomeComponent} />
-
-                      <PrivateRoute exact path="/createappearance" component={CreateComponent} />
-
-                      <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
-
-                      <PrivateRoute exact path="/requests" component={RequestsComponent} />
-                      <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
-                      <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
-                      <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
-                      <PrivateRoute exact path="/profile" component={ProfileComponent} />
-                      <PrivateRoute exact path="/findproduct" component={SearchComponent} />
-                      <PrivateRoute path="/updateproduct/" component={
-                        () => <UpdateComponent />
-                      } />
-
-                      <Route exact path="/" component={GuestComponent} />
-                      <Route exact path="/terms" component={TermsComponent} />
-                      <Route exact path="/authenticate" component={AuthenticateComponent} />
-                      <Route exact path="/definerole" component={DefineRoleComponent} />
-                      <Route path="/register" component={RegisterComponent} />
-                      
-                      <Route path="/admin" component={AdminComponent} />
-                      <AdminRoute path="/adminpanel" component={AdminPanelComponent} />
-
-                      <Route path="/recoverpassword" component={RecoverPasswordComponent} />
-                      <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
-              </Router>
-              </div>
-          </div>
+  return (
+        <Router history={history}>
+           <PrivateRoute exact path="/home" component={HomeComponent} />
+           <PrivateRoute exact path="/createappearance" component={CreateComponent} />
+           <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
+           <PrivateRoute exact path="/requests" component={RequestsComponent} />
+           <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
+           <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
+           <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
+           <PrivateRoute exact path="/veredict" component={VeredictComponent} />
+           <PrivateRoute exact path="/profile" component={ProfileComponent} />
+           <PrivateRoute exact path="/findproduct" component={SearchComponent} />
+           <PrivateRoute path="/updateproduct/" component={() => <UpdateComponent />} />
+           
+           <Route exact path="/" component={GuestComponent} />
+           <Route exact path="/terms" component={TermsComponent} />
+           <Route exact path="/authenticate" component={AuthenticateComponent} />
+           <Route exact path="/definerole" component={DefineRoleComponent} />
+           <Route path="/register" component={RegisterComponent} />
+           <Route path="/admin" component={AdminComponent} />
+           <AdminRoute path="/adminpanel" component={AdminPanelComponent} />
+           <Route path="/recoverpassword" component={RecoverPasswordComponent} />
+           <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
+        </Router>
     );
   }
 }

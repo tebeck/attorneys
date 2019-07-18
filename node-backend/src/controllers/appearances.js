@@ -7,7 +7,7 @@ const Logger = require("cute-logger")
 module.exports = {
 
 get: function(req, res, next){
-  appearanceModel.find({'status': 'published'} ,function (err, data){
+  appearanceModel.find({'status': 'pending'} ,function (err, data){
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data });
   }).sort({ createdAt:-1 });
@@ -58,7 +58,9 @@ update: function(req, res, next){
           department: req.body.department,
           instructions: req.body.instructions,
           lateCall: req.body.lateCall,
-          documents: req.body.documents
+          documents: req.body.documents,
+          time: req.body.time,
+          hearingDate: req.body.hearingDate
         }}) 
 
       .then(obj => {
@@ -71,14 +73,14 @@ update: function(req, res, next){
 },
 
 getAppearancesTab: function(req, res, next){
-  appearanceModel.find({"attorneyId": { $ne: req.body.userId } }  ,function (err, data){
+  appearanceModel.find({"attorneyId": { $ne: req.body.userId }, status: "pending" }  ,function (err, data){
     if(err){ console.log(err) }
       return res.status(200).send({ data: data });
   }).sort({ createdAt:-1 });
 },
 
 getAgendaTab: function(req, res, next){
-  appearanceModel.find({$or: [ { 'attorneyId': req.body.userId, $and: [{'status': 'accepted', 'status': 'finished' }]}, { 'subscription.seekerId': req.body.userId } ] } ,function (err, data){
+  appearanceModel.find({$or: [ { 'attorneyId': req.body.userId, $and: [{ $or:[{'status': 'applied'},{'status': 'completed'}] }]}, { 'subscription.seekerId': req.body.userId, } ] } ,function (err, data){
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data });
   }).sort({ createdAt:-1 });
@@ -123,7 +125,7 @@ unsubscribe: function(req, res, next){
       if (new Date() > validTo){ return res.status(409).send({message: "Can't unsubscribe", validTo: validTo})}
     }
 
-      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": ""}} ) 
+      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": "", status: "pending", "subscription.veredictDocs":[], "subscription.information": ""}} ) 
       .then(obj => { 
         send.email(req.body.userId, subject, text)
         send.email(result.attorneyId, subject, text)
@@ -135,7 +137,8 @@ unsubscribe: function(req, res, next){
 },
 
  subscribe: function(req, res, next){
-    appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "pending", "subscription.status": "pending"}} ) 
+    appearanceModel.updateOne({ "_id": req.body.appId},
+      {$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "applied"}} ) 
       .then(obj => {
         console.log('Updated - ' + obj);
           return res.status(200).send({message: "Postulated OK", status: 200})
@@ -145,22 +148,70 @@ unsubscribe: function(req, res, next){
       }) 
  },
 
+  acceptAppearing: function(req, res, next){
+    appearanceModel.updateOne({"_id": req.body.appId},{$set: { status: 'accepted' }}) 
+      .then(obj => { 
+        userModel.findOne({_id: req.body.userId}, function(err, seeker){
+         let subject = "Appearance accepted"
+         let text = "Your appearances has been accepted"
+          send.email(seeker.email, subject, text)          
+          console.log("mail sent to record")
+        })
+        userModel.findOne({_id: req.body.seekerId}, function(err, seeker){
+         let subject = "Appearance accepted"
+         let text = "Your appearances has been accepted"
+          send.email(seeker.email, subject, text)          
+          console.log("mail sent to appearing")
+        })
+        return res.status(200).send({message: "Update OK", status: 200}) 
+      })
+      .catch(err => { console.log('Error: ' + err) }) 
+  },
+
+  rejectAppearing: function(req, res, next){
+    appearanceModel.updateOne({"_id": req.body.appId},{$set: { status: 'pending' }}) // REJECTED 
+      .then(obj => { 
+        userModel.findOne({_id: req.body.userId}, function(err, seeker){
+         let subject = "Appearance rejected"
+         let text = "Your appearances has been rejected"
+          send.email(seeker.email, subject, text)          
+          console.log("mail sent to record")
+        })
+        userModel.findOne({_id: req.body.seekerId}, function(err, seeker){
+         let subject = "Appearance rejected"
+         let text = "Your appearances has been rejected"
+          send.email(seeker.email, subject, text)          
+          console.log("mail sent to appearing")
+        })
+        return res.status(200).send({message: "Update OK", status: 200}) })
+      .catch(err => { console.log('Error: ' + err) }) 
+  },
+  
+  completeAppearance: function(req, res, next){
+    appearanceModel.updateOne({"_id": req.body.appId},{
+      $set: { status: 'completed', "subscription.veredictDocs": req.body.veredictDocs, "subscription.information": req.body.information }}) // REJECTED 
+      .then(obj => { 
+        let subject = "Appearance completed"
+        let text = "Your appearances has been completed"
+        send.email(req.body.userId, subject, text)
+        return res.status(200).send({message: "Update OK", status: 200}) })
+      .catch(err => { console.log('Error: ' + err) }) 
+  },
 
 
+  getAccepted: function(req, res, next){
+    appearanceModel.find({ status: 'accepted' }, function(err, result) { // ?????
+      if(err){
+        console.log(err);
+      } else {
+        res.json(result);
+      }
+    }).sort({createdAt:-1}); 
+  },
+  
 
-getAccepted: function(req, res, next){
-  appearanceModel.find({ status: 'accepted' }, function(err, result) { // ?????
-    if(err){
-      console.log(err);
-    } else {
-      res.json(result);
-    }
-  }).sort({createdAt:-1}); 
-},
 
-
-
-completed: function(req, res, next){ 
+finishAppearance: function(req, res, next){ 
   let seekerEmail = req.body.email
   console.log(seekerEmail)
   appearanceModel.findById({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, appearance){
@@ -168,11 +219,11 @@ completed: function(req, res, next){
     if (!appearance){ return res.status(409).send({message: "Not found"}) }
      
      const subject = 'Work done!';
-     const text = 'test text appearance completed';
-      appearance.status = 'completed';
+     const text = 'test text appearance finished';
+      appearance.status = 'finished';
       appearance.save()
         .then(appearance => {
-          Logger.log("SUBSCRIPTION COMPLETED: Sending email")
+          Logger.log("SUBSCRIPTION FINISHED: Sending email")
             userModel.findById(appearance.attorneyId, function(err,attorney){
               send.email(attorney.email, subject, text)
               Logger.log(attorney.email + " " + subject)
@@ -180,7 +231,7 @@ completed: function(req, res, next){
               send.email(seekerEmail, subject, text)
               Logger.log(seekerEmail + " " + subject)
 
-        return res.status(200).send({ message:'Work completed', status: 200 });
+        return res.status(200).send({ message:'Work finished', status: 200 });
       })
       .catch(err => {
         return res.status(401).send({ message: "unable to update the database", msg: err.message});

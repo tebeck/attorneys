@@ -586,7 +586,8 @@ function Step1(props){
         <br/>
         <div className="flex-space-between">
           <label> Do you have professional liability insurance?</label>
-             <Switch onChange={props.handleChangeCheck} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.policy} />
+            <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span><Switch onChange={props.handleChangeCheck} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.policy} /><span style={{marginLeft:"5px"}}>Yes</span></div>
         </div>
         <br/>
         

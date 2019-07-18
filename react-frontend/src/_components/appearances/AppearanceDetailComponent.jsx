@@ -19,6 +19,11 @@ import 'filepond/dist/filepond.min.css';
 import LoaderAnimation from '../LoaderAnimation';
 import {url_backend} from '../../_helpers';
 import uploadImg from '../../_assets/img/request/request_upload.png'
+import TimeKeeper from 'react-timekeeper';
+import DatePicker from "react-datepicker";
+import moment from 'moment';
+import 'rc-time-picker/assets/index.css';
+import 'moment/locale/it.js';
 
 let docs = []
 let uploadForm = new FormData();
@@ -30,7 +35,7 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
 	  	userId: Cookie.getJSON('esquired').userId,
-	  	isAttorney: props.location.state.isAttorney, 
+	  	recordView: props.location.state.recordView,
 	  	appId: props.location.state.appearanceData._id,
       	files: [],
       	redirectHome: false,
@@ -38,6 +43,7 @@ export default class AppearancesComponent extends Component {
       	redirectMyRequests: false
       };
       
+      	console.log(this.state.isAttorney)
 
 		docs = this.state.documents
       
@@ -56,10 +62,16 @@ export default class AppearancesComponent extends Component {
 	      		department: result.data.department,
 	      		instructions: result.data.instructions,
 	      		documents: result.data.documents,
-	      		goal: result.data.goal
+	      		goal: result.data.goal,
+                hearingDate: new Date(result.data.hearingDate),
+                time: result.data.time
 
 	      	})
-	      ) 
+	      )
+
+
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);	      
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input	
 
@@ -71,6 +83,12 @@ export default class AppearancesComponent extends Component {
 	}
 	
 
+  handleDateChange(date) { this.setState({ hearingDate: date })}
+  handleTimeChange(newTime){
+    this.setState({ 
+      time: newTime.formatted 
+    })
+  }
 
 	handleClick = (e) =>{
 	 e.preventDefault()
@@ -292,16 +310,32 @@ console.log(docs)
 	      	  </div>
 	      	  <hr />
 	      	  <form >
+
+	      	<DatePicker
+              className="form-control inputdatepicker"
+              selected={ this.state.hearingDate }
+              onChange={ this.handleDateChange }
+              name="hearingDate"
+              value={ this.state.hearingDate }
+              locale="en"
+              dateFormat="yyyy-dd-MM"/>
+             
+             <TimeKeeper 
+               time={this.state.time}
+               name="time" 
+               onChange={this.handleTimeChange} 
+               config={{TIME_SELECTED_COLOR: '#2ad4ae'}}/>
+
 	      	    <p className="adTitle">Case Name</p>
-	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!this.state.recordView} onChange={this.handleChange}/>
 	            <hr />
-	            <p className="adTitle">Court House</p>
-	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <p className="adTitle">Courthouse</p>
+	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.recordView} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Area of Law</p>
 	            <div className="input-group mb-3"><div className="input-group-prepend">
 	            <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
-	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!this.state.isAttorney} onChange={this.handleChange}>
+	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!this.state.recordView} onChange={this.handleChange}>
 	                <option defaultValue>{this.state.areaOfLaw}</option>
 	                <option value="CRIMINAL">CRIMINAL</option>
 	                <option value="CIVIL">CIVIL</option>
@@ -310,19 +344,19 @@ console.log(docs)
 	            </div>
 	            <hr />
 	            <p className="adTitle">Department</p>
-	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!this.state.recordView} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Client present or not?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.isAttorney} />
+	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.recordView} />
 	            </div>
 	            <br/>
 	            <hr />
 	            <p className="adTitle">Late call accepted?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.isAttorney} />
+	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.recordView} />
 	            </div>
 	            <br/>
 	            <hr />
@@ -330,20 +364,23 @@ console.log(docs)
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
 	            <p className="adTitle">Goal</p>
-	             <input name="goal" type="text" className="form-control" value={this.state.goal} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	             <input name="goal" type="text" className="form-control" value={this.state.goal} disabled={!this.state.recordView} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Description</p>
-	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.recordView} onChange={this.handleChange}/>
 	            <hr />
-	            <p className="adTitle">Files</p>
+	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }
 	             {
 	             	documents.map((x,index) => 
-	             		<div key={index}><a href={x.location} className="link-file" target="_blank">{x.originalname}</a>
+	             		<div key={index}><a href={x.location} className="link-file" download target="_blank">{x.originalname}</a>
 	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button></div>
 	                )
 	             }
+	            <div>
 	            
-	            <div><br/>
+	            { this.state.recordView ?
+	            <div>
+	            <br/>
 	              <p><b>Documents</b></p>
 	              <label className="uploadLabel squareUpload" htmlFor="avatar" >
 	               <div className="squareImg" >
@@ -351,18 +388,22 @@ console.log(docs)
 	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
 	                </div>
 	              </label><br/>
+	              </div>
+	              : null }
+	            
 	            </div>
+
 
 	            <div>
 	            {this.state.newDocuments ? 
 	              this.state.newDocuments.map((x,i) => (
-	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" target="_blank">{x.originalname}</a></div>
+	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
 	              )): null}
 	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
 	            </div>
 
 	            <hr /> <br/>
-	            {!this.state.isAttorney ? 
+	            {!this.state.recordView ? 
 	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Accept Request</button> :
 	            <div><span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span>
 	            <br/><button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button></div>

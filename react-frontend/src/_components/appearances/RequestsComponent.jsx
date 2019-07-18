@@ -26,9 +26,6 @@ export default class RequestsComponent extends Component {
     })
   }
   
-      markAsFinished(){
-    	alert("Appearance finished, please rate attorney here")
-    }
   
   renderRedirect = () => {
     if (this.state.redirect) {
@@ -39,9 +36,14 @@ export default class RequestsComponent extends Component {
 	handleClick = (x) =>{
 		this.setState({
 		  goToDetail: true,
-		  appearanceData: x
+		  appearanceData: x,
+		  recordView: true
 		})
 	}
+
+  attorneyInfo = (x) =>{
+  	
+  }
 
  render() {
   
@@ -52,7 +54,8 @@ export default class RequestsComponent extends Component {
   	 <Redirect to={{
 	   pathname: "/appearancedetail",
 	   state: { appearanceData: this.state.appearanceData,
-	    isAttorney: true 
+	    isAttorney: true,
+	    recordView: this.state.recordView
 	   }
 	 }}/>)
   }
@@ -68,7 +71,9 @@ export default class RequestsComponent extends Component {
 	      {x.status == "pending" ? 
 	      <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
 	       x.status === "accepted" ? 
-	       <p className="text-center accepted-assigment alert alert-success">Accepted</p> : null } 
+	       <p className="text-center accepted-assigment alert alert-success">Accepted</p> :
+	       x.status === "applied" ? 
+	       <p className="text-center info-assigment alert alert-info">Applied</p>: null } 
 	      
     	<div key={x._id} className="appearanceBox">
 	      <div className="appearanceHeaderBox">  
@@ -84,6 +89,9 @@ export default class RequestsComponent extends Component {
 	       <p className="price">$75</p>	
 	      </div>
 	      <div className="right">
+	      {
+	      	x.status === "applied" ? <button onClick={this.attorneyInfo.bind(this, x)} className="apply-button outlinebtn">Attorney info</button> : null
+	  	  }
 	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/>
 	      </div>
 	    </div>

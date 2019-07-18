@@ -48,7 +48,7 @@ var appearances = new Schema({
     },
   status: {
     type: String,
-    default: 'published',
+    default: 'pending',
     required: true
   },
   price: {
@@ -63,7 +63,7 @@ var appearances = new Schema({
     type: String,
     required: true
   },
-  subscriptions: {
+  subscription: {
    seekerId: {
     type: String,
     required: false,
@@ -73,9 +73,12 @@ var appearances = new Schema({
      type: Date,
      required: false
    },
-   status: {
+   veredictDocs:{
+     type: Array,
+     required: false
+   },
+   information:{
      type: String,
-     default: "",
      required: false
    }
   }

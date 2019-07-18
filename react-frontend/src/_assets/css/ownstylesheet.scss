@@ -14,6 +14,25 @@ $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
 
+
+* { padding: 0; margin: 0 }
+body { background-color: $background-grey;
+    
+
+ }
+
+div.container{ 
+   min-height: 100vh
+  }
+
+div.container.popup-desktop{
+  min-height: auto
+}
+
+
+
+  button:focus { outline:0 !important; }
+
 .link-file{
   text-decoration: underline;
 }
@@ -113,7 +132,13 @@ margin-bottom: 5px;
 .accepted-assignment{
  margin-bottom: 0px;
 }
-
+.info-assigment{
+ margin-bottom: 0px; 
+   border-radius: 4pt 4pt 0 0;
+   background-color: #F1F9FB!important;
+   border: none;
+   color: #9bcad6;
+}
 
 .alert-success{
   border: none;
@@ -202,12 +227,14 @@ table td {
   border-color: $green-color;
   color: $green-color;
   border-width: 1.3px;
-  padding: 10px 15px
+  padding: 10px 15px;
+  margin: 0 auto;
 }
 
 .btn-rate-attorney:hover{
   background-color: $green-color;
   border-color: $green-color;
+  color: white
 }
 
 img.edit-photo-img{
@@ -299,9 +326,7 @@ span.react-timekeeper__minute-select{
   background: inherit!important;
 }
 
-body{
-  background-color: $background-grey;
-}
+
 .mobile {
   display: none;
 }
@@ -375,10 +400,7 @@ body{
   color: #4a4a4a
 }
 
-body {
-  
-  min-height: 100vh;
-}
+
 * { font-family: $font-family; }
 .logo{
   margin:0 auto;

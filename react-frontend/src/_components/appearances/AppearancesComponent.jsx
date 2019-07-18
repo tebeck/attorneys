@@ -34,7 +34,8 @@ export default class AppearancesComponent extends Component {
 	handleClick = (x) =>{
 	 this.setState({
 	  goToDetail: true,
-	  appearanceData: x
+	  appearanceData: x,
+	  recordView: false
 	 })
     }
 
@@ -60,7 +61,8 @@ export default class AppearancesComponent extends Component {
 	   pathname: "/appearancedetail",
 	   state: { 
 	   	appearanceData: this.state.appearanceData,
-	    isAttorney: false 
+	    isAttorney: false,
+	    recordView: this.state.recordView
 	   }
 	 }}/>)
   }
@@ -107,7 +109,7 @@ export default class AppearancesComponent extends Component {
 	       {
 	         x.subscription && x.subscription.seekerId != this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
-		     <button onClick={this.handleClick.bind(this, x)} disabled className=" btn apply-button disabled">Applied</button>	
+		     <button disabled className=" btn apply-button disabled">Applied</button>	
 		   }
           </div>
 	    </div>

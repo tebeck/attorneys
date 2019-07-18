@@ -15,7 +15,10 @@ export const appearanceService = {
     getRequestsTab,
     getAppDetail,
     upload,
-    completed,
+    acceptAppearing,
+    rejectAppearing,
+    completeAppearance,
+    finishAppearance,
     expire
 }
 
@@ -143,19 +146,51 @@ function getAppDetail(appId) {
 
     return fetch(`${url_backend}/appearances/getappdetail`, requestOptions)
         .then( data => {return data.json()} )
-
 }
 
-function completed(appId){
+function acceptAppearing(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+    
+  return fetch(`${url_backend}/appearances/acceptappearing`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+function rejectAppearing(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+    
+  return fetch(`${url_backend}/appearances/rejectappearing`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+
+function completeAppearance(appId){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appId)
+  };
+    
+  return fetch(`${url_backend}/appearances/completeappearance`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+function finishAppearance(appId){
   const requestOptions = {
     method: 'POST',
     headers: authHeader(),
     body: JSON.stringify(appId)
   };
 
-  console.log(requestOptions)
     
-  return fetch(`${url_backend}/appearances/completed`, requestOptions)
+  return fetch(`${url_backend}/appearances/finishappearance`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
 }
 
