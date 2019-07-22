@@ -18,7 +18,7 @@ var appearances = new Schema({
     type: String,
     required: true
   },
-  goal: {
+  county: {
     type: String,
     required: true
   },

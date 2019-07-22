@@ -37,6 +37,7 @@ export default class AppearancesComponent extends Component {
 	  	userId: Cookie.getJSON('esquired').userId,
 	  	recordView: props.location.state.recordView,
 	  	appId: props.location.state.appearanceData._id,
+	  	status: props.location.state.appearanceData.status,
       	files: [],
       	redirectHome: false,
       	showLoader: true,
@@ -62,7 +63,7 @@ export default class AppearancesComponent extends Component {
 	      		department: result.data.department,
 	      		instructions: result.data.instructions,
 	      		documents: result.data.documents,
-	      		goal: result.data.goal,
+	      		county: result.data.county,
                 hearingDate: new Date(result.data.hearingDate),
                 time: result.data.time
 
@@ -76,6 +77,7 @@ export default class AppearancesComponent extends Component {
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input	
 
 
+    console.log(this.state.status)
 
 
 
@@ -272,7 +274,17 @@ console.log(docs)
    }
 
 
+     var checkStatus;
+     
+     if( 
+      this.state.status === "accepted" ||
+      this.state.status === "completed" || this.state.status === "finished" || !this.state.recordView ){
+   	   checkStatus = false;
+     } else {
+       checkStatus = true;
+     }
 
+     console.log(checkStatus)
 
 
 
@@ -292,8 +304,8 @@ console.log(docs)
 
 
 	      <Link style={{color: "black"}} to={{
-      pathname: '/home',
-      state: { key: "myappearances"} }}>
+      		pathname: '/home',
+      		state: { key: "myappearances"} }}>
 	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
 	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
 	      </Link>			
@@ -311,6 +323,7 @@ console.log(docs)
 	      	  <hr />
 	      	  <form >
 
+	      	 <p className="adTitle">Hearing Date</p>
 	      	<DatePicker
               className="form-control inputdatepicker"
               selected={ this.state.hearingDate }
@@ -318,24 +331,31 @@ console.log(docs)
               name="hearingDate"
               value={ this.state.hearingDate }
               locale="en"
-              dateFormat="yyyy-dd-MM"/>
-             
+              dateFormat="yyyy-dd-MM"
+              disabled={!checkStatus}
+              />
+             <p className="adTitle">Time</p>
+             <div className={!checkStatus ? "disabled" : null} >
              <TimeKeeper 
                time={this.state.time}
                name="time" 
                onChange={this.handleTimeChange} 
-               config={{TIME_SELECTED_COLOR: '#2ad4ae'}}/>
-
+               config={{TIME_SELECTED_COLOR: '#2ad4ae'}}
+               />
+             </div>
 	      	    <p className="adTitle">Case Name</p>
-	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!this.state.recordView} onChange={this.handleChange}/>
+	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Courthouse</p>
-	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.recordView} onChange={this.handleChange}/>
+	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!checkStatus} onChange={this.handleChange}/>
+	            <hr />
+	            <p className="adTitle">County</p>
+	             <input name="county" type="text" className="form-control" value={this.state.county} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Area of Law</p>
 	            <div className="input-group mb-3"><div className="input-group-prepend">
 	            <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
-	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!this.state.recordView} onChange={this.handleChange}>
+	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!checkStatus} onChange={this.handleChange}>
 	                <option defaultValue>{this.state.areaOfLaw}</option>
 	                <option value="CRIMINAL">CRIMINAL</option>
 	                <option value="CIVIL">CIVIL</option>
@@ -344,30 +364,27 @@ console.log(docs)
 	            </div>
 	            <hr />
 	            <p className="adTitle">Department</p>
-	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!this.state.recordView} onChange={this.handleChange}/>
+	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Client present or not?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.recordView} />
+	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!checkStatus} />
 	            </div>
 	            <br/>
 	            <hr />
 	            <p className="adTitle">Late call accepted?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.recordView} />
+	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!checkStatus} />
 	            </div>
 	            <br/>
 	            <hr />
 	            <p className="adTitle">Pay Amount</p>
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
-	            <p className="adTitle">Goal</p>
-	             <input name="goal" type="text" className="form-control" value={this.state.goal} disabled={!this.state.recordView} onChange={this.handleChange}/>
-	            <hr />
 	            <p className="adTitle">Description</p>
-	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.recordView} onChange={this.handleChange}/>
+	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }
 	             {
@@ -403,10 +420,13 @@ console.log(docs)
 	            </div>
 
 	            <hr /> <br/>
-	            {!this.state.recordView ? 
+	            {!this.state.recordView ?
 	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Accept Request</button> :
-	            <div><span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span>
-	            <br/><button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button></div>
+ 	             this.state.status !== "accepted" ?
+	            <div>
+	             <span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span><br/>
+	             <button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button>
+	            </div>: null
 	          	}
 	         </form>
 

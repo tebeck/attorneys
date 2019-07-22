@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
-
+import Popup from "reactjs-popup";
 import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import Modal from 'react-awesome-modal';
@@ -10,6 +10,8 @@ import listFilterImg from '../../_assets/img/listing_filter.png'
 import listSortImg from '../../_assets/img/listing_sort.png'
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
+import {TextFilter} from 'react-text-filter';
+
 
 
 export default class AppearancesComponent extends Component {
@@ -20,15 +22,16 @@ export default class AppearancesComponent extends Component {
 	  	data: [],
 	  	email: Cookie.getJSON('esquired').email,
 	  	userId: Cookie.getJSON('esquired').userId,
-	  	goToDetail: false
+	  	goToDetail: false,
+	  	value:''
     };
 	
 	appearanceService.getAppearancesTab()
 	 .then((result) => this.setState({
 	    data: result.data,
+	    originalData: result.data,
 	  	number: result.data.length
 	 }))
-
     }
 
 	handleClick = (x) =>{
@@ -50,6 +53,29 @@ export default class AppearancesComponent extends Component {
        visible : false
      });
     }
+
+
+  handleChangeFilter = event => {
+	
+    var updatedList = this.state.originalData;
+	updatedList = updatedList.filter(function(item) {
+	 var courtHouseSearch = item.courtHouse.toLowerCase().search(event.target.value.toLowerCase()) !== -1
+	 var areaOfLawSearch = item.areaOfLaw.toLowerCase().search(event.target.value.toLowerCase()) !== -1
+	 if(courtHouseSearch) return courtHouseSearch
+	 else if(areaOfLawSearch) return areaOfLawSearch
+
+      });
+
+    this.setState({data: updatedList});
+  }
+
+
+  handleSortClick = () => {
+    this.state.data.sort((a, b) => a - b).reverse()
+    this.setState({ data: this.state.data })
+  }
+
+
 
  render() {
 
@@ -83,11 +109,17 @@ export default class AppearancesComponent extends Component {
   	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
 	  <p>There are {b} appearances</p>
 	  	 <div className="flex-space-between">
-		 	<img style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
-	  	 	<img alt="esquired" src={listFilterImg} width="18px" height="18px" /><br/><br/>
+		 	<img onClick={this.handleSortClick} style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
+  	         <Popup trigger={<img alt="esquired" src={listFilterImg} width="18px" height="18px" />} position="left top">
+		      <div className="filter-list">
+		        <h5>Filter by Courthouse or Area of Law</h5>
+		        <input type="text" className="form-control form-control-lg" placeholder="Search" onChange={this.handleChangeFilter} />
+		      </div>
+             </Popup>
 	  	 </div>
 	</div>
 	<br/>
+
 	
 	{data.map(x =>
 	<div key={x._id}> 

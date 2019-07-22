@@ -66,8 +66,10 @@ export default class RequestsComponent extends Component {
 	  <span>Active Requests</span>
 	  <button className="btn btn-outline-dark btn-sm float-right">VIEW ALL</button><br/><br/>
 		{data.map(x =>
+
 		<div key={x._id}>
-	      
+	      {x.status !== "finished" ? 
+	     <div>
 	      {x.status == "pending" ? 
 	      <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
 	       x.status === "accepted" ? 
@@ -75,29 +77,57 @@ export default class RequestsComponent extends Component {
 	       x.status === "applied" ? 
 	       <p className="text-center info-assigment alert alert-info">Applied</p>: null } 
 	      
-    	<div key={x._id} className="appearanceBox">
-	      <div className="appearanceHeaderBox">  
-	        <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
-	      </div> 
-	      <p className="titlebox">{x.caseName}</p>
-    	  <div className="divmailing">
-	    	<img alt="Esquired" width="20px" src={pingImg}></img>
-	    	<p className="mailing">{x.courtHouse}</p>
-    	  </div>
-    	  <div className="divprice">
-	       <img alt="Esquired" width="18px" src={priceImg}></img>
-	       <p className="price">$75</p>	
-	      </div>
-	      <div className="right">
-	      {
-	      	x.status === "applied" ? <button onClick={this.attorneyInfo.bind(this, x)} className="apply-button outlinebtn">Attorney info</button> : null
-	  	  }
-	       <button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/>
-	      </div>
-	    </div>
-		    <br />
-		</div>
-  		)}
+    	  <div key={x._id} className="appearanceBox">
+	        <div className="appearanceHeaderBox">  
+	            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+	        </div> 
+	           <p className="titlebox">{x.caseName}</p>
+    	      <div className="divmailing">
+	      	   <img alt="Esquired" width="20px" src={pingImg}></img>
+	      	   <p className="mailing">{x.courtHouse}</p>
+    	     </div>
+    	    <div className="divprice">
+	           <img alt="Esquired" width="18px" src={priceImg}></img>
+	           <p className="price">$75</p>	
+	        </div>
+	        <div className="right">
+	          {
+	          	x.status === "applied" ? <button onClick={this.attorneyInfo.bind(this, x)} className="apply-button outlinebtn">Attorney info</button> : null
+	  	      }
+	  	      { x.status !== "completed" || x.status !== "finished" ?
+	            <div><button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/></div>
+	        :   <div><br/><br/></div>}
+	        </div>
+	      </div><br />
+
+		</div>: null}
+  		</div>)}
+
+		<h4>Finished:</h4>
+	    
+		{data.map(x =>
+    	  x.status === "finished" ?
+    	  <div key={x._id}>
+    	    <div className="appearanceBox">
+	         <div className="appearanceHeaderBox">  
+	            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+	         </div> 
+	            <p className="titlebox">{x.caseName}</p>
+    	       <div className="divmailing">
+	      	    <img alt="Esquired" width="20px" src={pingImg}></img>
+	      	    <p className="mailing">{x.courtHouse}</p>
+    	      </div>
+    	      <div className="divprice">
+	             <img alt="Esquired" width="18px" src={priceImg}></img>
+	             <p className="price">$75</p>	
+	          </div>
+			<div className="right">
+	          <div><button onClick={this.handleClick.bind(this, x)} className="apply-button outlinebtn">Edit</button><br/></div>
+	     	</div>	          
+	        </div>
+	      </div>:null	
+	     )}
+
   		{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button>
 	<br/><br/></div>
   )}

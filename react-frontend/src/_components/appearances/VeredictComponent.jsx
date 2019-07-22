@@ -77,7 +77,7 @@ export default class NotificationsComponent extends Component {
       <div >
       <div>
         <label htmlFor="description" >Upload the veredict info</label>
-        <input className="form-control" name="information" type="text" onChange={this.handleChange} value={this.state.information} />
+        <input className="form-control" placeholder="Description" name="information" type="text" onChange={this.handleChange} value={this.state.information} />
       </div>
         <div>
         <br/>
@@ -96,10 +96,11 @@ export default class NotificationsComponent extends Component {
               this.state.veredictDocs.map((x,i) => (
                   <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
               )): null}
-              {this.state.veredictDocs ? <button onClick={this.deleteFiles}>Clear files</button> : null }
+              {this.state.veredictDocs.length > 0 ? <button className="clearFiles" onClick={this.deleteFiles}>Clear files</button> : null }
             </div>
-
-          <button onClick={this.completeAppearance} className="btn btn-primary link-button">Submit</button>
+            <div className="center">
+             <button onClick={this.completeAppearance} className="btn btn-primary link-button">Submit</button>
+            </div>
           </div>
       </div>
        <hr />

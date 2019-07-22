@@ -21,6 +21,21 @@ body { background-color: $background-grey;
 
  }
 
+.disabled .react-timekeeper div {
+    pointer-events: none!important;
+    background-color: #e9ecef;
+    opacity: 1;
+    
+}
+
+.clearFiles{
+  border: none;
+  border-radius: 45px;
+  background-color: $green-color;
+  color: #FFF;
+  padding: 5px 30px 5px 30px  
+}
+
 div.container{ 
    min-height: 100vh
   }
@@ -296,7 +311,8 @@ div.react-timekeeper__time-dropdown{
 }
 span.react-timekeeper__hour-select{
   font-size: 20px!important;
-  padding-right: 5px!important;
+  padding-right: 2px!important;
+
 }
 span.react-timekeeper__minute-select{
   font-size: 20px!important;
@@ -308,11 +324,25 @@ span.react-timekeeper__minute-select{
 }
 .react-timekeeper div div{
   width: auto!important;
-  padding-left: 5px!important;
+  padding-left: 2px!important;
+
+}
+.react-timekeeper div div:first-child{
+  padding-left: 6px!important;
 }
 .react-timekeeper span{
- font-size: 20px!important; 
- margin:0px!important
+ font-size: 1rem!important; 
+ margin:0px!important;
+ color: #495057!important;
+ font-weight: 400!important;
+ line-height: 1.5!important;
+ 
+}
+.react-timekeeper-button-reset{
+color: #495057 !important;
+font-size: 0.8rem!important;
+font-weight: 400!important;
+    line-height: 1.5!important;
 }
 .react-timekeeper{
   border:1px solid #ced4da;
@@ -320,7 +350,7 @@ span.react-timekeeper__minute-select{
   padding: 0px;
   width: 100%!important;
   box-shadow: none!important;
-
+  
   left: 0px;
   font-size: 15px!important;
   background: inherit!important;

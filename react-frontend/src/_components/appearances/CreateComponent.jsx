@@ -38,7 +38,7 @@ export default class CreateComponent extends Component {
       areaOfLaw:"",
       department:"",
       caseName:"",
-      goal:"",
+      county:"",
       hearingDate: new Date(),
       time: '12:30 pm',
       instructions:"",
@@ -54,7 +54,7 @@ export default class CreateComponent extends Component {
       departmentValid: false,
       caseNameValid: false,
       caseNumberValid: false,
-      goalValid: false
+      countyValid: false
 
     }
 
@@ -139,7 +139,7 @@ export default class CreateComponent extends Component {
     let departmentValid = this.state.departmentValid;
     let caseNameValid = this.state.caseNameValid;
     let caseNumberValid = this.state.caseNumberValid;
-    let goalValid = this.state.goalValid;
+    let countyValid = this.state.countyValid;
 
     if (this.state.currentStep === 1){
       if (target.name === 'courtHouse'){
@@ -175,16 +175,16 @@ export default class CreateComponent extends Component {
           caseNumberValid=true;
         }
       }
-      if (target.name === 'goal'){
+      if (target.name === 'county'){
         if (target.value.length<2) {
           enableNextAction=false
-          goalValid=false;
+          countyValid=false;
         }else{
-          goalValid=true;
+          countyValid=true;
         }
       }
 
-      if (courtHouseValid && departmentValid && caseNameValid && goalValid && caseNumberValid){
+      if (courtHouseValid && departmentValid && caseNameValid && countyValid && caseNumberValid){
         enableNextAction=true
       }
       
@@ -193,7 +193,7 @@ export default class CreateComponent extends Component {
         departmentValid: departmentValid,
         caseNumberValid: caseNumberValid,
         caseNameValid: caseNameValid,
-        goalValid: goalValid,
+        countyValid: countyValid,
         enableNextAction: enableNextAction
       };
 
@@ -290,7 +290,7 @@ export default class CreateComponent extends Component {
           department={this.state.department}
           caseName={this.state.caseName}
           caseNumber={this.state.caseNumber}
-          goal={this.state.goal}
+          county={this.state.county}
           state={this.state}
           
         />
@@ -319,7 +319,7 @@ export default class CreateComponent extends Component {
         {errors.department && <div className="alert alert-danger" role="alert">{errors.department}</div>}
         {errors.caseName && <div className="alert alert-danger" role="alert">{errors.caseName}</div>}
         {errors.caseNumber && <div className="alert alert-danger" role="alert">{errors.caseNumber}</div>}
-        {errors.goal && <div className="alert alert-danger" role="alert">{errors.goal}</div>}
+        {errors.county && <div className="alert alert-danger" role="alert">{errors.county}</div>}
         {errors.hearingDate && <div className="alert alert-danger" role="alert">{errors.hearingDate}</div>}
         {errors.time && <div className="alert alert-danger" role="alert">{errors.time}</div>}
         {errors.instructions && <div className="alert alert-danger" role="alert">{errors.instructions}</div>}
@@ -343,6 +343,7 @@ function Step1(props){
         <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
             <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Courthouse" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
+            <input name="county"       placeholder="County"        type="text" className={props.state.countyValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.county} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
               <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" onChange={props.handleChange} value={props.areaOfLaw}>
@@ -352,11 +353,10 @@ function Step1(props){
                 <option value="COMMON">COMMON</option>
               </select>
             </div>
-
+            
             <input name="department" placeholder="Department"  type="text" className={props.state.departmentValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.department} ></input>
             <input name="caseName"   placeholder="Case Name"   type="text" className={props.state.caseNameValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseName} ></input>
             <input name="caseNumber" placeholder="Case Number" type="text" className={props.state.caseNumberValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseNumber} ></input>
-            <input name="goal"       placeholder="Goal"        type="text" className={props.state.goalValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.goal} ></input>
       </div>
       )
   }
@@ -428,7 +428,7 @@ function Step1(props){
               props.state.documents.map((x,i) => (
                   <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
               )): null}
-              {props.state.documents ? <button onClick={props.deleteFiles}>Clear files</button> : null }
+              {props.state.documents.length > 0 ? <button className="clearFiles" onClick={props.deleteFiles}>Clear files</button> : null }
             </div>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
@@ -460,8 +460,8 @@ function Step1(props){
   if(!values.caseNumber) {
     errors.caseNumber = 'Insert caseNumber'
   }
-  if(!values.goal) {
-    errors.goal = 'Insert goal'
+  if(!values.county) {
+    errors.county = 'Insert County'
   }
   if(!values.hearingDate) {
     errors.hearingDate = 'Insert hearingDate'
