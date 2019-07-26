@@ -69,18 +69,26 @@ var appearances = new Schema({
     required: false,
     default: "",
   },
-   date: {
-     type: Date,
-     required: false
-   },
-   veredictDocs:{
-     type: Array,
-     required: false
-   },
-   information:{
-     type: String,
-     required: false
-   }
+     date: {
+       type: Date,
+       required: false
+     },
+     veredictDocs:{
+       type: Array,
+       required: false
+     },
+     information:{
+       type: String,
+       required: false
+     },
+     seekerRate: {
+       type: Number,
+       required: false
+     },
+     attorneyRate: {
+       type: Number,
+       required: false
+     }
   }
 
 },{

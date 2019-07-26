@@ -65,7 +65,12 @@ export default class AppearancesComponent extends Component {
 	      		documents: result.data.documents,
 	      		county: result.data.county,
                 hearingDate: new Date(result.data.hearingDate),
-                time: result.data.time
+                time: result.data.time,
+                veredictDocs: result.data.subscription.veredictDocs,
+                veredictDetail: result.data.subscription.information,
+                appearanceState: result.data.subscription.state
+
+
 
 	      	})
 	      )
@@ -96,14 +101,12 @@ export default class AppearancesComponent extends Component {
 	 e.preventDefault()
 
     let body = {
-      appId: this.state.appId,
-      email: this.state.email
+      appId: this.state.appId
     }
 
      appearanceService.subscribe(body)
      	.then(data => {
           if(data.status === 200){
-           userServices.sendmail(data)
 	       this.openModal()
           }
      	}
@@ -292,13 +295,20 @@ console.log(docs)
 		<div className="container main-body">
 	  
 
-	  <Modal visible={this.state.visible} width="370" height="445" effect="fadeInDown" onClickAway={() => this.closeModal()}>
+	  <Modal visible={this.state.visible} width="370" height="600" effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "20px",textAlign: "center"}}>
 	    <img width="250px" src={welldoneImg}/><br/><br/>
 	    <h5><b>Well done!</b></h5>
 	     <p className="colorGrey">We will send you an email with confirmation and additional info.</p>
 	   
-	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button>
+	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button><br />
+
+
+	    <div style={{backgroundColor: "green", padding: "20px"}}>
+	    	<p>We have detected 2 appearances for<br/>the same day in the same court</p>
+	    	<button onClick={this.handleStaking} className="btn btn-primary link-button btn-request">View Appearances</button>
+	    </div>
+
 	  </div>
 	  </Modal>
 
@@ -333,7 +343,7 @@ console.log(docs)
               locale="en"
               dateFormat="yyyy-dd-MM"
               disabled={!checkStatus}
-              />
+              /><hr />
              <p className="adTitle">Time</p>
              <div className={!checkStatus ? "disabled" : null} >
              <TimeKeeper 
@@ -341,16 +351,16 @@ console.log(docs)
                name="time" 
                onChange={this.handleTimeChange} 
                config={{TIME_SELECTED_COLOR: '#2ad4ae'}}
-               />
+               /><hr />
              </div>
 	      	    <p className="adTitle">Case Name</p>
 	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
-	            <p className="adTitle">Courthouse</p>
-	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!checkStatus} onChange={this.handleChange}/>
-	            <hr />
 	            <p className="adTitle">County</p>
 	             <input name="county" type="text" className="form-control" value={this.state.county} disabled={!checkStatus} onChange={this.handleChange}/>
+	            <hr />
+	            <p className="adTitle">Courthouse</p>
+	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Area of Law</p>
 	            <div className="input-group mb-3"><div className="input-group-prepend">
@@ -384,28 +394,45 @@ console.log(docs)
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
 	            <p className="adTitle">Description</p>
-	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}/>
+	             <input name="instructions" type="text" className="form-control instructions" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
+	            
 	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }
 	             {
 	             	documents.map((x,index) => 
 	             		<div key={index}><a href={x.location} className="link-file" download target="_blank">{x.originalname}</a>
-	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button></div>
+	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button><hr /></div>
 	                )
 	             }
+	             
+	            {this.state.veredictDocs.length > 0 ? <p className="adTitle">Veredict files</p> : null }
 	            <div>
+	            {this.state.veredictDocs ? 
+	              this.state.veredictDocs.map(x => 
+	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
+	              ): <p>No files uploaded</p>}
+
+	            </div>
+	           
+	            {this.state.veredictDetail  ? 
+	              <div><p className="adTitle">Veredict information</p>
+	            	<input name="veredictDetail" type="text" className="form-control" value={this.state.veredictDetail} disabled={!checkStatus} onChange={this.handleChange}/>  
+	               <hr /></div> : null}
+
+	           
 	            
+	            <div>
 	            { this.state.recordView ?
 	            <div>
 	            <br/>
-	              <p><b>Documents</b></p>
-	              <label className="uploadLabel squareUpload" htmlFor="avatar" >
+	              {checkStatus ? <p><b>Documents</b></p> : null}
+	              <label className={!checkStatus ? "squareUploadDisable" : "uploadLabel squareUpload"} htmlFor="avatar"  >
 	               <div className="squareImg" >
 	                 <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
 	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
 	                </div>
 	              </label><br/>
-	              </div>
+	             </div>
 	              : null }
 	            
 	            </div>
@@ -414,15 +441,18 @@ console.log(docs)
 	            <div>
 	            {this.state.newDocuments ? 
 	              this.state.newDocuments.map((x,i) => (
-	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
+	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
 	              )): null}
 	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
+	            
 	            </div>
+	            
 
-	            <hr /> <br/>
+	            
+
 	            {!this.state.recordView ?
-	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Accept Request</button> :
- 	             this.state.status !== "accepted" ?
+	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Apply Request</button> :
+ 	             this.state.status === "pending" || this.state.status === "applied" ?
 	            <div>
 	             <span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span><br/>
 	             <button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button>
@@ -430,7 +460,11 @@ console.log(docs)
 	          	}
 	         </form>
 
-	          <br /><br /><br />
+
+	          <br /><br />
+
+	          <br />
+
 	         </div>
 	       
 	      

@@ -15,7 +15,6 @@ mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex
 const filesRoute = require('./src/routes/files');
 const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
-const postulationsRoutes = require('./src/routes/postulations');
 const notificationsRoutes = require('./src/routes/notifications');
 
 // MIDDLEWARES
@@ -30,7 +29,6 @@ app.use('/files', filesRoute);
 // app.use('/admins', isvalid.admin, adminRoutes);
 app.use('/admins', adminRoutes); // AGREGAR EL ISVALID.ADMIN PARA PROD!!
 app.use('/appearances',isvalid.user ,appearancesRoutes);
-app.use('/postulations',isvalid.user ,postulationsRoutes);
 app.use('/notifications',isvalid.user ,notificationsRoutes);
 
 

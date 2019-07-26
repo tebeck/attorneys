@@ -223,7 +223,6 @@ nextButton(){
   handleChange = ({target}) =>{
 
     this.state.errors.creditCard = false;
-    
 
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
@@ -342,7 +341,6 @@ if (this.state.currentStep === 2){
     }
       if (streetAddrOneValid && cityValid && zipValid){
         enableNextAction=true
-        console.log("ahora es true!")
       }
       const newState = {
         emailValid: emailValid,
@@ -546,7 +544,7 @@ function Step1(props){
     return(
       <div>
         <br />
-        <div className="center"><ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
+        <div className="center"><ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
@@ -574,7 +572,7 @@ function Step1(props){
     return (
       <div>
       <br />
-        <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /> </div>
+        <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /> </div>
         <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
@@ -604,7 +602,7 @@ function Step1(props){
     return (
        <div>
        <br />
-        <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img width="18px" src={checkImg} /></div>
+        <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" width="18px" src={checkImg} /></div>
         <br />
         
         <div className="text-center">

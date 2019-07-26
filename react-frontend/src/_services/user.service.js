@@ -16,7 +16,9 @@ export const userServices = {
     updateAccountInfo,
     updateProfInfo,
     makeAttorney,
-    multiupload
+    multiupload,
+    rateAttorney,
+    rateSeeker
 }
 
 function register(data){
@@ -83,6 +85,34 @@ function makeAttorney(userId){
     }
 
     return fetch(`${url_backend}/users/makeattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+function rateAttorney(body){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/rateattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+function rateSeeker(body){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/rateseeker`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data

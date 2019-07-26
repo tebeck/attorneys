@@ -101,33 +101,28 @@ var users = new Schema({
     default: 0
   },
   reviews: [
-    {
-      seekerId: {
+   {
+      attorneyId: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       appearanceId: {
         type: String,
-        required: true,
-        default: ''
-      },
-      postulationId: {
-        type: String,
-        required: true,
+        required: false,
         default: ''
       },
       comment: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       rating: {
-        type: Number,
-        required: true,
+        type: String,
+        required: false,
         default: 0
       }
-    }
+   }
   ],
   isVerified: {
     type: Boolean,

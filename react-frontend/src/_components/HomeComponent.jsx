@@ -9,7 +9,6 @@ import {userServices} from '../_services/user.service'
 import logo from '../_assets/img/landing/logo.png'
 // import userIcon from '../_assets/img/profile.png'
 import bellIcon from '../_assets/img/notifications.png'
-import Popup from "reactjs-popup";
 import greyFaceImg from '../_assets/img/grey-user.png'
 
 export default class HomeComponent extends Component {

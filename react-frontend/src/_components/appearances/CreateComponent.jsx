@@ -74,10 +74,13 @@ export default class CreateComponent extends Component {
     const result = validate(noErrors)
     this.setState({errors: result})
     
-    var confirmFiles = window.confirm("You're submitting the request without files, is it correct?");
-    if (confirmFiles == true) {
+    if(this.state.documents.length < 1){
+     var confirmFiles = window.confirm("You're submitting the request without files, is it correct?") 
+    } else {
+     confirmFiles = true 
+    }
 
-
+    if (confirmFiles) {
     if(!Object.keys(result).length) {
       console.log(noErrors)
       appearanceService.create(noErrors)
@@ -88,12 +91,11 @@ export default class CreateComponent extends Component {
     else {
       this.setState({ errors: result  })
     }
-    } else {
+
 
     }
-
   }
-
+  
 
 
   fileSelectedHandler = ({target}) => {
@@ -342,8 +344,8 @@ function Step1(props){
       <div>
         <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
-            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Courthouse" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <input name="county"       placeholder="County"        type="text" className={props.state.countyValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.county} ></input>
+            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Courthouse" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
               <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" onChange={props.handleChange} value={props.areaOfLaw}>

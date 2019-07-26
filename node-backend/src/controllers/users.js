@@ -2,7 +2,7 @@ const userModel = require('../models/users');
 const tokenModel = require('../models/token');
 const recoverPasswordModel = require('../models/recoverPassword');
 const crypto = require('crypto');
-
+const appearanceModel = require('../models/appearances');
 const urlFrontend = process.env.URL_FRONTEND;
 
 const saltRounds = 10;
@@ -286,6 +286,32 @@ makeAttorney: function(req, res, next){
       })
     },
 
+    rateAttorney: function( req, res, next ){
+      userModel.updateOne({_id: req.body.attorneyId},
+        { "$push": { "reviews": 
+        { "rating": req.body.rating,
+          "appearanceId": req.body.appId, 
+          "seekerId": req.body.seekerId }
+        }}).then(obj => { 
+          appearanceModel.updateOne({_id: req.body.appId}, 
+            {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)})
+
+          return res.status(200).send({message: "Update OK", status: 200}) })
+        .catch(err => { console.log('Error: ' + err) }) 
+    },
+    rateSeeker: function( req, res, next ){
+      userModel.updateOne({_id: req.body.seekerId},
+        { "$push": { "reviews": 
+        { "rating": req.body.rating,
+          "appearanceId": req.body.appId, 
+          "attorneyId": req.body.attorneyId }
+        }}).then(obj => { 
+          appearanceModel.updateOne({_id: req.body.appId}, 
+            {$set: {"subscription.seekerRate": req.body.rating}}).then(a=>{console.log(a)})
+
+          return res.status(200).send({message: "Update OK", status: 200}) })
+        .catch(err => { console.log('Error: ' + err) }) 
+    },
     sendMail: function(req, res, next){
         send.email(req.body.email, req.body.subject, req.body.text)
       return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })

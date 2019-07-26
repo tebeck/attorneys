@@ -16,9 +16,59 @@ $display-block: block;
 
 
 * { padding: 0; margin: 0 }
-body { background-color: $background-grey;
-    
+body { background-color: $background-grey; }
 
+
+ .star{
+    stroke: #f7bd2a;
+ }
+
+ .juryDeliverating{
+  background-image: url('../img/request/request_waiting.png');
+  background-repeat: no-repeat;
+  background-position:50% 20%;
+  background-color: $green-color!important;
+  opacity: 0.9;
+  background-size: 150px;
+  border-radius: 10px!important;
+  font-family:"Montserrat-Bold"
+ }
+
+
+.opacityText{
+  opacity: 0.2
+}
+
+.juryText{
+  font-size: 20px;
+  color: #FFF;
+  text-align: center;
+  margin-top:210px
+
+}
+
+.appearanceBox:hover{
+  
+  
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  transition: box-shadow .3s;
+  transition-timing-function: ease-in;
+  cursor: pointer;
+  
+}
+
+
+
+
+.filter-list{
+  padding:15px;
+  font-size: 1.15rem;
+}
+
+
+
+ .sort-filter{
+  cursor: pointer
  }
 
 .disabled .react-timekeeper div {
@@ -26,6 +76,13 @@ body { background-color: $background-grey;
     background-color: #e9ecef;
     opacity: 1;
     
+}
+
+.squareUploadDisable {
+    //   pointer-events: none!important;
+    // background-color: #e9ecef;
+    // opacity: 1;
+    display: none
 }
 
 .clearFiles{
@@ -153,6 +210,13 @@ margin-bottom: 5px;
    background-color: #F1F9FB!important;
    border: none;
    color: #9bcad6;
+}
+.completed-assigment{
+ margin-bottom: 0px; 
+   border-radius: 4pt 4pt 0 0;
+   background-color:#E5FFFF !important;
+   border: none;
+   color: #ffe5e5!important;
 }
 
 .alert-success{
@@ -560,7 +624,9 @@ text-align: right;
     cursor: pointer;
 }
 
-
+.apply-button:hover{
+  background-color: $blue-color
+}
 
 .define-container-block{
   display:block

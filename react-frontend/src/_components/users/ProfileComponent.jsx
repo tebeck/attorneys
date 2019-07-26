@@ -197,7 +197,7 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-   const {errors, showLoader} = this.state
+   const {showLoader} = this.state
   if(showLoader){
   return (
       <div className="centered"><LoaderAnimation /></div>
@@ -224,12 +224,12 @@ export default class ProfileComponent extends Component {
                    <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? 
                        <div>
-                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
                          <img  alt="avatar" width="200px" src={this.state.profilePicture} />
                        </div>
                        : 
                        <div>
-                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
                          <img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br />
                        </div> }
                    </label>

@@ -41,6 +41,7 @@ const AppearancesComponent = Loader(() => import('./_components/appearances/Appe
 const AppearanceDetailComponent = Loader(() => import('./_components/appearances/AppearanceDetailComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
 const VeredictComponent = Loader(() => import('./_components/appearances/VeredictComponent') )
+const RateComponent = Loader(() => import('./_components/appearances/RateComponent') )
 
 // Passrecovery
 const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
@@ -65,6 +66,7 @@ class App extends Component {
            <PrivateRoute exact path="/requests" component={RequestsComponent} />
            <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
            <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
+           <PrivateRoute exact path="/rate" component={RateComponent} />
            <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
            <PrivateRoute exact path="/veredict" component={VeredictComponent} />
            <PrivateRoute exact path="/profile" component={ProfileComponent} />
