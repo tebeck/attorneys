@@ -38,7 +38,8 @@ export default class AppearancesComponent extends Component {
 	 this.setState({
 	  goToDetail: true,
 	  appearanceData: x,
-	  recordView: false
+	  recordView: false,
+	  appearancesClick: true
 	 })
     }
 
@@ -88,7 +89,8 @@ export default class AppearancesComponent extends Component {
 	   state: { 
 	   	appearanceData: this.state.appearanceData,
 	    isAttorney: false,
-	    recordView: this.state.recordView
+	    recordView: this.state.recordView,
+	    appearancesClick: this.state.appearancesClick
 	   }
 	 }}/>)
   }

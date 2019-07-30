@@ -139,6 +139,14 @@ var users = new Schema({
   status:{
     type: String,
     default: "OK"
+  },
+  stripe_token_id: {
+    type: String,
+    required: false
+  },
+  stripe_user_id: {
+    type: String,
+    required: false
   }
 },{
     collection: 'users', timestamps: true

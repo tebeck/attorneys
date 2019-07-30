@@ -8,8 +8,11 @@ import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Cookie from 'js-cookie'
 import { Redirect} from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
+import {stripeService} from '../../_services/stripe.service'
+
 
 var oneDayMore = new Date().getTime() + (1 * 24 * 60 * 60 * 1000)
+
 
 export default class AgendaComponent extends Component {
     
@@ -22,7 +25,11 @@ export default class AgendaComponent extends Component {
           setTab: "",
           veredict: false,
           toggleButtons: true,
-          goToDetail: false
+          goToDetail: false,
+          pastClicked: false,
+          commingClicked: false,
+          viewClicked: true
+
       };
     
       appearanceService.getAgendaTab()
@@ -31,6 +38,8 @@ export default class AgendaComponent extends Component {
             appId: result.data._id,
             originalData: result.data
           }))     
+
+
     }
 
 
@@ -56,6 +65,7 @@ export default class AgendaComponent extends Component {
 
      }
 
+
     finishAppearance = (x) => {
 
       let body = {
@@ -68,6 +78,8 @@ export default class AgendaComponent extends Component {
        .then(data => {
            if(data.status === 200){
                alert("finished")
+                stripeService.createcharge(body)
+                  .then("Charged ok!")
                this.setState({
                	key: "agenda"
                })
@@ -114,7 +126,10 @@ export default class AgendaComponent extends Component {
 
 
   attorneyInfo = (x) => {
-
+    this.setState({
+      infoComponent: true,
+      infoComponentState: x
+    })
   }
 
   viewDetails = (x) => {
@@ -123,6 +138,8 @@ export default class AgendaComponent extends Component {
 
 
   handleClickPastApp = (event) =>{
+  this.setState({pastClicked: true,commingClicked: false,viewClicked:false});
+   this.setState({})
    var updatedList = this.state.originalData;
    updatedList = updatedList.filter(function(item) {
     return item.status === "completed" || item.status === "finished"
@@ -132,6 +149,7 @@ export default class AgendaComponent extends Component {
   }
 
   handleClickUpcomming = (event) => {
+    this.setState({pastClicked: false,commingClicked: true, viewClicked: false});
    var updatedList = this.state.originalData;
    updatedList = updatedList.filter(function(item) {
     return item.status === "applied" || item.status === "accepted"
@@ -141,8 +159,10 @@ export default class AgendaComponent extends Component {
   }
 
   handleClickViewAll = (event) => {
-    this.setState({
-      data: this.state.originalData
+    this.setState({ data: this.state.originalData,
+      viewClicked: true,
+      pastClicked: false,
+      commingClicked: false
     })
   }
 
@@ -166,23 +186,29 @@ export default class AgendaComponent extends Component {
       this.setState({
         goToDetail: true,
         appearanceData: x,
-        recordView: true
+        recordView: true,
+        agendaClick: true
       })
     }
   }
 
  render() {
-
+var pastAppClass = this.state.pastClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming mr' : "btn btn-outline-dark btn-sm float-left button-upcoming mr";    
+var commingClass = this.state.commingClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
+var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
 
   if(this.state.goToDetail){
     return (
-     <Redirect to={{ pathname: "/appearancedetail", state: { appearanceData: this.state.appearanceData,isAttorney: true,recordView: this.state.recordView} }}/>)
+     <Redirect to={{ pathname: "/appearancedetail", state: { appearanceData: this.state.appearanceData,isAttorney: true,recordView: this.state.recordView, agendaClick: this.state.agendaClick} }}/>)
   }
 
    if(this.state.rateComponent){
      return <Redirect to={{ pathname: '/rate',state: this.state.rateComponentState }} />
    }
 
+   if(this.state.infoComponent){
+     return <Redirect to={{ pathname: '/info',state: this.state.infoComponentState }} />
+   }
 
    if(this.state.veredict){
      return <Redirect to={{ pathname: '/veredict',state: this.state.veredictState }} />
@@ -196,17 +222,15 @@ export default class AgendaComponent extends Component {
     <div >
     <br/>
     <br/>
-      <div >
       
-
-        {this.state.toggleButtons ? 
-          <button onClick={this.handleClickPastApp} className="btn btn-outline-dark btn-sm float-left button-upcoming">Past Appearances</button>
-          :
-          <button onClick={this.handleClickUpcomming} className="btn btn-outline-dark btn-sm float-left button-upcoming">Upcomming</button>
-        }
-          <button onClick={this.handleClickViewAll} className="btn btn-outline-dark btn-sm float-right button-upcoming">View All</button>
-
+      <div className="flex-space-between">      
+        <div> 
+        <button onClick={this.handleClickPastApp} className={pastAppClass}>Past Appearances</button>
+         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcomming</button>
+        </div>
+        <button onClick={this.handleClickViewAll} className={viewClass}>View All</button>
       </div>
+
       <br />
       <br />
       <br />
@@ -216,8 +240,7 @@ export default class AgendaComponent extends Component {
        {data.map(x =>
     
       <div key={x._id} onClick={this.handleClickAppearance.bind(this,x)} >
-        {x.subscription.seekerId === this.state.userId && x.subscription.attorneyRate ? "You don't have future appearances to attend" :
-          x.attorneyId === this.state.userId && x.subscription.seekerRate ? "You don't have future appearances to attend" :
+        {
           <div>
           <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
           <div className="appearanceBox" >
@@ -262,13 +285,40 @@ export default class AgendaComponent extends Component {
               <button onClick={this.rateAttorney.bind(this, x)} className="btn apply-button ">Rate Appearing Attorney</button>  :
               
               x.subscription.seekerId === this.state.userId && x.status === "finished"  && x.subscription.attorneyRate === undefined ?
-              <button onClick={this.rateAttorney.bind(this, x)} className="btn apply-button ">Rate Record Attorney</button>  :
+              <button onClick={this.rateAttorney.bind(this, x)} className="btn apply-button ">Rate Record Attorney</button>:
 
               x.attorneyId !== this.state.userId  && x.status === "completed" ? 
                <div>
                 <button onClick={this.attorneyInfo.bind(this, x)} className="btn apply-button ">Attorney Info</button>
-                <button onClick={this.viewDetails.bind(this, x)} className="btn apply-button ">View Details</button>
-              </div>: null
+              </div>:
+              x.status === "finished" && x.subscription.seekerId === this.state.userId && x.subscription.seekerRate ? 
+                  <div style={{marginTop: "10px"}}>
+                   <StarRatings
+                     rating={x.subscription.seekerRate}
+                     starRatedColor="#f7bd2a"
+                     starHoverColor="#f7bd2a"
+                     starEmptyColor="white"
+                     name='rating'
+                     starDimension="30px"
+                     starSpacing="2px"
+                   /></div>:
+              x.status === "finished" && x.subscription.seekerId === this.state.userId && x.subscription.seekerRate === undefined ?      
+                "Waiting for record to rate"
+                 :
+              x.status === "finished" && x.subscription.seekerId !== this.state.userId && x.subscription.attorneyRate === undefined ?      
+                "Waiting for appearing to rate"
+                 :
+                  x.subscription.seekerId !== this.state.userId && x.status === "finished" && x.subscription.attorneyRate ? 
+                  <div style={{marginTop: "10px"}}>
+                   <StarRatings
+                     rating={x.subscription.attorneyRate}
+                     starRatedColor="#f7bd2a"
+                     starHoverColor="#f7bd2a"
+                     starEmptyColor="white"
+                     name='rating'
+                     starDimension="30px"
+                     starSpacing="2px"
+                   /></div>: null
            }
           </div>
           </div>
@@ -280,12 +330,13 @@ export default class AgendaComponent extends Component {
     
     }else {
         return ( <div> <br/><br/>
-        {this.state.toggleButtons ? 
-          <button onClick={this.handleClickPastApp} className="btn btn-outline-dark btn-sm float-left button-upcoming">Past Appearances</button>
-          :
-          <button onClick={this.handleClickUpcomming} className="btn btn-outline-dark btn-sm float-left button-upcoming">Upcomming</button>
-        }
-        <button onClick={this.handleClickViewAll} className="btn btn-outline-dark btn-sm float-right button-upcoming">View All</button>
+      <div className="flex-space-between">      
+        <div> 
+        <button onClick={this.handleClickPastApp} className={pastAppClass}>Past Appearances</button>
+         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcomming</button>
+        </div>
+        <button onClick={this.handleClickViewAll} className={viewClass}>View All</button>
+      </div>
           <br/><br/> <p>You don't have future appearances to attend</p><br/><br/> </div> )
     }
   }

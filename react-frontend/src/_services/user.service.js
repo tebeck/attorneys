@@ -18,7 +18,8 @@ export const userServices = {
     makeAttorney,
     multiupload,
     rateAttorney,
-    rateSeeker
+    rateSeeker,
+    getUserProfile
 }
 
 function register(data){
@@ -76,6 +77,20 @@ function getProfile(){
         })
 }
 
+function getUserProfile(body){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/getuserprofile`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+          console.log(data)
+            return data
+        })
+}
 
 function makeAttorney(userId){
       const requestOptions = {

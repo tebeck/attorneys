@@ -21,6 +21,7 @@ router.post('/rateseeker', userController.rateSeeker );
 router.get('/confirmation/:token', userController.confirmation);
 router.get('/profile', validateMiddleware.user,userController.getProfile);
 
+router.post('/getuserprofile', userController.getUserProfile);
 
 // const authMiddleware = require('../middlewares/authorization');
 // router.post('/resend', userController.resendTokenPost);

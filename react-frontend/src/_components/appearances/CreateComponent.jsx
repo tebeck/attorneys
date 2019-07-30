@@ -40,7 +40,7 @@ export default class CreateComponent extends Component {
       caseName:"",
       county:"",
       hearingDate: new Date(),
-      time: '12:30 pm',
+      time: '9:30 am',
       instructions:"",
       price:75,
       caseNumber:"",
@@ -153,7 +153,7 @@ export default class CreateComponent extends Component {
         }
       }
       if (target.name === 'department'){
-        if (target.value.length >= 2) {
+        if (target.value.length < 2) {
           enableNextAction=false
           departmentValid=false;
         }else{
@@ -395,8 +395,7 @@ function Step1(props){
 
 
 
-
-          <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control instructions" onChange={props.handleChange} value={props.instructions} ></input>
+          <textarea name="instructions" placeholder="Description/instructions" className="form-control" cols="40" rows="5" onChange={props.handleChange} value={props.instructions}></textarea>
             <br/>
             <div className="flex-space-between">
               <label> Client present or not?</label>

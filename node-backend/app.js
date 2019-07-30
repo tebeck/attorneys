@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const users = require('./src/routes/users');
+const stripe = require('./src/routes/stripe');
 const ip = require("ip");
 const mongoose = require('mongoose')
 const isvalid = require('./src/middlewares/isvalid');
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 
 // ROUTES
 app.use('/users', users);
+app.use('/stripe', stripe);
 app.use('/files', filesRoute);
 // app.use('/admins', isvalid.admin, adminRoutes);
 app.use('/admins', adminRoutes); // AGREGAR EL ISVALID.ADMIN PARA PROD!!

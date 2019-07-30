@@ -7,9 +7,11 @@ import SearchComponent from './_components/appearances/SearchComponent';
 import CreateComponent from './_components/appearances/CreateComponent';
 import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
+import AddCardComponent from './_components/stripe/AddCardComponent';
 import './_assets/css/ownstylesheet.scss';
 import {url_backend} from './_helpers';
 import LoaderAnimation from './_components/LoaderAnimation';
+
 
 console.log(url_backend);
 
@@ -23,6 +25,7 @@ const GuestComponent = Loader(() => import('./_components/GuestComponent') )
 const HomeComponent = Loader(() => import('./_components/HomeComponent') )
 const DefineRoleComponent = Loader(() => import('./_components/DefineRoleComponent'))
 const NotificationsComponents = Loader(()=> import('./_components/NotificationsComponent'))
+const InfoComponent = Loader(()=> import('./_components/InfoComponent'))
 const TermsComponent = Loader(()=> import('./_components/TermsComponent'))
 
 // Users
@@ -54,7 +57,11 @@ class App extends Component {
     super(props)
     fetch(`${url_backend}`)
      .then( data => {return data.json().then( text=> console.log(text.stage) )} )
+ 
+
   }
+
+
 
   render() {
 
@@ -65,14 +72,16 @@ class App extends Component {
            <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
            <PrivateRoute exact path="/requests" component={RequestsComponent} />
            <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
+           <PrivateRoute exact path="/info" component={InfoComponent} />
            <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
            <PrivateRoute exact path="/rate" component={RateComponent} />
            <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
            <PrivateRoute exact path="/veredict" component={VeredictComponent} />
            <PrivateRoute exact path="/profile" component={ProfileComponent} />
            <PrivateRoute exact path="/findproduct" component={SearchComponent} />
+           <PrivateRoute exact path="/addcard" component={AddCardComponent} />
            <PrivateRoute path="/updateproduct/" component={() => <UpdateComponent />} />
-           
+
            <Route exact path="/" component={GuestComponent} />
            <Route exact path="/terms" component={TermsComponent} />
            <Route exact path="/authenticate" component={AuthenticateComponent} />

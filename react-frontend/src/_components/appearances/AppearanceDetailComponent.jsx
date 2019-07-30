@@ -38,13 +38,17 @@ export default class AppearancesComponent extends Component {
 	  	recordView: props.location.state.recordView,
 	  	appId: props.location.state.appearanceData._id,
 	  	status: props.location.state.appearanceData.status,
+	  	seekerId: props.location.state.appearanceData.subscription.seekerId,
+	  	agendaClick: props.location.state.agendaClick,
+	  	myRequestsClick: props.location.state.myRequestsClick,
+	  	appearancesClick: props.location.state.appearancesClick,
       	files: [],
       	redirectHome: false,
       	showLoader: true,
       	redirectMyRequests: false
       };
       
-      	console.log(this.state.isAttorney)
+      	console.log(props.location.state)
 
 		docs = this.state.documents
       
@@ -82,7 +86,7 @@ export default class AppearancesComponent extends Component {
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input	
 
 
-    console.log(this.state.status)
+    
 
 
 
@@ -120,7 +124,7 @@ export default class AppearancesComponent extends Component {
       let body = {
      	appId: this.state.appId
       }
-      console.log(body)
+      
        appearanceService._delete(body)
         .then(alert("Appearance deleted"))
         .then(window.location.assign('/home'))
@@ -148,9 +152,6 @@ export default class AppearancesComponent extends Component {
 
 
 
-    handleInit() {
-        console.log('FilePond instance has initialised');
-    }
 
 
 
@@ -206,7 +207,6 @@ export default class AppearancesComponent extends Component {
 	   appearanceService.deleteFile(etag)
 	  	.then(data => {
 	  		if(data.status == 200){
-	  			console.log(data)
 			  this.setState({
 			  	documents: docs
 		 	  })
@@ -246,7 +246,7 @@ export default class AppearancesComponent extends Component {
      
      uploadForm.delete('avatar')
 
-     console.log(uploadForm.getAll('avatar'))
+     
      this.setState({ newDocuments: [] });
     }
 
@@ -264,7 +264,7 @@ export default class AppearancesComponent extends Component {
 
 
 
-console.log(docs)
+
 
 
   if (this.state.redirectHome) { return <Redirect to={{
@@ -281,7 +281,10 @@ console.log(docs)
      
      if( 
       this.state.status === "accepted" ||
-      this.state.status === "completed" || this.state.status === "finished" || !this.state.recordView ){
+      this.state.status === "completed" ||
+      this.state.status === "finished" ||
+      this.state.userId === this.state.seekerId ||
+      !this.state.recordView ){
    	   checkStatus = false;
      } else {
        checkStatus = true;
@@ -313,12 +316,22 @@ console.log(docs)
 	  </Modal>
 
 
-	      <Link style={{color: "black"}} to={{
-      		pathname: '/home',
-      		state: { key: "myappearances"} }}>
+	    {this.state.agendaClick ? 
+	     <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "agenda"} }}>
 	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
 	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
-	      </Link>			
+	    </Link>:
+	    this.state.appearancesClick ?
+	    <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "myappearances"} }}>
+	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
+	    </Link>:
+	    this.state.myRequestsClick ?
+	    <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "myrequests"} }}>
+	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
+	    </Link>:null
+		}
 	       <hr />
 	      	 <div>
 	      	  <div className="appearanceDate">
@@ -394,7 +407,8 @@ console.log(docs)
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
 	            <p className="adTitle">Description</p>
-	             <input name="instructions" type="text" className="form-control instructions" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}/>
+	            <textarea name="instructions" className="form-control" cols="40" rows="5" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}></textarea>
+	             
 	            <hr />
 	            
 	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }

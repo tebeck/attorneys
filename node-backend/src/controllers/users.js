@@ -315,6 +315,15 @@ makeAttorney: function(req, res, next){
     sendMail: function(req, res, next){
         send.email(req.body.email, req.body.subject, req.body.text)
       return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })
-    }
+    },
+
+    getUserProfile: function(req, res, next){
+     userModel.findById(req.body.uid , function (err, user) {
+       if (err) {return res.status(500).send({ message: err.message })}
+       if (!user) {return res.status(409).send({message: "no user found"})}
+        return res.status(200).send({data: user})
+       
+     })
+   }
 
 }

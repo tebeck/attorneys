@@ -8,6 +8,8 @@ import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
 import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 import LoaderAnimation from '../LoaderAnimation';
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
 
 export default class ProfileComponent extends Component {
 
@@ -52,6 +54,7 @@ export default class ProfileComponent extends Component {
         policy: data.data.policy,
         streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
         image: data.data.profilePicture,
+        stripe_user_id: data.data.stripe_user_id,
         data: data.data
         
         })
@@ -197,6 +200,8 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
+    console.log(this.state)
+
    const {showLoader} = this.state
   if(showLoader){
   return (
@@ -235,6 +240,21 @@ export default class ProfileComponent extends Component {
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
+
+                
+
+
+
+
+      {
+        this.state.stripe_user_id ? <div>You are already connected to stripe<br/><br/><Link className="btn btn-outline-primary" to="/addcard">ADD CREDIT CARD</Link><br/><br/><br/><br/></div> :
+        <p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0&amp;scope=read_write" className="connect-button"><span>Connect with Stripe</span></a></p>
+        
+      }
+
+
+
+
 
                   <form onSubmit={this.handleAccSubmit}>
                     <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
@@ -277,10 +297,6 @@ export default class ProfileComponent extends Component {
                       <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
                       <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
                     </div>
-{/*                    <div className="form-group">
-                      <label htmlFor="policy" className="profileInputsTitle">Practice Insurance Policy Number</label>
-                      <input id="policy" name="policy" className="form-control bigInput" value={this.state.policy} placeholder={this.state.policy} onChange={this.handleChange} type="text" />
-                    </div>*/}
                     <div className="form-group">
                       <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
                       <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />
