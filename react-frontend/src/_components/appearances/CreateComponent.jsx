@@ -4,24 +4,27 @@ import {appearanceService, userServices} from '../../_services';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";
 import Modal from 'react-awesome-modal';
-import TimePicker from 'rc-time-picker';
+// import TimePicker from 'rc-time-picker';
 import backbutton from '../../_assets/img/btnback.png'
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import 'moment/locale/it.js';
-import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import requestImg from '../../_assets/img/request/request_published.png'
 import Switch from "react-switch";  
-let uploadForm = new FormData();
-const format = 'h:mm a';
+import checkImg from '../../_assets/img/appearance/appearance_check.png'
+import TimeKeeper from 'react-timekeeper';
+import DatePicker from "react-datepicker";
 
+let uploadForm = new FormData();
 
 
 export default class CreateComponent extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       ...this.state,
       visible: false,
@@ -35,9 +38,9 @@ export default class CreateComponent extends Component {
       areaOfLaw:"",
       department:"",
       caseName:"",
-      goal:"",
+      county:"",
       hearingDate: new Date(),
-      time: moment().hour(0).minute(0),
+      time: '9:30 am',
       instructions:"",
       price:75,
       caseNumber:"",
@@ -51,7 +54,7 @@ export default class CreateComponent extends Component {
       departmentValid: false,
       caseNameValid: false,
       caseNumberValid: false,
-      goalValid: false
+      countyValid: false
 
     }
 
@@ -59,6 +62,7 @@ export default class CreateComponent extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input
+    console.log(this.state)
   }
 
 
@@ -69,7 +73,14 @@ export default class CreateComponent extends Component {
     const {errors, ...noErrors} = this.state // seteo todo en el estado.
     const result = validate(noErrors)
     this.setState({errors: result})
+    
+    if(this.state.documents.length < 1){
+     var confirmFiles = window.confirm("You're submitting the request without files, is it correct?") 
+    } else {
+     confirmFiles = true 
+    }
 
+    if (confirmFiles) {
     if(!Object.keys(result).length) {
       console.log(noErrors)
       appearanceService.create(noErrors)
@@ -80,12 +91,14 @@ export default class CreateComponent extends Component {
     else {
       this.setState({ errors: result  })
     }
-  }
 
+
+    }
+  }
+  
 
 
   fileSelectedHandler = ({target}) => {
-    console.log("a")
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
    }
@@ -102,12 +115,7 @@ export default class CreateComponent extends Component {
 
 
   deleteFiles = (e) => {
-  // var newDocuments = this.state.location; // Copio el array
-  // var id = target.id
-  //  console.log(id)
-  //  console.log(uploadForm.getAll('avatar'))
-  //  newDocuments.splice(id, 1); // Delete with ID from newFiles
-  //  doc.splice(id, 1)
+
    e.preventDefault()
     var r = window.confirm("Do you want to clear all files?");
     if (r == true) {
@@ -133,7 +141,7 @@ export default class CreateComponent extends Component {
     let departmentValid = this.state.departmentValid;
     let caseNameValid = this.state.caseNameValid;
     let caseNumberValid = this.state.caseNumberValid;
-    let goalValid = this.state.goalValid;
+    let countyValid = this.state.countyValid;
 
     if (this.state.currentStep === 1){
       if (target.name === 'courtHouse'){
@@ -145,7 +153,7 @@ export default class CreateComponent extends Component {
         }
       }
       if (target.name === 'department'){
-        if (target.value.length<2) {
+        if (target.value.length < 2) {
           enableNextAction=false
           departmentValid=false;
         }else{
@@ -169,16 +177,16 @@ export default class CreateComponent extends Component {
           caseNumberValid=true;
         }
       }
-      if (target.name === 'goal'){
+      if (target.name === 'county'){
         if (target.value.length<2) {
           enableNextAction=false
-          goalValid=false;
+          countyValid=false;
         }else{
-          goalValid=true;
+          countyValid=true;
         }
       }
 
-      if (courtHouseValid && departmentValid && caseNameValid && goalValid && caseNumberValid){
+      if (courtHouseValid && departmentValid && caseNameValid && countyValid && caseNumberValid){
         enableNextAction=true
       }
       
@@ -187,7 +195,7 @@ export default class CreateComponent extends Component {
         departmentValid: departmentValid,
         caseNumberValid: caseNumberValid,
         caseNameValid: caseNameValid,
-        goalValid: goalValid,
+        countyValid: countyValid,
         enableNextAction: enableNextAction
       };
 
@@ -214,7 +222,12 @@ export default class CreateComponent extends Component {
   closeModal() {this.setState({visible : false, redirectHome: true})}
 
   handleDateChange(date) { this.setState({ hearingDate: date })}
-  handleTimeChange(time){ this.setState({ time: time })}
+  handleTimeChange(newTime){
+    this.setState({ 
+      time: newTime.formatted 
+    })
+  }
+  
   _next = () => {
     let currentStep = this.state.currentStep
     if (!this.state.enableNextAction){ // there are errors
@@ -279,7 +292,7 @@ export default class CreateComponent extends Component {
           department={this.state.department}
           caseName={this.state.caseName}
           caseNumber={this.state.caseNumber}
-          goal={this.state.goal}
+          county={this.state.county}
           state={this.state}
           
         />
@@ -308,7 +321,7 @@ export default class CreateComponent extends Component {
         {errors.department && <div className="alert alert-danger" role="alert">{errors.department}</div>}
         {errors.caseName && <div className="alert alert-danger" role="alert">{errors.caseName}</div>}
         {errors.caseNumber && <div className="alert alert-danger" role="alert">{errors.caseNumber}</div>}
-        {errors.goal && <div className="alert alert-danger" role="alert">{errors.goal}</div>}
+        {errors.county && <div className="alert alert-danger" role="alert">{errors.county}</div>}
         {errors.hearingDate && <div className="alert alert-danger" role="alert">{errors.hearingDate}</div>}
         {errors.time && <div className="alert alert-danger" role="alert">{errors.time}</div>}
         {errors.instructions && <div className="alert alert-danger" role="alert">{errors.instructions}</div>}
@@ -329,9 +342,10 @@ function Step1(props){
     }
     return(
       <div>
-        <ProgressBar  height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <br />
+        <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
-            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Court House" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
+            <input name="county"       placeholder="County"        type="text" className={props.state.countyValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.county} ></input>
+            <input className={props.state.courtHouseValid || !props.state.enableErrors ? "form-control" : "error"} name="courtHouse" placeholder="Courthouse" type="text"  onChange={props.handleChange} value={props.courtHouse} ></input>
             <div className="input-group mb-3"><div className="input-group-prepend">
             <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
               <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" onChange={props.handleChange} value={props.areaOfLaw}>
@@ -341,11 +355,10 @@ function Step1(props){
                 <option value="COMMON">COMMON</option>
               </select>
             </div>
-
+            
             <input name="department" placeholder="Department"  type="text" className={props.state.departmentValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.department} ></input>
             <input name="caseName"   placeholder="Case Name"   type="text" className={props.state.caseNameValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseName} ></input>
             <input name="caseNumber" placeholder="Case Number" type="text" className={props.state.caseNumberValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseNumber} ></input>
-            <input name="goal"       placeholder="Goal"        type="text" className={props.state.goalValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.goal} ></input>
       </div>
       )
   }
@@ -358,7 +371,7 @@ function Step1(props){
 
     return (
       <div>
-      <ProgressBar  height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <br /><br />
+      <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img className="check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
             
             <DatePicker
@@ -367,28 +380,27 @@ function Step1(props){
               onChange={ props.handleDateChange }
               name="hearingDate"
               value={ props.state.hearingDate }
-              dateFormat="dd/mm/yyyy"
               locale="en"
+              dateFormat="yyyy-dd-MM"
             />
-            
+             
+             <TimeKeeper 
+               time={props.state.time}
+               name="time" 
+               onChange={props.handleTimeChange} 
+               config={{
+                    TIME_SELECTED_COLOR: '#2ad4ae'
+                    }}
+             />
 
-            
-            <TimePicker
-              showSecond={false}
-              defaultValue={props.time}
-              value={props.time}
-              className="form-control"
-              onChange={props.handleTimeChange}
-              format={format}
-              use12Hours
-              inputReadOnly
-            />
 
-          <input name="instructions"  placeholder="Description/instructions" type="text" className="form-control instructions" onChange={props.handleChange} value={props.instructions} ></input>
+
+          <textarea name="instructions" placeholder="Description/instructions" className="form-control" cols="40" rows="5" onChange={props.handleChange} value={props.instructions}></textarea>
             <br/>
             <div className="flex-space-between">
               <label> Client present or not?</label>
-                 <Switch onChange={props.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.clientPresent} />
+                <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span><Switch onChange={props.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.clientPresent} /><span style={{marginLeft:"5px"}}>Yes</span></div>
             </div>
             <br/>
 
@@ -396,7 +408,9 @@ function Step1(props){
             <br/>
             <div className="flex-space-between">
               <label> Late call accepted?</label>
-                 <Switch onChange={props.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.lateCall} />
+                 <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span>
+                 <Switch onChange={props.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.lateCall} /><span style={{marginLeft:"5px"}}>Yes</span></div>
             </div>
             <br/>
 
@@ -410,13 +424,13 @@ function Step1(props){
               </label><br/>
             </div>
 
-            <ul>
+            <div>
             {props.state.documents ? 
               props.state.documents.map((x,i) => (
-            <div key={i}><li>{x.originalname}</li></div>
+                  <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
               )): null}
-              {props.state.documents ? <button onClick={props.deleteFiles}>Clear files</button> : null }
-            </ul>
+              {props.state.documents.length > 0 ? <button className="clearFiles" onClick={props.deleteFiles}>Clear files</button> : null }
+            </div>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
             <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
@@ -447,8 +461,8 @@ function Step1(props){
   if(!values.caseNumber) {
     errors.caseNumber = 'Insert caseNumber'
   }
-  if(!values.goal) {
-    errors.goal = 'Insert goal'
+  if(!values.county) {
+    errors.county = 'Insert County'
   }
   if(!values.hearingDate) {
     errors.hearingDate = 'Insert hearingDate'

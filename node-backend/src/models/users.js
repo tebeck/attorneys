@@ -101,33 +101,28 @@ var users = new Schema({
     default: 0
   },
   reviews: [
-    {
-      seekerId: {
+   {
+      attorneyId: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       appearanceId: {
         type: String,
-        required: true,
-        default: ''
-      },
-      postulationId: {
-        type: String,
-        required: true,
+        required: false,
         default: ''
       },
       comment: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       rating: {
-        type: Number,
-        required: true,
+        type: String,
+        required: false,
         default: 0
       }
-    }
+   }
   ],
   isVerified: {
     type: Boolean,
@@ -144,6 +139,14 @@ var users = new Schema({
   status:{
     type: String,
     default: "OK"
+  },
+  stripe_token_id: {
+    type: String,
+    required: false
+  },
+  stripe_user_id: {
+    type: String,
+    required: false
   }
 },{
     collection: 'users', timestamps: true

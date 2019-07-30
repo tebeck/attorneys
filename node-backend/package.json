@@ -7,7 +7,7 @@
     "client": "cd .. && cd react-frontend && cd client && nodemon start",
     "server": "nodemon app.js",
     "start": "nodemon app.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "dev": "concurrently --kill-others-on-fail \"cd ../react-frontend && nodemon app\" \"nodemon app\""
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +38,8 @@
     "npm": "^6.9.0",
     "path": "^0.12.7",
     "pino": "^5.12.3",
+    "request": "^2.88.0",
+    "stripe": "^7.5.1",
     "update": "^0.7.4"
   }
 }

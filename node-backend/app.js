@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const users = require('./src/routes/users');
+const stripe = require('./src/routes/stripe');
 const ip = require("ip");
 const mongoose = require('mongoose')
 const isvalid = require('./src/middlewares/isvalid');
@@ -15,7 +16,6 @@ mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex
 const filesRoute = require('./src/routes/files');
 const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
-const postulationsRoutes = require('./src/routes/postulations');
 const notificationsRoutes = require('./src/routes/notifications');
 
 // MIDDLEWARES
@@ -26,11 +26,11 @@ app.use(bodyParser.json());
 
 // ROUTES
 app.use('/users', users);
+app.use('/stripe', stripe);
 app.use('/files', filesRoute);
 // app.use('/admins', isvalid.admin, adminRoutes);
 app.use('/admins', adminRoutes); // AGREGAR EL ISVALID.ADMIN PARA PROD!!
 app.use('/appearances',isvalid.user ,appearancesRoutes);
-app.use('/postulations',isvalid.user ,postulationsRoutes);
 app.use('/notifications',isvalid.user ,notificationsRoutes);
 
 

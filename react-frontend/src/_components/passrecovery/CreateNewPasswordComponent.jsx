@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {userServices} from '../../_services/user.service'
 import Modal from 'react-awesome-modal';
 import Header from '../HeaderComponent';
@@ -24,7 +24,8 @@ export default class CreateNewPasswordComponent extends Component {
     this.state = {
       confirmationCode: this.props.location.search.split('=')[1],
       errors: {},
-      data: ""
+      data: "",
+      redirectHome: false
     };
 
 
@@ -35,6 +36,7 @@ export default class CreateNewPasswordComponent extends Component {
     const {errors, ...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
     this.setState({errors: result})
+    console.log(noErrors)
     if(!Object.keys(result).length) {
     // Enviar form
       userServices.changePassword(noErrors)
@@ -53,7 +55,8 @@ export default class CreateNewPasswordComponent extends Component {
 
     closeModal() {
         this.setState({
-            visible : false
+            visible : false,
+            redirectHome: true
         });
     }
 
@@ -64,12 +67,21 @@ export default class CreateNewPasswordComponent extends Component {
   }
 
 	render() {
-        const {errors, confirmationCode, data} = this.state
+
+    if(this.state.redirectHome){
+      return <Redirect push to={{ pathname: "/home" }} />;
+    }
+
+    const {errors, confirmationCode, data} = this.state
 		return (
       <div>
         <Header guest="1" />
         <div className="container main-body">
-              <h3><Link style={{color: "black"}} to="/recoverpassword"><img width="16px" src={backbutton} alt="esquired" /></Link> Set up new password</h3><br />
+         <Link style={{color: "black"}} to="/home">
+         <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+         <h3 style={{display: "inline"}  }> Set up new password</h3>
+        </Link>   
+        <hr />
 
                 <Modal
                     visible={this.state.visible}
@@ -80,20 +92,22 @@ export default class CreateNewPasswordComponent extends Component {
 
                   <div style={{padding: "30px",textAlign: "center"}}>
                     <h5>{data}</h5>
+                    <button onClick={() => this.closeModal()} className="recoverPassButton link-button">Close</button>
                   </div>
+
                 </Modal>
 
                 <form onSubmit={this.handleSubmit}>
-                    <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Insert new password"  name="password" onChange={this.handleChange} />
+                    <div className="form-group">
+                      <input type="password" className="form-control" placeholder="Insert new password"  name="password" onChange={this.handleChange} />
                       {errors.password && <div className="alert alert-danger" role="alert">{errors.password}</div> }
                     </div>
-                     <div class="form-group">
-                      <input type="password" class="form-control" placeholder="Confirm new password"  name="confirm" onChange={this.handleChange} />
+                     <div className="form-group">
+                      <input type="password" className="form-control" placeholder="Confirm new password"  name="confirm" onChange={this.handleChange} />
                       {errors.confirm && <div className="alert alert-danger" role="alert">{errors.confirm}</div> }
                     </div>
                     <input type="hidden" value={confirmationCode} />
-                      <button type="submit" class="btn btn-block btn-primary link-button">Submit</button>
+                      <button type="submit" className="btn btn-block btn-primary link-button">Submit</button>
                 </form>
             </div>
             </div>

@@ -15,9 +15,13 @@ router.post('/updateprofinfo', userController.updateprofinfo);
 router.post('/makeseeker', userController.makeSeeker );
 router.post('/makeattorney', userController.makeAttorney );
 
+router.post('/rateattorney', userController.rateAttorney );
+router.post('/rateseeker', userController.rateSeeker );
+
 router.get('/confirmation/:token', userController.confirmation);
 router.get('/profile', validateMiddleware.user,userController.getProfile);
 
+router.post('/getuserprofile', userController.getUserProfile);
 
 // const authMiddleware = require('../middlewares/authorization');
 // router.post('/resend', userController.resendTokenPost);

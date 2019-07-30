@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
 import Popup from "reactjs-popup";
-// import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
-// import Modal from 'react-awesome-modal';
 import Cookie from 'js-cookie'
 import listFilterImg from '../../_assets/img/listing_filter.png'
 import listSortImg from '../../_assets/img/listing_sort.png'
@@ -38,8 +36,7 @@ export default class AppearancesComponent extends Component {
 	 this.setState({
 	  goToDetail: true,
 	  appearanceData: x,
-	  recordView: false,
-	  appearancesClick: true
+	  recordView: false
 	 })
     }
 
@@ -89,8 +86,7 @@ export default class AppearancesComponent extends Component {
 	   state: { 
 	   	appearanceData: this.state.appearanceData,
 	    isAttorney: false,
-	    recordView: this.state.recordView,
-	    appearancesClick: this.state.appearancesClick
+	    recordView: this.state.recordView
 	   }
 	 }}/>)
   }

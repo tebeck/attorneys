@@ -223,7 +223,6 @@ nextButton(){
   handleChange = ({target}) =>{
 
     this.state.errors.creditCard = false;
-    
 
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
@@ -342,7 +341,6 @@ if (this.state.currentStep === 2){
     }
       if (streetAddrOneValid && cityValid && zipValid){
         enableNextAction=true
-        console.log("ahora es true!")
       }
       const newState = {
         emailValid: emailValid,
@@ -459,7 +457,7 @@ if (this.state.currentStep === 2){
               <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
               <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="insurancePolicy" onChange={this.onChange} required />: null }
+               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="stateBar" onChange={this.onChange} required />: null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
@@ -546,7 +544,7 @@ function Step1(props){
     return(
       <div>
         <br />
-        <div className="center"><ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div><br />
+        <div className="center"><ProgressBar height={5} percent={45} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <br />
         <p>Complete info</p>
         <input className={props.state.firstNameValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firstName"   placeholder="First Name"          value={props.firstName}   onChange={props.handleChange}></input>
@@ -574,7 +572,7 @@ function Step1(props){
     return (
       <div>
       <br />
-        <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /> </div>
+        <div className="center"><ProgressBar  height={5} percent={75} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /> </div>
         <br />
         <input className={props.state.streetAddrOneValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="streetAddrOne"   placeholder="Street Address 1" value={props.streetAddrOne}   onChange={props.handleChange}></input>
         <input className="form-control" type="text" name="streetAddrTwo"   placeholder="Street Address 2" value={props.streetAddrTwo}   onChange={props.handleChange}></input>
@@ -582,15 +580,16 @@ function Step1(props){
         <SelectUSState default="" className="form-control" name="_state" onChange={props.setNewState}/>
         <input className={props.state.zipValid||!props.state.enableErrors ? "form-control" : "error"}           type="text" name="zip"             placeholder="Zip"              value={props.zip}             onChange={props.handleChange}></input>
         
-        {/*<input className="form-control" type="text" name="policy"          placeholder="Policy"           value={props.policy}          onChange={props.handleChange}></input>*/}
+        
         <br/>
         <div className="flex-space-between">
           <label> Do you have professional liability insurance?</label>
-             <Switch onChange={props.handleChangeCheck} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.policy} />
+            <div className="flex-space-between">
+                 <span style={{marginRight: "5px"}}>No </span><Switch onChange={props.handleChangeCheck} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} checked={props.policy} /><span style={{marginLeft:"5px"}}>Yes</span></div>
         </div>
         <br/>
         
-        {props.state.isSeeker ? <input className="form-control" type="text" name="insurancePolicy" placeholder="Insurance Policy" value={props.insurancePolicy} onChange={props.handleChange}></input> : null}
+        
       </div>
     )
   }
@@ -603,7 +602,7 @@ function Step1(props){
     return (
        <div>
        <br />
-        <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img width="18px" src={checkImg} /></div>
+        <div className="center"><ProgressBar height={5} percent={100} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" width="18px" src={checkImg} /></div>
         <br />
         
         <div className="text-center">

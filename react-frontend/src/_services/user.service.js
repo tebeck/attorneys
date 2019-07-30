@@ -16,7 +16,10 @@ export const userServices = {
     updateAccountInfo,
     updateProfInfo,
     makeAttorney,
-    multiupload
+    multiupload,
+    rateAttorney,
+    rateSeeker,
+    getUserProfile
 }
 
 function register(data){
@@ -54,7 +57,10 @@ function upload(image){
 
 function multiupload(images){
     return axios.post(`${url_backend}/files/multiupload`, images , {headers: authHeader()})
-        .then(data => {return data})
+        .then(data => {
+          console.log(data)
+          return data
+        })
 }
 
 function getProfile(){
@@ -71,6 +77,20 @@ function getProfile(){
         })
 }
 
+function getUserProfile(body){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/getuserprofile`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+          console.log(data)
+            return data
+        })
+}
 
 function makeAttorney(userId){
       const requestOptions = {
@@ -80,6 +100,34 @@ function makeAttorney(userId){
     }
 
     return fetch(`${url_backend}/users/makeattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+function rateAttorney(body){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/rateattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+function rateSeeker(body){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`${url_backend}/users/rateseeker`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data
@@ -142,7 +190,7 @@ function makeSeeker(userId){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, userId: data.result._id}, { path: '' })   
                 } else 
                 if(data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.user._id}, { path: '' })
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.result._id}, { path: '' })
                 }
              return data;
             }

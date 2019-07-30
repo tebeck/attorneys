@@ -8,6 +8,8 @@ import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
 import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 import LoaderAnimation from '../LoaderAnimation';
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
 
 export default class ProfileComponent extends Component {
 
@@ -52,6 +54,7 @@ export default class ProfileComponent extends Component {
         policy: data.data.policy,
         streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
         image: data.data.profilePicture,
+        stripe_user_id: data.data.stripe_user_id,
         data: data.data
         
         })
@@ -155,23 +158,25 @@ export default class ProfileComponent extends Component {
    })
   }
   
-  // handleSeeker = () =>{
+  handleSeeker = () =>{
 
-  //  let body = {
-  //    userId: this.state._userId
-  //  }
+   let body = {
+     userId: this.state._userId
+   }
 
-  //   userServices.makeSeeker(body)
-  //     .then(res => {
-  //       if (res.state !== 200) {
-  //         console.log(res)
-  //     } else {
-  //         console.log(res)
-  //         let token = Cookies.getJSON('esquired').token;
-  //         Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true,onHold: false}, { path: '' })   
-  //    } 
-  //  })
-  // }
+    userServices.makeSeeker(body)
+      .then(res => {
+        if (res.state !== 200) {
+          console.log(res)
+
+      } else {
+          console.log(res)
+          let token = Cookies.getJSON('esquired').token;
+          Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true, onHold: true}, { path: '' })   
+          alert("Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted")
+     } 
+   })
+  }
 
     handleLogout = () =>{
     Cookies.remove('esquired');
@@ -195,7 +200,9 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-   const {errors, showLoader} = this.state
+    console.log(this.state)
+
+   const {showLoader} = this.state
   if(showLoader){
   return (
       <div className="centered"><LoaderAnimation /></div>
@@ -222,17 +229,32 @@ export default class ProfileComponent extends Component {
                    <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? 
                        <div>
-                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
                          <img  alt="avatar" width="200px" src={this.state.profilePicture} />
                        </div>
                        : 
                        <div>
-                         <img className="edit-photo-img" src={editPhotoImg} />
+                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
                          <img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br />
                        </div> }
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
+
+                
+
+
+
+
+      {
+        this.state.stripe_user_id ? <div>You are already connected to stripe<br/><br/><Link className="btn btn-outline-primary" to="/addcard">ADD CREDIT CARD</Link><br/><br/><br/><br/></div> :
+        <p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0&amp;scope=read_write" className="connect-button"><span>Connect with Stripe</span></a></p>
+        
+      }
+
+
+
+
 
                   <form onSubmit={this.handleAccSubmit}>
                     <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
@@ -261,7 +283,7 @@ export default class ProfileComponent extends Component {
                     <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
                     
                     { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
-                    {/*{ !Cookies.getJSON('esquired').isSeeker ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleSeeker}>Be Appearing Attorney</button> : null }<br/>*/}
+                    { !Cookies.getJSON('esquired').isSeeker ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleSeeker}>Be Appearing Attorney</button> : null }<br/>
 
                     <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
                   </form><br/><br/>
@@ -275,10 +297,6 @@ export default class ProfileComponent extends Component {
                       <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
                       <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
                     </div>
-{/*                    <div className="form-group">
-                      <label htmlFor="policy" className="profileInputsTitle">Practice Insurance Policy Number</label>
-                      <input id="policy" name="policy" className="form-control bigInput" value={this.state.policy} placeholder={this.state.policy} onChange={this.handleChange} type="text" />
-                    </div>*/}
                     <div className="form-group">
                       <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
                       <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />

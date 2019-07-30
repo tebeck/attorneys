@@ -18,8 +18,15 @@ import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import LoaderAnimation from '../LoaderAnimation';
 import {url_backend} from '../../_helpers';
+import uploadImg from '../../_assets/img/request/request_upload.png'
+import TimeKeeper from 'react-timekeeper';
+import DatePicker from "react-datepicker";
+import moment from 'moment';
+import 'rc-time-picker/assets/index.css';
+import 'moment/locale/it.js';
 
-
+let docs = []
+let uploadForm = new FormData();
 const formData = new FormData(); // Currently empty
 export default class AppearancesComponent extends Component {
 	
@@ -28,18 +35,27 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
 	  	userId: Cookie.getJSON('esquired').userId,
-	  	isAttorney: props.location.state.isAttorney, 
+	  	recordView: props.location.state.recordView,
 	  	appId: props.location.state.appearanceData._id,
+	  	status: props.location.state.appearanceData.status,
+	  	seekerId: props.location.state.appearanceData.subscription.seekerId,
+	  	agendaClick: props.location.state.agendaClick,
+	  	myRequestsClick: props.location.state.myRequestsClick,
+	  	appearancesClick: props.location.state.appearancesClick,
       	files: [],
       	redirectHome: false,
-      	showLoader: true
+      	showLoader: true,
+      	redirectMyRequests: false
       };
       
+      	console.log(props.location.state)
+
+		docs = this.state.documents
       
 	   let body = {
 	     appId: props.location.state.appearanceData._id
 	   }
-   		appearanceService.getSpecific(body)
+   		appearanceService.getAppDetail(body)
 	      .then((result) => 	
 	      	this.setState({
 	      		result: result.data,
@@ -50,14 +66,27 @@ export default class AppearancesComponent extends Component {
 	      		areaOfLaw: result.data.areaOfLaw,
 	      		department: result.data.department,
 	      		instructions: result.data.instructions,
-	      		documents: result.data.documents
+	      		documents: result.data.documents,
+	      		county: result.data.county,
+                hearingDate: new Date(result.data.hearingDate),
+                time: result.data.time,
+                veredictDocs: result.data.subscription.veredictDocs,
+                veredictDetail: result.data.subscription.information,
+                appearanceState: result.data.subscription.state
+
+
 
 	      	})
-	      ) 
+	      )
+
+
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);	      
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input	
 
 
+    
 
 
 
@@ -65,19 +94,23 @@ export default class AppearancesComponent extends Component {
 	}
 	
 
+  handleDateChange(date) { this.setState({ hearingDate: date })}
+  handleTimeChange(newTime){
+    this.setState({ 
+      time: newTime.formatted 
+    })
+  }
 
 	handleClick = (e) =>{
 	 e.preventDefault()
 
     let body = {
-      appId: this.state.appId,
-      email: this.state.email
+      appId: this.state.appId
     }
 
      appearanceService.subscribe(body)
      	.then(data => {
           if(data.status === 200){
-           userServices.sendmail(data)
 	       this.openModal()
           }
      	}
@@ -85,25 +118,40 @@ export default class AppearancesComponent extends Component {
 
 
     cancelAppearance = (e) =>{
-    	e.preventDefault()
-    	alert("Delete appearance?")
+      e.preventDefault()
+	  var _deleteApp = window.confirm("Are you sure you want to delete this appearance?");
+	  if (_deleteApp == true) {
+      let body = {
+     	appId: this.state.appId
+      }
+      
+       appearanceService._delete(body)
+        .then(alert("Appearance deleted"))
+        .then(window.location.assign('/home'))
+      }
     }
 	
 
 	handleUpdate = (e) => {
 	 e.preventDefault()
-	 console.log(this.state.files)
 
-	 appearanceService.updateAll(this.state)
-	 	.then(data => console.log(data))
+	 if(this.state.newDocuments){
+	 this.state.newDocuments.map(x =>{
+	 	this.state.documents.push(x)
+	 })
+	}
+
+	 appearanceService.update(this.state)
+	 	.then(data => alert("Your request was succesfully updated"))
+	 	.then(uploadForm.delete('avatar'))
+	 	.then(this.setState({
+	 	  redirectMyRequests: true
+	 	}))
 
 	}
 
 
 
-    handleInit() {
-        console.log('FilePond instance has initialised');
-    }
 
 
 
@@ -145,7 +193,7 @@ export default class AppearancesComponent extends Component {
   handleDelete = (e) =>{
   	e.preventDefault()
    
-	var _delete = window.confirm("Are you sure you wish to delete this item?");
+	var _delete = window.confirm("Are you sure you want to delete this item?");
 	if (_delete == true) {
    
 	   let etag = {
@@ -153,14 +201,12 @@ export default class AppearancesComponent extends Component {
 	  	 appId: this.state.appId,
 	   }
 
-	   let docs = this.state.documents
+	   
 	   docs.splice(e.target.id, 1)
 	  
-
-	   appearanceService.deleteSingleDocument(etag)
+	   appearanceService.deleteFile(etag)
 	  	.then(data => {
 	  		if(data.status == 200){
-	  			console.log(data)
 			  this.setState({
 			  	documents: docs
 		 	  })
@@ -177,46 +223,74 @@ export default class AppearancesComponent extends Component {
 
 
 
+  fileSelectedHandler = ({target}) => {
+   for (var i = 0; i < target.files.length; i++) {
+     uploadForm.append('avatar', target.files[i] , target.files[i].name)
+   }
+
+    userServices.multiupload(uploadForm)
+      .then(data => {
+         this.setState({
+          newDocuments: data.data.location 
+         })
+
+      })
+      .then(target.value = '')
+  }
+
+  clearFiles = (e) => {
+
+   e.preventDefault()
+    var r = window.confirm("Do you want to clear all files?");
+    if (r == true) {
+     
+     uploadForm.delete('avatar')
+
+     
+     this.setState({ newDocuments: [] });
+    }
+
+  }
+
+
+
 
  render() {
 
  	const {result, documents} = this.state
- 	
- 	console.log(this.state.documents)
-// 	const serverUpload = `${url_backend}/files/multiupload`;
-
-	const serverConfig = {
-	       url: `${url_backend}/files/multiupload`,
-        timeout: 7000,
-        process: {
-            method: 'POST',
-        	onload: (response) => { console.log(JSON.parse(response).map(x => x.location) ) }
-        },
-        
-        revert: null,
-        restore: './restore/',
-        load: './load/'
-    };
-
-
-
-
+ 	docs = this.state.documents
 	if(result){
 
 
-		 		
-	let location = result.documents.map(z =>
-		z.location )
+
+
 
 
 
   if (this.state.redirectHome) { return <Redirect to={{
       pathname: '/home',
       state: { key: "myappearances"} }} />
-   } // Go back to /definerole
+   }
+  if (this.state.redirectMyRequests) { return <Redirect to={{
+      pathname: '/home',
+      state: { key: "myrequests"} }} />
+   }
 
 
+     var checkStatus;
+     
+     if( 
+      this.state.status === "accepted" ||
+      this.state.status === "completed" ||
+      this.state.status === "finished" ||
+      this.state.userId === this.state.seekerId ||
+      !this.state.recordView ){
+   	   checkStatus = false;
+     } else {
+       checkStatus = true;
+     }
 
+     console.log(checkStatus)
 
 
 
@@ -224,23 +298,40 @@ export default class AppearancesComponent extends Component {
 		<div className="container main-body">
 	  
 
-	  <Modal visible={this.state.visible} width="370" height="445" effect="fadeInDown" onClickAway={() => this.closeModal()}>
+	  <Modal visible={this.state.visible} width="370" height="600" effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "20px",textAlign: "center"}}>
 	    <img width="250px" src={welldoneImg}/><br/><br/>
 	    <h5><b>Well done!</b></h5>
 	     <p className="colorGrey">We will send you an email with confirmation and additional info.</p>
 	   
-	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button>
+	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button><br />
+
+
+	    <div style={{backgroundColor: "green", padding: "20px"}}>
+	    	<p>We have detected 2 appearances for<br/>the same day in the same court</p>
+	    	<button onClick={this.handleStaking} className="btn btn-primary link-button btn-request">View Appearances</button>
+	    </div>
+
 	  </div>
 	  </Modal>
 
 
-	      <Link style={{color: "black"}} to={{
-      pathname: '/home',
-      state: { key: "myappearances"} }}>
+	    {this.state.agendaClick ? 
+	     <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "agenda"} }}>
 	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
 	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
-	      </Link>			
+	    </Link>:
+	    this.state.appearancesClick ?
+	    <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "myappearances"} }}>
+	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
+	    </Link>:
+	    this.state.myRequestsClick ?
+	    <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "myrequests"} }}>
+	       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+	       <h3 style={{display: "inline"}  }> Appearance Detail</h3>
+	    </Link>:null
+		}
 	       <hr />
 	      	 <div>
 	      	  <div className="appearanceDate">
@@ -248,22 +339,46 @@ export default class AppearancesComponent extends Component {
 	      	  	  <img src={dateImg} style={{marginRight: "25px", width: "40px", height: "40px"}}/>
 	      	  	  <div>
 	      	  	  	<p className="adTitle">Appearance date</p>
-	      	  	    <Moment className="timeformat adTime" format="LLL">{result.createdAt}</Moment> 
+	      	  	    <Moment className="timeformat" format="LL">{result.hearingDate}</Moment><span className="timeformat"> {result.time}</span>
 	      	  	  </div>
 				</div>
 	      	  </div>
 	      	  <hr />
 	      	  <form >
+
+	      	 <p className="adTitle">Hearing Date</p>
+	      	<DatePicker
+              className="form-control inputdatepicker"
+              selected={ this.state.hearingDate }
+              onChange={ this.handleDateChange }
+              name="hearingDate"
+              value={ this.state.hearingDate }
+              locale="en"
+              dateFormat="yyyy-dd-MM"
+              disabled={!checkStatus}
+              /><hr />
+             <p className="adTitle">Time</p>
+             <div className={!checkStatus ? "disabled" : null} >
+             <TimeKeeper 
+               time={this.state.time}
+               name="time" 
+               onChange={this.handleTimeChange} 
+               config={{TIME_SELECTED_COLOR: '#2ad4ae'}}
+               /><hr />
+             </div>
 	      	    <p className="adTitle">Case Name</p>
-	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
-	            <p className="adTitle">Court House</p>
-	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <p className="adTitle">County</p>
+	             <input name="county" type="text" className="form-control" value={this.state.county} disabled={!checkStatus} onChange={this.handleChange}/>
+	            <hr />
+	            <p className="adTitle">Courthouse</p>
+	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Area of Law</p>
 	            <div className="input-group mb-3"><div className="input-group-prepend">
 	            <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
-	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!this.state.isAttorney} onChange={this.handleChange}>
+	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!checkStatus} onChange={this.handleChange}>
 	                <option defaultValue>{this.state.areaOfLaw}</option>
 	                <option value="CRIMINAL">CRIMINAL</option>
 	                <option value="CIVIL">CIVIL</option>
@@ -272,19 +387,19 @@ export default class AppearancesComponent extends Component {
 	            </div>
 	            <hr />
 	            <p className="adTitle">Department</p>
-	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">Client present or not?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.isAttorney} />
+	               <Switch checked={this.state.clientPresent} onChange={this.handleChangeCP} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!checkStatus} />
 	            </div>
 	            <br/>
 	            <hr />
 	            <p className="adTitle">Late call accepted?</p>
 	            <br/>
 	            <div className="flex-space-between">
-	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!this.state.isAttorney} />
+	               <Switch checked={this.state.lateCall} onChange={this.handleChangeLC} offColor="#B9D5FB" onColor="#2ad4ae" checkedIcon={false} uncheckedIcon={false} height={25} disabled={!checkStatus} />
 	            </div>
 	            <br/>
 	            <hr />
@@ -292,38 +407,78 @@ export default class AppearancesComponent extends Component {
 	             <input type="text" className="form-control" value="50" disabled />
 	            <hr />
 	            <p className="adTitle">Description</p>
-	             <input name="instructions" type="text" className="form-control" value={this.state.instructions} disabled={!this.state.isAttorney} onChange={this.handleChange}/>
+	            <textarea name="instructions" className="form-control" cols="40" rows="5" value={this.state.instructions} disabled={!checkStatus} onChange={this.handleChange}></textarea>
+	             
 	            <hr />
-	            <p className="adTitle">Files</p>
+	            
+	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }
 	             {
 	             	documents.map((x,index) => 
-	             		<div key={index}><span >{x.location} </span>
-	             		 <button id={index} name={x.etag} onClick={this.handleDelete}> X</button></div>
+	             		<div key={index}><a href={x.location} className="link-file" download target="_blank">{x.originalname}</a>
+	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button><hr /></div>
 	                )
 	             }
+	             
+	            {this.state.veredictDocs.length > 0 ? <p className="adTitle">Veredict files</p> : null }
+	            <div>
+	            {this.state.veredictDocs ? 
+	              this.state.veredictDocs.map(x => 
+	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
+	              ): <p>No files uploaded</p>}
+
+	            </div>
+	           
+	            {this.state.veredictDetail  ? 
+	              <div><p className="adTitle">Veredict information</p>
+	            	<input name="veredictDetail" type="text" className="form-control" value={this.state.veredictDetail} disabled={!checkStatus} onChange={this.handleChange}/>  
+	               <hr /></div> : null}
+
+	           
 	            
-	              <FilePond 
-	              name="avatar" 
-	              maxFiles={12}
-	              allowMultiple={true} 
-	              oninit={() => this.handleInit() }
-                  server={serverConfig}
-                  onupdatefiles={(fileItems) => {this.setState({ files: fileItems.map(fileItem => fileItem.file)}) }}
-				  allowMultiple={true}
-			      labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                  >
+	            <div>
+	            { this.state.recordView ?
+	            <div>
+	            <br/>
+	              {checkStatus ? <p><b>Documents</b></p> : null}
+	              <label className={!checkStatus ? "squareUploadDisable" : "uploadLabel squareUpload"} htmlFor="avatar"  >
+	               <div className="squareImg" >
+	                 <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
+	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
+	                </div>
+	              </label><br/>
+	             </div>
+	              : null }
+	            
+	            </div>
 
-	              </FilePond>
 
-	            <hr /> <br/>
-	            {!this.state.isAttorney ? 
-	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Accept Request</button> :
-	            <div><span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span>
-	            <br/><button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button></div>
+	            <div>
+	            {this.state.newDocuments ? 
+	              this.state.newDocuments.map((x,i) => (
+	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
+	              )): null}
+	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
+	            
+	            </div>
+	            
+
+	            
+
+	            {!this.state.recordView ?
+	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Apply Request</button> :
+ 	             this.state.status === "pending" || this.state.status === "applied" ?
+	            <div>
+	             <span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span><br/>
+	             <button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button>
+	            </div>: null
 	          	}
 	         </form>
 
-	          <br /><br /><br />
+
+	          <br /><br />
+
+	          <br />
+
 	         </div>
 	       
 	      
@@ -336,5 +491,4 @@ export default class AppearancesComponent extends Component {
 }
 
 }
-
 

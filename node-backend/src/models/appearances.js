@@ -18,7 +18,7 @@ var appearances = new Schema({
     type: String,
     required: true
   },
-  goal: {
+  county: {
     type: String,
     required: true
   },
@@ -48,7 +48,7 @@ var appearances = new Schema({
     },
   status: {
     type: String,
-    default: 'published',
+    default: 'pending',
     required: true
   },
   price: {
@@ -69,15 +69,26 @@ var appearances = new Schema({
     required: false,
     default: "",
   },
-   date: {
-     type: Date,
-     required: false
-   },
-   status:{
-     type: String,
-     default: "pending",
-     required: false
-   }
+     date: {
+       type: Date,
+       required: false
+     },
+     veredictDocs:{
+       type: Array,
+       required: false
+     },
+     information:{
+       type: String,
+       required: false
+     },
+     seekerRate: {
+       type: Number,
+       required: false
+     },
+     attorneyRate: {
+       type: Number,
+       required: false
+     }
   }
 
 },{

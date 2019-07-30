@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from "reactjs-popup";
 import Cookies from 'js-cookie'
-// import landing0 from '../_assets/img/landing/landing_0.png'
-// import landing1 from '../_assets/img/landing/landing_1.png'
 import { userServices } from '../_services/user.service'
-// import manWalkingImage from '../_assets/img/landing/man_walking.png'
 import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
 import landing_features_02 from '../_assets/img/landing/landing_features_02.png'

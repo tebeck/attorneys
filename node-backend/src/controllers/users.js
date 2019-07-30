@@ -2,7 +2,7 @@ const userModel = require('../models/users');
 const tokenModel = require('../models/token');
 const recoverPasswordModel = require('../models/recoverPassword');
 const crypto = require('crypto');
-
+const appearanceModel = require('../models/appearances');
 const urlFrontend = process.env.URL_FRONTEND;
 
 const saltRounds = 10;
@@ -83,6 +83,7 @@ module.exports = {
 
       if(bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
+          console.log(user)
           return res.status(200).send({ token: token, result: user });
       } else {
           return res.status(409).send({ message: "Incorrect user/password", result: user });
@@ -126,7 +127,10 @@ makeSeeker: function(req, res, next){
       if (!user) { return res.status(401).send({ message: "User not found"}) }
       user.updateOne({isSeeker: true, insurancePolicy: req.body.insurancePolicy, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
-          return res.status(200).send({state: 200,message: "Now your a seeker too"});
+          let subject ="Appearing request"
+          let text = "Appearing request"
+          send.email(process.env.ADMIN_EMAIL, subject, text)
+          return res.status(200).send({state: 200,data: user,message: "Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted"});
       });
     })
 },
@@ -282,9 +286,44 @@ makeAttorney: function(req, res, next){
       })
     },
 
+    rateAttorney: function( req, res, next ){
+      userModel.updateOne({_id: req.body.attorneyId},
+        { "$push": { "reviews": 
+        { "rating": req.body.rating,
+          "appearanceId": req.body.appId, 
+          "seekerId": req.body.seekerId }
+        }}).then(obj => { 
+          appearanceModel.updateOne({_id: req.body.appId}, 
+            {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)})
+
+          return res.status(200).send({message: "Update OK", status: 200}) })
+        .catch(err => { console.log('Error: ' + err) }) 
+    },
+    rateSeeker: function( req, res, next ){
+      userModel.updateOne({_id: req.body.seekerId},
+        { "$push": { "reviews": 
+        { "rating": req.body.rating,
+          "appearanceId": req.body.appId, 
+          "attorneyId": req.body.attorneyId }
+        }}).then(obj => { 
+          appearanceModel.updateOne({_id: req.body.appId}, 
+            {$set: {"subscription.seekerRate": req.body.rating}}).then(a=>{console.log(a)})
+
+          return res.status(200).send({message: "Update OK", status: 200}) })
+        .catch(err => { console.log('Error: ' + err) }) 
+    },
     sendMail: function(req, res, next){
         send.email(req.body.email, req.body.subject, req.body.text)
       return res.status(200).send({message: "Email sent", email: req.body.email,subject:req.body.subject, text: req.body.text })
-    }
+    },
+
+    getUserProfile: function(req, res, next){
+     userModel.findById(req.body.uid , function (err, user) {
+       if (err) {return res.status(500).send({ message: err.message })}
+       if (!user) {return res.status(409).send({message: "no user found"})}
+        return res.status(200).send({data: user})
+       
+     })
+   }
 
 }

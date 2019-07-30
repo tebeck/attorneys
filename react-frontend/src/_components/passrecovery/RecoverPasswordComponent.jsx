@@ -85,16 +85,20 @@ export default class RecoverPasswordComponent extends Component {
       <div>
         <Header guest="1" />
         <div className="container main-body">
-            <h5><Link style={{color: "black"}} to={pathname}><img width="16px" src={backbutton} alt="esquired" /></Link> Send email notification</h5>
+        <Link style={{color: "black"}} to="/home">
+         <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+         <h3 style={{display: "inline"}  }> Send email notification</h3>
+        </Link>      
+       <hr />
                 <Modal
                     visible={this.state.visible}
-                    width="300"
+                    width="350"
                     height="230"
                     effect="fadeInDown"
                     onClickAway={() => this.closeModal()}>
 
                   <div className="recoverPassModal">
-                    <h5>Confirmation code sent, please check your email box!</h5>
+                    <h5>Confirmation code sent, please check your email box!</h5><br/><br/>
                     <button onClick={() => this.closeModal()} className="recoverPassButton link-button">Close</button>
                   </div>
                      
