@@ -3,7 +3,10 @@ import {url_backend} from '../_helpers';
 
 export const stripeService = {
     getStripeInfo,
-    storeToken
+    createNewCreditCard,
+    createCharge,
+    retriveCustomer,
+    setDefaultCard
 }
 
 function getStripeInfo(data){
@@ -21,18 +24,39 @@ function getStripeInfo(data){
 }
 
 
-function storeToken(token){
+function createNewCreditCard(token){
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
         body: JSON.stringify(token)
     };
-    console.log("llego")
 
-    return fetch(`${url_backend}/stripe/storestripetoken`, requestOptions)
+    return fetch(`${url_backend}/stripe/createnewcreditcard`, requestOptions)
         .then(data => {
             console.log(data)
         })
+}
+
+function setDefaultCard(card){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(card)
+    };
+
+    return fetch(`${url_backend}/stripe/setdefaultcard`, requestOptions)
+        .then( data => {return data.json().then(text=>text)} )
+}
+
+function retriveCustomer(customer){
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(customer)
+    };
+    console.log("customer")
+    return fetch(`${url_backend}/stripe/retrivecustomer`, requestOptions)
+        .then( data => {return data.json().then(text=>text.customer)} )
 }
 
 function createCharge(appId){

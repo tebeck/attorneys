@@ -14,6 +14,104 @@ $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
 
+
+div.stripebutton{
+  text-align: center;
+}
+
+.bg-green-color{
+  background-color: $green-color!important;
+}
+
+.lh{
+      line-height: 2.1;
+}
+
+.cardLogo{
+  width: 50px;
+  margin-right: 20px;
+}
+
+.button--inverse {
+  text-align: center;
+  border-radius: 15px;
+  padding:10px 15px;
+  width: 100%;
+  margin: 10px;
+  height: 40px;
+  line-height: 40px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  color: #6772e5;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.button:hover, .button--inverse:hover {
+  color: #7795f8;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+.button--inverse {
+  color: #fff;
+  background: #6772e5;
+}
+.button--inverse:hover {
+  color: #fff;
+  background-color: #7795f8;
+}
+
+.logoutprofile{
+   text-align: center;
+  padding:10px 15px;
+  width: 100%;
+  border-radius: 15px;
+  height: 40px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: $green-color;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  cursor: pointer; 
+}
+
+.logoutprofile:hover{
+  color: #fff;
+  font-weight: 600;
+}
+
+.creditCardBoxActive:hover{
+  background-color: $background-grey;
+}
+
+.creditCardBoxActive{
+  padding: 5px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  border: 1px solid $grey-color;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+.creditCardBox{
+  background-color: $background-grey;
+  padding: 5px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  border: 1px solid $grey-color;
+
+}
+
+.flex-grow{
+  flex-grow:1;
+}
+
 .connect-button {
     display: inline-block;
     margin-bottom: 1px;

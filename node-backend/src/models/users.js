@@ -140,11 +140,27 @@ var users = new Schema({
     type: String,
     default: "OK"
   },
-  stripe_token_id: {
+  cards: [
+    {
+      id: {
+        type: String,
+        required: false
+      },
+      last4: {
+        type: String,
+        required: false
+      },
+      brand: {
+        type: String,
+        required: false
+      }
+    }
+  ],
+  stripe_user_id: {
     type: String,
     required: false
   },
-  stripe_user_id: {
+  stripe_customer_id: {
     type: String,
     required: false
   }
