@@ -259,8 +259,8 @@ unsubscribe: function(req, res, next){
 
 
 finishAppearance: function(req, res, next){ 
-  let seekerEmail = req.body.email
-  console.log(seekerEmail)
+  let attorneyEmail = req.body.email
+  console.log(attorneyEmail)
   appearanceModel.findById({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, appearance){
     if (err){ return res.status(500).send({message: err.message}) }
     if (!appearance){ return res.status(409).send({message: "Not found"}) }
@@ -271,12 +271,12 @@ finishAppearance: function(req, res, next){
       appearance.save()
         .then(appearance => {
           Logger.log("SUBSCRIPTION FINISHED: Sending email")
-            userModel.findById(appearance.attorneyId, function(err,attorney){
-              send.email(attorney.email, subject, text)
-              Logger.log(attorney.email + " " + subject)
+            userModel.findById(appearance.subscription.seekerId, function(err,seeker){
+              send.email(seeker.email, subject, text)
+              Logger.log(seeker.email + " " + subject)
             })
-              send.email(seekerEmail, subject, text)
-              Logger.log(seekerEmail + " " + subject)
+              send.email(attorneyEmail, subject, text)
+              Logger.log(attorneyEmail + " " + subject)
 
         return res.status(200).send({ message:'Work finished', status: 200 });
       })

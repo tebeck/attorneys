@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import  { Tabs, Tab } from 'react-bootstrap';
-import {userServices} from '../../_services';
+import {userServices, stripeService} from '../../_services';
 import Header from '../HeaderComponent';
 import uploadImg from '../../_assets/img/upload_picture.png'
 import Cookies from 'js-cookie';
@@ -10,6 +10,12 @@ import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 import LoaderAnimation from '../LoaderAnimation';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
+import Modal from 'react-awesome-modal';
+
+import MasterCard from '../../_assets/img/cards/MasterCard.png'
+import Visa from '../../_assets/img/cards/Visa.png'
+import American from '../../_assets/img/cards/American.png'
+
 
 export default class ProfileComponent extends Component {
 
@@ -30,10 +36,13 @@ export default class ProfileComponent extends Component {
       creditCard: "",
       showImage:true,
       image:"",
-      showLoader: false
+      showLoader: false,
+      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
     
+
+
   }
 
   componentWillMount(){
@@ -55,10 +64,21 @@ export default class ProfileComponent extends Component {
         streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
         image: data.data.profilePicture,
         stripe_user_id: data.data.stripe_user_id,
+        stripe_customer_id: data.data.stripe_customer_id,
         data: data.data
         
         })
+
       )
+
+
+      stripeService.retriveCustomer(this.state.stripe_customer_id)
+        .then(customer => this.setState({
+          customer: customer
+        }))
+
+        
+
       this.handleChange = this.handleChange.bind(this); // Bind boolean checkbox value.
   }
 
@@ -197,12 +217,22 @@ export default class ProfileComponent extends Component {
   }
 
 
+  changeDefaultCard = (s) => {
+    let body = {
+      defaultCard: s.id
+    }
+    stripeService.setDefaultCard(body)
+      .then(res => console.log(res))
+      .then(this.openModal())
+  }
+
+  openModal()  {this.setState({visible : true})}
+  closeModal()  {window.location.assign('/profile')}
 
 	render() {
 
-    console.log(this.state)
-
-   const {showLoader} = this.state
+   const {showLoader, customer, stripe_user_id,accStripeLink} = this.state
+   console.log(customer)
   if(showLoader){
   return (
       <div className="centered"><LoaderAnimation /></div>
@@ -216,6 +246,20 @@ export default class ProfileComponent extends Component {
             <img style={{marginBottom: "11px"}} width="16px" src={backbutton} alt="esquired" />
             <h3 style={{display: "inline"}  }> Profile</h3></Link>
           <div className="" style={{flexWrap: "none",alignItems: "center",justifyContent: "center"}}>
+            
+            <Modal 
+              visible={this.state.visible}
+              width="400"
+              height="220"
+              effect="fadeInDown"
+              onClickAway={() => this.closeModal()}>
+              <div className="modalRequestHead">
+                <h5>Your Credit Card has been <br/>changed successfully!</h5>
+                <button onClick={() => this.closeModal()}  style={{marginTop: "30px"}} className="btn btn-lg btn-block btn-primary link-button">Done</button> 
+              </div>
+         
+            </Modal>
+
             <Tabs 
               id="controlled-tab-example"
               activeKey={this.state.key}
@@ -241,91 +285,116 @@ export default class ProfileComponent extends Component {
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
 
-                
+
+        <form onSubmit={this.handleAccSubmit}>
+          <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
+          <div className="form-group">
+            <label htmlFor="firstName" className="profileInputsTitle">First Name</label>
+            <input id="firstName" name="firstName" className="form-control bigInput" value={this.state.firstName} placeholder={this.state.firstName} onChange={this.handleChange} type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName" className="profileInputsTitle">Last Name</label>
+            <input id="lastName" name="lastName" className="form-control bigInput" value={this.state.lastName} placeholder={this.state.lastName} onChange={this.handleChange} type="text" />
+          </div>
+
+          <p className="p-profile">Account info</p>
+          <input disabled className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
+          <input className="form-control bigInput" name="password"    type="password" placeholder="Old Password"         onChange={this.handleChange} />
+          <input className="form-control bigInput" name="newpassword" type="password" placeholder="New Password"     onChange={this.handleChange} />
+          <input className="form-control bigInput" name="confirm"     type="password" placeholder="Confirm"          onChange={this.handleChange} />
+          
+          
+          <p className="p-profile">Notifications</p>
+          <div className="form-check form-check-inline">
+           <input className="form-check-input" name="notification" type="checkbox" id="notification" checked={this.state.notification} onChange={this.handleChange } />
+           <label className="form-check-label" htmlFor="notification">Email</label>
+          </div><br /><br />
 
 
+  {customer ? 
+    <div>
+    {customer.sources.data.map(s=>
+         s.id === customer.default_source ? 
+          <div key={s.id}>
+          <div className="flex-space-between creditCardBox form-control bigInput lh">
+            <div className="flex-grow ">Default Card:</div>
+            <div>{s.brand === "Visa" ? <img className="cardLogo" src={Visa} alt="card" />: 
+             s.brand === "MasterCard" ? <img className="cardLogo" src={MasterCard} alt="card" />: 
+             s.brand === "American" ? <img className="cardLogo" src={American} alt="card" /> : 
+             <div>{s.brand}</div> }</div>
+            <div>XXXX-XXXX-XXXX-{s.last4}</div>
+          </div><br/>
+          </div> 
+          : 
+          <div onClick={this.changeDefaultCard.bind(this,s)} key={s.id} className="flex-space-between creditCardBoxActive lh">
+            <div className="flex-grow">Change card:</div>
+            {s.brand === "Visa" ? <div>{<img className="cardLogo" src={Visa} alt="card" />}</div>: 
+             s.brand === "MasterCard" ? <div>{<img className="cardLogo" src={MasterCard} alt="card" />}</div>: 
+             s.brand === "American" ? <div>{<img className="cardLogo" src={American} alt="card" />}</div>: 
+             <div>{s.brand}</div> }
+            <div>XXXX-XXXX-XXXX-{s.last4}</div>
+          </div>
+    )}<br/>
+    </div> : null }
 
+  {
+    stripe_user_id ? 
+    <div className="stripebutton">
+     <Link className="button--inverse bg-green-color" to="/addcard">Add Credit Card</Link>
+    </div> 
+    :
+    <div className="stripebutton">
+      <a href={accStripeLink}> <span className="button--inverse">Connect with Stripe</span>
+      </a>
+    </div>
+  }
 
-      {
-        this.state.stripe_user_id ? <div>You are already connected to stripe<br/><br/><Link className="btn btn-outline-primary" to="/addcard">ADD CREDIT CARD</Link><br/><br/><br/><br/></div> :
-        <p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0&amp;scope=read_write" className="connect-button"><span>Connect with Stripe</span></a></p>
-        
-      }
+          <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
+          
+          { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
+          { !Cookies.getJSON('esquired').isSeeker ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleSeeker}>Be Appearing Attorney</button> : null }<br/>
 
+          <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
+        </form><br/><br/>
+        <button className="btn btn-block logoutprofile" onClick={this.handleLogout}>Log out</button>
 
-
-
-
-                  <form onSubmit={this.handleAccSubmit}>
-                    <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
-                    <div className="form-group">
-                      <label htmlFor="firstName" className="profileInputsTitle">First Name</label>
-                      <input id="firstName" name="firstName" className="form-control bigInput" value={this.state.firstName} placeholder={this.state.firstName} onChange={this.handleChange} type="text" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="lastName" className="profileInputsTitle">Last Name</label>
-                      <input id="lastName" name="lastName" className="form-control bigInput" value={this.state.lastName} placeholder={this.state.lastName} onChange={this.handleChange} type="text" />
-                    </div>
-
-                    <p className="p-profile">Account info</p>
-                    <input disabled className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
-                    <input className="form-control bigInput" name="password"    type="password" placeholder="Old Password"         onChange={this.handleChange} />
-                    <input className="form-control bigInput" name="newpassword" type="password" placeholder="New Password"     onChange={this.handleChange} />
-                    <input className="form-control bigInput" name="confirm"     type="password" placeholder="Confirm"          onChange={this.handleChange} />
-                    
-                    
-                    <p className="p-profile">Notifications</p>
-                    <div className="form-check form-check-inline">
-                     <input className="form-check-input" name="notification" type="checkbox" id="notification" checked={this.state.notification} onChange={this.handleChange } />
-                     <label className="form-check-label" htmlFor="notification">Email</label>
-                    </div>
-
-                    <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
-                    
-                    { !Cookies.getJSON('esquired').isAttorney ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleAttorney}>Be Attorney Of Record</button> : null }<br/>
-                    { !Cookies.getJSON('esquired').isSeeker ? <button type="button" className="btn btn-block btn-outline-secondary" onClick={this.handleSeeker}>Be Appearing Attorney</button> : null }<br/>
-
-                    <input className="btn btn-block btn-outline-primary btn-profile" style={{marginTop: "5px"}} type="submit" value="Save" />
-                  </form><br/><br/>
-                  <button className="btn btn-block btn-danger btn-rounded" onClick={this.handleLogout}>Logout</button>
-
-                  <br/><br/>
-                </Tab>
-                <Tab eventKey="professionalinfo" title="Professional info">
-                  <form onSubmit={this.handleProfSubmit}>
-                    <div className="form-group">
-                      <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
-                      <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
-                      <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="mobilePhone" className="profileInputsTitle">Mobile Phone</label>
-                      <input id="mobilePhone" name="mobilePhone" className="form-control bigInput" value={this.state.mobilePhone} placeholder={this.state.mobilePhone} onChange={this.handleChange} type="text" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
-                      <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
-                    </div>
-                    <p className="p-profile">Payment Info</p>
-                    <div className="form-group">
-                      <label htmlFor="creditCard" className="profileInputsTitle">Credit Card</label>
-                      <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" maxLength={16} />
-                    </div>
-                    <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
-                    <br/><br/>
-                  </form>
-                </Tab>
-                
-                <Tab eventKey="transactions" title="Transactions" >
-                  <br /><br /><p>You don't have transactions</p>
-                </Tab>
-            </Tabs>
-				</div>
-			</div>
-			</div>
+        <br/><br/>
+      </Tab>
+      <Tab eventKey="professionalinfo" title="Professional info">
+        <form onSubmit={this.handleProfSubmit}>
+          <div className="form-group">
+            <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
+            <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
+            <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="mobilePhone" className="profileInputsTitle">Mobile Phone</label>
+            <input id="mobilePhone" name="mobilePhone" className="form-control bigInput" value={this.state.mobilePhone} placeholder={this.state.mobilePhone} onChange={this.handleChange} type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
+            <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
+          </div>
+          <p className="p-profile">Payment Info</p>
+          <div className="form-group">
+            <label htmlFor="creditCard" className="profileInputsTitle">Credit Card</label>
+            <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" maxLength={16} />
+          </div>
+          <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
+          <br/><br/>
+        </form>
+      </Tab>
+      
+      <Tab eventKey="transactions" title="Transactions" >
+        <br /><br /><p>You don't have transactions</p>
+      </Tab>
+    </Tabs>
+   </div> 
+  </div>
+</div>
 		);
 
 

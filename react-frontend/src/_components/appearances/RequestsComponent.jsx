@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
+import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
@@ -20,14 +21,21 @@ export default class RequestsComponent extends Component {
 	    .then((result) => this.setState({
 	  	  data: result.data
 	  	}))
-
-
 	}
 
   setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
+	  userServices.getProfile()
+	  	.then(result => {
+		  	if(result.data.stripe_customer_id){
+		    this.setState({
+		      redirect: true
+		    })
+		    } else {
+		    	alert("Please, first insert your credit card")
+		    	window.location.assign('/profile')
+		    }	  		
+	  	})
+
   }
   
   

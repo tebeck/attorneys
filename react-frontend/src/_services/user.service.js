@@ -58,7 +58,6 @@ function upload(image){
 function multiupload(images){
     return axios.post(`${url_backend}/files/multiupload`, images , {headers: authHeader()})
         .then(data => {
-          console.log(data)
           return data
         })
 }
@@ -72,7 +71,6 @@ function getProfile(){
     return fetch(`${url_backend}/users/profile`, requestOptions)
         .then(handleResponse)
         .then(data => {
-          console.log(data)
             return data
         })
 }
@@ -87,7 +85,6 @@ function getUserProfile(body){
     return fetch(`${url_backend}/users/getuserprofile`, requestOptions)
         .then(handleResponse)
         .then(data => {
-          console.log(data)
             return data
         })
 }
@@ -175,11 +172,9 @@ function makeSeeker(userId){
         body: JSON.stringify(data)
     };
 
-    console.log(JSON.stringify(data))
      return fetch(`${url_backend}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(data => {
-          console.log(data)
             if(data.result && data.token){
               
               data.status=200;
@@ -283,7 +278,6 @@ function recoverPassword(email){
          headers: authHeader(),
          body: JSON.stringify(data)
      };
-     console.log("frontend -> backend " + JSON.stringify(data))
      return fetch(`${url_backend}/users/sendmail`, requestOptions)
          .then( data => {data.json().then(text=>console.log( text) )} ) 
 
@@ -292,7 +286,6 @@ function recoverPassword(email){
 
 function handleResponse(response) {
     return response.json().then(data => {
-        console.log(response.status)
         if (!response.ok) {
             if (response.status === 401) {
                 return data

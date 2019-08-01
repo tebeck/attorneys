@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {CardElement, injectStripe} from 'react-stripe-elements';
 import {stripeService} from '../../_services/stripe.service'
+import Cookies from 'js-cookie';
+
 
 class CheckoutFormComponent extends Component {
   constructor(props) {
@@ -10,26 +12,18 @@ class CheckoutFormComponent extends Component {
 
    async submit(ev) {
     let {token} = await this.props.stripe.createToken({name: "Name"});
-    console.log(token)
-
-    stripeService.storeToken(token)
-      .then(console.log("token stored"))
-    
-    // let response = await fetch("/charge", {
-    //   method: "POST",
-    //   headers: {"Content-Type": "text/plain"},
-    //   body: token.id
-    // });
-
-  // if (response.ok) console.log("Purchase Complete!")
+    token.email = Cookies.getJSON('esquired').email;
+    stripeService.createNewCreditCard(token)
+      .then(alert("Credit card added!"))
+      .then(window.location.assign('/home'))
 }
 
   render() {
     return (
       <div className="checkout">
-        <p>Add new credit card</p>
+        <p>Please insert your credit card information</p>
         <CardElement /><br /><br />
-        <button className="btn link-button" onClick={this.submit}>Add</button>
+        <button className="btn link-button" onClick={this.submit}>Add credit card</button>
       </div>
     );
   }

@@ -78,7 +78,7 @@ export default class AgendaComponent extends Component {
        .then(data => {
            if(data.status === 200){
                alert("finished")
-                stripeService.createcharge(body)
+                stripeService.createCharge(body)
                   .then("Charged ok!")
                this.setState({
                	key: "agenda"

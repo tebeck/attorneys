@@ -19,15 +19,15 @@ export default class HomeComponent extends Component {
     super(props, context);
     
   const values = queryString.parse(this.props.location.search)
-  console.log(values.code) // "top"
     
   var stripeBody = {
      code: values.code
   }
 
-    stripeService.getStripeInfo(stripeBody)
-      .then(console.log("ok"))
-
+    if(stripeBody.code){
+      stripeService.getStripeInfo(stripeBody)
+       .then(console.log("Stripe: ID Successfully genrated"))
+    }
 
 
     if(props.location.state){
@@ -43,7 +43,6 @@ export default class HomeComponent extends Component {
       email: Cookies.getJSON('esquired').email
     }
 
-    console.log(props.location.state)
 
     userServices.getProfile()
       .then(res => {
