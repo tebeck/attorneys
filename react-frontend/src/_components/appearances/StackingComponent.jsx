@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
 import Popup from "reactjs-popup";
 import Moment from 'react-moment';
@@ -8,76 +8,42 @@ import listFilterImg from '../../_assets/img/listing_filter.png'
 import listSortImg from '../../_assets/img/listing_sort.png'
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
-
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
-
+import backbutton from '../../_assets/img/btnback.png'
 
 export default class AppearancesComponent extends Component {
 	
 	constructor(props) {
 	  super(props);
 	  this.state = {
-	  	data: [],
-	  	email: Cookie.getJSON('esquired').email,
-	  	userId: Cookie.getJSON('esquired').userId,
-	  	goToDetail: false,
-	  	value:''
-    };
+    	pCourtHouse: props.location.state.data.courtHouse,
+    	pAppId: props.location.state.data._id
+      };
+
+     let findCourt ={
+     	court: props.location.state.data.courtHouse
+     }
+     appearanceService.getAppearanceByCourt(findCourt)
+       .then(data => this.setState({data: data.data}))
 	
-	appearanceService.getAppearancesTab()
-	 .then((result) => this.setState({
-	    data: result.data,
-	    originalData: result.data,
-	  	number: result.data.length
-	 }))
-    }
+
+       console.log(props.location.state.data)
+
+	}
+
+
 
 	handleClick = (x) =>{
 	 this.setState({
 	  goToDetail: true,
 	  appearanceData: x,
-	  recordView: false
+	  recordView: false,
+	  appearancesClick: true
 	 })
     }
 
-	openModal() {
-     this.setState({
-        visible : true
-     });
-    }
-
-    closeModal() {
-     this.setState({
-       visible : false
-     });
-    }
-
-
-  handleChangeFilter = event => {
-	
-    var updatedList = this.state.originalData;
-	updatedList = updatedList.filter(function(item) {
-	 var courtHouseSearch = item.courtHouse.toLowerCase().search(event.target.value.toLowerCase()) !== -1
-	 var areaOfLawSearch = item.areaOfLaw.toLowerCase().search(event.target.value.toLowerCase()) !== -1
-	 if(courtHouseSearch) return courtHouseSearch
-	 else if(areaOfLawSearch) return areaOfLawSearch
-
-      });
-
-    this.setState({data: updatedList});
-  }
-
-
-  handleSortClick = () => {
-    this.state.data.sort((a, b) => a - b).reverse()
-    this.setState({ data: this.state.data })
-  }
-
-
-
  render() {
 
-  const { data } = this.state
 
   if(this.state.goToDetail && this.state.appearanceData){
   	return (
@@ -86,42 +52,32 @@ export default class AppearancesComponent extends Component {
 	   state: { 
 	   	appearanceData: this.state.appearanceData,
 	    isAttorney: false,
-	    recordView: this.state.recordView
+	    recordView: this.state.recordView,
+	    appearancesClick: this.state.appearancesClick
 	   }
 	 }}/>)
   }
 
+  const { data } = this.state
+
+  	
+
    if(data){
-
-
-   let b = 0;
-   	for (var i = data.length - 1; i >= 0; i--) {
-   		if(this.state.userId != data[i].attorneyId){
-   			b = b +1
-   		}
-   	}
 
 
    return (
 	<div className="container main-body">
-  	<div style={{display: "flex",justifyContent: "space-between", marginTop:"10px" }}>
-	  <p>There are {b} appearances</p>
-	  	 <div className="flex-space-between sort-filter">
-		 	<img onClick={this.handleSortClick} style={{marginRight: "10px"}} width="18px" height="18px" alt="esquired" src={listSortImg} /><br/><br/>
-  	         <Popup className="filter-popup" trigger={<img alt="esquired" src={listFilterImg} width="18px" height="18px" />} position="left top">
-		      <div className="filter-list" >
-		        <p>Filter by Courthouse or Area of Law</p>
-		        <input type="text" className="form-control form-control-lg" style={{fontSize: "15px"}} placeholder="Search" onChange={this.handleChangeFilter} />
-		      </div>
-             </Popup>
-	  	 </div>
-	</div>
-	<br/>
+	 <Link style={{color: "black"}} to={{ pathname: '/home',state: { key: "agenda"} }}>
+       <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
+       <h3 style={{display: "inline"}  }> Same day Appearances</h3>
+    </Link><br />
 
-	
+    <p>There are {data.length -1} appearances for the same day at the same court</p><br />
+
 	{data.map(x =>
-	<div key={x._id}> 
-     {x.attorneyId != this.state.userId ?	
+	<div key={x._id}>
+	 {x.attorneyId != this.state.userId && this.state.pAppId !== x._id ?
+
     	<div  className="appearanceBox">
           <div className="appearanceHeaderBox flex-space-between">  
             <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>

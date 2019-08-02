@@ -338,16 +338,16 @@ export default class ProfileComponent extends Component {
     </div> : null }
 
   {
-    stripe_user_id ? 
+    stripe_user_id && Cookies.getJSON('esquired').isAttorney ? 
     <div className="stripebutton">
      <Link className="button--inverse bg-green-color" to="/addcard">Add Credit Card</Link>
     </div> 
-    :
+    : !stripe_user_id ?
     <div className="stripebutton">
       <a href={accStripeLink}> <span className="button--inverse">Connect with Stripe</span>
       </a>
     </div>
-  }
+  : null}
 
           <Link className="link-profile link-delete" to="/">Delete Account</Link><br /> 
           

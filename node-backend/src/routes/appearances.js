@@ -22,7 +22,7 @@ router.post('/getrequeststab', appMiddleware.isAttorney, validateMiddleware.user
 router.post('/acceptappearing', appMiddleware.isAttorney, validateMiddleware.user,appController.acceptAppearing); //Get requests
 router.post('/rejectappearing', appMiddleware.isAttorney, validateMiddleware.user,appController.rejectAppearing); //Get requests
 router.post('/finishAppearance', appMiddleware.isAttorney, appController.finishAppearance); // appearanceId (frontend)
-
+router.post('/getbycourt', appController.getAppearanceByCourt); // appearanceId (frontend)
 // Appearing Attorney
 router.post('/subscribe', appMiddleware.isSeeker, appController.subscribe); // appearanceId (frontend)
 router.post('/unsubscribe', appMiddleware.isSeeker, appController.unsubscribe); // appearanceId (frontend)

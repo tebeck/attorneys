@@ -71,12 +71,12 @@ export default class NotificationsComponent extends Component {
     <div className="container main-body">
       <Link style={{color: "black"}} to="/home">
        <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
-       <h3 style={{display: "inline"}  }> Submit Veredict</h3>
+       <h3 style={{display: "inline"}  }> Submit Verdict</h3>
       </Link>			
        <hr />
       <div >
       <div>
-        <label htmlFor="description" >Upload the veredict info</label>
+        <label htmlFor="description" >Upload the verdict info</label>
         <input className="form-control" placeholder="Description" name="information" type="text" onChange={this.handleChange} value={this.state.information} />
       </div>
         <div>

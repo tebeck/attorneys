@@ -147,7 +147,7 @@ unsubscribe: function(req, res, next){
       if (new Date() > validTo){ return res.status(409).send({message: "Can't unsubscribe", validTo: validTo})}
     }
 
-      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": "", status: "pending", "subscription.veredictDocs":[], "subscription.information": ""}} ) 
+      appearanceModel.updateOne( { "_id": req.body.appId},{$set: {"subscription.seekerId": "", status: "pending", "subscription.verdictDocs":[], "subscription.information": ""}} ) 
       .then(obj => { 
         userModel.findOne({_id: req.body.userId}, function(err, seeker){
          let subject = "Appearance canceled"
@@ -180,15 +180,15 @@ unsubscribe: function(req, res, next){
           console.log("mail sent to appearing")
         })
         appearanceModel.findOne({"_id": req.body.appId}, function(err, appearance){
-          console.log(appearance)
           userModel.findOne({"_id": appearance.attorneyId}, function(err, attorney){
            let subject = "Subscription"
            let text = "Your are now subscribed"
             send.email(attorney.email, subject, text)          
             console.log("mail sent to appearing")
           })
-        })
-          return res.status(200).send({message: "Postulated OK", status: 200})
+        
+          return res.status(200).send({message: "Postulated OK", data: appearance , status: 200})
+          })
          })
         .catch(err => {
            console.log('Error: ' + err);
@@ -236,7 +236,7 @@ unsubscribe: function(req, res, next){
   
   completeAppearance: function(req, res, next){
     appearanceModel.updateOne({"_id": req.body.appId},{
-      $set: { status: 'completed', "subscription.veredictDocs": req.body.veredictDocs, "subscription.information": req.body.information }}) // REJECTED 
+      $set: { status: 'completed', "subscription.verdictDocs": req.body.verdictDocs, "subscription.information": req.body.information }}) // REJECTED 
       .then(obj => { 
         let subject = "Appearance completed"
         let text = "Your appearances has been completed"
@@ -284,8 +284,18 @@ finishAppearance: function(req, res, next){
         return res.status(401).send({ message: "unable to update the database", msg: err.message});
       });
     });
-}
+},
 
+
+  getAppearanceByCourt: function(req, res, next){
+    appearanceModel.find({"courtHouse": req.body.court, status: "pending"}, function(err, appearance){
+      if (err){ return res.status(500).send({message: err.message}) }
+      if (!appearance){ return res.status(409).send({message: "Not found"}) }
+      
+       return res.status(200).send({data: appearance, status: 200})
+
+    })
+  }
 
 
 }

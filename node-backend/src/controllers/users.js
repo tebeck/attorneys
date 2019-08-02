@@ -318,9 +318,16 @@ makeAttorney: function(req, res, next){
     },
 
     getUserProfile: function(req, res, next){
+
      userModel.findById(req.body.uid , function (err, user) {
-       if (err) {return res.status(500).send({ message: err.message })}
-       if (!user) {return res.status(409).send({message: "no user found"})}
+       if (err) { console.log("error")
+         return res.status(500).send({ message: err.message })
+       }
+       if (!user) { console.log("error") 
+         return res.status(409).send({message: "no user found"})
+       }
+
+
         return res.status(200).send({data: user})
        
      })

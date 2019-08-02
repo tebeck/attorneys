@@ -19,7 +19,8 @@ export const appearanceService = {
     rejectAppearing,
     completeAppearance,
     finishAppearance,
-    expire
+    expire,
+    getAppearanceByCourt
 }
 
 
@@ -194,6 +195,16 @@ function finishAppearance(appId){
     .then( data => {return data.json().then(text=>text)} )
 }
 
+
+ function getAppearanceByCourt(data) {
+     const requestOptions = {
+         method: 'POST',
+         headers: authHeader(),
+         body: JSON.stringify(data)
+     };
+     return fetch(`${url_backend}/appearances/getbycourt`, requestOptions)
+         .then( data => {return data.json().then(text=>text)} )
+ }
 
 
 

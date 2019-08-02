@@ -84,9 +84,7 @@ function getUserProfile(body){
 
     return fetch(`${url_backend}/users/getuserprofile`, requestOptions)
         .then(handleResponse)
-        .then(data => {
-            return data
-        })
+        .then(data => { return data.data })
 }
 
 function makeAttorney(userId){

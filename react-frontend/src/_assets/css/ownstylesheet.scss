@@ -15,6 +15,72 @@ $hide-block: none;
 $display-block: block;
 
 
+.stackingCard{
+  background-color: #e9faf6;
+  padding: 20px;
+  font-weight: bold
+}
+
+.adUserImage img{
+  margin-left: 15px;
+}
+
+.adSquare p{
+  color: #555;
+  margin-top:20px;
+  margin-left: 15px;
+}
+
+.adSquareDetail {
+
+}
+
+.adSquareEmail{
+    margin: 0!important;
+  color: #555!important;
+  margin-left: 15px!important;
+}
+
+.contactImages img{
+  margin-right: 15px!important;
+}
+
+div.contactImages{
+  margin-left: 15px!important;
+  margin-top:10px;
+}
+
+.adSquareName{
+  margin: 0!important;
+  color: #000!important;
+  margin-left: 15px!important;
+}
+
+.borderRadius{
+  border-radius: 50px;
+}
+
+.adSquareDetail{
+  display: flex;
+  
+}
+
+.adSquares{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.adSquare{
+  height: auto;
+  padding-bottom: 10px;
+  width: 48%;
+  border-radius: 15px;
+  border: 1px solid #d3d3d3;
+  margin-bottom: 15px;
+  
+}
+
+
 div.stripebutton{
   text-align: center;
 }

@@ -8,6 +8,7 @@ import CreateComponent from './_components/appearances/CreateComponent';
 import UpdateComponent from './_components/appearances/UpdateComponent';
 import DeleteComponent from './_components/appearances/DeleteComponent';
 import AddCardComponent from './_components/stripe/AddCardComponent';
+import StackingComponent from './_components/appearances/StackingComponent';
 import './_assets/css/ownstylesheet.scss';
 import {url_backend} from './_helpers';
 import LoaderAnimation from './_components/LoaderAnimation';
@@ -43,7 +44,7 @@ const AdminPanelComponent = Loader(() => import('./_components/admins/AdminPanel
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
 const AppearanceDetailComponent = Loader(() => import('./_components/appearances/AppearanceDetailComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
-const VeredictComponent = Loader(() => import('./_components/appearances/VeredictComponent') )
+const VerdictComponent = Loader(() => import('./_components/appearances/VerdictComponent') )
 const RateComponent = Loader(() => import('./_components/appearances/RateComponent') )
 
 // Passrecovery
@@ -76,11 +77,12 @@ class App extends Component {
            <PrivateRoute exact path="/appearances" component={AppearancesComponent} />
            <PrivateRoute exact path="/rate" component={RateComponent} />
            <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
-           <PrivateRoute exact path="/veredict" component={VeredictComponent} />
+           <PrivateRoute exact path="/verdict" component={VerdictComponent} />
            <PrivateRoute exact path="/profile" component={ProfileComponent} />
            <PrivateRoute exact path="/findproduct" component={SearchComponent} />
            <PrivateRoute exact path="/addcard" component={AddCardComponent} />
            <PrivateRoute path="/updateproduct/" component={() => <UpdateComponent />} />
+           <PrivateRoute exact path="/stacking" component={StackingComponent} />
 
            <Route exact path="/" component={GuestComponent} />
            <Route exact path="/terms" component={TermsComponent} />
