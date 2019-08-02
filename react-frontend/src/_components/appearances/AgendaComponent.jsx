@@ -23,7 +23,7 @@ export default class AgendaComponent extends Component {
           userId: Cookie.getJSON('esquired').userId,
           email: Cookie.getJSON('esquired').email,
           setTab: "",
-          veredict: false,
+          verdict: false,
           toggleButtons: true,
           goToDetail: false,
           pastClicked: false,
@@ -91,9 +91,9 @@ export default class AgendaComponent extends Component {
 
 
   completeAppearance = (x) =>{
-    console.log("veredict")
+    console.log("Verdict")
     this.setState({
-      veredict: true,
+      verdict: true,
       veredictState: x
     })
   }
@@ -210,8 +210,8 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
      return <Redirect to={{ pathname: '/info',state: this.state.infoComponentState }} />
    }
 
-   if(this.state.veredict){
-     return <Redirect to={{ pathname: '/veredict',state: this.state.veredictState }} />
+   if(this.state.verdict){
+     return <Redirect to={{ pathname: '/verdict',state: this.state.veredictState }} />
    }
 
 
@@ -226,7 +226,7 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
       <div className="flex-space-between">      
         <div> 
         <button onClick={this.handleClickPastApp} className={pastAppClass}>Past Appearances</button>
-         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcomming</button>
+         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcoming</button>
         </div>
         <button onClick={this.handleClickViewAll} className={viewClass}>View All</button>
       </div>
@@ -250,17 +250,23 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
           </div> 
           <div className="flex-space-between paddingUpDown" style={{minHeight: "150px", marginBottom: "20px"}}>
           <div>
+          {x.caseName.length > 19 ?
+          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
           <p className="titlebox"  >{x.caseName}</p>
+          }
           <div className="divmailing">
             <img alt="Esquired" width="20px" src={pingImg}></img>
+          {x.courtHouse.length > 19 ?  
+            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
             <p className="mailing">{x.courtHouse}</p>
+          }
           </div>
           </div>
           <div className="agenda-rate-button">
            { 
               
              x.subscription.seekerId === this.state.userId && new Date().getTime() < new Date(x.subscription.date).getTime()+ (1 * 24 * 60 * 60 * 1000) && x.status === "accepted" ?
-             <div><button onClick={this.completeAppearance.bind(this, x)} className="btn apply-button">Veredict</button>
+             <div><button onClick={this.completeAppearance.bind(this, x)} className="btn apply-button">Verdict</button>
               <button onClick={this.unsubscribeAppearance.bind(this, x)} className="btn apply-button">Unsubscribe</button>  </div>
               :
 
@@ -278,7 +284,7 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
              
              x.subscription.seekerId === this.state.userId && x.status === "accepted" ?
              <div>
-              <button onClick={this.completeAppearance.bind(this, x)} className="btn apply-button">Veredict</button>
+              <button onClick={this.completeAppearance.bind(this, x)} className="btn apply-button">Verdict</button>
              </div>:
               
               x.attorneyId === this.state.userId && x.status === "finished"  && x.subscription.seekerRate === undefined ?
@@ -333,7 +339,7 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
       <div className="flex-space-between">      
         <div> 
         <button onClick={this.handleClickPastApp} className={pastAppClass}>Past Appearances</button>
-         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcomming</button>
+         <button onClick={this.handleClickUpcomming} className={commingClass}>Upcoming</button>
         </div>
         <button onClick={this.handleClickViewAll} className={viewClass}>View All</button>
       </div>

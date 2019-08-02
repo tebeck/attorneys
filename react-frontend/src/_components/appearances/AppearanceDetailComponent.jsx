@@ -24,10 +24,15 @@ import DatePicker from "react-datepicker";
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import 'moment/locale/it.js';
+import greyFaceImg from '../../_assets/img/grey-user.png'
+import sobre from '../../_assets/img/sobre.png'
+import phone from '../../_assets/img/phone.png'
+
 
 let docs = []
 let uploadForm = new FormData();
 const formData = new FormData(); // Currently empty
+
 export default class AppearancesComponent extends Component {
 	
 
@@ -35,6 +40,7 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
 	  	userId: Cookie.getJSON('esquired').userId,
+	  	attorneyId: props.location.state.appearanceData.attorneyId,
 	  	recordView: props.location.state.recordView,
 	  	appId: props.location.state.appearanceData._id,
 	  	status: props.location.state.appearanceData.status,
@@ -48,15 +54,13 @@ export default class AppearancesComponent extends Component {
       	redirectMyRequests: false
       };
       
-      	console.log(props.location.state)
-
 		docs = this.state.documents
-      
+
 	   let body = {
 	     appId: props.location.state.appearanceData._id
 	   }
    		appearanceService.getAppDetail(body)
-	      .then((result) => 	
+	      .then((result) => {	
 	      	this.setState({
 	      		result: result.data,
 	      		clientPresent: result.data.clientPresent,
@@ -70,28 +74,34 @@ export default class AppearancesComponent extends Component {
 	      		county: result.data.county,
                 hearingDate: new Date(result.data.hearingDate),
                 time: result.data.time,
-                veredictDocs: result.data.subscription.veredictDocs,
-                veredictDetail: result.data.subscription.information,
+                verdictDocs: result.data.subscription.verdictDocs,
+                verdictDetail: result.data.subscription.information,
                 appearanceState: result.data.subscription.state
+	      	})})
+	    
 
+	  var recordData = { uid: this.state.attorneyId}
+	  var seekerData = { uid: this.state.seekerId }
 
+	  userServices.getUserProfile(recordData)
+	    .then(recordInfo => this.setState({recordData: recordInfo}) )
+	    	
 
-	      	})
-	      )
-
+	  if(props.location.state.appearanceData.subscription.seekerId.length > 0){  	
+	    userServices.getUserProfile(seekerData)
+	    	.then((dataProfiles) => this.setState({ seekerData: dataProfiles }))	
+	  } else { this.state.seekerData = "not applied" }
 
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);	      
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
-    this.handleChangeCP= this.handleChangeCP.bind(this); // client present input	
-
-
-    
-
-
+    this.handleChangeCP= this.handleChangeCP.bind(this); // client present input
 
 
 	}
+
+
+
 	
 
   handleDateChange(date) { this.setState({ hearingDate: date })}
@@ -104,6 +114,9 @@ export default class AppearancesComponent extends Component {
 	handleClick = (e) =>{
 	 e.preventDefault()
 
+
+
+
     let body = {
       appId: this.state.appId
     }
@@ -111,6 +124,13 @@ export default class AppearancesComponent extends Component {
      appearanceService.subscribe(body)
      	.then(data => {
           if(data.status === 200){
+	 		console.log(data.data.courtHouse)
+		     let findCourt ={
+		     	court: data.data.courtHouse
+		     }
+		     appearanceService.getAppearanceByCourt(findCourt)
+		       .then(data => this.setState({courtHouseNumber: data.data.length}))
+
 	       this.openModal()
           }
      	}
@@ -252,29 +272,38 @@ export default class AppearancesComponent extends Component {
 
   }
 
+  handleStaking = (result) =>{
+  	
+  	this.setState({
+  		stackingData: result,
+  		stackingRedirect: true
+  	})
+
+  }
+
 
 
 
  render() {
 
- 	const {result, documents} = this.state
- 	docs = this.state.documents
-	if(result){
+ 	const {result, documents, recordData, seekerData} = this.state
+ 	 docs = this.state.documents
 
+  if(result && recordData && seekerData){
+	  
+	  if (this.state.stackingRedirect) { return <Redirect to={{
+	      pathname: '/stacking',
+	      state: { data: this.state.result} }} />
+	   }	
 
-
-
-
-
-
-  if (this.state.redirectHome) { return <Redirect to={{
-      pathname: '/home',
-      state: { key: "myappearances"} }} />
-   }
-  if (this.state.redirectMyRequests) { return <Redirect to={{
-      pathname: '/home',
-      state: { key: "myrequests"} }} />
-   }
+	  if (this.state.redirectHome) { return <Redirect to={{
+	      pathname: '/home',
+	      state: { key: "myappearances"} }} />
+	   }
+	  if (this.state.redirectMyRequests) { return <Redirect to={{
+	      pathname: '/home',
+	      state: { key: "myrequests"} }} />
+	   }
 
 
      var checkStatus;
@@ -284,13 +313,9 @@ export default class AppearancesComponent extends Component {
       this.state.status === "completed" ||
       this.state.status === "finished" ||
       this.state.userId === this.state.seekerId ||
-      !this.state.recordView ){
-   	   checkStatus = false;
-     } else {
-       checkStatus = true;
-     }
-
-     console.log(checkStatus)
+      !this.state.recordView )
+       	{ checkStatus = false }
+       else { checkStatus = true  }
 
 
 
@@ -298,7 +323,7 @@ export default class AppearancesComponent extends Component {
 		<div className="container main-body">
 	  
 
-	  <Modal visible={this.state.visible} width="370" height="600" effect="fadeInDown" onClickAway={() => this.closeModal()}>
+	  <Modal visible={this.state.visible} width="370"  effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "20px",textAlign: "center"}}>
 	    <img width="250px" src={welldoneImg}/><br/><br/>
 	    <h5><b>Well done!</b></h5>
@@ -306,12 +331,12 @@ export default class AppearancesComponent extends Component {
 	   
 	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button><br />
 
-
-	    <div style={{backgroundColor: "green", padding: "20px"}}>
-	    	<p>We have detected 2 appearances for<br/>the same day in the same court</p>
-	    	<button onClick={this.handleStaking} className="btn btn-primary link-button btn-request">View Appearances</button>
+	    {this.state.courtHouseNumber > 0 ?
+	    <div className="stackingCard">
+	    	<p>We have detected {this.state.courtHouseNumber} appearances for<br/>the same day in the same court</p>
+	    	<button onClick={this.handleStaking.bind(this,result)} className="btn btn-primary link-button btn-request">View Appearances</button>
 	    </div>
-
+	     : null}
 	  </div>
 	  </Modal>
 
@@ -333,6 +358,49 @@ export default class AppearancesComponent extends Component {
 	    </Link>:null
 		}
 	       <hr />
+
+	       <div className="adSquares">
+	         <div className="adSquare">
+	         	<p>Request created by:</p>
+	         	  	<div className="adSquareDetail">
+	         	  	 <div className="adUserImage">
+
+	         	  	 	{recordData ?
+	         	  	 	  <img className="borderRadius" width="40px" src={recordData.profilePicture} alt={recordData.firstName} />
+	         	  	 		:
+	         	  	 	  <img width="40px" src={greyFaceImg} alt={recordData.firstName} />
+	         	  	 	}
+	         	  	 </div>
+	         	  	 <div>
+	         	  	   <p className="adSquareName">{recordData.firstName}</p>
+	         	  	   <p className="adSquareEmail">{recordData.email}</p>
+	         	  	 </div>
+
+	         	    </div>
+	         </div>
+	      { this.state.seekerId.length > 0 ?
+	         <div className="adSquare">
+	            <p>Request applied by:</p>
+	         	  	<div className="adSquareDetail">
+	         	  	 <div className="adUserImage">
+	         	  	 	{seekerData.profilePicture ?
+	         	  	 	  <img className="borderRadius" width="40px" src={seekerData.profilePicture} alt={seekerData.firstName} />
+	         	  	 		:
+	         	  	 	  <img  width="40px" src={greyFaceImg} alt={seekerData.firstName} />
+	         	  	 	}
+	         	  	 </div>
+	         	  	 <div>
+	         	  	   <p className="adSquareName">{seekerData.firstName}</p>
+	         	  	   <p className="adSquareEmail">{seekerData.email}</p>
+	         	  	 	<div className="contactImages">
+	         	  	 	 <img height="33" src={phone} alt="esquired" />
+	         	  	 	 <img height="25" src={sobre} alt="esquired" />
+	         	  	 	</div> 
+	         	  	 </div>
+	         	    </div>
+	         </div>
+	        : null }
+	       </div>
 	      	 <div>
 	      	  <div className="appearanceDate">
 	      	  	<div className="flex">
@@ -419,18 +487,18 @@ export default class AppearancesComponent extends Component {
 	                )
 	             }
 	             
-	            {this.state.veredictDocs.length > 0 ? <p className="adTitle">Veredict files</p> : null }
+	            {this.state.verdictDocs.length > 0 ? <p className="adTitle">Verdict files</p> : null }
 	            <div>
-	            {this.state.veredictDocs ? 
-	              this.state.veredictDocs.map(x => 
+	            {this.state.verdictDocs ? 
+	              this.state.verdictDocs.map(x => 
 	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
 	              ): <p>No files uploaded</p>}
 
 	            </div>
 	           
-	            {this.state.veredictDetail  ? 
-	              <div><p className="adTitle">Veredict information</p>
-	            	<input name="veredictDetail" type="text" className="form-control" value={this.state.veredictDetail} disabled={!checkStatus} onChange={this.handleChange}/>  
+	            {this.state.verdictDetail  ? 
+	              <div><p className="adTitle">Verdict information</p>
+	            	<input name="verdictDetail" type="text" className="form-control" value={this.state.verdictDetail} disabled={!checkStatus} onChange={this.handleChange}/>  
 	               <hr /></div> : null}
 
 	           
@@ -466,11 +534,13 @@ export default class AppearancesComponent extends Component {
 
 	            {!this.state.recordView ?
 	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Apply Request</button> :
+ 	            
+ 	            this.state.attorneyId === this.state.userId ?
  	             this.state.status === "pending" || this.state.status === "applied" ?
 	            <div>
 	             <span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span><br/>
 	             <button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button>
-	            </div>: null
+	            </div>: null : null
 	          	}
 	         </form>
 

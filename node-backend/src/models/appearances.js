@@ -73,7 +73,7 @@ var appearances = new Schema({
        type: Date,
        required: false
      },
-     veredictDocs:{
+     verdictDocs:{
        type: Array,
        required: false
      },

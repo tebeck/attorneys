@@ -119,17 +119,23 @@ export default class RequestsComponent extends Component {
           </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
 	           <div style={{opacity: 0.4}}>
-	             <p className="titlebox">{x.caseName}</p>
+		          {x.caseName.length > 19 ?
+		          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
+		          <p className="titlebox"  >{x.caseName}</p>
+		          }
     	        <div className="divmailing">
 	        	   <img alt="Esquired" width="20px" src={pingImg}></img>
-	        	   <p className="mailing">{x.courtHouse}</p>
+		          {x.courtHouse.length > 19 ?  
+		            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
+		            <p className="mailing">{x.courtHouse}</p>
+		          }
     	       </div>
     	       </div>
     	      <div className="divprice" style={{opacity: 0.4}}>
 	             <img alt="Esquired" width="18px" src={priceImg}></img>
 	             <p className="price">$75</p>	
 	          </div>
-	          <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliverating</span><br /> We will notify when the veredict<br /> information has been loaded.</p>
+	          <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliverating</span><br /> We will notify when the Verdict<br /> information has been loaded.</p>
 
 	          </div>
 	          
@@ -142,10 +148,16 @@ export default class RequestsComponent extends Component {
 	              <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
 	          </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
-	             <p className="titlebox">{x.caseName}</p>
+		          {x.caseName.length > 19 ?
+		          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
+		          <p className="titlebox"  >{x.caseName}</p>
+		          }
     	        <div className="divmailing">
 	        	   <img alt="Esquired" width="20px" src={pingImg}></img>
-	        	   <p className="mailing">{x.courtHouse}</p>
+		          {x.courtHouse.length > 19 ?  
+		            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
+		            <p className="mailing">{x.courtHouse}</p>
+		          }
     	       </div>
     	      <div className="divprice">
 	             <img alt="Esquired" width="18px" src={priceImg}></img>
@@ -178,7 +190,7 @@ export default class RequestsComponent extends Component {
     	    {x.status === "accepted" ? 
             <div key={x._id} style={{minHeight: "250px"}} className="appearanceBox juryDeliverating">
               <div>
-               <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliverating</span><br /> We will notify when the veredict<br /> information has been loaded.</p>
+               <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliverating</span><br /> We will notify when the Verdict<br /> information has been loaded.</p>
     	      </div>
 	        </div>
 	      	:
