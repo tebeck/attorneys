@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import backbutton from '../_assets/img/btnback.png'
 import notificationEdit from '../_assets/img/notifications/notification_edit.png'
 import {userServices} from '../_services/user.service'
@@ -37,10 +36,10 @@ export default class NotificationsComponent extends Component {
    
    return (
     <div className="container main-body">
-      <a onClick={this.handleClickNotifications} style={{color: "black"}} >
+      <div className="pointer" onClick={this.handleClickNotifications} style={{color: "black"}} >
        <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
        <h3 style={{display: "inline"}  }> Notifications</h3>
-      </a>			
+      </div>			
        <hr />
         {this.state.notifications ?
            this.state.notifications.map(x =>

@@ -359,7 +359,10 @@ export default class AppearancesComponent extends Component {
 		}
 	       <hr />
 
+	     
+
 	       <div className="adSquares">
+	       { !this.state.status === "pending" ? 
 	         <div className="adSquare">
 	         	<p>Request created by:</p>
 	         	  	<div className="adSquareDetail">
@@ -377,7 +380,8 @@ export default class AppearancesComponent extends Component {
 	         	  	 </div>
 
 	         	    </div>
-	         </div>
+	         	    
+	         </div> : null }
 	      { this.state.seekerId.length > 0 ?
 	         <div className="adSquare">
 	            <p>Request applied by:</p>

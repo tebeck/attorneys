@@ -8,11 +8,10 @@ import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
 import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 import LoaderAnimation from '../LoaderAnimation';
-import {Elements, StripeProvider} from 'react-stripe-elements';
-import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
 import Modal from 'react-awesome-modal';
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Moment from 'react-moment';
+
 
 import MasterCard from '../../_assets/img/cards/MasterCard.png'
 import Visa from '../../_assets/img/cards/Visa.png'
@@ -116,12 +115,6 @@ export default class ProfileComponent extends Component {
 
   }
 
-
-  openModal() {
-      this.setState({
-          visible : true
-      });
-  }
 
   handleAccSubmit = (e) =>{
     e.preventDefault()
@@ -276,8 +269,10 @@ export default class ProfileComponent extends Component {
                    <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? 
                        <div>
-                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
-                         <img  alt="avatar" width="200px" src={this.state.profilePicture} />
+                        <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
+                        <div class="profile-picture-p">
+                          <img  alt="avatar" src={this.state.profilePicture} />
+                        </div>
                        </div>
                        : 
                        <div>
@@ -392,42 +387,36 @@ export default class ProfileComponent extends Component {
       </Tab>
       
       <Tab eventKey="transactions" title="Transactions" >
+      
+      {console.log(this.state.transactions)}
+
+      { this.state.transactions === "[]" ? 
         <div>
-          <img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} />
-          <hr/>
-
-        { this.state.transactions ? 
-          this.state.transactions.map((x,z) =>
-          
-        <div key={z}>
-        <div className="transactions">
-          <div>
-            <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
-            <p className="tType">{x.type}</p>
-          </div>  
-          <div>
-               
-              <p className={x.amount === "-$100" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
-          </div>
-
-            
-        </div>
-        <hr/>
-        </div>
-
-        )
-        : <p>You don't have transactions</p>}
-
-        </div>
+          <img alt="calendar" width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} />
+          <hr/> 
+            {this.state.transactions.map(x => 
+              <div key={x._id}>
+                <div className="transactions">
+                  <div>
+                    <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
+                    <p className="tType">{x.type}</p>
+                  </div>  
+                  <div>
+                    <p className={x.amount === "-$100" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
+                  </div>
+                </div> <hr/> 
+              </div> )}
+           
+        </div> 
+          : <p>You don't have transactions</p> }
+      
       </Tab>
+
     </Tabs>
    </div> 
   </div>
-</div>
-		);
-
-
- }
+</div> 
+  )}
 
 }
 

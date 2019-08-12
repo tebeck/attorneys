@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {CardElement, injectStripe} from 'react-stripe-elements';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutFormComponent from './CheckoutFormComponent'
 import backbutton from '../../_assets/img/btnback.png'

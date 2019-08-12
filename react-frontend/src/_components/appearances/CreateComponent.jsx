@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {appearanceService, userServices} from '../../_services';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar } from "react-step-progress-bar";

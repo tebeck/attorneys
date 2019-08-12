@@ -135,7 +135,7 @@ export default class RequestsComponent extends Component {
 	             <img alt="Esquired" width="18px" src={priceImg}></img>
 	             <p className="price">$75</p>	
 	          </div>
-	          <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliverating</span><br /> We will notify when the Verdict<br /> information has been loaded.</p>
+	          <p className="juryText"><span style={{fontWeight:"bold"}}>The jury is deliberating</span><br /> We will notify you when there is a verdict.</p>
 
 	          </div>
 	          

@@ -31,9 +31,6 @@ export default class AdminComponent extends Component {
  handleSubmitApprove = (e) =>{
    e.preventDefault();
 
-   console.log(e.target)
-   let element = e.target
-
    let email = {email: e.target.value}
    adminServices.enableSeeker(email)
     .then( data => {
