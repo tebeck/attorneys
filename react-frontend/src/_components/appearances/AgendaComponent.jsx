@@ -249,20 +249,24 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
           </div> 
           <div className="flex-space-between paddingUpDown" style={{minHeight: "150px", marginBottom: "20px"}}>
-          <div>
+          
+
+          <div className="firstBox">
           {x.caseName.length > 19 ?
-          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
+          <p className="titlebox"  >{x.caseName.substr(0,40)+'...'}</p> :
           <p className="titlebox"  >{x.caseName}</p>
           }
           <div className="divmailing">
             <img alt="Esquired" width="20px" src={pingImg}></img>
           {x.courtHouse.length > 19 ?  
-            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
+            <p className="mailing">{x.courtHouse.substr(0,40)+'...'}</p> :
             <p className="mailing">{x.courtHouse}</p>
           }
           </div>
           </div>
-          <div className="agenda-rate-button">
+
+
+          <div className="secondBox agenda-rate-button">
            { 
               
              x.subscription.seekerId === this.state.userId && new Date().getTime() < new Date(x.subscription.date).getTime()+ (1 * 24 * 60 * 60 * 1000) && x.status === "accepted" ?

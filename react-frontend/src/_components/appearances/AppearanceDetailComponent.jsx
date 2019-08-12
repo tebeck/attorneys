@@ -393,8 +393,8 @@ export default class AppearancesComponent extends Component {
 	         	  	   <p className="adSquareName">{seekerData.firstName}</p>
 	         	  	   <p className="adSquareEmail">{seekerData.email}</p>
 	         	  	 	<div className="contactImages">
-	         	  	 	 <img height="33" src={phone} alt="esquired" />
-	         	  	 	 <img height="25" src={sobre} alt="esquired" />
+	         	  	 	 <a target="_blank" href={'https://api.whatsapp.com/send?phone='+ seekerData.mobilePhone}><img height="33" src={phone} alt="esquired" /></a>
+	         	  	 	 <a href={'mailto:'+seekerData.email} ><img height="25" src={sobre} alt="esquired" /></a>
 	         	  	 	</div> 
 	         	  	 </div>
 	         	    </div>
@@ -483,7 +483,9 @@ export default class AppearancesComponent extends Component {
 	             {
 	             	documents.map((x,index) => 
 	             		<div key={index}><a href={x.location} className="link-file" download target="_blank">{x.originalname}</a>
-	             		 <button className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button><hr /></div>
+	             		 {checkStatus ? 
+	             		 <button  className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button> :null
+	             		}<hr /></div>
 	                )
 	             }
 	             

@@ -73,8 +73,6 @@ export default class RegisterForm extends Component {
     zip:"",
     password: "",
     profilePicture:"",
-    creditCard:"",
-    // policy:"",
     policy: false,
     insurancePolicy:"",
     image: ""
@@ -221,8 +219,6 @@ nextButton(){
 
 
   handleChange = ({target}) =>{
-
-    this.state.errors.creditCard = false;
 
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
@@ -511,7 +507,6 @@ if (this.state.currentStep === 2){
           fileSelectedHandler={this.fileSelectedHandler}
           handleChange={this.handleChange}
           password={this.state.password}
-          creditCard={this.state.creditCard}
           profilePicture={this.state.profilePicture}
           showImage={this.state.showImage}
           image={this.state.image}
@@ -615,8 +610,6 @@ function Step1(props){
 
         <label> Password</label>
         <input className="form-control" type="password" name="password"   placeholder="Password"         value={props.password}   onChange={props.handleChange}></input>
-        <label> Payment Info</label>
-        <input className="form-control" type="text"     name="creditCard" placeholder="Credit Card Number" value={props.creditCard} onChange={props.handleChange} maxLength={16}></input>
         
 
         <label>Notifications</label><br />
@@ -633,7 +626,6 @@ function Step1(props){
         {props.state.errors.officePhone && <div className="alert alert-danger" role="alert">{props.state.errors.officePhone}</div>}
         {props.state.errors.mobilePhone && <div className="alert alert-danger" role="alert">{props.state.errors.mobilePhone}</div>}
         {props.state.errors.email && <div className="alert alert-danger" role="alert">{props.state.errors.email}</div>}
-        {props.state.errors.creditCard && <div className="alert alert-danger" role="alert">{props.state.errors.creditCard}</div>}
         {props.state.errors.policy && <div className="alert alert-danger" role="alert">{props.state.errors.policy}</div>}
         {props.state.errors.streetAddOne && <div className="alert alert-danger" role="alert">{props.state.errors.streetAddOne}</div>}
         {props.state.errors.streetAddTwo && <div className="alert alert-danger" role="alert">{props.state.errors.streetAddTwo}</div>}
@@ -680,8 +672,6 @@ const errors = {}
 
   if(!values.lastName) { errors.lastName = 'Insert lastName' }
 
-  if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
-  if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
 
   console.log(errors)
   return errors;

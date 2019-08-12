@@ -72,7 +72,7 @@ export default class AppearancesComponent extends Component {
        <h3 style={{display: "inline"}  }> Same day Appearances</h3>
     </Link><br />
 
-    <p>There are {data.length -1} appearances for the same day at the same court</p><br />
+    <p>There are {data.length} appearances for the same day at the same court</p><br />
 
 	{data.map(x =>
 	<div key={x._id}>

@@ -19,7 +19,8 @@ export const userServices = {
     multiupload,
     rateAttorney,
     rateSeeker,
-    getUserProfile
+    getUserProfile,
+    notificationRead
 }
 
 function register(data){
@@ -95,6 +96,19 @@ function makeAttorney(userId){
     }
 
     return fetch(`${url_backend}/users/makeattorney`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            return data
+        })
+}
+
+function notificationRead(){
+      const requestOptions = {
+        method: 'POST',
+        headers: authHeader()
+    }
+    console.log("entra")
+    return fetch(`${url_backend}/users/notificationread`, requestOptions)
         .then(handleResponse)
         .then(data => {
             return data

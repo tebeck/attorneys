@@ -15,7 +15,7 @@ export default class NotificationsComponent extends Component {
      this.state = {
      	appId: props.location.state._id,
       information: "",
-      veredictDocs: []
+      verdictDocs: []
 
      };
    }
@@ -28,7 +28,7 @@ export default class NotificationsComponent extends Component {
     userServices.multiupload(uploadForm)
       .then(data => {
          this.setState({
-          veredictDocs: data.data.location 
+          verdictDocs: data.data.location 
          })
 
       })
@@ -45,7 +45,7 @@ export default class NotificationsComponent extends Component {
      uploadForm.delete('avatar')
 
      console.log(uploadForm.getAll('avatar'))
-     this.setState({ veredictDocs: [] });
+     this.setState({ verdictDocs: [] });
     }
 
   }
@@ -54,7 +54,7 @@ export default class NotificationsComponent extends Component {
   	let body = {
   		appId: this.state.appId,
       information: this.state.information,
-      veredictDocs: this.state.veredictDocs
+      verdictDocs: this.state.verdictDocs
   	}
   	appearanceService.completeAppearance(body)
   	 .then(alert("APPEARANCE COMPLETED"))
@@ -92,11 +92,11 @@ export default class NotificationsComponent extends Component {
             </div>
 
             <div>
-            {this.state.veredictDocs ? 
-              this.state.veredictDocs.map((x,i) => (
+            {this.state.verdictDocs ? 
+              this.state.verdictDocs.map((x,i) => (
                   <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
               )): null}
-              {this.state.veredictDocs.length > 0 ? <button className="clearFiles" onClick={this.deleteFiles}>Clear files</button> : null }
+              {this.state.verdictDocs.length > 0 ? <button className="clearFiles" onClick={this.deleteFiles}>Clear files</button> : null }
             </div>
             <div className="center">
              <button onClick={this.completeAppearance} className="btn btn-primary link-button">Submit</button>

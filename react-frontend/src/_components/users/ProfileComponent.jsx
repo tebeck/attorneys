@@ -11,6 +11,8 @@ import LoaderAnimation from '../LoaderAnimation';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
 import Modal from 'react-awesome-modal';
+import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
+import Moment from 'react-moment';
 
 import MasterCard from '../../_assets/img/cards/MasterCard.png'
 import Visa from '../../_assets/img/cards/Visa.png'
@@ -37,7 +39,7 @@ export default class ProfileComponent extends Component {
       showImage:true,
       image:"",
       showLoader: false,
-      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
+      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
     
@@ -65,6 +67,7 @@ export default class ProfileComponent extends Component {
         image: data.data.profilePicture,
         stripe_user_id: data.data.stripe_user_id,
         stripe_customer_id: data.data.stripe_customer_id,
+        transactions: data.data.transactions,
         data: data.data
         
         })
@@ -389,7 +392,33 @@ export default class ProfileComponent extends Component {
       </Tab>
       
       <Tab eventKey="transactions" title="Transactions" >
-        <br /><br /><p>You don't have transactions</p>
+        <div>
+          <img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} />
+          <hr/>
+
+        { this.state.transactions ? 
+          this.state.transactions.map((x,z) =>
+          
+        <div key={z}>
+        <div className="transactions">
+          <div>
+            <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
+            <p className="tType">{x.type}</p>
+          </div>  
+          <div>
+               
+              <p className={x.amount === "-$100" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
+          </div>
+
+            
+        </div>
+        <hr/>
+        </div>
+
+        )
+        : <p>You don't have transactions</p>}
+
+        </div>
       </Tab>
     </Tabs>
    </div> 

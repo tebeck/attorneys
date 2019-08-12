@@ -9,10 +9,75 @@ $text-normal: #4a4a4a;
 $white: #ffffff;
 $grey-color: #ccc;
 $black-color: #000;
+$red-color: #B22222;
 
 $font-family: "Noto Sans HK", sans-serif;
 $hide-block: none;
 $display-block: block;
+
+
+input[type=password]{
+  font-family: $font-family!important;
+}
+
+.unread-notification{
+  background-color: white;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+.read-notification{
+  background-color: $lightgrey-color;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.transactions{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tDate{
+  color: #777;
+  margin: 0px;
+  margin-left:20px;
+}
+
+.tType{
+  font-size: 23px;
+  margin: 0px;
+  margin-left:20px;
+  margin-top:5px;
+}
+
+.red-color{
+  color:$red-color;
+}
+
+.tAmountred{
+  margin: 0px;
+  margin-right:25px;
+  color: $red-color;
+}
+.tAmountgreen{
+  margin: 0px;
+  margin-right:25px;
+  color: $green-color;
+}
+
+.firstBox{
+  width: 60%
+
+}
+
+.secondBox{
+  text-align: right;
+  width: 40%;
+}
+
+div.secondBox div button{
+  margin-top:0px;
+}
 
 
 .stackingCard{
@@ -39,6 +104,7 @@ $display-block: block;
     margin: 0!important;
   color: #555!important;
   margin-left: 15px!important;
+  font-size: 13px;
 }
 
 .contactImages img{
@@ -83,6 +149,16 @@ div.contactImages{
 
 div.stripebutton{
   text-align: center;
+}
+
+div.stripebuttonregister{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+span.button--inverse{
+  margin-left:0px!important;
 }
 
 .bg-green-color{
@@ -888,7 +964,30 @@ text-align: right;
     margin-left:0px;
 
   }
+
 }
+
+
+
+@media screen and (max-width:400px){
+  .adSquareEmail{
+    font-size: 4vw;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .noleftmargin{
   margin-left:0px;
 }
@@ -928,9 +1027,7 @@ text-align: right;
   margin-right: 10px;
 }
 
-.agenda-rate-button{
-  margin-top: 20px;
-}
+
 
 .paddingUpDown{
   padding: 20px 0px 20px 0px
@@ -976,8 +1073,9 @@ a:hover,a:focus{text-decoration: none!important; outline:none; color: $green-col
 
 
 input[type=password]{
-  font-family: Tahoma;
+  font-family: $font-family!important;
 }
+
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
   background-color: $green-color;
   width: auto;
@@ -1317,6 +1415,36 @@ div.popup-content{
   body {
     background-color: $background-grey;
   }
+
+
+.adSquares {
+  display: block;
+
+}
+.adSquare{
+  width: 100%;
+  height: auto;
+  margin-bottom:10px;
+
+}
+
+
+
+
+div.popup-content{
+  width: 300px!important;
+}
+
+.formbutton{
+  background-color: $green-color;
+  width: 250px;
+  height: 50px;
+  border-radius: 25px;
+  color: #fff;
+  border-style: none;
+}
+
+
 
   .slogan {
     display: inline-block;
