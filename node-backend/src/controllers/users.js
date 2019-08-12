@@ -327,10 +327,17 @@ makeAttorney: function(req, res, next){
          return res.status(409).send({message: "no user found"})
        }
 
-
         return res.status(200).send({data: user})
        
      })
-   }
+   },
+
+   notificationsRead: function(req, res, next){
+     console.log("backend")
+     userModel.updateMany({"_id": req.body.userId},
+      { $pull: { notifications:{read: { $in: [ false ] } }}},
+      { multi: true }
+      ).then(a=>{console.log(a)})
+     }
 
 }

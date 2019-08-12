@@ -15,7 +15,7 @@ class CheckoutFormComponent extends Component {
     token.email = Cookies.getJSON('esquired').email;
     stripeService.createNewCreditCard(token)
       .then(alert("Credit card added!"))
-      .then(window.location.assign('/home'))
+      .then(window.location.assign('/profile'))
 }
 
   render() {

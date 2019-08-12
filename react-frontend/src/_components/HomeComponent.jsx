@@ -24,11 +24,13 @@ export default class HomeComponent extends Component {
      code: values.code
   }
 
+
+
     if(stripeBody.code){
       stripeService.getStripeInfo(stripeBody)
        .then(console.log("Stripe: ID Successfully genrated"))
     }
-
+    
 
     if(props.location.state){
       var keytab = props.location.state.key
@@ -40,7 +42,8 @@ export default class HomeComponent extends Component {
       isSeeker: Cookies.getJSON('esquired').isSeeker,
       onHold: Cookies.getJSON('esquired').onHold,
       user: Cookies.getJSON('esquired').user,
-      email: Cookies.getJSON('esquired').email
+      email: Cookies.getJSON('esquired').email,
+      isFlushed: false
     }
 
 
@@ -48,6 +51,7 @@ export default class HomeComponent extends Component {
       .then(res => {
         if(res.data){
          this.setState({
+          notifications: res.data.notifications,
           imgUrl: res.data.profilePicture
          })
         } else {
@@ -69,6 +73,16 @@ export default class HomeComponent extends Component {
 
   render(){
 
+    var sum = 0;
+    
+    if (this.state.notifications){
+      this.state.notifications.map(x=>
+        x.read ? sum = sum
+          : sum = sum  + 1 )
+    }
+
+    console.log(sum)
+
   const {isAttorney, isSeeker, onHold} = this.state
 
   return (
@@ -85,9 +99,11 @@ export default class HomeComponent extends Component {
             <a href="/"><img src={logo} alt="esquired" /></a>
           </div>    
           
+          
           <Link to="/notifications">
             <img width="20px" src={bellIcon} alt="esquired" />
-          </Link>
+          </Link><p className="red-color">{sum}</p>
+
         </div>
         <hr/>
           <Tabs id="controlled-tab-example" className="tabs-control" activeKey={this.state.key ? this.state.key : "agenda"} onSelect={key => this.setState({ key })} >

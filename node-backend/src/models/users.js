@@ -67,18 +67,9 @@ var users = new Schema({
     type: String,
     required: false,
   },
-  creditCard: {
-    type: Number,
-    required: true
-  },
   policy: {
     type: Boolean,
     required: true
-  },
-  notification: {
-    type: Boolean,
-    default: false,
-    required: false
   },
   insurancePolicy:{
     type: Number,
@@ -163,7 +154,34 @@ var users = new Schema({
   stripe_customer_id: {
     type: String,
     required: false
+  },
+  transactions: [{
+    date: {
+      type: Date,
+      required: false,
+      default: new Date(),
+    },
+    amount: {
+      type: String,
+      required: false
+    },
+    type: {
+      type: String,
+      required: false 
+    }
+  }],
+  notifications:[{
+    type: {
+      type: String,
+      required: false,
+    },
+    read: {
+      type: Boolean,
+      default: false
+    }
   }
+  ]
+  
 },{
     collection: 'users', timestamps: true
 });

@@ -120,13 +120,13 @@ export default class RequestsComponent extends Component {
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
 	           <div style={{opacity: 0.4}}>
 		          {x.caseName.length > 19 ?
-		          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
+		          <p className="titlebox"  >{x.caseName.substr(0,40)+'...'}</p> :
 		          <p className="titlebox"  >{x.caseName}</p>
 		          }
     	        <div className="divmailing">
 	        	   <img alt="Esquired" width="20px" src={pingImg}></img>
 		          {x.courtHouse.length > 19 ?  
-		            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
+		            <p className="mailing">{x.courtHouse.substr(0,40)+'...'}</p> :
 		            <p className="mailing">{x.courtHouse}</p>
 		          }
     	       </div>
@@ -149,13 +149,13 @@ export default class RequestsComponent extends Component {
 	          </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
 		          {x.caseName.length > 19 ?
-		          <p className="titlebox"  >{x.caseName.substr(0,20)+'...'}</p> :
+		          <p className="titlebox"  >{x.caseName.substr(0,40)+'...'}</p> :
 		          <p className="titlebox"  >{x.caseName}</p>
 		          }
     	        <div className="divmailing">
 	        	   <img alt="Esquired" width="20px" src={pingImg}></img>
 		          {x.courtHouse.length > 19 ?  
-		            <p className="mailing">{x.courtHouse.substr(0,20)+'...'}</p> :
+		            <p className="mailing">{x.courtHouse.substr(0,40)+'...'}</p> :
 		            <p className="mailing">{x.courtHouse}</p>
 		          }
     	       </div>

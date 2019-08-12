@@ -21,5 +21,6 @@ module.exports = {
 			const text = "Please upload the proof of completion of the appearance";
 			send.email(user.email, subject, text);
 		});		
+	
 	}
 }
