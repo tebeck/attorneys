@@ -236,7 +236,7 @@ nextButton(){
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+        if (/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
@@ -350,10 +350,8 @@ if (this.state.currentStep === 2){
       console.log('newState: ',newState)
       this.setState(newState);
     }
-
-    this.state.error = false;
     
-    this.setState({ [target.name]: target.value })
+    this.setState({ [target.name]: target.value, error: false })
 
   }
 
@@ -457,7 +455,9 @@ if (this.state.currentStep === 2){
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
-            <Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Go to profile</Link>
+            {this.state.isAttorney ? <Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Go to profile</Link>
+            :<Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Done</Link>
+            }
         </Modal>
 
 
@@ -607,7 +607,7 @@ function Step1(props){
               <img  alt="avatar" src={props.state.profilePicture} />
             </div>
           :
-           <div><img src={uploadImg} alt="profileImg" width="150px" /><br />Upload Profile Picture<br /></div> }
+           <div><img src={uploadImg} alt="profileImg" className="profileimgupload" /><br />Upload Profile Picture<br /></div> }
         
         </label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 

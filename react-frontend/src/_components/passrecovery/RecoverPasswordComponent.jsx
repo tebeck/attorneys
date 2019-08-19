@@ -79,7 +79,7 @@ export default class RecoverPasswordComponent extends Component {
 
 
 
-    const {errors, pathname, errUser} = this.state
+    const {errors,  errUser} = this.state
 		return (
 
       <div>

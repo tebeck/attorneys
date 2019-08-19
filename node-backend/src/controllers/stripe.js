@@ -84,61 +84,77 @@ module.exports = {
   )},
   
   createCharge: function(req, res, next){
-    console.log("Stripe: Creating record charge to Esquired (100usd)")
-    appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
-      if(err){ return console.log("Stripe: Charge error: " + err) };
-        userModel.findOne({_id: appearance.attorneyId}, function(err, attorney){
-          if(err){ return console.log("Stripe: Charge error: " + err) };
-          let customerId = attorney.stripe_customer_id;
-          let attorneyId = attorney._id;
-            stripe.charges.create({
-              amount: 10000,
-              currency: "usd",
-              customer: customerId,
-              transfer_group: "{ORDER11}",})
-              .then(
-                function(charge) {
-                 console.log("Stripe: Charge completed. Details below:")
-                 userModel.updateOne( { "_id": attorneyId}, {
-                  $push: {
-                    "transactions":{amount: "-$100", type: "Request"} }
-                  }) 
-                 .then(obj => {
-                   console.log('Stripe: Charge added successfully to database');
-                   // return res.status(200).send({message: "Stripe: Update OK", status: 200})
-                 })
-                 .catch(err => { console.log('Error: ' + err)
-                 })
-              })
+
+    
+    // appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
+    //   if(err){ return console.log("Stripe: Charge error: " + err) };
+        
+    //   if(appearance.subscription.completedDay)
+    //   console.log("STRIPE: Creating record charge (75usd)")
+    //     userModel.findOne({_id: appearance.attorneyId}, function(err, attorney){
+    //       if(err){ return console.log("Stripe: Charge error: " + err) };
+    //       let customerId = attorney.stripe_customer_id;
+    //       let attorneyId = attorney._id;
+    //         stripe.charges.create({
+    //           amount: 7500,
+    //           currency: "usd",
+    //           customer: customerId,
+    //           transfer_group: "{ORDER11}",})
+    //           .then(
+    //             function(charge) {
+    //              console.log("Stripe: Charge completed. Details below:")
+    //              userModel.updateOne( { "_id": attorneyId}, {
+    //               $push: {
+    //                 "transactions":{amount: "-$75", type: "Request"} }
+    //               }) 
+    //              .then(obj => {
+    //                console.log('Stripe: Charge added successfully to database');
+    //                // return res.status(200).send({message: "Stripe: Update OK", status: 200})
+    //              })
+    //              .catch(err => { console.log('Error: ' + err)
+    //              })
+    //           })
        
-          console.log("Stripe: Creating appearing transfer from Esquired (75usd)")
-           userModel.findOne({_id: appearance.subscription.seekerId}, function(err, seeker){
-            if(err){ return console.log("Stripe: Charge error: " + err) };
-            let appearingAccount = seeker.stripe_user_id;
-            let seekerId = seeker._id;
-              stripe.transfers.create({
-                amount: 7500,
-                currency: "usd",
-                destination: appearingAccount,
-                transfer_group: "{ORDER11}",
-              }).then(function(transfer) {
-                  console.log("Stripe: Transfer completed. Details below:")
+    //       console.log("Stripe: Creating appearing transfer from Esquired (75usd)")
+    //        userModel.findOne({_id: appearance.subscription.seekerId}, function(err, seeker){
+    //         if(err){ return console.log("Stripe: Charge error: " + err) };
+    //         let appearingAccount = seeker.stripe_user_id;
+    //         let seekerId = seeker._id;
+             
 
-                   userModel.updateOne( { _id: seekerId}, { 
-                    $push: {
-                     "transactions":{amount: "+$75", type: "Appearance"} }
-                    }) 
-                    .then(obj => {
-                      console.log(obj)
-                      console.log('Stripe: Transfer added successfully to database');
-                      // return res.status(200).send({message: "Stripe: Update OK", status: 200})
-                    })
-                    .catch(err => { console.log('Error: ' + err)})               
-                })
-          })
 
-      })
-     })
+             
+
+    //           stripe.transfers.create({
+    //             amount: 5000,
+    //             currency: "usd",
+    //             destination: appearingAccount,
+    //             transfer_group: "{ORDER11}",
+    //           }).then(function(transfer) {
+    //               console.log("Stripe: Transfer completed. Details below:")
+
+    //                userModel.updateOne( { _id: seekerId}, { 
+    //                 $push: {
+    //                  "transactions":{amount: "+$50", type: "Appearance"} }
+    //                 }) 
+    //                 .then(obj => {
+    //                   console.log(obj)
+    //                   console.log('Stripe: Transfer added successfully to database');
+    //                   // return res.status(200).send({message: "Stripe: Update OK", status: 200})
+    //                 })
+    //                 .catch(err => { console.log('Error: ' + err)})               
+    //             })
+
+
+
+
+
+    //       })
+
+    //   })
+    //  })
+    
+
     }
    } // Module exports
 

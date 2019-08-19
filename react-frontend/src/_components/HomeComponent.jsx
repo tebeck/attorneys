@@ -77,11 +77,9 @@ export default class HomeComponent extends Component {
     
     if (this.state.notifications){
       this.state.notifications.map(x=>
-        x.read ? sum = sum
+        x.read ? sum
           : sum = sum  + 1 )
     }
-
-    console.log(sum)
 
   const {isAttorney, isSeeker, onHold} = this.state
 

@@ -5,7 +5,6 @@ import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
-import StarRatings from 'react-star-ratings';
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 
 export default class RequestsComponent extends Component {
@@ -109,12 +108,12 @@ export default class RequestsComponent extends Component {
 	   <div key={x._id}> 
 	   	{i < 1 ? <span>Active requests<br/><br/></span>:null}
 	     <div>
-	        {x.status == "pending" ? <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :null}
+	        {x.status === "pending" ? <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :null}
     	    
     	    {x.status === "accepted" ? 
 		    <div key={x._id} style={{minHeight: "250px"}} className="appearanceBox juryDeliverating">
           <div style={{marginTop: "30px"}} className="appearanceHeaderBox flex-space-between juryDeliveratingHeader">  
-            <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span></div>
+            <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
           </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
@@ -145,7 +144,7 @@ export default class RequestsComponent extends Component {
 	      	:
 		    <div key={x._id} className="appearanceBox">
 	          <div className="appearanceHeaderBox">  
-	              <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+	              <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
 	          </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
 		          {x.caseName.length > 19 ?
@@ -180,7 +179,7 @@ export default class RequestsComponent extends Component {
 	     <div>
 	        {
 
-	        x.status == "pending" ? <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
+	        x.status === "pending" ? <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :
 	    	x.attorneyId === this.state.userId && !x.subscription.attorneyRate ? <p className="text-center pending-assignment alert alert-warning">Waiting Appearing Rating</p> :
 	    	x.subscription.seekerId === this.state.userId && !x.subscription.seekerRate ? <p className="text-center pending-assignment alert alert-warning">Waiting Record Rating</p> :null}
 
@@ -196,7 +195,7 @@ export default class RequestsComponent extends Component {
 	      	:
 		    <div key={x._id} className="appearanceBox">
 	          <div className="appearanceHeaderBox">  
-	              <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+	              <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
 	          </div> 
 	          <div style={{minHeight: "150px", marginBottom: "20px"}}>
 	             <p className="titlebox">{x.caseName}</p>

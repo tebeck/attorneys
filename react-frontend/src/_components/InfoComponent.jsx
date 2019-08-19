@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import backbutton from '../_assets/img/btnback.png'
-import editPhotoImg from '../_assets/img/btn_editphoto.png'
 import uploadImg from '../_assets/img/upload_picture.png'
 
 import {userServices} from '../_services/user.service'

@@ -49,9 +49,6 @@ export default class AdminComponent extends Component {
  handleSubmitReject = (e) =>{
    e.preventDefault();
 
-   console.log(e.target)
-   let element = e.target
-
    let email = {email: e.target.value}
    adminServices.rejectSeeker(email)
     .then( data => {
@@ -112,7 +109,7 @@ const columns = [
   {
     id: 'status',
     Header: 'Status',
-    accessor: x => x.status =="rejected" ? "Rejected" : (x.onHold) ? "Pending" : "OK",
+    accessor: x => x.status === "rejected" ? "Rejected" : (x.onHold) ? "Pending" : "OK",
   },
   {
     id: 'buttonaccept',

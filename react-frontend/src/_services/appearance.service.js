@@ -44,7 +44,6 @@ function subscribe(appId){
     body: JSON.stringify(appId)
   };
 
-  console.log(requestOptions)
     
   return fetch(`${url_backend}/appearances/subscribe`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
@@ -57,7 +56,7 @@ function unsubscribe(appId){
     body: JSON.stringify(appId)
   };
 
-  console.log(requestOptions)
+
     
   return fetch(`${url_backend}/appearances/unsubscribe`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
@@ -81,7 +80,7 @@ function _delete(data){
         body: JSON.stringify(data)
     };
 
-    console.log(data)
+    
 
     return fetch(`${url_backend}/appearances/delete`, requestOptions)
        .then( data => {return data.json().then(text=>text)} )   
@@ -94,7 +93,7 @@ function deleteFile(etag){
     body: JSON.stringify(etag)
   };
 
-  console.log(requestOptions)
+  
     
   return fetch(`${url_backend}/appearances/deleteFile`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
@@ -133,7 +132,6 @@ function deleteFile(etag){
  function upload(image){
     return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
         .then(data => {
-          console.log(data)
           return data
         })
  }

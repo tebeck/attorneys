@@ -63,15 +63,14 @@ export default class HomeComponent extends Component {
   componentDidMount(){
       userServices.getProfile()
        .then(res => {
-         console.log("aaaaa " + res.data)
-         if(res.data == null){
-            console.log("token expiraado")
+         console.log("User: Not authorized")
+         if(res.data === null){
             Cookies.remove('esquired');
             this.setState({
               loggedIn: false
             })
          } else {
-            console.log("usuario valido")
+            console.log("User: Authorized")
             this.setState({
             loggedIn: true,
             isAttorney: Cookies.getJSON('esquired').isAttorney,
@@ -102,14 +101,11 @@ export default class HomeComponent extends Component {
 
     const {errors, ...noErrors} = this.state // Destructuring...
     const result = validate(noErrors)
-    console.log(result)
     this.setState({errors: result})
     if(!Object.keys(result).length) {
-      console.log(noErrors)
       userServices.authenticate(noErrors)
         .then(data => {
           if (data.status !== 200) {
-            console.log(data.message)
             this.setState({
               errlogin: data.message
              })

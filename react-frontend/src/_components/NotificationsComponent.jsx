@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import backbutton from '../_assets/img/btnback.png'
-import notificationEdit from '../_assets/img/notifications/notification_edit.png'
+import calendar from '../_assets/img/calendar.jpg'
+import calendarx from '../_assets/img/calendarx.jpg'
 import {userServices} from '../_services/user.service'
 import Cookies from 'js-cookie'
 
@@ -34,6 +35,8 @@ export default class NotificationsComponent extends Component {
 
   render() {
    
+    console.log(this.state.notifications)
+
    return (
     <div className="container main-body">
       <div className="pointer" onClick={this.handleClickNotifications} style={{color: "black"}} >
@@ -41,18 +44,32 @@ export default class NotificationsComponent extends Component {
        <h3 style={{display: "inline"}  }> Notifications</h3>
       </div>			
        <hr />
-        {this.state.notifications ?
+        { this.state.notifications && Object.keys(this.state.notifications).length > 0 ?
            this.state.notifications.map(x =>
-            <div className={x.read ? "read-notification" : "unread-notification"} key={x._id}>
+            <div className="unread-notification" key={x._id}>
             <div style={{display: "flex"}} className="notificationEdit">
               <div className="roundedImage">
-                <img src={notificationEdit} alt="notification" />
+                
+                <img 
+                src={x.msg === "created" ? calendar :
+                     x.msg === "deleted" ? calendarx : 
+                     x.msg === "unsubscribed" ? calendarx :
+                     x.msg === "subscribed" ? calendar :
+                     x.msg === "rejected" ? calendarx :
+                     x.msg === "accepted" ? calendar :
+                     x.msg === "completed" ? calendar :
+                     x.msg === "finished" ? calendar :
+                     x.msg === "rated" ? calendar : 
+                     calendar
+                    } 
+                alt="notification" />
               </div>
-              <h5>{x.type}</h5>
+              <div className="notificationType">{x.type}</div>
             </div>
+            <hr />
             </div>
-        ) : null }
-           <hr />
+        ) : <p>You don't have new notifications.</p> }
+           
     </div>
   	);
   }

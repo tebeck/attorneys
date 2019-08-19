@@ -23,7 +23,7 @@ var appearances = new Schema({
     required: true
   },
   hearingDate: {
-    type: Date,
+    type: String,
     required: true
   },
   time: {
@@ -87,6 +87,10 @@ var appearances = new Schema({
      },
      attorneyRate: {
        type: Number,
+       required: false
+     },
+     completedDay: {
+       type: Date,
        required: false
      }
   }

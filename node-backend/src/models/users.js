@@ -98,6 +98,11 @@ var users = new Schema({
         required: false,
         default: ''
       },
+      seekerId: {
+        type: String,
+        required: false,
+        default: ''
+      },
       appearanceId: {
         type: String,
         required: false,
@@ -178,6 +183,10 @@ var users = new Schema({
     read: {
       type: Boolean,
       default: false
+    },
+    msg:{
+      type: String,
+      required: false
     }
   }
   ]
