@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {CardElement, injectStripe} from 'react-stripe-elements';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutFormComponent from './CheckoutFormComponent'
 import backbutton from '../../_assets/img/btnback.png'
@@ -7,11 +6,6 @@ import { Link } from 'react-router-dom';
 
 
 class AddCardComponent extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
 
   render() {
     return (

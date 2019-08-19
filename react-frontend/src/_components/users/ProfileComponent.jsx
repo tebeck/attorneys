@@ -8,11 +8,10 @@ import Cookies from 'js-cookie';
 import backbutton from '../../_assets/img/btnback.png'
 import editPhotoImg from '../../_assets/img/btn_editphoto.png'
 import LoaderAnimation from '../LoaderAnimation';
-import {Elements, StripeProvider} from 'react-stripe-elements';
-import CheckoutFormComponent from '../stripe/CheckoutFormComponent';
 import Modal from 'react-awesome-modal';
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Moment from 'react-moment';
+
 
 import MasterCard from '../../_assets/img/cards/MasterCard.png'
 import Visa from '../../_assets/img/cards/Visa.png'
@@ -35,11 +34,11 @@ export default class ProfileComponent extends Component {
       officePhone: "",
       mobilePhone: "",
       streetAddrOne: "",
-      creditCard: "",
       showImage:true,
       image:"",
       showLoader: false,
-      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
+      transactions: [],
+      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/profile&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
     
@@ -60,7 +59,6 @@ export default class ProfileComponent extends Component {
         profilePicture: data.data.profilePicture,
         password: data.data.password,
         _userId: data.data._id,
-        creditCard: data.data.creditCard,
         notification: data.data.notification,
         policy: data.data.policy,
         streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
@@ -91,14 +89,12 @@ export default class ProfileComponent extends Component {
 
   fileSelectedHandler = ({target}) => {
     const newForm = new FormData();
-    console.log(target.value)
     if(target.value !== ""){
 
      newForm.append('avatar',  target.files[0] , target.files[0].name)
 
       userServices.upload(newForm)
       .then(data => {
-         console.log(data)
          this.setState({
            image: data.data.location,
            profilePicture: data.data.location
@@ -116,12 +112,6 @@ export default class ProfileComponent extends Component {
 
   }
 
-
-  openModal() {
-      this.setState({
-          visible : true
-      });
-  }
 
   handleAccSubmit = (e) =>{
     e.preventDefault()
@@ -152,7 +142,7 @@ export default class ProfileComponent extends Component {
      const {...noErrors} = this.state // Destructuring...
      // const result = validateProf(noErrors)
      // this.setState({errors: result})
-     console.log(noErrors)
+     
      // if(!Object.keys(result).length) {
         userServices.updateProfInfo(noErrors).then(
           res =>{
@@ -172,9 +162,9 @@ export default class ProfileComponent extends Component {
     userServices.makeAttorney(body)
       .then(res => {
         if (res.state !== 200) {
-          console.log(res)
+          
       } else {
-          console.log(res)
+          
           let token = Cookies.getJSON('esquired').token;
           Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true,onHold: false}, { path: '' })   
      } 
@@ -190,10 +180,10 @@ export default class ProfileComponent extends Component {
     userServices.makeSeeker(body)
       .then(res => {
         if (res.state !== 200) {
-          console.log(res)
+          
 
       } else {
-          console.log(res)
+          
           let token = Cookies.getJSON('esquired').token;
           Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true, onHold: true}, { path: '' })   
           alert("Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted")
@@ -225,7 +215,7 @@ export default class ProfileComponent extends Component {
       defaultCard: s.id
     }
     stripeService.setDefaultCard(body)
-      .then(res => console.log(res))
+
       .then(this.openModal())
   }
 
@@ -235,7 +225,7 @@ export default class ProfileComponent extends Component {
 	render() {
 
    const {showLoader, customer, stripe_user_id,accStripeLink} = this.state
-   console.log(customer)
+   
   if(showLoader){
   return (
       <div className="centered"><LoaderAnimation /></div>
@@ -276,13 +266,15 @@ export default class ProfileComponent extends Component {
                    <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? 
                        <div>
-                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
-                         <img  alt="avatar" width="200px" src={this.state.profilePicture} />
+                        <img alt="editimg" className="edit-photo-img-upl" src={editPhotoImg} />
+                        <div className="profile-picture-p">
+                          <img  alt="avatar" src={this.state.profilePicture} />
+                        </div>
                        </div>
                        : 
                        <div>
-                         <img alt="editimg" className="edit-photo-img" src={editPhotoImg} />
-                         <img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br />
+                         <img alt="editimg" className="edit-photo-img-up" src={editPhotoImg} />
+                         <img src={uploadImg} className="profileimgupload" alt="profileImg" /><br/><br/>Upload Profile Picture<br />
                        </div> }
                    </label>
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
@@ -314,7 +306,7 @@ export default class ProfileComponent extends Component {
           </div><br /><br />
 
 
-  {customer ? 
+  {customer && customer.sources ? 
     <div>
     {customer.sources.data.map(s=>
          s.id === customer.default_source ? 
@@ -381,53 +373,40 @@ export default class ProfileComponent extends Component {
             <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
             <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
           </div>
-          <p className="p-profile">Payment Info</p>
-          <div className="form-group">
-            <label htmlFor="creditCard" className="profileInputsTitle">Credit Card</label>
-            <input id="creditCard" name="creditCard" className="form-control bigInput" value={this.state.creditCard} placeholder={this.state.creditCard} onChange={this.handleChange} type="text" maxLength={16} />
-          </div>
           <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
           <br/><br/>
         </form>
       </Tab>
       
       <Tab eventKey="transactions" title="Transactions" >
+
+      { this.state.transactions && Object.keys(this.state.transactions).length > 0 ? 
         <div>
-          <img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} />
-          <hr/>
-
-        { this.state.transactions ? 
-          this.state.transactions.map((x,z) =>
-          
-        <div key={z}>
-        <div className="transactions">
-          <div>
-            <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
-            <p className="tType">{x.type}</p>
-          </div>  
-          <div>
-               
-              <p className={x.amount === "-$100" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
-          </div>
-
-            
-        </div>
-        <hr/>
-        </div>
-
-        )
-        : <p>You don't have transactions</p>}
-
-        </div>
+          <img alt="calendar" width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} />
+          <hr/> 
+            {this.state.transactions.map(x => 
+              <div key={x._id}>
+                <div className="transactions">
+                  <div>
+                    <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
+                    <p className="tType">{x.type}</p>
+                  </div>  
+                  <div>
+                    <p className={x.amount.substr(0,1) === "-" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
+                  </div>
+                </div> <hr/> 
+              </div> )}
+           
+        </div> 
+          : <p>You don't have transactions</p> }
+      
       </Tab>
+
     </Tabs>
    </div> 
   </div>
-</div>
-		);
-
-
- }
+</div> 
+  )}
 
 }
 
@@ -467,9 +446,6 @@ const errors = {}
 
   //  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
   //  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
-
-  // if(values.creditCard && !validator.isCreditCard(values.creditCard)){ errors.creditCard = 'Invalid credit card number' }
-  // if(!values.creditCard) { errors.creditCard = 'Insert creditCard'}
 
   //  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
   //  if(!values.policy) { errors.policy = 'Insert policy' }

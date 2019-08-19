@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
-import Popup from "reactjs-popup";
 import Moment from 'react-moment';
-import Cookie from 'js-cookie'
-import listFilterImg from '../../_assets/img/listing_filter.png'
-import listSortImg from '../../_assets/img/listing_sort.png'
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
@@ -17,11 +13,15 @@ export default class AppearancesComponent extends Component {
 	  super(props);
 	  this.state = {
     	pCourtHouse: props.location.state.data.courtHouse,
+    	pDay: props.location.state.data.hearingDate,
     	pAppId: props.location.state.data._id
       };
 
+      console.log(props.location.state)
+
      let findCourt ={
-     	court: props.location.state.data.courtHouse
+     	court: props.location.state.data.courtHouse,
+     	day: props.location.state.data.hearingDate
      }
      appearanceService.getAppearanceByCourt(findCourt)
        .then(data => this.setState({data: data.data}))
@@ -76,7 +76,7 @@ export default class AppearancesComponent extends Component {
 
 	{data.map(x =>
 	<div key={x._id}>
-	 {x.attorneyId != this.state.userId && this.state.pAppId !== x._id ?
+	 {x.attorneyId !== this.state.userId && this.state.pAppId !== x._id ?
 
     	<div  className="appearanceBox">
           <div className="appearanceHeaderBox flex-space-between">  
@@ -95,7 +95,7 @@ export default class AppearancesComponent extends Component {
 	      </div>
 	      <div className="right">
 	       {
-	         x.subscription && x.subscription.seekerId != this.state.userId ? 
+	         x.subscription && x.subscription.seekerId !== this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
 		     <button disabled className=" btn apply-button disabled">Applied</button>	
 		   }

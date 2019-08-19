@@ -2,6 +2,10 @@ const appearanceModel = require('../models/appearances');
 const userModel = require('../models/users');
 const send = require('../services/sendmail');
 const Logger = require("cute-logger")
+const stripe = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
+
+
+
 
 module.exports = {
 
@@ -28,9 +32,8 @@ create: function(req, res, next){
         Logger.log("APPEARANCE CREATED: Sending email")
         
         userModel.findByIdAndUpdate(payload.attorneyId,
-          { $push:{ "notifications": {"type": "Appearance created" }} }, function(err, user){
-            console.log(user)
-            console.log(err)
+          { $push:{ "notifications": {"type": "Congrats! Your appearance was successfully created.", msg: "created" }} }, function(err, user){
+
           })
 
     res.status(200).send({message: "Appearance created", data:{appearance: appearance}});
@@ -43,34 +46,145 @@ create: function(req, res, next){
 },
 
 delete: function(req, res, next){
-  console.log(req.body)
+  
+
+appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
+   if(err){console.log(err)}
+   if(!appearance){console.log("no appearance found")}
+   
+   
+   
+   if(appearance.subscription && appearance.subscription.seekerId){
+
+
+    var expirationDay = new Date(appearance.subscription.date.getTime() + 86400000); // + 1 day in ms
+    expirationDay.toLocaleDateString();
+
+
+
+
+   userModel.findOne({_id: req.body.userId}, function(err, attorney){
+
+    let customerId = attorney.stripe_customer_id;
+    let attorneyId = attorney._id;
+
+    console.log("CHARGING: checking appearance expiration date")
+
+     if( new Date() > expirationDay ) {
+       console.log("CHARGING: within 24hs. charge split 50% for the platform . 50% for the appearing.")
+       var amount = 3700; // if not. paying 37 dolars to esquired. 37 dolars to appearing
+
+       userModel.findOne({_id: appearance.subscription.seekerId}, function(err, seeker){
+        if(err){ return console.log("Stripe: Charge error: " + err) };
+        let appearingAccount = seeker.stripe_user_id;
+        let seekerId = seeker._id;
+
+        stripe.transfers.create({
+          amount: amount,
+          currency: "usd",
+          destination: appearingAccount,
+        }).then(function(transfer) {
+             console.log("TRANSFER: attorney transfer +$37,5")
+             console.log("TRANSFER: COMPLETED")
+             userModel.updateOne( { _id: seekerId}, { 
+              $push: {
+               "transactions":{amount: "+$37,5", type: "Request canceled"} }
+              }) 
+              .then(obj => {
+                stripe.charges.create({
+                  amount: amount,
+                  currency: "usd",
+                  customer: customerId
+                }).then(
+          function(charge) {
+             console.log("CHARGING: attorney charging -$37,5")
+             console.log("AMOUNT :" + charge.amount)
+             console.log("STATUS :" + charge.outcome.seller_message)
+             console.log("TYPE: " + charge.outcome.type)
+             console.log("CHARGING: COMPLETED")
+           userModel.updateOne( { "_id": attorneyId}, {
+            $push: {
+              "transactions":{amount: "-$37,5", type: "Request canceled"}
+            }}) 
+           .then(obj => {
+             console.log('STRIPE: Charge for cancelation added successfully to database.');
+             console.log("CHARGING: payment completed to record and appearing")
+           })
+           .catch(err => { console.log('Error: ' + err)
+           })
+        })
+              })
+              .catch(err => { console.log('Error: ' + err)})               
+          })
+      })
+
+       
+
+     } else {
+       console.log("CHARGING: more than 24hs. charge $50 for the platform.")
+       var amount = 5000; //. if expired. paying 50 dolars to esquired.
+
+
+      stripe.charges.create({
+        amount: amount,
+        currency: "usd",
+        customer: customerId
+      })
+        .then(
+          function(charge) {
+           console.log("STRIPE: Charge completed. Details below:")
+             console.log("AMOUNT :" + charge.amount)
+             console.log("STATUS :" + charge.outcome.seller_message)
+             console.log("TYPE: " + charge.outcome.type)
+           userModel.updateOne( { "_id": attorneyId}, {
+            $push: {
+              "transactions":{amount: "-$50", type: "Request canceled"}
+            }}) 
+           .then(obj => {
+             console.log('STRIPE: Charge for cancelation added successfully to database.');
+             console.log("CHARGING: payment completed to record")
+
+           })
+           .catch(err => { console.log('Error: ' + err)
+           })
+        })
+
+
+        
+     }
+
+
+
+
+
+
+   
+   })
+   }  
+   
+})
+  
 
   appearanceModel.findOneAndDelete({_id: req.body.appId})
     .then(deletedDocument => {
       if(deletedDocument) {
-        console.log(deletedDocument)
+        
           if(deletedDocument.subscription.seekerId){
           userModel.findOne({_id: deletedDocument.subscription.seekerId},function(err, seeker){
              let subject = "Appearance deleted"
              let text = "Your appearances has been deleted"
-              send.email(seeker.email, subject, text)   
-              console.log("mail sent to record")
-              userModel.findByIdAndUpdate({_id: deletedDocument.subscription.seekerId},
-                { $push:{ "notifications": {"type": "Appearance deleted" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
-                })
+              send.email(seeker.email, subject, text)
+              console.log("EMAIL-APPEARING: appearance canceled. ")
           })}
 
           userModel.findOne({_id: deletedDocument.attorneyId}, function(err, attorney){
            let subject = "Appearance deleted"
            let text = "Your appearances has been deleted"
             send.email(attorney.email, subject, text)          
-            console.log("mail sent to appearing")
+            console.log("EMAIL-RECORD: appearance canceled. ")
               userModel.findByIdAndUpdate({_id: deletedDocument.attorneyId},
-                { $push:{ "notifications": {"type": "Appearance deleted by: " + attorney.email }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
+                { $push:{ "notifications": {"type": "Congrats! Your appearance was successfully deleted." , msg:"deleted" }} }, function(err, user){
+                  
                 })
           })
           return res.status(200).send({message: "appearance deleted", data:{appearance: deletedDocument}}) 
@@ -109,18 +223,20 @@ getAppearancesTab: function(req, res, next){
   appearanceModel.find({"attorneyId": { $ne: req.body.userId }, status: "pending" }  ,function (err, data){
     if(err){ console.log(err) }
       return res.status(200).send({ data: data });
-  }).sort({ createdAt:-1 });
+  }).sort({ hearingDate: "1" });
 },
 
 getAgendaTab: function(req, res, next){
   appearanceModel.find({
     $or: [ 
     { 'attorneyId': req.body.userId, $and: [{ $or:[{'status': 'applied'},{'status': 'completed'},{'status': 'finished'},{'status': 'rated'}] }]},
-    { 'subscription.seekerId': req.body.userId, } ] }
+    { 'subscription.seekerId': req.body.userId, } 
+    ]}
     ,function (err, data){
+
     if(err){ res.status(500).send({ message: err.message }) }
       return res.status(200).send({ data: data });
-  }).sort({ createdAt:-1 });
+  }).sort({ hearingDate: "1" });
 },
 
 
@@ -170,7 +286,7 @@ unsubscribe: function(req, res, next){
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
               userModel.findByIdAndUpdate({_id: req.body.userId},
-                { $push:{ "notifications": {"type": "Appearance ubsubscribe" }} }, function(err, user){
+                { $push:{ "notifications": {"type": "Your application was successfully cancelled.", msg: "unsubscribed" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
@@ -180,11 +296,11 @@ unsubscribe: function(req, res, next){
          let text = "Your appearances has been canceled"
           send.email(attorney.email, subject, text)          
           console.log("mail sent to record")
-              userModel.findByIdAndUpdate({_id: result.attorneyId},
-                { $push:{ "notifications": {"type": "Appearance ubsubscribe" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
-                })
+              // userModel.findByIdAndUpdate({_id: result.attorneyId},
+              //   { $push:{ "notifications": {"type": "Appearance ubsubscribe" }} }, function(err, user){
+              //     console.log(user)
+              //     console.log(err)
+              //   })
         })
 
         return res.status(200).send({message: "Unsubscribed OK", status: 200})
@@ -204,9 +320,8 @@ unsubscribe: function(req, res, next){
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
               userModel.findByIdAndUpdate({_id: req.body.userId},
-                { $push:{ "notifications": {"type": "Appearance subscription" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
+                { $push:{ "notifications": {"type": "Your application was successfully! We will notify you when the attorney of record accept it.", msg: "subscribed" }} }, function(err, user){
+
                 })
         })
         appearanceModel.findOne({"_id": req.body.appId}, function(err, appearance){
@@ -216,9 +331,8 @@ unsubscribe: function(req, res, next){
             send.email(attorney.email, subject, text)          
             console.log("mail sent to appearing")
               userModel.findByIdAndUpdate({_id: appearance.attorneyId},
-                { $push:{ "notifications": {"type": "Appearance subscription" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
+                { $push:{ "notifications": {"type": "You have a new application in "+ appearance.courtHouse +", check it!", msg:"subscribed" }} }, function(err, user){
+
                 })
           })
         
@@ -231,29 +345,28 @@ unsubscribe: function(req, res, next){
  },
 
   acceptAppearing: function(req, res, next){
+    console.log(req.body)
     appearanceModel.updateOne({"_id": req.body.appId},{$set: { status: 'accepted' }}) 
       .then(obj => { 
-        userModel.findOne({_id: req.body.userId}, function(err, seeker){
+        userModel.findOne({_id: req.body.userId}, function(err, attorney){
          let subject = "Appearance accepted"
          let text = "Your appearances has been accepted"
-          send.email(seeker.email, subject, text)          
+          send.email(attorney.email, subject, text)          
           console.log("mail sent to record")
-              userModel.findByIdAndUpdate({_id: req.body.userId},
-                { $push:{ "notifications": {"type": "Appearance accepted" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
-                })
+
         })
         userModel.findOne({_id: req.body.seekerId}, function(err, seeker){
          let subject = "Appearance accepted"
          let text = "Your appearances has been accepted"
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
-              userModel.findByIdAndUpdate({_id: appearance.attorneyId},
-                { $push:{ "notifications": {"type": "Appearance accepted" }} }, function(err, user){
+
+              userModel.findByIdAndUpdate({_id: seeker._id},
+                { $push:{ "notifications": {"type": "Congrats! Your application was accepted!", msg: "accepted" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
+
         })
         return res.status(200).send({message: "Update OK", status: 200}) 
       })
@@ -268,8 +381,8 @@ unsubscribe: function(req, res, next){
          let text = "Your appearances has been rejected"
           send.email(attorney.email, subject, text)          
           console.log("mail sent to record")
-              userModel.findByIdAndUpdate({_id: req.body.userId},
-                { $push:{ "notifications": {"type": "Appearance rejected" }} }, function(err, user){
+              userModel.findByIdAndUpdate({_id: req.body.seekerId},
+                { $push:{ "notifications": {"type": "We're sorry! Your application was rejected.", msg:"rejected" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
@@ -279,21 +392,21 @@ unsubscribe: function(req, res, next){
          let text = "Your appearances has been rejected"
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
-              userModel.findByIdAndUpdate({_id: req.body.seekerId},
-                { $push:{ "notifications": {"type": "Appearance rejected" }} }, function(err, user){
-                  console.log(user)
-                  console.log(err)
-                })
+              // userModel.findByIdAndUpdate({_id: req.body.seekerId},
+              //   { $push:{ "notifications": {"type": "Appearance rejected" }} }, function(err, user){
+              //     console.log(user)
+              //     console.log(err)
+              //   })
         })
         return res.status(200).send({message: "Update OK", status: 200}) })
       .catch(err => { console.log('Error: ' + err) }) 
   },
   
   completeAppearance: function(req, res, next){
-    console.log(req.body.verdictDocs)
+    
     appearanceModel.updateOne({"_id": req.body.appId},
     {
-      $set: { status: 'completed', "subscription.verdictDocs": req.body.verdictDocs, "subscription.information": req.body.information }}) // REJECTED 
+      $set: { status: 'completed', "subscription.verdictDocs": req.body.verdictDocs, "subscription.information": req.body.information, "subscription.completedDay": new Date() }}) 
       .then(obj => { 
         let subject = "Appearance completed"
         let text = "Your appearances has been completed"
@@ -307,7 +420,7 @@ unsubscribe: function(req, res, next){
             send.email(attorney.email, subject, text)          
             console.log("mail sent to record")
               userModel.findByIdAndUpdate({_id: data.attorneyId},
-                { $push:{ "notifications": {"type": "Appearance completed" }} }, function(err, user){
+                { $push:{ "notifications": {"type": "Congrats! Your appearance is completed. The appearing attorney uploaded the verdict.", msg: "completed" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
@@ -349,14 +462,14 @@ finishAppearance: function(req, res, next){
               send.email(seeker.email, subject, text)
               Logger.log(seeker.email + " " + subject)
               userModel.findByIdAndUpdate({_id: appearance.subscription.seekerId},
-                { $push:{ "notifications": {"type": "Appearance finished" }} }, function(err, user){
+                { $push:{ "notifications": {"type": "Congrats! Your appearance is finished. Thanks for use Esquired.", msg:"finished" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
             })
               send.email(attorneyEmail, subject, text)
               userModel.updateOne({email: attorneyEmail},
-                { $push:{ "notifications": {"type": "Appearance finished" }} }, function(err, user){
+                { $push:{ "notifications": {"type": "Congrats! Your appearance is finished. Thanks for use Esquired.", msg:"finished" }} }, function(err, user){
                   console.log(user)
                   console.log(err)
                 })
@@ -372,11 +485,24 @@ finishAppearance: function(req, res, next){
 
 
   getAppearanceByCourt: function(req, res, next){
-    appearanceModel.find({"courtHouse": req.body.court, status: "pending"}, function(err, appearance){
+
+    appearanceModel.find({"courtHouse": req.body.court, status: "pending", hearingDate: req.body.day }, function(err, appearance){
       if (err){ return res.status(500).send({message: err.message}) }
       if (!appearance){ return res.status(409).send({message: "Not found"}) }
-      
+        
+        console.log(appearance.length)
+
+        if(appearance.length > 0){
+          userModel.findOne({_id: req.body.userId}, function(err, user){
+            let subject = "Get more appearances!"
+            let text = "You recently applied for an appearance and we detected that there are more appearances the same day in that courthouse. Check them in Esquired and also make your apply!"
+            console.log("STACKING: email sent!")
+            console.log(appearance)
+            send.email(user.email, subject, text)
+          })
+
        return res.status(200).send({data: appearance, status: 200})
+       }
 
     })
   }

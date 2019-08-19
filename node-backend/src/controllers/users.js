@@ -288,28 +288,36 @@ makeAttorney: function(req, res, next){
 
     rateAttorney: function( req, res, next ){
       userModel.updateOne({_id: req.body.attorneyId},
-        { "$push": { "reviews": 
-        { "rating": req.body.rating,
-          "appearanceId": req.body.appId, 
-          "seekerId": req.body.seekerId }
-        }}).then(obj => { 
+        { "$push": 
+        { "reviews": { "rating": req.body.rating,"appearanceId": req.body.appId,"seekerId": req.body.seekerId },
+        }}
+        ).then(obj => { 
           appearanceModel.updateOne({_id: req.body.appId}, 
-            {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)})
+            {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)}) })
+      
+      userModel.updateOne({_id: req.body.seekerId},
+        { "$push": { "notifications": { type: "Thanks for your rate!", msg:"rated"}}}
+        ).then(obj => { 
+      
 
-          return res.status(200).send({message: "Update OK", status: 200}) })
+       return res.status(200).send({message: "Update OK", status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 
     },
     rateSeeker: function( req, res, next ){
       userModel.updateOne({_id: req.body.seekerId},
-        { "$push": { "reviews": 
-        { "rating": req.body.rating,
-          "appearanceId": req.body.appId, 
-          "attorneyId": req.body.attorneyId }
-        }}).then(obj => { 
+        { "$push": 
+        { "reviews": { "rating": req.body.rating,"appearanceId": req.body.appId,"attorneyId": req.body.attorneyId },
+        }}
+        ).then(obj => { 
           appearanceModel.updateOne({_id: req.body.appId}, 
-            {$set: {"subscription.seekerRate": req.body.rating}}).then(a=>{console.log(a)})
+            {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)}) })
+      
+      userModel.updateOne({_id: req.body.attorneyId},
+        { "$push": { "notifications": { type: "Thanks for your rate!", msg:"rated"}}}
+        ).then(obj => { 
+      
 
-          return res.status(200).send({message: "Update OK", status: 200}) })
+       return res.status(200).send({message: "Update OK", status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 
     },
     sendMail: function(req, res, next){

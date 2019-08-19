@@ -40,7 +40,7 @@ export default class NotificationsComponent extends Component {
 
    e.preventDefault()
     var r = window.confirm("Do you want to clear all files?");
-    if (r == true) {
+    if (r === true) {
      
      uploadForm.delete('avatar')
 
@@ -94,7 +94,7 @@ export default class NotificationsComponent extends Component {
             <div>
             {this.state.verdictDocs ? 
               this.state.verdictDocs.map((x,i) => (
-                  <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a></div>
+                  <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank" rel="noopener noreferrer">{x.originalname}</a></div>
               )): null}
               {this.state.verdictDocs.length > 0 ? <button className="clearFiles" onClick={this.deleteFiles}>Clear files</button> : null }
             </div>

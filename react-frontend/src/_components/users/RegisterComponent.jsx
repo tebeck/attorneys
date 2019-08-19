@@ -236,7 +236,7 @@ nextButton(){
 
     if (this.state.currentStep === 1){
       if (target.name === 'email'){
-        if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+        if (/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
           emailValid=true;
         }else{
           emailValid=false;
@@ -276,7 +276,7 @@ nextButton(){
         }
       }
       if (target.name === 'officePhone'){
-        if(isNaN(target.value)) {
+        if( target.value.match(/^[0-9]$/) ) {
           enableNextAction=false
           officePhoneValid=false;
         }else{
@@ -284,7 +284,7 @@ nextButton(){
         }
       }
       if (target.name === 'mobilePhone'){
-        if(isNaN(target.value)) {
+        if( target.value.match(/^[0-9]$/) ) {
           enableNextAction=false
           mobilePhoneValid=false;
         }else{
@@ -350,10 +350,8 @@ if (this.state.currentStep === 2){
       console.log('newState: ',newState)
       this.setState(newState);
     }
-
-    this.state.error = false;
     
-    this.setState({ [target.name]: target.value })
+    this.setState({ [target.name]: target.value, error: false })
 
   }
 
@@ -457,7 +455,9 @@ if (this.state.currentStep === 2){
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
-            <Link style={{margin:"30px"}} to='/home' className="btn btn-block btn-primary link-button">Back home</Link>
+            {this.state.isAttorney ? <Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Go to profile</Link>
+            :<Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Done</Link>
+            }
         </Modal>
 
 
@@ -546,8 +546,8 @@ function Step1(props){
         <input className={props.state.lastNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="lastName"    placeholder="Last Name"           value={props.lastName}    onChange={props.handleChange}></input>
         <input className={props.state.firmNameValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="firmName"     placeholder="Firm Name"           value={props.firmName}     onChange={props.handleChange}></input>
         <input className={props.state.stateBarValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="stateBar"    placeholder="State Bar Number"    value={props.stateBar}    onChange={props.handleChange}></input>
-        <input className={props.state.officePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
-        <input className={props.state.mobilePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="text" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
+        <input className={props.state.officePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="number" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
+        <input className={props.state.mobilePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="number" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
         <input className={props.state.emailValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>
       </div>
     )
@@ -602,7 +602,12 @@ function Step1(props){
         
         <div className="text-center">
         <label className="uploadLabel" htmlFor="avatar">
-        { props.state.profilePicture ? <img alt="avatar" width="200px" src={props.state.profilePicture} /> : <div><img src={uploadImg} alt="profileImg" width="150px" /><br />Upload Profile Picture<br /></div> }
+        { props.state.profilePicture ? 
+            <div class="profile-picture-p">
+              <img  alt="avatar" src={props.state.profilePicture} />
+            </div>
+          :
+           <div><img src={uploadImg} alt="profileImg" className="profileimgupload" /><br />Upload Profile Picture<br /></div> }
         
         </label>
         <input id="avatar" type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
@@ -667,6 +672,9 @@ const errors = {}
   if(!values.city) { errors.city = 'Insert city' }
 
   if(!values.zip) { errors.zip = 'Insert zip' }
+
+  if(values.mobilePhone.isNaN) { errors.mobilePhone = 'Please insert only numbers' }
+  if(values.officePhone.isNaN) { errors.officePhone = 'Please insert only numbers' }
 
   if(!values.firstName) { errors.firstName = 'Insert firstName' }
 

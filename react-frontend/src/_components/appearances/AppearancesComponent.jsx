@@ -62,10 +62,11 @@ export default class AppearancesComponent extends Component {
 	updatedList = updatedList.filter(function(item) {
 	 var courtHouseSearch = item.courtHouse.toLowerCase().search(event.target.value.toLowerCase()) !== -1
 	 var areaOfLawSearch = item.areaOfLaw.toLowerCase().search(event.target.value.toLowerCase()) !== -1
-	 if(courtHouseSearch) return courtHouseSearch
-	 else if(areaOfLawSearch) return areaOfLawSearch
+	
+	 return courtHouseSearch ? courtHouseSearch : areaOfLawSearch 
 
-      });
+	});
+      
 
     this.setState({data: updatedList});
   }
@@ -100,7 +101,7 @@ export default class AppearancesComponent extends Component {
 
    let b = 0;
    	for (var i = data.length - 1; i >= 0; i--) {
-   		if(this.state.userId != data[i].attorneyId){
+   		if(this.state.userId !== data[i].attorneyId){
    			b = b +1
    		}
    	}
@@ -125,10 +126,10 @@ export default class AppearancesComponent extends Component {
 	
 	{data.map(x =>
 	<div key={x._id}> 
-     {x.attorneyId != this.state.userId ?	
-    	<div  className="appearanceBox">
+     {x.attorneyId !== this.state.userId ?	
+    	<div  className="appearanceBox" onClick={this.handleClick.bind(this, x)}>
           <div className="appearanceHeaderBox flex-space-between">  
-            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+            <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
           </div>
           <div style={{minHeight: "150px", marginBottom: "20px"}}> 
@@ -143,7 +144,7 @@ export default class AppearancesComponent extends Component {
 	      </div>
 	      <div className="right">
 	       {
-	         x.subscription && x.subscription.seekerId != this.state.userId ? 
+	         x.subscription && x.subscription.seekerId !== this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
 		     <button disabled className=" btn apply-button disabled">Applied</button>	
 		   }

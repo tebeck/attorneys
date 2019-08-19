@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
 import Moment from 'react-moment';
-import priceImg from '../../_assets/img/appearance/appearance_price.png'
+
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Cookie from 'js-cookie'
 import { Redirect} from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-import {stripeService} from '../../_services/stripe.service'
-
-
-var oneDayMore = new Date().getTime() + (1 * 24 * 60 * 60 * 1000)
-
+// import {stripeService} from '../../_services/stripe.service'
 
 export default class AgendaComponent extends Component {
     
@@ -78,8 +74,8 @@ export default class AgendaComponent extends Component {
        .then(data => {
            if(data.status === 200){
                alert("finished")
-                stripeService.createCharge(body)
-                  .then("Charged ok!")
+                // stripeService.createCharge(body)
+                //   .then("Charged ok!")
                this.setState({
                	key: "agenda"
                })
@@ -167,10 +163,6 @@ export default class AgendaComponent extends Component {
   }
 
 
-  getInfoAppearing = (x) => {
-    
-  }
-
 
   rateAttorney = (x) =>{
 
@@ -192,7 +184,19 @@ export default class AgendaComponent extends Component {
     }
   }
 
+
+
+
+
  render() {
+
+    var currentDate;
+
+
+
+
+
+
 var pastAppClass = this.state.pastClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming mr' : "btn btn-outline-dark btn-sm float-left button-upcoming mr";    
 var commingClass = this.state.commingClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
 var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
@@ -236,16 +240,35 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
       <br />
 
       
-
+    
        {data.map(x =>
     
       <div key={x._id} onClick={this.handleClickAppearance.bind(this,x)} >
         {
           <div>
-          <div><img width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> <Moment className="timeformat" format="LLL">{x.createdAt}</Moment></div><br/>
+          
+            {x.hearingDate.substr(0,10) !== currentDate ?
+
+              <div>
+                <img alt="calendar" width="20px" style={{marginBottom: "6px", marginRight: "6px"}} src={calendarImg} /> 
+            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment>
+              </div> : null
+            }
+
+            <div style={{display: "none"}}>{ currentDate = x.hearingDate.substr(0,10) }</div>
+
+          <br/>
+          
+
           <div className="appearanceBox" >
           <div className="appearanceHeaderBox flex-space-between">  
-            <Moment className="timeformat" format="LL">{x.hearingDate}</Moment><span className="timeformat"> {x.time}</span>
+
+
+
+            <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
+
+
+
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
           </div> 
           <div className="flex-space-between paddingUpDown" style={{minHeight: "150px", marginBottom: "20px"}}>
@@ -283,7 +306,6 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
              <div>
               <button onClick={this.acceptAppearing.bind(this, x)} className="btn apply-button ">Accept</button>
               <button onClick={this.rejectAppearing.bind(this, x)} className="btn apply-button ">Reject</button>
-              <button onClick={this.getInfoAppearing.bind(this, x)} className="btn apply-button ">Appearing info</button>
              </div> :
              
              x.subscription.seekerId === this.state.userId && x.status === "accepted" ?

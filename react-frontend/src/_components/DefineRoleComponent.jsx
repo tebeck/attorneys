@@ -37,7 +37,7 @@ export default class DefineRoleComponent extends Component {
             <div className="container main-body">
                 <Link style={{color: "black"}} to="/"><img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" /><h3 style={{display: "inline"}  }> Define your role</h3></Link>
                   <br />
-                  <div className="center"><ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar> <img className="grey-check-icon" width="18px" src={checkImg} /></div>
+                  <div className="center"><ProgressBar height={5} percent={25} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /></div>
                   <br />
                 <div>
                 <p>Select an option</p>

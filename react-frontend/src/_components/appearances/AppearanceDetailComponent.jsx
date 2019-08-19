@@ -5,33 +5,33 @@ import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import Modal from 'react-awesome-modal';
 import Cookie from 'js-cookie'
-import listFilterImg from '../../_assets/img/listing_filter.png'
-import listSortImg from '../../_assets/img/listing_sort.png'
-import priceImg from '../../_assets/img/appearance/appearance_price.png'
-import pingImg from '../../_assets/img/appearance/appearance_pin.png'
+// import listFilterImg from '../../_assets/img/listing_filter.png'
+// import listSortImg from '../../_assets/img/listing_sort.png'
+// import priceImg from '../../_assets/img/appearance/appearance_price.png'
+// import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import dateImg from '../../_assets/img/appearance/appearance_date.png'
 import welldoneImg from '../../_assets/img/request_welldone.png'
 import { Link } from 'react-router-dom';
 import backbutton from '../../_assets/img/btnback.png'
 import Switch from "react-switch";  
-import { FilePond } from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
+// import { FilePond } from 'react-filepond';
+// import 'filepond/dist/filepond.min.css';
 import LoaderAnimation from '../LoaderAnimation';
-import {url_backend} from '../../_helpers';
+// import {url_backend} from '../../_helpers';
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import TimeKeeper from 'react-timekeeper';
 import DatePicker from "react-datepicker";
-import moment from 'moment';
+// import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
-import 'moment/locale/it.js';
+// import 'moment/locale/it.js';
 import greyFaceImg from '../../_assets/img/grey-user.png'
 import sobre from '../../_assets/img/sobre.png'
 import phone from '../../_assets/img/phone.png'
-
+import Cookies from 'js-cookie';
 
 let docs = []
 let uploadForm = new FormData();
-const formData = new FormData(); // Currently empty
+// const formData = new FormData(); // Currently empty
 
 export default class AppearancesComponent extends Component {
 	
@@ -51,7 +51,8 @@ export default class AppearancesComponent extends Component {
       	files: [],
       	redirectHome: false,
       	showLoader: true,
-      	redirectMyRequests: false
+      	redirectMyRequests: false,
+      	email: Cookies.getJSON('esquired').email
       };
       
 		docs = this.state.documents
@@ -116,7 +117,6 @@ export default class AppearancesComponent extends Component {
 
 
 
-
     let body = {
       appId: this.state.appId
     }
@@ -126,7 +126,8 @@ export default class AppearancesComponent extends Component {
           if(data.status === 200){
 	 		console.log(data.data.courtHouse)
 		     let findCourt ={
-		     	court: data.data.courtHouse
+		     	court: data.data.courtHouse,
+		     	day: data.data.hearingDate.substr(0,10)
 		     }
 		     appearanceService.getAppearanceByCourt(findCourt)
 		       .then(data => this.setState({courtHouseNumber: data.data.length}))
@@ -140,7 +141,7 @@ export default class AppearancesComponent extends Component {
     cancelAppearance = (e) =>{
       e.preventDefault()
 	  var _deleteApp = window.confirm("Are you sure you want to delete this appearance?");
-	  if (_deleteApp == true) {
+	  if (_deleteApp === true) {
       let body = {
      	appId: this.state.appId
       }
@@ -157,7 +158,7 @@ export default class AppearancesComponent extends Component {
 
 	 if(this.state.newDocuments){
 	 this.state.newDocuments.map(x =>{
-	 	this.state.documents.push(x)
+	 	return this.state.documents.push(x)
 	 })
 	}
 
@@ -214,19 +215,19 @@ export default class AppearancesComponent extends Component {
   	e.preventDefault()
    
 	var _delete = window.confirm("Are you sure you want to delete this item?");
-	if (_delete == true) {
+	if (_delete === true) {
    
 	   let etag = {
 	  	 etag: e.target.name,
 	  	 appId: this.state.appId,
-	   }
+	   } 
 
 	   
 	   docs.splice(e.target.id, 1)
 	  
 	   appearanceService.deleteFile(etag)
 	  	.then(data => {
-	  		if(data.status == 200){
+	  		if(data.status === 200){
 			  this.setState({
 			  	documents: docs
 		 	  })
@@ -262,7 +263,7 @@ export default class AppearancesComponent extends Component {
 
    e.preventDefault()
     var r = window.confirm("Do you want to clear all files?");
-    if (r == true) {
+    if (r === true) {
      
      uploadForm.delete('avatar')
 
@@ -282,12 +283,21 @@ export default class AppearancesComponent extends Component {
   }
 
 
+  handleEmailStacking = (result) => {
+
+  	
+  }
+
 
 
  render() {
 
  	const {result, documents, recordData, seekerData} = this.state
  	 docs = this.state.documents
+
+
+
+
 
   if(result && recordData && seekerData){
 	  
@@ -318,21 +328,25 @@ export default class AppearancesComponent extends Component {
        else { checkStatus = true  }
 
 
-
 	return (
+
+
+
 		<div className="container main-body">
 	  
 
 	  <Modal visible={this.state.visible} width="370"  effect="fadeInDown" onClickAway={() => this.closeModal()}>
 	   <div style={{padding: "20px",textAlign: "center"}}>
-	    <img width="250px" src={welldoneImg}/><br/><br/>
+	    <img alt="welldone" width="250px" src={welldoneImg}/><br/><br/>
 	    <h5><b>Well done!</b></h5>
 	     <p className="colorGrey">We will send you an email with confirmation and additional info.</p>
 	   
 	    <button onClick={() => this.closeModal()} className="btn btn-primary link-button btn-request outline-btn">Done</button><br />
 
 	    {this.state.courtHouseNumber > 0 ?
-	    <div className="stackingCard">
+
+	    <div className="stackingCard" >
+	    {this.handleEmailStacking(result)}
 	    	<p>We have detected {this.state.courtHouseNumber} appearances for<br/>the same day in the same court</p>
 	    	<button onClick={this.handleStaking.bind(this,result)} className="btn btn-primary link-button btn-request">View Appearances</button>
 	    </div>
@@ -359,43 +373,62 @@ export default class AppearancesComponent extends Component {
 		}
 	       <hr />
 
+	     
+
 	       <div className="adSquares">
+	       { this.state.status !== "pending" && this.state.status !== "applied" ? 
 	         <div className="adSquare">
 	         	<p>Request created by:</p>
 	         	  	<div className="adSquareDetail">
-	         	  	 <div className="adUserImage">
+	         	  	 <div className="">
 
 	         	  	 	{recordData ?
-	         	  	 	  <img className="borderRadius" width="40px" src={recordData.profilePicture} alt={recordData.firstName} />
-	         	  	 		:
-	         	  	 	  <img width="40px" src={greyFaceImg} alt={recordData.firstName} />
-	         	  	 	}
+	                      recordData.profilePicture ? 
+	                        <div class="detail-profile-picture">
+	                         <img  alt="avatar" src={recordData.profilePicture} />
+	                        </div>
+	                       : 
+	                       <div>
+							 <img className="detail-profile-picture" src={greyFaceImg} alt={recordData.firstName} />
+	                       </div> 
+	         	  	 	: null}
 	         	  	 </div>
 	         	  	 <div>
 	         	  	   <p className="adSquareName">{recordData.firstName}</p>
 	         	  	   <p className="adSquareEmail">{recordData.email}</p>
+         	  	 		{recordData.email !== this.state.email ?
+         	  	 		<div className="contactImages"> 	 
+	         	  	 	 <p className="desktop-content">{recordData.mobilePhone}</p>
+	         	  	 	 <a className="mobile-content" rel="noopener noreferrer" target="_blank" href={'tel:+'+ recordData.mobilePhone}><img height="33" src={phone} alt="esquired" /></a>
+	         	  	 	 <a href={'mailto:'+recordData.email} ><img height="25" src={sobre} alt="esquired" /></a>
+	         	  	 	</div> :null}
 	         	  	 </div>
 
 	         	    </div>
-	         </div>
+	         	    
+	         </div> : null }
 	      { this.state.seekerId.length > 0 ?
 	         <div className="adSquare">
 	            <p>Request applied by:</p>
 	         	  	<div className="adSquareDetail">
-	         	  	 <div className="adUserImage">
+	         	  	 <div className="">
 	         	  	 	{seekerData.profilePicture ?
-	         	  	 	  <img className="borderRadius" width="40px" src={seekerData.profilePicture} alt={seekerData.firstName} />
+	                        <div class="detail-profile-picture">
+	                         <img  alt="avatar" src={seekerData.profilePicture} />
+	                        </div>
 	         	  	 		:
-	         	  	 	  <img  width="40px" src={greyFaceImg} alt={seekerData.firstName} />
+	         	  	 	  <img  className="detail-profile-picture" src={greyFaceImg} alt={seekerData.firstName} />
 	         	  	 	}
 	         	  	 </div>
 	         	  	 <div>
 	         	  	   <p className="adSquareName">{seekerData.firstName}</p>
 	         	  	   <p className="adSquareEmail">{seekerData.email}</p>
+	         	  	 	{ seekerData.email !== this.state.email ?
 	         	  	 	<div className="contactImages">
-	         	  	 	 <a target="_blank" href={'https://api.whatsapp.com/send?phone='+ seekerData.mobilePhone}><img height="33" src={phone} alt="esquired" /></a>
+	         	  	 	 <p className="desktop-content">{seekerData.mobilePhone}</p>
+	         	  	 	 <a className="mobile-content" rel="noopener noreferrer" target="_blank" href={'tel:+'+ seekerData.mobilePhone}><img height="33" src={phone} alt="esquired" /></a>
 	         	  	 	 <a href={'mailto:'+seekerData.email} ><img height="25" src={sobre} alt="esquired" /></a>
-	         	  	 	</div> 
+	         	  	 	</div> :null}
 	         	  	 </div>
 	         	    </div>
 	         </div>
@@ -404,7 +437,7 @@ export default class AppearancesComponent extends Component {
 	      	 <div>
 	      	  <div className="appearanceDate">
 	      	  	<div className="flex">
-	      	  	  <img src={dateImg} style={{marginRight: "25px", width: "40px", height: "40px"}}/>
+	      	  	  <img src={dateImg} alt="date" style={{marginRight: "25px", width: "40px", height: "40px"}}/>
 	      	  	  <div>
 	      	  	  	<p className="adTitle">Appearance date</p>
 	      	  	    <Moment className="timeformat" format="LL">{result.hearingDate}</Moment><span className="timeformat"> {result.time}</span>
@@ -482,7 +515,7 @@ export default class AppearancesComponent extends Component {
 	            { documents.length > 0 ? <p className="adTitle">Files</p> : null }
 	             {
 	             	documents.map((x,index) => 
-	             		<div key={index}><a href={x.location} className="link-file" download target="_blank">{x.originalname}</a>
+	             		<div key={index}><a href={x.location} className="link-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a>
 	             		 {checkStatus ? 
 	             		 <button  className="xdelete" id={index} name={x.etag} onClick={this.handleDelete}> x</button> :null
 	             		}<hr /></div>
@@ -493,7 +526,7 @@ export default class AppearancesComponent extends Component {
 	            <div>
 	            {this.state.verdictDocs ? 
 	              this.state.verdictDocs.map(x => 
-	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
+	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
 	              ): <p>No files uploaded</p>}
 
 	            </div>
@@ -525,7 +558,7 @@ export default class AppearancesComponent extends Component {
 	            <div>
 	            {this.state.newDocuments ? 
 	              this.state.newDocuments.map((x,i) => (
-	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download target="_blank">{x.originalname}</a><hr /></div>
+	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
 	              )): null}
 	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
 	            

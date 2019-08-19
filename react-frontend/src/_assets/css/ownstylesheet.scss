@@ -16,6 +16,25 @@ $hide-block: none;
 $display-block: block;
 
 
+
+
+.mobile-content {
+  visibility: hidden;
+}
+
+.desktop-content {
+  visibility: visible;
+}
+
+.profileimgupload{
+  height: 100px;
+  width: 100px;
+}
+
+.pointer{
+  cursor: pointer
+}
+
 input[type=password]{
   font-family: $font-family!important;
 }
@@ -25,10 +44,12 @@ input[type=password]{
   border-radius: 5px;
   margin-bottom: 15px;
 }
-.read-notification{
-  background-color: $lightgrey-color;
-  border-radius: 5px;
-  margin-bottom: 15px;
+
+.notificationType{
+  font-size: 16px;
+  display: flex;
+    align-items: center;
+  justify-content: center;
 }
 
 .transactions{
@@ -41,18 +62,35 @@ input[type=password]{
   color: #777;
   margin: 0px;
   margin-left:20px;
+  font-size: 13px;
 }
 
 .tType{
-  font-size: 23px;
+  font-size: 16px;
   margin: 0px;
   margin-left:20px;
   margin-top:5px;
 }
 
 .red-color{
-  color:$red-color;
+  color:white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  top:2px;
+  right: 1px;
+  font-family: sans-serif;
+  text-align: center;
+  border-radius: 50px;
+  background-color: red;
+  width: 23px;
+  max-width: auto;
+  height: 20px;
 }
+
 
 .tAmountred{
   margin: 0px;
@@ -109,6 +147,11 @@ div.secondBox div button{
 
 .contactImages img{
   margin-right: 15px!important;
+}
+.contactImages p{
+  margin-right: 15px!important; 
+  margin: 0 auto;
+  display: inline;
 }
 
 div.contactImages{
@@ -304,9 +347,13 @@ body { background-color: $background-grey; }
 }
 .roundedImage{
   border-radius: 50px;
-
   margin-right: 30px;  
 }
+
+.roundedImage img {
+  width: 60px
+}
+
 
 .notifiction img.beside{
   width: 20px;
@@ -615,12 +662,28 @@ table td {
   color: white
 }
 
-img.edit-photo-img{
+img .edit-photo-img{
   width: 18px!important;
   height: 18px!important;
   position: absolute;
-  margin-left: 55px!important;
+  margin-left: 30px!important;
+  margin-top: 5px!important;
+}
 
+.edit-photo-img-up {
+  width: 18px!important;
+  height: 18px!important;
+  position: absolute;
+  margin-left: 70px!important;
+  margin-top: 5px!important;
+}
+
+.edit-photo-img-upl{
+   width: 18px!important;
+  height: 18px!important;
+  position: absolute;
+  margin-left: 23px!important;
+  margin-top: 5px!important; 
 }
 
 .button-upcoming{
@@ -1040,21 +1103,53 @@ text-align: right;
 .boxButton button{margin: 0px 10px 10px 10px;padding:5px 35px 5px 35px}
 
 
-.uploadLabel { cursor: pointer; text-decoration: underline; margin: 0px;}
-.uploadLabel img { cursor: pointer; border-radius: 100%;  margin: 0px;
-width: 75px;
-height: 75px;
-background-repeat:no-repeat;
-background-position: center center;
-background-size: cover;
- }
 
- .userIcon { cursor: pointer; border-radius: 100%;  margin: 0px;
-width: 27px;
-height: 27px;
-background-repeat:no-repeat;
-background-position: center center;
-background-size: cover;
+
+
+
+.profile-picture-p {
+  border-radius: 50%;
+  margin-top: 0;
+  border: 1px solid $grey-color;
+  margin-bottom: 20px;
+  height: 100px;
+  width: 100px;
+  overflow: hidden;
+}
+.profile-picture-p img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.detail-profile-picture{
+    border-radius: 50%;
+    margin-top: 0;
+    border: 1px solid $grey-color;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+.detail-profile-picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+ .userIcon { 
+    cursor: pointer;
+    border-radius: 50%;  
+    margin: 0px;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
  }
 
 .error {
@@ -1537,20 +1632,45 @@ div.popup-content{
 
 
 
+@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3){
+
+.btn .apply-button{
+  width: 10px;
+}
+
+}
 
 
 @media (max-width: 525px){
+
+.container{
+  width: 100%!important;
+}
+
+
+
 .appearanceBox .apply-button{
     background-color: $green-color;
     border: none;
     border-radius: 17px;
     padding: 3px 30px;
+    margin-right: 109px;
     color: #FFF;
     margin: 10px;
     text-align: center;
     font-size: 14px;
     cursor: pointer;
 }
+
+.mobile-content {
+  visibility: visible;
+}
+
+.desktop-content {
+  visibility: hidden;
+}
+
+
 }
 
 

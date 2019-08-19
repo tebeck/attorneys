@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {adminServices} from '../../_services';
-import {userServices} from '../../_services'
-import { Redirect, Link } from 'react-router-dom';
 import Cookies from 'js-cookie'
 
 export default class AdminComponent extends Component {
@@ -21,7 +19,7 @@ export default class AdminComponent extends Component {
    let data = {email: this.state.email, password: this.state.password}
    adminServices.login(data)
     .then( data => {
-        if(data.status == 200){
+        if(data.status === 200){
 
          this.setState({
            validUser: true

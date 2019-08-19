@@ -303,8 +303,6 @@ function handleResponse(response) {
                 return data
             }
             if(response.status === 409){ // Email in use
-                console.log("a")
-                console.log(data)
                 return data
             }
             if(response.status === 400){
