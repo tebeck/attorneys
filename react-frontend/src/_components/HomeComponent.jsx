@@ -5,19 +5,31 @@ import  { Tabs, Tab } from 'react-bootstrap';
 import Appearances from './appearances/AppearancesComponent'
 import Agenda from './appearances/AgendaComponent'
 import Requests from './appearances/RequestsComponent'
-import {userServices} from '../_services/user.service'
-import {stripeService} from '../_services/stripe.service'
+import {userServices, stripeService} from './../_services';
+
 import logo from '../_assets/img/landing/logo.png'
-// import userIcon from '../_assets/img/profile.png'
+
 import bellIcon from '../_assets/img/notifications.png'
 import greyFaceImg from '../_assets/img/grey-user.png'
 import queryString from 'query-string'
+import Dialog from 'react-bootstrap-dialog'
+import esquired from '../_assets/img/landing/logo.png'
+
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class HomeComponent extends Component {
 
   constructor(props, context) {
     super(props, context);
     
+
+
   const values = queryString.parse(this.props.location.search)
     
   var stripeBody = {
@@ -25,10 +37,23 @@ export default class HomeComponent extends Component {
   }
 
 
-
+//http://localhost:3000/home?code=ac_FfkiYwGAtpnQbrjd94RsG0APZhR5R4cS 
     if(stripeBody.code){
       stripeService.getStripeInfo(stripeBody)
-       .then(console.log("Stripe: ID Successfully genrated"))
+      .then(data => { if(data.status === 200){
+        this.dialog.show({
+          title: <img alt="esquired" className="dialog-img" src={esquired} />,
+          body: data.message,
+          bsSize: 'small',
+          onHide: (dialog) => { 
+            dialog.hide()
+            window.location.assign('/profile')
+          } 
+
+        })
+      }
+      })
+       //.then( window.location.assign('/profile') )
     }
     
 
@@ -85,6 +110,7 @@ export default class HomeComponent extends Component {
 
   return (
      <div className="container">
+     <Dialog ref={(el) => { this.dialog = el }} />
         <div className="navbar header-comp">
           <Link className="home-popup-links" to="/profile">
             { this.state.imgUrl ? 
@@ -119,6 +145,7 @@ export default class HomeComponent extends Component {
                 </Tab> : null
               }
           </Tabs>
+          
     </div>
    );
    }

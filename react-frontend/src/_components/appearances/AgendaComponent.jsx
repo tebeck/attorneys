@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
 import Moment from 'react-moment';
-
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Cookie from 'js-cookie'
 import { Redirect} from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-// import {stripeService} from '../../_services/stripe.service'
+import Dialog from 'react-bootstrap-dialog'
+import waiting from '../../_assets/img/waiting.gif'
+import esquired from '../../_assets/img/landing/logo.png'
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class AgendaComponent extends Component {
     
@@ -49,13 +57,22 @@ export default class AgendaComponent extends Component {
       appearanceService.unsubscribe(body)
        .then(data => {
          if(data.status === 200){
-             
-          // userServices.sendmail()
-           alert("unsubscription successfull")
+
+            this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: data.message,
+              actions: [ Dialog.OKAction(() =>{window.location.reload()})],
+              bsSize: 'small',
+              onHide: (dialog) => {
+                dialog.hide()
+                window.location.reload()
+              }
+            })
+
            this.setState({
              key: "agenda"
            })
-           window.location.reload()
+           
           }
        })
 
@@ -73,13 +90,22 @@ export default class AgendaComponent extends Component {
       appearanceService.finishAppearance(body)
        .then(data => {
            if(data.status === 200){
-               alert("finished")
-                // stripeService.createCharge(body)
-                //   .then("Charged ok!")
+
+
+            this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: data.message,
+              actions: [ Dialog.OKAction(() =>{window.location.reload()})],
+              bsSize: 'small',
+              onHide: (dialog) => {
+                dialog.hide()
+                
+              }
+            })
                this.setState({
                	key: "agenda"
                })
-               window.location.reload()
+
            }
        })
 
@@ -103,8 +129,17 @@ export default class AgendaComponent extends Component {
     }
     
     appearanceService.acceptAppearing(body)
-      .then(alert("appearance accepted"))
-      .then(window.location.reload())
+      .then( data => 
+            this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: 'Congrats! The appearing attorney was accepted',
+              actions: [ Dialog.OKAction(() =>{window.location.reload()})],
+              bsSize: 'small',
+              onHide: (dialog) => {
+                dialog.hide()
+                window.location.reload()
+              }
+            }))
 
   }
 
@@ -115,9 +150,19 @@ export default class AgendaComponent extends Component {
       seekerId: x.subscription.seekerId
     } 
     appearanceService.rejectAppearing(body)
-      .then(alert("appearance rejected"))
-      .then(window.location.reload())
-
+      
+      .then( data => 
+          this.dialog.show({
+            title: <img alt="esquired" className="dialog-img" src={esquired} />,
+            body: 'The appearing was rejected!',
+            actions: [ Dialog.OKAction(() =>{window.location.reload()})],
+            bsSize: 'small',
+            onHide: (dialog) => {
+              dialog.hide()
+              window.location.reload()
+            }
+          })
+      )
   }
 
 
@@ -197,6 +242,7 @@ export default class AgendaComponent extends Component {
 
 
 
+
 var pastAppClass = this.state.pastClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming mr' : "btn btn-outline-dark btn-sm float-left button-upcoming mr";    
 var commingClass = this.state.commingClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
 var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm float-left button-upcoming' : "btn btn-outline-dark btn-sm float-left button-upcoming ";    
@@ -239,7 +285,7 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
       <br />
       <br />
 
-      
+      <Dialog ref={(el) => { this.dialog = el }} />
     
        {data.map(x =>
     
@@ -335,10 +381,10 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
                      starSpacing="2px"
                    /></div>:
               x.status === "finished" && x.subscription.seekerId === this.state.userId && x.subscription.seekerRate === undefined ?      
-                "Waiting for record to rate"
+                <p className="waiting-message">Waiting the record rate<img src={waiting} /></p>
                  :
               x.status === "finished" && x.subscription.seekerId !== this.state.userId && x.subscription.attorneyRate === undefined ?      
-                "Waiting for appearing to rate"
+                <div style={{textAlign:"center"}}><p className="waiting-message">Waiting the appearing rate<br/></p><img alt="waiting" src={waiting} width="30px" /></div>
                  :
                   x.subscription.seekerId !== this.state.userId && x.status === "finished" && x.subscription.attorneyRate ? 
                   <div style={{marginTop: "10px"}}>

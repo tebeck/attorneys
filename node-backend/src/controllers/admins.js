@@ -3,6 +3,8 @@ const adminModel = require('../models/admins');
 const appModel = require('../models/appearances');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
+const ADMIN_USER = process.env.ADMIN_USER;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 module.exports = {
 
@@ -55,11 +57,12 @@ make: function(req, res, next){
  // },
 
  authenticate: function(req, res, next){
-   if (req.body.email === "admin" && req.body.password === "test"){
-     return res.status(200).send({message: "User logged in"})
+   console.log(ADMIN_USER)
+   if (req.body.email === ADMIN_USER && req.body.password === ADMIN_PASSWORD){
+     return res.json({message: "User logged in", status: 200})
    }
    else {
-     return res.status(400).send({message: "Invalid user/pass"})
+     return res.json({message: "Invalid credentials", status: 401})
    }
  },
 

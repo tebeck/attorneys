@@ -37,7 +37,7 @@ export default class RegisterForm extends Component {
     visible: false,              // Modal visible ?.
     isAttorney: isAttorney,
     isSeeker: isSeeker,
-    onHold: isSeeker,
+    onHold: true,
     backhome: false,
 
     //validate form
@@ -57,6 +57,7 @@ export default class RegisterForm extends Component {
     zipValid: false,
 
     showLoader: false,
+    notification: true,
 
     // form state
     firstName: "",
@@ -455,9 +456,7 @@ if (this.state.currentStep === 2){
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
-            {this.state.isAttorney ? <Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Go to profile</Link>
-            :<Link style={{margin:"30px"}} to='/profile' className="btn btn-block btn-primary link-button">Done</Link>
-            }
+            <Link style={{margin:"30px"}} to='/' className="btn btn-block btn-primary link-button">Done</Link>
         </Modal>
 
 
@@ -472,7 +471,7 @@ if (this.state.currentStep === 2){
 
         <form onSubmit={this.handleSubmit} id="registerSeeker">
          {this.state.isSeeker ? <input type="hidden" name="isSeeker" value={true} /> : <input type="hidden" name="isAttorney" value={true} /> }
-         {this.state.isSeeker ? <input type="hidden" name="onHold" value={true} /> : null }
+         <input type="hidden" name="onHold" value={true} />
 
          <input className="form-control" type="hidden" value={this.state.image}></input>
         
@@ -558,7 +557,6 @@ function Step1(props){
       return null
     }
    
-     console.log(props.policy)
      
       if (props.state.streetAddrOneValid && props.state.cityValid && props.state.zipValid){
         props.state.enableNextAction=true
@@ -619,7 +617,7 @@ function Step1(props){
 
         <label>Notifications</label><br />
         <div className="form-check form-check-inline">
-         <input className="form-check-input" name="notification" type="checkbox" id="notification" value={props.notification} onClick={props.handleChangeChk} />
+         <input className="form-check-input" name="notification" type="checkbox" id="notification" checked={props.notification} value={props.notification} onChange={props.handleChangeChk} />
          <label className="form-check-label" htmlFor="notification">Email</label>
         </div><br/><br/>
 

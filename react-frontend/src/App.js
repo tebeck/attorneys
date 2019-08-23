@@ -3,10 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import { history } from './_helpers';
 import { PrivateRoute, AdminRoute}  from './_helpers';
 import Loadable from 'react-loadable'
-import SearchComponent from './_components/appearances/SearchComponent';
 import CreateComponent from './_components/appearances/CreateComponent';
-import UpdateComponent from './_components/appearances/UpdateComponent';
-import DeleteComponent from './_components/appearances/DeleteComponent';
 import AddCardComponent from './_components/stripe/AddCardComponent';
 import StackingComponent from './_components/appearances/StackingComponent';
 import './_assets/css/ownstylesheet.scss';
@@ -43,11 +40,10 @@ class App extends Component {
   return (
         <Router history={history}>
            <Route path="/admin" component={AdminComponent} />
-           <AdminRoute path="/adminpanel" component={AdminPanelComponent} />
+           <Route path="/adminpanel" component={AdminPanelComponent} />
            
            <PrivateRoute exact path="/home" component={HomeComponent} />
            <PrivateRoute exact path="/createappearance" component={CreateComponent} />
-           <PrivateRoute exact path="/deleteappearance" component={DeleteComponent} />
            <PrivateRoute exact path="/requests" component={RequestsComponent} />
            <PrivateRoute exact path="/notifications" component={NotificationsComponents} />
            <PrivateRoute exact path="/info" component={InfoComponent} />
@@ -56,9 +52,7 @@ class App extends Component {
            <PrivateRoute exact path="/appearancedetail" component={AppearanceDetailComponent} />
            <PrivateRoute exact path="/verdict" component={VerdictComponent} />
            <PrivateRoute exact path="/profile" component={ProfileComponent} />
-           <PrivateRoute exact path="/findproduct" component={SearchComponent} />
            <PrivateRoute exact path="/addcard" component={AddCardComponent} />
-           <PrivateRoute path="/updateproduct/" component={() => <UpdateComponent />} />
            <PrivateRoute exact path="/stacking" component={StackingComponent} />
            
            <Route exact path="/" component={GuestComponent} />

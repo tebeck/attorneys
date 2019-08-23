@@ -4,8 +4,9 @@ import {userServices} from '../../_services'
 // var DataTable = require('react-data-components').DataTable;
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-
-
+import logo from '../../_assets/img/landing/logo.png'
+import Popup from "reactjs-popup";
+import userIcon from '../../_assets/img/landing/landing_login.png'
 
 export default class AdminComponent extends Component {
     
@@ -16,6 +17,11 @@ export default class AdminComponent extends Component {
      email: ""
    }
 
+   if(props.history.location.state && props.history.location.state.validUser){
+     console.log("true")
+   } else {
+     window.location.assign('/admin')
+   }
  }
 
 
@@ -36,9 +42,9 @@ export default class AdminComponent extends Component {
     .then( data => {
         console.log(data)
         if(data.status === 200){
-            let maildata = {email: data.res.email, subject: "Role Approved",text:"Your role of appearing attorney has been approved!"}
+            let maildata = {email: data.res.email, subject: "Role Approved",text:"Your role has been approved!"}
             userServices.sendmail(maildata)
-            alert("Appearing attorney enabled!")
+            alert("User enabled!")
             window.location.reload();
         }
     } )
@@ -52,11 +58,11 @@ export default class AdminComponent extends Component {
    let email = {email: e.target.value}
    adminServices.rejectSeeker(email)
     .then( data => {
-        console.log(data)
+
         if(data.status === 200){
-            let maildata = {email: data.res.email, subject: "Role Rejected",text:"Your role of appearing attorney was rejected!"}
+            let maildata = {email: data.res.email, subject: "Role Rejected",text:"Your role was rejected!"}
             userServices.sendmail(maildata)
-            alert("Appearing attorney rejected!")
+            alert("User rejected!")
             window.location.reload();
         }
     } )
@@ -64,6 +70,12 @@ export default class AdminComponent extends Component {
 
  }
 
+
+ handleLogout = (e) =>{
+   e.preventDefault()
+
+   window.location.assign("/admin")
+ }
 
  handleChange = ({target}) =>{
    this.setState({
@@ -128,11 +140,21 @@ const columns = [
 
 
 if(this.state && this.state.users){
-  console.log(this.state.users)
+
     return (
-<div >
+<div>
       
-  
+  <div className="navbar header-comp flex-space-between">
+          <div className="logoadm"><a href="/"><img src={logo} alt="esquired" /></a></div>
+          <div className="align-center"><p>Users</p></div>
+          <div className="align-center">
+            <Popup contentStyle={{ width:"100px",padding: "20px", border: "none" }} className="popup-desktop" trigger={<img alt="userIcon" width="20px" src={userIcon} />} position="left top">
+              <div>
+                <p className="logout-link" onClick={this.handleLogout}>Logout</p>
+              </div>
+            </Popup><span></span>
+          </div>
+    </div>
 
 <ReactTable
   data={data}

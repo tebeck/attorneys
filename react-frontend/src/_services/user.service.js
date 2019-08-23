@@ -36,10 +36,10 @@ function register(data){
       if(data.user && data.token){
         data.status=200;
           if(data.user.isAttorney && data.user.isSeeker){
-            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: data.result.onHold, userId: data.user._id}, { path: '' })   
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, isSeeker: data.user.isSeeker,onHold: true, userId: data.user._id}, { path: '' })   
           } else
           if(data.user.isAttorney){
-            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, userId: data.user._id}, { path: '' })   
+            Cookies.set('esquired', {token: data.token, user: data.user.firstName, email: data.user.email, isAttorney: data.user.isAttorney, onHold: true, userId: data.user._id}, { path: '' })   
           }
        return data;
       } else{
@@ -49,7 +49,33 @@ function register(data){
     })
 }
 
+  function authenticate(data){
 
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+
+     return fetch(`${url_backend}/users/authenticate`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            if(data.result && data.token){
+                data.status=200;
+                if(data.result.isAttorney && data.result.isSeeker){
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold, userId: data.result._id}, { path: '' })   
+                } else 
+                if(data.result.isAttorney){
+                  Cookies.set('esquired', {token: data.token,user: data.result.firstName,email: data.result.email,isAttorney: data.result.isAttorney,onHold: data.result.onHold,userId: data.result._id}, { path: '' })   
+                } else 
+                if(data.result.isSeeker){
+                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.result._id}, { path: '' })
+                }
+            }
+          return data
+            
+        });
+  }
 
 function upload(image){
     return axios.post(`${url_backend}/files/upload`, image, {headers: authHeader()})
@@ -176,39 +202,6 @@ function makeSeeker(userId){
     });
   }
 
-  function authenticate(data){
-
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify(data)
-    };
-
-     return fetch(`${url_backend}/users/authenticate`, requestOptions)
-        .then(handleResponse)
-        .then(data => {
-            if(data.result && data.token){
-              
-              data.status=200;
-                if(data.result.isAttorney && data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold, userId: data.result._id}, { path: '' })   
-                } else 
-                if(data.result.isAttorney){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, userId: data.result._id}, { path: '' })   
-                } else 
-                if(data.result.isSeeker){
-                  Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isSeeker: data.result.isSeeker, userId: data.result._id}, { path: '' })
-                }
-             return data;
-            }
-
-            else{
-              data.status = 400
-              return data
-            }
-        });
-  }
-
 
 function recoverPassword(email){
     const requestOptions = {
@@ -297,24 +290,5 @@ function recoverPassword(email){
 
 
 function handleResponse(response) {
-    return response.json().then(data => {
-        if (!response.ok) {
-            if (response.status === 401) {
-                return data
-            }
-            if(response.status === 409){ // Email in use
-                return data
-            }
-            if(response.status === 400){
-                return data
-            }
-            if(response.status === 500){
-                return data
-            }
-        }
-        if(response.ok){
-           return data
-        }
-        
-    });
+    return response.json().then(data => { return data });
 }

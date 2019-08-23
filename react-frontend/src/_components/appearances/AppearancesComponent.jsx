@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import {appearanceService} from '../../_services/appearance.service'
 import Popup from "reactjs-popup";
-// import {userServices} from '../../_services/user.service'
+import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 // import Modal from 'react-awesome-modal';
 import Cookie from 'js-cookie'
@@ -10,9 +10,16 @@ import listFilterImg from '../../_assets/img/listing_filter.png'
 import listSortImg from '../../_assets/img/listing_sort.png'
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
-
+import Dialog from 'react-bootstrap-dialog'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
+import esquired from '../../_assets/img/landing/logo.png'
 
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class AppearancesComponent extends Component {
 	
@@ -34,14 +41,31 @@ export default class AppearancesComponent extends Component {
 	 }))
     }
 
-	handleClick = (x) =>{
-	 this.setState({
-	  goToDetail: true,
-	  appearanceData: x,
-	  recordView: false,
-	  appearancesClick: true
-	 })
-    }
+      handleClick = (x) => {
+	  userServices.getProfile()
+	  	.then(result => {
+	  		console.log(result)
+	  	    if(!result.data.stripe_user_id) {
+				this.dialog.show({
+				  title: <img alt="esquired" className="dialog-img" src={esquired} />,
+				  body: 'Please, connect with Stripe first',
+				  actions: [ Dialog.OKAction(() => { window.location.assign('/profile') })],
+				  bsSize: 'small',
+				  onHide: (dialog) => { 
+				    dialog.hide() 
+				    window.location.assign('/profile')
+				  }
+				})
+		    } else {
+		    	this.setState({ 
+		    	    goToDetail: true,
+				    appearanceData: x,
+				    recordView: false,
+				    appearancesClick: true
+		    	})     
+		    }	  		
+	  	})
+  	}
 
 	openModal() {
      this.setState({
@@ -152,6 +176,7 @@ export default class AppearancesComponent extends Component {
 	    </div>
 	    </div>
 		 :  null }
+		 <Dialog ref={(el) => { this.dialog = el }} />
     </div>
 	)}	
 	</div>

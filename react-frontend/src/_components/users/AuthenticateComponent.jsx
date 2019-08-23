@@ -46,11 +46,9 @@ constructor(props) {
       console.log(noErrors)
       userServices.authenticate(noErrors)
         .then(data => {
+          console.log(data)
           if (data.status !== 200) {
-            console.log(data.message)
-            this.setState({
-              errlogin: data.message
-             })
+            this.setState({ errlogin: data.message })
            }
            else {
              window.location.assign('/home')

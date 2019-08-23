@@ -7,6 +7,7 @@ import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import backbutton from '../../_assets/img/btnback.png'
 
+
 export default class AppearancesComponent extends Component {
 	
 	constructor(props) {
