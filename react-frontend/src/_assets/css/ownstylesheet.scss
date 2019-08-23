@@ -16,7 +16,47 @@ $hide-block: none;
 $display-block: block;
 
 
+.waiting-message{
+  
+  color: $green-color;
+  margin-right: 10px;
+  font-weight: bold;
+}
 
+
+.modal-header{
+  justify-content: space-around;
+  img{
+    width: 200px
+  }
+}
+
+.modal-body{
+  text-align: center;
+  p{
+    margin: 0px;
+  }
+}
+
+.modal-footer{
+  text-align: center;
+}
+
+.uploadsimg img{
+  width: 6em;
+}
+
+.btn-secondary-style{
+    width: auto;
+    height: 40px;
+    border-radius: 45px;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    line-height: 1;
+    font-family: "Noto Sans HK", sans-serif;
+
+}
 
 .mobile-content {
   visibility: hidden;
@@ -109,8 +149,10 @@ input[type=password]{
 }
 
 .secondBox{
+  display: flex;
+  align-items: center;
+  justify-content: left;
   text-align: right;
-  width: 40%;
 }
 
 div.secondBox div button{
@@ -341,6 +383,83 @@ span.button--inverse{
 
 * { padding: 0; margin: 0 }
 body { background-color: $background-grey; }
+
+
+
+
+/* The customcheck */
+.customcheck {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.customcheck input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 5px;
+    border:1px solid $grey-color;
+    margin-left: 7px;
+}
+
+/* On mouse-over, add a grey background color */
+.customcheck:hover input ~ .checkmark {
+    background-color: #ccc;
+
+}
+
+/* When the checkbox is checked, add a blue background */
+.customcheck input:checked ~ .checkmark {
+    background-color: $green-color;
+    border-radius: 5px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.customcheck input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.customcheck .checkmark:after {
+    left: 6.5px;
+    top: 3.2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-radius: 3px;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
 
 .mr{
   margin-right: 10px;
@@ -857,7 +976,32 @@ font-weight: 400!important;
 }
 
 
+
+.logout-link{
+  color: $green-color;
+  text-decoration: underline!important;
+}
+
+.align-center{
+  align-items: center;
+  justify-content: center;
+  p{
+    margin:0px!important;
+  }
+}
+
+
 * { font-family: $font-family; }
+
+
+.logoadm{
+  
+  img {
+    height:30px;
+  }
+}
+
+
 .logo{
   margin:0 auto;
   text-align: center;
@@ -1034,7 +1178,7 @@ text-align: right;
 
 @media screen and (max-width:400px){
   .adSquareEmail{
-    font-size: 4vw;
+    font-size: 3vw;
   }
 }
 
@@ -1071,6 +1215,9 @@ text-align: right;
 
 .flex-space-between{display: flex; justify-content: space-between}
 .flex-space-around{display: flex; justify-content: space-around}
+
+.flex{display: flex;}
+
 .bold{font-weight: 500}
 
 .moment{font-weight: 500; line-spacing:14pt; margin: 5px}
@@ -1163,6 +1310,11 @@ text-align: right;
   outline: none;
 }
 
+.errorSelect{
+    border: 1px solid #ff6b70;
+    border-radius: 0.35rem;
+}
+
 a:hover,a:focus{text-decoration: none!important; outline:none; color: $green-color}
 
 
@@ -1171,7 +1323,7 @@ input[type=password]{
   font-family: $font-family!important;
 }
 
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
+.btn-primary{
   background-color: $green-color;
   width: auto;
   height: 40px;
@@ -1187,9 +1339,7 @@ input[type=password]{
   background-color: $green-hover;
   border-color: transparent;
 }
-.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus,.btn-primary:focus, .btn-primary.focus{
-  box-shadow:none;
-}
+
 
 label {
   cursor: pointer;
@@ -1254,6 +1404,7 @@ label {
 
 div.popup-content{
   width: 350px!important;
+  z-index: 9999!important;
 }
 
 .img-landing0{
@@ -1350,7 +1501,7 @@ div.popup-content{
   width:100%;
 }
 .solutions-square{
-  height: auto;
+  height: 400px;
   border-radius: 6px;
   border: solid 1px #e7ecee;
   background-color: #ffffff;
@@ -1381,7 +1532,7 @@ div.popup-content{
 
 .features-square {
   padding-top: 30px;
-  height: auto;
+  height: 290px;
   padding-bottom: 30px;
   margin-bottom: 20px;
   border-radius: 6px;
@@ -1647,7 +1798,10 @@ div.popup-content{
   width: 100%!important;
 }
 
-
+.secondBox{
+  display:flex;
+  align-items: center;
+}
 
 .appearanceBox .apply-button{
     background-color: $green-color;
@@ -1673,4 +1827,26 @@ div.popup-content{
 
 }
 
+
+
+@media (max-width: 1070px) and (min-width: 777px) {
+.solutions-square{
+  height: 500px;
+}
+
+.features-square{
+  height: 300px;
+}
+
+}
+
+@media (min-width: 300px) and (max-width: 777px) {
+.solutions-square{
+  height: 350px;
+}
+.features-square{
+  height: 140px;
+}
+
+}
 

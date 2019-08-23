@@ -11,12 +11,19 @@ import LoaderAnimation from '../LoaderAnimation';
 import Modal from 'react-awesome-modal';
 import calendarImg from '../../_assets/img/appearance/appearance_calendar.png'
 import Moment from 'react-moment';
-
-
 import MasterCard from '../../_assets/img/cards/MasterCard.png'
 import Visa from '../../_assets/img/cards/Visa.png'
 import American from '../../_assets/img/cards/American.png'
+import esquired from '../../_assets/img/landing/logo.png'
+import Dialog from 'react-bootstrap-dialog'
 
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class ProfileComponent extends Component {
 
@@ -34,19 +41,22 @@ export default class ProfileComponent extends Component {
       officePhone: "",
       mobilePhone: "",
       streetAddrOne: "",
+      stripe_user_id: "",
       showImage:true,
       image:"",
       showLoader: false,
       transactions: [],
-      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/profile&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
+      accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
+      // accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
     
 
 
+
   }
 
-  componentWillMount(){
+  componentDidMount(){
     userServices.getProfile()
       .then(data => this.setState({
         firstName: data.data.firstName,
@@ -115,24 +125,26 @@ export default class ProfileComponent extends Component {
 
   handleAccSubmit = (e) =>{
     e.preventDefault()
-    this.setState({
-      showLoader: true
-    })
+
      const {...noErrors} = this.state // Destructuring...
      const result = validate(noErrors)
      this.setState({errors: result})
      if(!Object.keys(result).length) {
-      setTimeout(() => userServices.updateAccountInfo(noErrors).then( res => { 
-          alert(res) 
-          this.setState({
-            showLoader: false
-          })
-        }), 1200)
+     userServices.updateAccountInfo(noErrors)
+        .then( res => { 
+          if(res){
+            this.dialog.show({
+                title: <img alt="esquired" className="dialog-img" src={esquired} />,
+                body: res,
+                actions: [ Dialog.OKAction(() => { window.location.assign('/profile') })],
+                bsSize: 'small',
+                onHide: (dialog) => {
+                  dialog.hide()
+                }
+              }) 
+        }})
      } else {
-        this.setState({
-            errors: result,
-            showLoader: false
-        })
+        this.setState({ errors: result})
      }
     
   }
@@ -142,8 +154,8 @@ export default class ProfileComponent extends Component {
      const {...noErrors} = this.state // Destructuring...
      // const result = validateProf(noErrors)
      // this.setState({errors: result})
-     
      // if(!Object.keys(result).length) {
+       console.log(noErrors)
         userServices.updateProfInfo(noErrors).then(
           res =>{
            alert(res)
@@ -224,16 +236,20 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-   const {showLoader, customer, stripe_user_id,accStripeLink} = this.state
+   const {showLoader, customer, stripe_user_id,accStripeLink, errors} = this.state
    
   if(showLoader){
   return (
-      <div className="centered"><LoaderAnimation /></div>
+      <div className="centered"><LoaderAnimation />
+      
+      </div>
+
   )
   }
 		return (
       <div>
         <Header guest="1" />
+          <Dialog ref={(el) => { this.dialog = el }} />
           <div className="container main-body">
   				  <Link style={{color: "black"}} to="/home">
             <img style={{marginBottom: "11px"}} width="16px" src={backbutton} alt="esquired" />
@@ -252,31 +268,24 @@ export default class ProfileComponent extends Component {
               </div>
          
             </Modal>
-
-            <Tabs 
-              id="controlled-tab-example"
-              activeKey={this.state.key}
-              onSelect={key => this.setState({ key })}
-              className="tabs-control"
-            >
+            
+            <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={key => this.setState({ key })} className="tabs-control">
+            
              <Tab eventKey="personalinfo" title="Account info">
-               
-               <br />
-                <div className="text-center">
-                   <label className="uploadLabel" htmlFor="avatar">
+               <div>
+                <div className="text-center" style={{marginTop: "30px"}}>
+                   
                      { this.state.profilePicture ? 
                        <div>
-                        <img alt="editimg" className="edit-photo-img-upl" src={editPhotoImg} />
-                        <div className="profile-picture-p">
-                          <img  alt="avatar" src={this.state.profilePicture} />
-                        </div>
-                       </div>
-                       : 
-                       <div>
-                         <img alt="editimg" className="edit-photo-img-up" src={editPhotoImg} />
-                         <img src={uploadImg} className="profileimgupload" alt="profileImg" /><br/><br/>Upload Profile Picture<br />
-                       </div> }
-                   </label>
+                        <img alt="editimg" className="edit-photo-img-up" src={editPhotoImg} />
+                        <label className="uploadLabel" htmlFor="avatar" ><div className="profile-picture-p"><img  alt="avatar" src={this.state.profilePicture} /></div></label>
+                       </div> : 
+                        <div>
+                           <img alt="editimg" className="edit-photo-img-up" src={editPhotoImg} />
+                           <label className="uploadLabel" htmlFor="avatar" ><img src={uploadImg} className="profileimgupload" alt="profileImg" /> </label>
+                           <p>Upload Profile Picture</p>
+                        </div>   
+                        }
                    <input id="avatar" type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br />    
                 </div>
 
@@ -294,16 +303,28 @@ export default class ProfileComponent extends Component {
 
           <p className="p-profile">Account info</p>
           <input disabled className="form-control bigInput" name="email"       type="email"    placeholder={this.state.email} onChange={this.handleChange} value={this.state.email} />
+          {errors && errors.password && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.password}</div>}
           <input className="form-control bigInput" name="password"    type="password" placeholder="Old Password"         onChange={this.handleChange} />
+          {errors && errors.newpassword && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.newpassword}</div>}
           <input className="form-control bigInput" name="newpassword" type="password" placeholder="New Password"     onChange={this.handleChange} />
+          {errors && errors.confirm && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.confirm}</div>}
           <input className="form-control bigInput" name="confirm"     type="password" placeholder="Confirm"          onChange={this.handleChange} />
           
           
           <p className="p-profile">Notifications</p>
           <div className="form-check form-check-inline">
-           <input className="form-check-input" name="notification" type="checkbox" id="notification" checked={this.state.notification} onChange={this.handleChange } />
-           <label className="form-check-label" htmlFor="notification">Email</label>
-          </div><br /><br />
+        <label className="customcheck" htmlFor="notification" >Email
+          <input type="checkbox" name="notification" id="notification" checked={this.state.notification} onChange={this.handleChange } />
+          <span className="checkmark"></span>
+        </label>
+
+
+
+          </div>
+
+
+
+          <br /><br />
 
 
   {customer && customer.sources ? 
@@ -354,7 +375,12 @@ export default class ProfileComponent extends Component {
         <button className="btn btn-block logoutprofile" onClick={this.handleLogout}>Log out</button>
 
         <br/><br/>
+
+        </div>
       </Tab>
+
+
+
       <Tab eventKey="professionalinfo" title="Professional info">
         <form onSubmit={this.handleProfSubmit}>
           <div className="form-group">
@@ -405,6 +431,7 @@ export default class ProfileComponent extends Component {
     </Tabs>
    </div> 
   </div>
+
 </div> 
   )}
 
@@ -417,24 +444,27 @@ const validator = require('validator');
 const validate = values => {
 
 const errors = {}
-  // email
-  // if(!values.email) { errors.email = 'Insert email' }
-  // if(values.email && !validator.isEmail(values.email)){ errors.email = "Invalid email"}
   
-  // password
-  if(values.newpassword && values.newpassword.length > 0 && !validator.isLength(values.password, 8, 20)){ errors.password = "Password must be between 8 and 20 characters"}
+  if(!values.firstName) { errors.firstName = "Please insert your first name." }
+  if(!values.lastName) { errors.lastName = "Please insert your last name." }
+  
+  if(values.password && values.password.length > 0 && values.password.length < 8)
+    { errors.password = "Your old password is invalid." }
+  
+  if(values.newpassword && values.newpassword.length > 0 && !validator.isLength(values.newpassword, 8, 20))
+    { errors.newpassword = "New password must be between 8 and 20 characters"}
+
+  if(values.confirm !== values.newpassword)
+    { errors.confirm = "Passwords do not match." }
 
   // if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
-
   // if(!values.streetAddrTwo) { errors.streetAddrTwo = 'Insert streetAddrTwo' }
 
   // if(!values.city) { errors.city = 'Insert city' }
 
   // if(!values.zip) { errors.zip = 'Insert zip' }
 
-  // if(!values.firstName) { errors.firstName = 'Insert firstName' }
 
-  // if(!values.lastName) { errors.lastName = 'Insert lastName' }
 
   //  if(!values.firmName) { errors.firmName = 'Insert firmName' }
 

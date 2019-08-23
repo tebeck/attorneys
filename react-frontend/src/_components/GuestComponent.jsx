@@ -24,10 +24,10 @@ const validate = values => {
   const errors = {}
 
   if(!values.email){
-    errors.email = 'Insert an email'
+    errors.email = 'Please insert email.'
   }
   if(!values.password) {
-    errors.password = 'Insert a password'
+    errors.password = 'Please insert password.'
   }
 
   return errors;
@@ -63,13 +63,18 @@ export default class HomeComponent extends Component {
   componentDidMount(){
       userServices.getProfile()
        .then(res => {
-         console.log("User: Not authorized")
          if(res.data === null){
             Cookies.remove('esquired');
-            this.setState({
-              loggedIn: false
-            })
-         } else {
+            this.setState({ loggedIn: false })
+         }
+         
+         if(res.data && res.data.onHold){
+            console.log("User: Not authorized")
+            this.setState({ loggedIn: false })
+         
+         } else 
+
+         if(res.data && res.data.onHold === false) {
             console.log("User: Authorized")
             this.setState({
             loggedIn: true,
@@ -105,6 +110,7 @@ export default class HomeComponent extends Component {
     if(!Object.keys(result).length) {
       userServices.authenticate(noErrors)
         .then(data => {
+          console.log(data)
           if (data.status !== 200) {
             this.setState({
               errlogin: data.message
@@ -158,11 +164,12 @@ export default class HomeComponent extends Component {
                     <form onSubmit={this.handleSubmit}>
 
                     <div className={errlogin ? 'display' : 'hide'}>
-                    <div className="alert alert-danger" role="alert" style={{fontSize: "11px"}}>{this.state.errlogin}</div></div>
+                      <div className="alert alert-danger" role="alert" style={{fontSize: "11px"}}>{this.state.errlogin}</div>
+                    </div>
+                        {errors.email && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.email}</div>}
                       <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
-                      {errors.email && <div style={{fontSize: "15px", padding: "1px", margin: "0px",color:"red"}} >{errors.email}</div>}
+                        {errors.password && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.password}</div>}
                       <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
-                      {errors.password && <div style={{fontSize: "15px", padding: "1px", margin: "0px",color:"red"}} >{errors.password}</div>}
                       <small><Link to={recoverpass} style={{display: "block",textAlign:"right", color: "#4a4a4a"}} >Forgot your Password?</Link></small><br />
                       <input className="formbutton" type="submit" value="Log In" />
                     </form><br/>
@@ -189,22 +196,26 @@ export default class HomeComponent extends Component {
               <div className="solutions-square-item">
               <div className="solutions-square">
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-                <div className="solution-title">Lorem Ipsum Title</div>
-                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+                <div className="solution-title">“Creating a request is simple.”</div>
+                <div className="solution-desc">Fill out the necessary information under “Create A New Request” tab, Upload the necessary
+documents, and wait for results! </div>
               </div>
               </div>
               <div className="solutions-square-item">
               <div className="solutions-square">
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-                <div className="solution-title">Lorem Ipsum Title</div>
-                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+                <div className="solution-title">“24-Hour Payments!” </div>
+                <div className="solution-desc">Handled an appearance yesterday? Get paid tomorrow. Esquire’d uses Stripe technology to
+directly deposit your money! Handle cases today, make money within 24-hours. Simple.  </div>
               </div>
               </div>
               <div className="solutions-square-item">
               <div className="solutions-square">
                 <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-                <div className="solution-title">Lorem Ipsum Title</div>
-                <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+                <div className="solution-title">“Stacking”</div>
+                <div className="solution-desc">Stacking allows appearing attorneys to maximize their profits. If you accept a hearing, our
+technology will automatically notify you of other hearings in the same court at the same time.
+This will allow appearing attorneys to maximize their profits! </div>
               </div>
               </div>
               </div>
@@ -219,29 +230,31 @@ export default class HomeComponent extends Component {
             <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_01} alt="landing_features_01" />
-               <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
+               <h5>Efficient request</h5>
+               <p>Requesting an appearance is simple. On the phone or the desktop. Fill out the necessary
+information and hit “Create Request.” </p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_02} alt="landing_features_02" />
-               <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
+               <h5>24-Hour Payments</h5>
+               <p>Don’t wait for your money. Handle cases today, get paid directly tomorrow. </p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
                <img src={landing_features_03} alt="landing_features_03" />
-               <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing</p>
+               <h5>Vetted Lawyers</h5>
+               <p>We vet out lawyers.</p>
              </div>
              </div>
               <div className="col-sm-12 col-md-6 col-lg-3">
              <div className="features-square">
-               <img src={landing_features_04} alt="landing_features_04" />
-               <h5>Lorem ipsum dispusm</h5>
-               <p>Lorem ipsum dolor sit amet, conse cteteur adipsing </p>
+               <div><img src={landing_features_04} alt="landing_features_04" /></div>
+               <div><h5>Rating</h5>
+               <p>To ensure proficiency, we allow a two-way rating system. Once an appearance is complete,
+please give us your feedback! </p></div>
              </div>
              </div>
              </div>

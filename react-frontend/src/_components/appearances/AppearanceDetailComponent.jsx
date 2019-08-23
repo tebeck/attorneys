@@ -5,33 +5,37 @@ import {userServices} from '../../_services/user.service'
 import Moment from 'react-moment';
 import Modal from 'react-awesome-modal';
 import Cookie from 'js-cookie'
-// import listFilterImg from '../../_assets/img/listing_filter.png'
-// import listSortImg from '../../_assets/img/listing_sort.png'
-// import priceImg from '../../_assets/img/appearance/appearance_price.png'
-// import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import dateImg from '../../_assets/img/appearance/appearance_date.png'
 import welldoneImg from '../../_assets/img/request_welldone.png'
 import { Link } from 'react-router-dom';
 import backbutton from '../../_assets/img/btnback.png'
 import Switch from "react-switch";  
-// import { FilePond } from 'react-filepond';
-// import 'filepond/dist/filepond.min.css';
 import LoaderAnimation from '../LoaderAnimation';
-// import {url_backend} from '../../_helpers';
 import uploadImg from '../../_assets/img/request/request_upload.png'
 import TimeKeeper from 'react-timekeeper';
 import DatePicker from "react-datepicker";
-// import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
-// import 'moment/locale/it.js';
 import greyFaceImg from '../../_assets/img/grey-user.png'
 import sobre from '../../_assets/img/sobre.png'
 import phone from '../../_assets/img/phone.png'
 import Cookies from 'js-cookie';
+import Dialog from 'react-bootstrap-dialog'
+import Select from 'react-select';
+import {options} from '../../_helpers/areaOfLaw.js'
+import {optionsCourts} from '../../_helpers/optionsCourts.js'
+import esquired from '../../_assets/img/landing/logo.png'
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 let docs = []
 let uploadForm = new FormData();
-// const formData = new FormData(); // Currently empty
+
+
 
 export default class AppearancesComponent extends Component {
 	
@@ -52,7 +56,8 @@ export default class AppearancesComponent extends Component {
       	redirectHome: false,
       	showLoader: true,
       	redirectMyRequests: false,
-      	email: Cookies.getJSON('esquired').email
+      	email: Cookies.getJSON('esquired').email,
+      	uploading: false,
       };
       
 		docs = this.state.documents
@@ -124,7 +129,6 @@ export default class AppearancesComponent extends Component {
      appearanceService.subscribe(body)
      	.then(data => {
           if(data.status === 200){
-	 		console.log(data.data.courtHouse)
 		     let findCourt ={
 		     	court: data.data.courtHouse,
 		     	day: data.data.hearingDate.substr(0,10)
@@ -140,15 +144,35 @@ export default class AppearancesComponent extends Component {
 
     cancelAppearance = (e) =>{
       e.preventDefault()
-	  var _deleteApp = window.confirm("Are you sure you want to delete this appearance?");
+	  var _deleteApp = false;
+		
+		this.dialog.show({
+	      title: <img alt="esquired" className="dialog-img" src={esquired} />,
+	      body: 'Are you sure you want to delete this appearance?',
+	      actions: [ Dialog.OKAction(() => { _deleteApp = true }),
+	      			 Dialog.CancelAction(() => { _deleteApp = false })
+	      		   ],
+	      bsSize: 'small',
+	      onHide: (dialog) => { 
+	      	dialog.hide()  
+	      }
+	    })
+
 	  if (_deleteApp === true) {
-      let body = {
-     	appId: this.state.appId
-      }
+      let body = { appId: this.state.appId }
       
        appearanceService._delete(body)
-        .then(alert("Appearance deleted"))
-        .then(window.location.assign('/home'))
+        .then(data=>{ if(data.status === 200){
+    		 this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: data.message,
+              actions: [ Dialog.OKAction(() => { window.location.assign('/home') })],
+              bsSize: 'small',
+              onHide: (dialog) => { 
+              	dialog.hide()  
+              }
+            })
+        } })
       }
     }
 	
@@ -163,20 +187,26 @@ export default class AppearancesComponent extends Component {
 	}
 
 	 appearanceService.update(this.state)
-	 	.then(data => alert("Your request was succesfully updated"))
-	 	.then(uploadForm.delete('avatar'))
-	 	.then(this.setState({
-	 	  redirectMyRequests: true
-	 	}))
+	 	.then(data => {
+	 		if(data.status === 200){
+	            this.dialog.show({
+	              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+	              body: data.message,
+	              actions: [ Dialog.OKAction(() => {
+					  uploadForm.delete('avatar')
+	                  this.setState({ redirectMyRequests: true})
+			      })],
+	              bsSize: 'small',
+	              onHide: (dialog) => {
+	                dialog.hide()
+	                uploadForm.delete('avatar')
+	                this.setState({ redirectMyRequests: true})
+	              }
+	            })
+	 		}
+	 	})
 
 	}
-
-
-
-
-
-
-
 
 
 	openModal() {
@@ -207,36 +237,30 @@ export default class AppearancesComponent extends Component {
 
 
 
-
-
-
-
   handleDelete = (e) =>{
   	e.preventDefault()
    
-	var _delete = window.confirm("Are you sure you want to delete this item?");
-	if (_delete === true) {
-   
-	   let etag = {
-	  	 etag: e.target.name,
-	  	 appId: this.state.appId,
-	   } 
-
-	   
-	   docs.splice(e.target.id, 1)
-	  
-	   appearanceService.deleteFile(etag)
-	  	.then(data => {
-	  		if(data.status === 200){
-			  this.setState({
-			  	documents: docs
-		 	  })
-	  	 	}
-	  	 })
-
-	} else {
-	  
-	}
+	 this.dialog.show({
+	    title: <img alt="esquired" className="dialog-img" src={esquired} />,
+	    body: 'Are you sure you want to delete this file?',
+	    actions: [ Dialog.OKAction(() => { let etag = { etag: e.target.name,appId: this.state.appId}
+	    		   docs.splice(e.target.id, 1)		  
+		   appearanceService.deleteFile(etag)
+		  	.then(data => {
+		  		if(data.status === 200){
+				  this.setState({
+				  	documents: docs
+			 	  })
+		  	 	}
+		  	 })
+	     }),
+		Dialog.CancelAction(() => { })
+		   		 ],
+	    bsSize: 'small',
+	    onHide: (dialog) => { 
+	      dialog.hide() 
+	    }
+	  })
 
 
 
@@ -250,11 +274,14 @@ export default class AppearancesComponent extends Component {
    }
 
     userServices.multiupload(uploadForm)
+      .then(this.setState({uploading: true }))
       .then(data => {
          this.setState({
           newDocuments: data.data.location 
          })
-
+        if(data.status === 200){
+          this.setState({ uploading: false })
+        }
       })
       .then(target.value = '')
   }
@@ -262,14 +289,21 @@ export default class AppearancesComponent extends Component {
   clearFiles = (e) => {
 
    e.preventDefault()
-    var r = window.confirm("Do you want to clear all files?");
-    if (r === true) {
+	 this.dialog.show({
+	    title: <img alt="esquired" className="dialog-img" src={esquired} />,
+	    body: 'Are you sure you want to clear all the files?',
+	    actions: [ Dialog.OKAction(() => { 
+	    	         uploadForm.delete('avatar')
+     			     this.setState({ newDocuments: [] }) 
+     			   }),
+				   Dialog.CancelAction(() => { })
+		   		 ],
+	    bsSize: 'small',
+	    onHide: (dialog) => { 
+	      dialog.hide() 
+	    }
+	  })
      
-     uploadForm.delete('avatar')
-
-     
-     this.setState({ newDocuments: [] });
-    }
 
   }
 
@@ -283,11 +317,19 @@ export default class AppearancesComponent extends Component {
   }
 
 
-  handleEmailStacking = (result) => {
+  handleSelectChange = areaOfLaw => {
+    this.setState({ areaOfLaw: areaOfLaw.value });
+  };
 
-  	
-  }
+  handleSelectCountyChange = county => {
+    this.setState({ county: county.label });
+    console.log(`Option selected:`, county.label);
+  };
 
+  handleSelectCourtHouseChange = courts => {
+    this.setState({ courtHouse: courts.label });
+    console.log(`courthouse selected:`, courts.label);
+  };
 
 
  render() {
@@ -296,8 +338,12 @@ export default class AppearancesComponent extends Component {
  	 docs = this.state.documents
 
 
+        for (var i = 0; i < optionsCourts.length; i++){
 
-
+          if (optionsCourts[i].label === this.state.county){
+              var courtsh = optionsCourts[i].courts
+          }
+        }
 
   if(result && recordData && seekerData){
 	  
@@ -353,6 +399,7 @@ export default class AppearancesComponent extends Component {
 	     : null}
 	  </div>
 	  </Modal>
+	        <Dialog ref={(el) => { this.dialog = el }} />
 
 
 	    {this.state.agendaClick ? 
@@ -471,21 +518,14 @@ export default class AppearancesComponent extends Component {
 	      	    <input name="caseName" type="text" className="form-control" value={this.state.caseName} disabled={!checkStatus} onChange={this.handleChange}/>
 	            <hr />
 	            <p className="adTitle">County</p>
-	             <input name="county" type="text" className="form-control" value={this.state.county} disabled={!checkStatus} onChange={this.handleChange}/>
+	             <Select placeholder="County..." required options={optionsCourts}  name="county" style={{width: "100%"}} isDisabled={!checkStatus} onChange={this.handleSelectCountyChange} value={optionsCourts.filter(optionsCourts => optionsCourts.label === this.state.county)}  />
 	            <hr />
 	            <p className="adTitle">Courthouse</p>
-	            <input name="courtHouse" type="text" className="form-control" value={this.state.courtHouse} disabled={!checkStatus} onChange={this.handleChange}/>
+            <div style={{marginTop: "10px", marginBottom: "10px"}}>
+              <Select placeholder="Courthouse..." required options={courtsh}  name="courtHouse" style={{width: "100%"}} isDisabled={!checkStatus} onChange={this.handleSelectCourtHouseChange} value={courtsh.filter(courtsh => courtsh.label === this.state.courtHouse)}/>
+            </div>
 	            <hr />
-	            <p className="adTitle">Area of Law</p>
-	            <div className="input-group mb-3"><div className="input-group-prepend">
-	            <label className="input-group-text" htmlFor="areaOfLawInput"></label></div>
-	              <select name="areaOfLaw" className="custom-select" id="areaOfLawInput" value={this.state.areaOfLaw} disabled={!checkStatus} onChange={this.handleChange}>
-	                <option defaultValue>{this.state.areaOfLaw}</option>
-	                <option value="CRIMINAL">CRIMINAL</option>
-	                <option value="CIVIL">CIVIL</option>
-	                <option value="COMMON">COMMON</option>
-	              </select>
-	            </div>
+            <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} isDisabled={!checkStatus} onChange={this.handleSelectChange} value={options.filter(options => options.label === this.state.areaOfLaw)}/>
 	            <hr />
 	            <p className="adTitle">Department</p>
 	            <input name="department" type="text" className="form-control" value={this.state.department} disabled={!checkStatus} onChange={this.handleChange}/>
@@ -544,7 +584,7 @@ export default class AppearancesComponent extends Component {
 	            <br/>
 	              {checkStatus ? <p><b>Documents</b></p> : null}
 	              <label className={!checkStatus ? "squareUploadDisable" : "uploadLabel squareUpload"} htmlFor="avatar"  >
-	               <div className="squareImg" >
+	               <div className="squareImg uploadsimg" >
 	                 <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
 	                 <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={this.fileSelectedHandler} /><br /><br /> 
 	                </div>
@@ -560,8 +600,7 @@ export default class AppearancesComponent extends Component {
 	              this.state.newDocuments.map((x,i) => (
 	            <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
 	              )): null}
-	              {this.state.newDocuments ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
-	            
+	              {this.state.newDocuments > 0  ? <button className="clear-files" onClick={this.clearFiles}>Clear files</button> : null }
 	            </div>
 	            
 
@@ -571,10 +610,10 @@ export default class AppearancesComponent extends Component {
 	            <button className="btn btn-primary link-button btn-request" onClick={this.handleClick}>Apply Request</button> :
  	            
  	            this.state.attorneyId === this.state.userId ?
- 	             this.state.status === "pending" || this.state.status === "applied" ?
+ 	             this.state.status !== "completed" && this.state.status !== "finished" ?
 	            <div>
 	             <span style={{display: "block", cursor: "pointer"}} onClick={this.cancelAppearance} className="termsLabel" to="/home" >Cancel Apperance</span><br/>
-	             <button className="btn btn-primary link-button btn-request" onClick={this.handleUpdate}>Update Request</button>
+	             <button disabled={this.state.uploading} className="btn btn-block link-button" onClick={this.handleUpdate}>Update Request</button>
 	            </div>: null : null
 	          	}
 	         </form>

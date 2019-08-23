@@ -23,7 +23,7 @@ var cron = require('node-cron');
 require('dotenv').config();
 
 // DB INSTANCE
-mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex: true })
+mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
 
 const filesRoute = require('./src/routes/files');
 const adminRoutes = require('./src/routes/admins');

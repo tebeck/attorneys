@@ -17,9 +17,18 @@ import TimeKeeper from 'react-timekeeper';
 import DatePicker from "react-datepicker";
 import {options} from '../../_helpers/areaOfLaw.js'
 import {optionsCourts} from '../../_helpers/optionsCourts.js'
+import Dialog from 'react-bootstrap-dialog'
+import esquired from '../../_assets/img/landing/logo.png'
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
+
 
 let uploadForm = new FormData();
-
 
 export default class CreateComponent extends Component {
   constructor(props) {
@@ -46,13 +55,17 @@ export default class CreateComponent extends Component {
       caseNumber:"",
       documents:[],
       redirectHome: false,
+      uploading: false,
       
 
       enableNextAction: false,     // enable next action button (invalid data in form)
       enableErrors: false,         // don't show errors when form is empty
       departmentValid: false,
       caseNameValid: false,
-      caseNumberValid: false
+      caseNumberValid: false,
+      areaOfLawValid: false,
+      countyValid: false,
+      courtHouseValid: false
 
     }
 
@@ -60,7 +73,7 @@ export default class CreateComponent extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleChangeLC= this.handleChangeLC.bind(this); // Late call input
     this.handleChangeCP= this.handleChangeCP.bind(this); // client present input
-    console.log(this.state)
+    
   }
 
 
@@ -73,27 +86,49 @@ export default class CreateComponent extends Component {
     this.setState({errors: result})
     
     if(this.state.documents.length < 1){
-     var confirmFiles = window.confirm("You're submitting the request without files, is it correct?") 
+
+        this.dialog.show({
+          title: <img alt="esquired" className="dialog-img" src={esquired} />,
+          body: "You're submitting the request without files, is it correct?",
+          actions: [ 
+            Dialog.OKAction(() => { 
+              if(!Object.keys(result).length) {
+                
+                console.log(noErrors)
+                noErrors.hearingDate = noErrors.hearingDate.toISOString().substring(0, 10)
+
+                appearanceService.create(noErrors)
+                  .then(data => console.log(data))
+                   .then(uploadForm.delete('avatar'))
+                   .then(this.openModal())
+              } 
+              else {
+                this.setState({ errors: result  })
+              }
+             }),
+            Dialog.CancelAction(() => {  }) 
+            ],
+          bsSize: 'small',
+          onHide: (dialog) => { 
+            dialog.hide()
+          } 
+
+        })
+
     } else {
-     confirmFiles = true 
-    }
+      if(!Object.keys(result).length) {
+        
+        console.log(noErrors)
+        noErrors.hearingDate = noErrors.hearingDate.toISOString().substring(0, 10)
 
-    if (confirmFiles) {
-    if(!Object.keys(result).length) {
-      
-      console.log(noErrors)
-      noErrors.hearingDate = noErrors.hearingDate.toISOString().substring(0, 10)
-
-      appearanceService.create(noErrors)
-        .then(data => console.log(data))
-         .then(uploadForm.delete('avatar'))
-         .then(this.openModal())
-    } 
-    else {
-      this.setState({ errors: result  })
-    }
-
-
+        appearanceService.create(noErrors)
+          .then(data => console.log(data))
+           .then(uploadForm.delete('avatar'))
+           .then(this.openModal())
+      } 
+      else {
+        this.setState({ errors: result  })
+      }
     }
   }
   
@@ -105,35 +140,44 @@ export default class CreateComponent extends Component {
    }
 
     userServices.multiupload(uploadForm)
+      .then(this.setState({uploading: true }))
       .then(data => {
-         this.setState({
-          documents: data.data.location 
+         this.setState({ 
+           documents: data.data.location
          })
-
+        if(data.status === 200){
+          this.setState({ uploading: false })
+        }
       })
       .then(target.value = '')
   }
 
 
   deleteFiles = (e) => {
-
    e.preventDefault()
-    var r = window.confirm("Do you want to clear all files?");
-    if (r === true) {
-     
-     uploadForm.delete('avatar')
 
-     console.log(uploadForm.getAll('avatar'))
-     this.setState({ documents: [] });
-    }
+    this.dialog.show({
+      title: <img alt="esquired" className="dialog-img" src={esquired} />,
+      body: 'Do you want to clear all files?',
+      actions: [ 
+        Dialog.OKAction(() => { 
+            uploadForm.delete('avatar')
+            this.setState({ documents: [] });
+         }),
+        Dialog.CancelAction(() => {  }) 
+        ],
+      bsSize: 'small',
+      onHide: (dialog) => { 
+        dialog.hide()
+      } 
 
+    })
   }
 
 
 
 
-
-  handleChange = ({target}) =>{
+  handleChange = (e,selectedItem, nameOfComponent) =>{
 
     
   
@@ -141,11 +185,43 @@ export default class CreateComponent extends Component {
     let departmentValid = this.state.departmentValid;
     let caseNameValid = this.state.caseNameValid;
     let caseNumberValid = this.state.caseNumberValid;
+    let areaOfLawValid = this.state.areaOfLawValid;
+    let countyValid = this.state.countyValid;
+    let courtHouseValid = this.state.courtHouseValid;
+
 
     if (this.state.currentStep === 1){
+    
+      if(selectedItem){
+      if(selectedItem.name === "county"){
+        if (e.value.length < 1) {
+          enableNextAction=false
+        } else {
+          countyValid=true;
+        }
+      } 
+      if(selectedItem.name === "courtHouse"){
+        if (e.value.length < 1) {
+          enableNextAction=false
+        } else {
+          courtHouseValid=true;
+        }
+      } 
+      if(selectedItem.name === "areaOfLaw"){
+        if (e.value.length < 1) {
+          enableNextAction=false
+        } else {
+          areaOfLawValid=true;
+        }
+      } 
 
-      if (target.name === 'department'){
-        if (target.value.length < 0) {
+      }
+
+      else {
+
+
+      if (e.target.name === 'department'){
+        if (e.target.value.length < 1) {
           enableNextAction=false
           departmentValid=false;
         }else{
@@ -153,16 +229,16 @@ export default class CreateComponent extends Component {
         }
       }
 
-      if (target.name === 'caseName'){
-        if (target.value.length<2) {
+      if (e.target.name === 'caseName'){
+        if (e.target.value.length<2) {
           enableNextAction=false
           caseNameValid=false;
         }else{
           caseNameValid=true;
         }
       }
-      if (target.name === 'caseNumber'){
-        if (target.value.length<2) {
+      if (e.target.name === 'caseNumber'){
+        if (e.target.value.length<2) {
           enableNextAction=false
           caseNumberValid=false;
         }else{
@@ -170,22 +246,43 @@ export default class CreateComponent extends Component {
         }
       }
 
-      if ( departmentValid && caseNameValid  && caseNumberValid){
+      }
+
+      if ( departmentValid && caseNameValid  && caseNumberValid && countyValid && areaOfLawValid && courtHouseValid){
         enableNextAction=true
       }
       
       const newState = {
+        countyValid: countyValid,
         departmentValid: departmentValid,
         caseNumberValid: caseNumberValid,
         caseNameValid: caseNameValid,
+        areaOfLawValid: areaOfLawValid,
+        courtHouseValid:courtHouseValid,
         enableNextAction: enableNextAction
       };
+
+      console.log(newState)
 
       this.setState(newState);
     }
     
-    this.setState({ [target.name]: target.value });
-  
+
+    if(selectedItem){
+      if(selectedItem.name === "county"){
+        this.setState({ county: e })
+      }
+      if(selectedItem.name === "courtHouse"){
+        this.setState({ courtHouse: e })
+      }
+      if(selectedItem.name === "areaOfLaw"){
+        this.setState({ areaOfLaw: e })
+      }
+    }
+
+    else{
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
 
 
@@ -234,24 +331,21 @@ export default class CreateComponent extends Component {
   }
 
   handleSelectChange = areaOfLaw => {
-    this.setState({ areaOfLaw: areaOfLaw.value });
-    console.log(`Option selected:`, areaOfLaw.value);
+    this.setState({ 
+      areaOfLaw: areaOfLaw
+    });
+    console.log(`Option selected:`, areaOfLaw);
   };
 
   handleSelectCountyChange = county => {
-    console.log(county)
-    this.setState({ county: county.label });
-    console.log(`Option selected:`, county.label);
+    this.setState({ county: county });
+    console.log(`Option selected:`, county);
   };
 
   handleSelectCourtHouseChange = courts => {
-    this.setState({ courtHouse: courts.label });
-    console.log(`courthouse selected:`, courts.label);
+    this.setState({ courtHouse: courts });
+    console.log(`courthouse selected:`, courts);
   };
-
-
-
-  
 
 
 
@@ -268,7 +362,7 @@ export default class CreateComponent extends Component {
 
    return (
      <div className="container main-body">
-     
+     <Dialog ref={(el) => { this.dialog = el }} />
       <Modal 
         visible={this.state.visible}
         width="400"
@@ -301,7 +395,7 @@ export default class CreateComponent extends Component {
           handleSelectChange={this.handleSelectChange}
           handleSelectCountyChange={this.handleSelectCountyChange}
           handleSelectCourtHouseChange={this.handleSelectCourtHouseChange}
-
+          errors={errors}
           
         />
         <Step2
@@ -321,6 +415,7 @@ export default class CreateComponent extends Component {
           handleTimeChange={this.handleTimeChange}
           fileSelectedHandler={this.fileSelectedHandler}
           deleteFiles={this.deleteFiles}
+          errors={errors}
         />
 
         {this.nextButton()}
@@ -332,7 +427,7 @@ export default class CreateComponent extends Component {
         {errors.county && <div className="alert alert-danger" role="alert">{errors.county}</div>}
         {errors.hearingDate && <div className="alert alert-danger" role="alert">{errors.hearingDate}</div>}
         {errors.time && <div className="alert alert-danger" role="alert">{errors.time}</div>}
-        {errors.instructions && <div className="alert alert-danger" role="alert">{errors.instructions}</div>}
+        
         {errors.clientPresent && <div className="alert alert-danger" role="alert">{errors.clientPresent}</div>}
         {errors.lateCall && <div className="alert alert-danger" role="alert">{errors.lateCall}</div>}
         {errors.price && <div className="alert alert-danger" role="alert">{errors.price}</div>}
@@ -353,28 +448,30 @@ function Step1(props){
 
         for (var i = 0; i < optionsCourts.length; i++){
 
-          if (optionsCourts[i].label === props.county){
+          if (optionsCourts[i] === props.county){
               var courtsh = optionsCourts[i].courts
           }
         }
-
-
+        console.log(props.county)
 
     return(
       <div>
         <div className="center"><ProgressBar height={5} percent={50} filledBackground="#2ad4ae" ></ProgressBar> <img alt="checkimg" className="grey-check-icon" width="18px" src={checkImg} /></div><br />
         <p>Complete info</p>
 
-            <Select placeholder="County..." required options={optionsCourts}  name="county" style={{width: "100%"}} onChange={props.handleSelectCountyChange} value={props.county}/>
+            <Select placeholder="County..." required options={optionsCourts}  name="county" style={{width: "100%"}} onChange={props.handleChange} value={props.county} className={props.state.countyValid || !props.state.enableErrors ? null : "errorSelect"}/>
 
             <div style={{marginTop: "10px", marginBottom: "10px"}}>
-              <Select placeholder="Court House..." required options={courtsh}  name="courtHouse" style={{width: "100%"}} onChange={props.handleSelectCourtHouseChange} value={props.courtHouse.label}/>
+              <Select placeholder="Court House..." required options={courtsh}  name="courtHouse" style={{width: "100%"}} onChange={props.handleChange} value={props.courtHouse} className={props.state.courtHouseValid || !props.state.enableErrors ? null : "errorSelect"}/>
             </div>
 
-            <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={props.handleSelectChange} value={props.areaOfLaw.value}/>
+            <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={props.handleChange} value={props.areaOfLaw} className={props.state.areaOfLawValid || !props.state.enableErrors ? null : "errorSelect"}/>
+            
             
             <input name="department" style={{marginTop: "10px"}} placeholder="Department"  type="text" className={props.state.departmentValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.department} ></input>
+            
             <input name="caseName"   placeholder="Case Name"   type="text" className={props.state.caseNameValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseName} ></input>
+            
             <input name="caseNumber" placeholder="Case Number" type="text" className={props.state.caseNumberValid || !props.state.enableErrors ? "form-control" : "error"} onChange={props.handleChange} value={props.caseNumber} ></input>
       </div>
       )
@@ -411,7 +508,8 @@ function Step1(props){
              />
 
 
-
+          
+          {props.state.errors.instructions && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{props.state.errors.instructions}</div>}
           <textarea name="instructions" placeholder="Description/instructions" className="form-control" cols="40" rows="5" onChange={props.handleChange} value={props.instructions}></textarea>
             <br/>
             <div className="flex-space-between">
@@ -434,7 +532,7 @@ function Step1(props){
             <div>
               <p><b>Documents</b></p>
               <label className="uploadLabel squareUpload" htmlFor="avatar" >
-               <div className="squareImg" >
+               <div className="squareImg uploadsimg" >
                  <img src={uploadImg} alt="profileImg" width="150px" /><br />Upload<br />
                  <input id="avatar" multiple type="file" className="inputfile" name="avatar" onChange={props.fileSelectedHandler} /><br /><br /> 
                 </div>
@@ -446,11 +544,11 @@ function Step1(props){
               props.state.documents.map((x,i) => (
                   <div key={i} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a></div>
               )): null}
-              {props.state.documents.length > 0 ? <button className="clearFiles" onClick={props.deleteFiles}>Clear files</button> : null }
+              {props.state.documents.length > 0 ? <button className="clearFiles" style={{marginBottom: "20px"}} onClick={props.deleteFiles}>Clear files</button> : null }
             </div>
 
             <input name="price" type="hidden" className="form-group" value={props.price} />
-            <input className="btn btn-block btn-primary link-button active" type="submit" value="Create request"></input><br />
+            <input disabled={props.state.uploading} className="btn btn-block link-button" type="submit" value="Create request"></input><br />
      
       </div>
       

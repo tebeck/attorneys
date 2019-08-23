@@ -15,12 +15,9 @@ function getStripeInfo(data){
         headers: authHeader(),
         body: JSON.stringify(data)
     };
-    console.log("llego")
 
     return fetch(`${url_backend}/stripe/getstripeinfo`, requestOptions)
-        .then(data => {
-            console.log(data)
-        })
+        .then( data => {return data.json().then(text=>text)} )
 }
 
 
@@ -32,9 +29,7 @@ function createNewCreditCard(token){
     };
 
     return fetch(`${url_backend}/stripe/createnewcreditcard`, requestOptions)
-        .then(data => {
-            console.log(data)
-        })
+        .then( data => {return data.json().then(text=>text)} )
 }
 
 function setDefaultCard(card){

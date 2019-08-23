@@ -12,11 +12,13 @@ module.exports = {
 		       code: req.body.code,
 		       grant_type: 'authorization_code' } }, (error, response, body) => {
       if (error) { console.error(error) }
+
+
        userModel.updateOne( { "_id": req.body.userId},
          {$set: { stripe_user_id: response.body.stripe_user_id } } )  	
           .then(obj => {
-            console.log('Stripe: ID updated: ' + obj);
-           return res.status(200).send({message: "Update OK", status: 200})
+
+           return res.status(200).send({message: "Your Stripe ID has been successfully created.", status: 200})
           })
           .catch(err => {
             console.log('Stripe: Error: ' + err);
@@ -37,7 +39,7 @@ module.exports = {
             .then(obj => {
               console.log('Stripe: New credit card added successfully');
               console.log(obj)
-              return res.status(200).send({message: "Stripe: Update OK", status: 200})})
+              return res.status(200).send({message: "Credit card added successfully!", status: 200})})
             .catch(err => { console.log('Error: ' + err)})
         } else {
           // create customer

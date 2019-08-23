@@ -120,10 +120,6 @@ var users = new Schema({
       }
    }
   ],
-  isVerified: {
-    type: Boolean,
-    default: true
-  },
   isDisabled: {
     type: Boolean,
     default: false
@@ -175,22 +171,24 @@ var users = new Schema({
       required: false 
     }
   }],
-  notifications:[{
-    type: {
-      type: String,
+  notification:{
+      type: Boolean,
       required: false,
+    },
+  notifications:[{
+    type:{
+      type: String,
+      required: false
     },
     read: {
       type: Boolean,
       default: false
     },
-    msg:{
+    msg: {
       type: String,
       required: false
     }
-  }
-  ]
-  
+    }]
 },{
     collection: 'users', timestamps: true
 });

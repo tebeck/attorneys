@@ -6,6 +6,15 @@ import { Redirect } from 'react-router-dom';
 import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
+import Dialog from 'react-bootstrap-dialog'
+import esquired from '../../_assets/img/landing/logo.png'
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class RequestsComponent extends Component {
 	
@@ -25,16 +34,21 @@ export default class RequestsComponent extends Component {
   setRedirect = () => {
 	  userServices.getProfile()
 	  	.then(result => {
-		  	if(result.data.stripe_customer_id){
-		    this.setState({
-		      redirect: true
-		    })
+	  	    if(!result.data.stripe_customer_id) {
+				this.dialog.show({
+				  title: <img alt="esquired" className="dialog-img" src={esquired} />,
+				  body: 'Please, connect with Stripe and insert your credit card.',
+				  actions: [ Dialog.OKAction(() => { window.location.assign('/profile') })],
+				  bsSize: 'small',
+				  onHide: (dialog) => { 
+				    dialog.hide() 
+				    window.location.assign('/profile')
+				  }
+				})
 		    } else {
-		    	alert("Please, first insert your credit card")
-		    	window.location.assign('/profile')
+		    	this.setState({ redirect: true })     
 		    }	  		
 	  	})
-
   }
   
   
@@ -103,15 +117,18 @@ export default class RequestsComponent extends Component {
 
 
 	return (
-	 <div><br/>
+	 <div>
+	 	
+	 <br/>
 	  {requests.map((x,i) =>
 	   <div key={x._id}> 
+
 	   	{i < 1 ? <span>Active requests<br/><br/></span>:null}
 	     <div>
 	        {x.status === "pending" ? <p className="text-center pending-assignment alert alert-warning">Pending assignment</p> :null}
     	    
     	    {x.status === "accepted" ? 
-		    <div key={x._id} style={{minHeight: "250px"}} className="appearanceBox juryDeliverating">
+		    <div key={x._id} onClick={this.handleClick.bind(this, x)} style={{minHeight: "250px"}} className="appearanceBox juryDeliverating">
           <div style={{marginTop: "30px"}} className="appearanceHeaderBox flex-space-between juryDeliveratingHeader">  
             <div><Moment className="timeformat" format="LL">{x.hearingDate}</Moment> - <span className="timeformat"> {x.time}</span></div>
             <div><span className="areaoflaw">{x.areaOfLaw} </span><img src={checkImg} width="18px" alt="esquired" /></div>
@@ -225,7 +242,7 @@ export default class RequestsComponent extends Component {
      </div>
   )}
     else { return ( <div><br/><br/><p>You don't have requests created</p><br/><br/>
-    	{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button><br /><br /></div> ) }
+    	{this.renderRedirect()}<button onClick={this.setRedirect} className="btn btn-block btn-primary link-button">Create New Request</button><br /><br /><Dialog ref={(el) => { this.dialog = el }} /></div> ) }
 }
 
 }

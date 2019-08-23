@@ -7,6 +7,15 @@ import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import StarRatings from 'react-star-ratings';
 import { userServices } from '../../_services/user.service'
 import Cookie from 'js-cookie'
+import Dialog from 'react-bootstrap-dialog'
+import esquired from '../../_assets/img/landing/logo.png'
+
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class RateComponent extends Component {
 
@@ -19,7 +28,6 @@ export default class RateComponent extends Component {
       userId: Cookie.getJSON('esquired').userId
     };
 
-    console.log(this.state.data)
 
 
   
@@ -42,18 +50,36 @@ export default class RateComponent extends Component {
       seekerId: this.state.data[0].subscription.seekerId 
     }
 
-    console.log(body)
     if(this.state.userId === this.state.data[0].subscription.seekerId){
-      console.log("es el appearing")
      userServices.rateAttorney(body)
-      .then(alert("Attorney of record rated"))
-      .then(window.location.assign("/home"))
+        .then(data=>{ if(data.status === 200){
+         this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: data.message,
+              actions: [ Dialog.OKAction(() => { window.location.assign('/home') })],
+              bsSize: 'small',
+              onHide: (dialog) => { 
+                dialog.hide() 
+                window.location.assign('/home') 
+              }
+            })
+        } })
     }
     if(this.state.userId === this.state.data[0].attorneyId){
-      console.log("es el record")
      userServices.rateSeeker(body)
-      .then(alert("Appearing attorney rated"))
-      .then(window.location.assign("/home"))
+        .then(data=>{ if(data.status === 200){
+         this.dialog.show({
+              title: <img alt="esquired" className="dialog-img" src={esquired} />,
+              body: data.message,
+              actions: [ Dialog.OKAction(() => { window.location.assign('/home') })],
+              bsSize: 'small',
+              onHide: (dialog) => { 
+                dialog.hide() 
+                window.location.assign('/home') 
+              }
+            })
+        } })
+
     }
 
   }
@@ -75,6 +101,7 @@ export default class RateComponent extends Component {
       </Link>			
        <hr />
       <div >
+      <Dialog ref={(el) => { this.dialog = el }} />
   {data.map(x =>
 
     <div key={x._id}>
