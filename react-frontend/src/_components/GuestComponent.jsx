@@ -41,6 +41,7 @@ export default class HomeComponent extends Component {
     super(props, context);
 
     this.state = {
+      emailMC: '',
       show: false,
       errors: {},
       loggedIn: false
@@ -67,12 +68,12 @@ export default class HomeComponent extends Component {
             Cookies.remove('esquired');
             this.setState({ loggedIn: false })
          }
-         
+
          if(res.data && res.data.onHold){
             console.log("User: Not authorized")
             this.setState({ loggedIn: false })
-         
-         } else 
+
+         } else
 
          if(res.data && res.data.onHold === false) {
             console.log("User: Authorized")
@@ -94,6 +95,11 @@ export default class HomeComponent extends Component {
     })
   }
 
+      changeInputs = ({target}) =>{
+      this.setState({
+        emailMC: target.value
+      })
+    }
 
   handleLogout = () =>{
     Cookies.remove('esquired');
@@ -126,7 +132,6 @@ export default class HomeComponent extends Component {
     }
 
   }
-
 
 
 	render() {
@@ -180,9 +185,9 @@ export default class HomeComponent extends Component {
               }
           </div>
           <div className="background-esquired">
-            <div className="flex-space-around margin-sides">
+            <div className="flex-space-around margin-sides home-slider-container">
             <div className="row">
-               <HomeSlider /> 
+               <HomeSlider />
              </div>
             </div>
           </div>
@@ -190,7 +195,7 @@ export default class HomeComponent extends Component {
             <h2><b>Our Solutions</b></h2>
             <div className="row padding-bottom-guest">
             <div className="col-sm-12">
-            
+
             <SolutionsSlider />
             <div className="desktop">
               <div className="solutions-square-item">
@@ -272,9 +277,7 @@ please give us your feedback! </p></div>
           </div>
           <div className="footer-guest">
             <div className="logo"><a href="/"><img src={logoWhite} alt="esquired" /></a></div><br /><br />
-              <img className="footer-shape" src={landing_instagram} alt=""/>
-              <img className="footer-shape" src={landing_youtube} alt=""/>
-              <img className="footer-shape" src={landing_twitter} alt=""/>
+              <a href="https://www.instagram.com/esquired_llc"><img className="footer-shape" src={landing_instagram} alt=""/></a>
               <Link style={{padding:"40px",display: "block",textAlign: "right"}} to="/terms">Terms & Conditions</Link>
           </div>
       </div>
