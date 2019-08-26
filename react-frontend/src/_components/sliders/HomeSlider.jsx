@@ -37,7 +37,7 @@ export default class HomeSlider extends Component {
             <span className="center-helper"></span>
             <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
           </div>
-          <div className="col-md-6 col-lg-4 col-sm-6">
+          <div className="col-md-6 col-lg-5">
             <p className="slogan">Esquire’d is a platform for lawyers. We help connect attorneys through our technology. If you
 cannot appear at a hearing, a deposition, or even a client meeting, you can come to our
 platform to create a request. One of our vetted lawyers will happily appear for you. </p>
@@ -52,7 +52,7 @@ platform to create a request. One of our vetted lawyers will happily appear for 
           <span className="center-helper"></span>
           <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
         </div>
-        <div className="col-md-6 col-lg-4 col-sm-6">
+        <div className="col-md-6 col-lg-5">
             <p className="slogan">Stacking is a feature that will maximize your ability to accept special appearances. As an
 appearing attorney, if you accept a hearing, our technology will notify you if there are other
 appearances in the same court at the same time, maximizing your profitability. We will notify
@@ -69,7 +69,7 @@ your appearances.</p>
           <span className="center-helper"></span>
           <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
         </div>
-        <div className="col-md-6 col-lg-4 col-sm-6">
+        <div className="col-md-6 col-lg-5">
             <p className="slogan">Same day results. At Esquire’d, we understand the communication required between lawyers
 and clients. We ensure same-day results. Once an appearance is requested, it’s only a matter
 of time until your results are uploaded by one of our vetted lawyers.</p>
