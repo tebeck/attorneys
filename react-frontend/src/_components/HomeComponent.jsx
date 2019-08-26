@@ -35,9 +35,7 @@ export default class HomeComponent extends Component {
   var stripeBody = {
      code: values.code
   }
-
-
-//http://localhost:3000/home?code=ac_FfkiYwGAtpnQbrjd94RsG0APZhR5R4cS 
+  
     if(stripeBody.code){
       stripeService.getStripeInfo(stripeBody)
       .then(data => { if(data.status === 200){

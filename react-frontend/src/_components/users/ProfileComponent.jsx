@@ -16,7 +16,8 @@ import Visa from '../../_assets/img/cards/Visa.png'
 import American from '../../_assets/img/cards/American.png'
 import esquired from '../../_assets/img/landing/logo.png'
 import Dialog from 'react-bootstrap-dialog'
-
+import {options} from '../../_helpers/areaOfLaw.js'
+import Select from 'react-select';
 
 Dialog.setOptions({
   defaultOkLabel: 'OK',
@@ -149,6 +150,10 @@ export default class ProfileComponent extends Component {
     
   }
 
+
+  
+
+
   handleProfSubmit = (e) =>{
    e.preventDefault();
      const {...noErrors} = this.state // Destructuring...
@@ -182,25 +187,53 @@ export default class ProfileComponent extends Component {
      } 
    })
   }
+
+
+
   
   handleSeeker = () =>{
 
-   let body = {
-     userId: this.state._userId
-   }
+   
 
-    userServices.makeSeeker(body)
-      .then(res => {
-        if (res.state !== 200) {
-          
 
-      } else {
-          
-          let token = Cookies.getJSON('esquired').token;
-          Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true, onHold: true}, { path: '' })   
-          alert("Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted")
-     } 
-   })
+    this.dialog.show({
+        title: <img alt="esquired" className="dialog-img" src={esquired} />,
+        body: <div>
+                  <p>Please select Area of law.</p><br/>
+                  <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={this.handleChange} value={this.state.areaOfLaw} />
+              </div>,
+        actions: [ Dialog.OKAction(() => {   
+              let body = { userId: this.state._userId, areaOfLaw: this.state.areaOfLaw }
+
+              userServices.makeSeeker(body)
+                .then(res => {
+                  if (res.state !== 200) {
+                    
+                  } else {
+                    
+                    let token = Cookies.getJSON('esquired').token;
+                    Cookies.set('esquired', {token: token, user: res.data.firstName, email: res.data.email, isAttorney: true, isSeeker: true, onHold: true}, { path: '' })   
+                    this.dialog.show({
+                        title: <img alt="esquired" className="dialog-img" src={esquired} />,
+                        body: 'Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted',
+                        actions: [ Dialog.OKAction(() => { 
+                          window.location.assign('/profile')
+                        }
+                        )],
+                        bsSize: 'small',
+                        onHide: (dialog) => { dialog.hide() }
+                    })
+                  }
+                })}
+        )],
+        bsSize: 'small',
+        onHide: (dialog) => {
+          dialog.hide()
+        }
+      }) 
+
+
+
   }
 
     handleLogout = () =>{
@@ -210,15 +243,18 @@ export default class ProfileComponent extends Component {
   }
 
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+  handleChange(e, selectedItem) {
+    if(selectedItem){
+      console.log(e.value)
+      this.setState({
+        areaOfLaw: e.value
+      })
+    } else {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const name = e.target.name;
 
-    this.setState({
-      [name]: value
-    });
-  
+    this.setState({ [name]: value });
+    }
   }
 
 

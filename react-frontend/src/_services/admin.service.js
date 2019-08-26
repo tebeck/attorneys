@@ -9,7 +9,6 @@ import {url_backend} from '../_helpers';
  }
 
 
-
   function login(data){
 
     const requestOptions = {

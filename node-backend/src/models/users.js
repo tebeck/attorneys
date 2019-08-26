@@ -188,7 +188,11 @@ var users = new Schema({
       type: String,
       required: false
     }
-    }]
+    }],
+  areaOfLaw: {
+      type: String,
+      required: false
+  }
 },{
     collection: 'users', timestamps: true
 });

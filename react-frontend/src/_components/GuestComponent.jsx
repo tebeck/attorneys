@@ -60,7 +60,7 @@ export default class HomeComponent extends Component {
   }
 
 
-  componentDidMount(){
+    componentDidMount(){
       userServices.getProfile()
        .then(res => {
          if(res.data === null){

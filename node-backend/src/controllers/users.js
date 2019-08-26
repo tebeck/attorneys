@@ -98,9 +98,10 @@ module.exports = {
 
 
 makeSeeker: function(req, res, next){
+  console.log(req.body)
      userModel.findById(req.body.userId, function(err, user) { 
       if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
-      user.updateOne({isSeeker: true, insurancePolicy: req.body.insurancePolicy, onHold: true},function (err) {
+      user.updateOne({isSeeker: true, areaOfLaw: req.body.areaOfLaw, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
             let subject ="Esquired: Action needed"
             let textadmin = "New appearing registered. "+ user.email +" is pending your approve/reject action"
