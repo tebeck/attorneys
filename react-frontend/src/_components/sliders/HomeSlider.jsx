@@ -1,6 +1,8 @@
 import Carousel from 'react-bootstrap/Carousel'
 import React, { Component } from 'react';
-import manWalkingImage from '../../_assets/img/landing/man_walking.png'
+import imageSlider from '../../_assets/img/landing/man_walking.png'
+import imageSlider2 from '../../_assets/img/landing/request-waiting.png'
+import imageSlider3 from '../../_assets/img/landing/request-business.png'
 
 export default class HomeSlider extends Component {
   constructor(props, context) {
@@ -35,7 +37,7 @@ export default class HomeSlider extends Component {
           <div className="row">
           <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
             <span className="center-helper"></span>
-            <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
+            <img className="img-landing0 tovalign" src={imageSlider} alt="example" />
           </div>
           <div className="col-md-6 col-lg-5">
             <p className="slogan">Esquire’d is a platform for lawyers. We help connect attorneys through our technology. If you
@@ -50,7 +52,7 @@ platform to create a request. One of our vetted lawyers will happily appear for 
         <div className="row">
         <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
           <span className="center-helper"></span>
-          <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
+          <img className="img-landing0 tovalign" src={imageSlider2} alt="example" />
         </div>
         <div className="col-md-6 col-lg-5">
             <p className="slogan">Stacking is a feature that will maximize your ability to accept special appearances. As an
@@ -67,7 +69,7 @@ your appearances.</p>
         <div className="row">
         <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
           <span className="center-helper"></span>
-          <img className="img-landing0 tovalign" src={manWalkingImage} alt="example" />
+          <img className="img-landing0 tovalign" src={imageSlider3} alt="example" />
         </div>
         <div className="col-md-6 col-lg-5">
             <p className="slogan">Same day results. At Esquire’d, we understand the communication required between lawyers
