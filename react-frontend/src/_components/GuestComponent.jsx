@@ -160,6 +160,29 @@ export default class HomeComponent extends Component {
           <div className="navbar header-comp">
             <Link to="/"><i className="fas fa-bars green d-none"></i></Link>
               <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
+              { this.state.loggedIn ?
+                <Link to="/home"><img alt="userIcon" width="20px" src={userIcon}/></Link>
+                :
+                <Popup trigger={<img alt="userIcon" width="20px" src={userIcon} />} position="left top">
+                  <div className="container popup-desktop"><br/>
+                    <h4>Log In into your account</h4><br/>
+                    <form onSubmit={this.handleSubmit}>
+
+                    <div className={errlogin ? 'display' : 'hide'}>
+                      <div className="alert alert-danger" role="alert" style={{fontSize: "11px"}}>{this.state.errlogin}</div>
+                    </div>
+                        {errors.email && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.email}</div>}
+                      <input className="form-control" type="text" name="email" onChange={this.handleChange} placeholder="User" ></input>
+                        {errors.password && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.password}</div>}
+                      <input className="form-control" type="password" name="password" onChange={this.handleChange} placeholder="Password"></input>
+                      <small><Link to={recoverpass} style={{display: "block",textAlign:"right", color: "#4a4a4a"}} >Forgot your Password?</Link></small><br />
+                      <input className="formbutton" type="submit" value="Log In" />
+                    </form><br/>
+
+                    <p>Don't have an account?<Link to="/definerole"> Sign Up</Link></p><br/>
+                  </div>
+                </Popup>
+              }
           </div>
           <div className="background-esquired">
             <div className="flex-space-around margin-sides home-slider-container">
@@ -243,28 +266,14 @@ please give us your feedback! </p></div>
            </div>
           </div>
           <div className="registeras">
-            <h3><b>Coming Soon!</b></h3>
-            <p>Subscribe to the news</p>
-            <div>
-
-            <div id="mc_embed_signup">
-            <form action="https://domandtom.us3.list-manage.com/subscribe/post?u=15bf65e9aa009845c862cf020&amp;id=5c3cfba122" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate" target="_blank" >
-                <div id="mc_embed_signup_scroll">
-
-                 <input onChange={this.changeInputs} className="email-mc" type="email" value={this.state.emailMC} name="EMAIL"  id="mce-EMAIL" placeholder="email address" required />
-
-                <div>
-                <input onChange={this.changeInputs} style={{display:"none"}} type="text" name="b_15bf65e9aa009845c862cf020_5c3cfba122" value={this.state.emailMC} />
-                </div>
-                <div className="clear-mc">
-                <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="button button-mc" />
-                </div>
-                </div>
-            </form>
+            <h3><b>Register now as:</b></h3>
+            <div className="padding-bottom-guest">
+              <div className="registeras-square">
+                <img className="register-as-image" alt="esquired-register" src={registerAsImage} />
+              </div>
+              <Link className="link-button" to={aor}>Attorney of Record</Link>
+              <Link className="link-button" to={aoa}>Appearing Attorney</Link>
             </div>
-
-            </div>
-
           </div>
           <div className="footer-guest">
             <div className="logo"><a href="/"><img src={logoWhite} alt="esquired" /></a></div><br /><br />
