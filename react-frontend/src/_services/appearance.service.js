@@ -19,7 +19,6 @@ export const appearanceService = {
     rejectAppearing,
     completeAppearance,
     finishAppearance,
-    expire,
     getAppearanceByCourt
 }
 

@@ -4,6 +4,7 @@ import calendar from '../_assets/img/calendar.jpg'
 import calendarx from '../_assets/img/calendarx.jpg'
 import {userServices} from '../_services/user.service'
 import Cookies from 'js-cookie'
+import Header from "./HeaderComponent";
 
 export default class NotificationsComponent extends Component {
 
@@ -38,6 +39,8 @@ export default class NotificationsComponent extends Component {
     console.log(this.state.notifications)
 
    return (
+    <div>
+    <Header className="header-container" guest="1"/>
     <div className="container main-body">
       <div className="pointer" onClick={this.handleClickNotifications} style={{color: "black"}} >
        <img width="16px" style={{marginBottom: "11px"}} src={backbutton} alt="esquired" />
@@ -70,7 +73,7 @@ export default class NotificationsComponent extends Component {
             </div>
         ) : <p>You don't have new notifications.</p> }
            
-    </div>
+    </div></div>
   	);
   }
 }

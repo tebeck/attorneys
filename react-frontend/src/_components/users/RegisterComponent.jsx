@@ -13,6 +13,8 @@ import backbutton from '../../_assets/img/btnback.png'
 import LoaderAnimation from '../LoaderAnimation';
 import Switch from "react-switch";
 import Cookies from 'js-cookie';
+import {options} from '../../_helpers/areaOfLaw.js'
+import Select from 'react-select';
 
 export default class RegisterForm extends Component {
 
@@ -40,17 +42,19 @@ export default class RegisterForm extends Component {
     onHold: true,
     backhome: false,
 
+  
     //validate form
     enableNextAction: false,     // enable next action button (invalid data in form)
     enableErrors: false,         // don't show errors when form is empty
     emailValid: false,
     firstNameValid: false,
     lastNameValid: false,
-    
+    areaOfLaw:"",  
     firmNameValid: false,
     stateBarValid: false,
     officePhoneValid: false,
     mobilePhoneValid: false,
+    areaOfLawValid: false,
 
     streetAddrOneValid: false,
     cityValid: false,
@@ -219,7 +223,7 @@ nextButton(){
 }
 
 
-  handleChange = ({target}) =>{
+  handleChange = (e,selectedItem, nameOfComponent) =>{
 
     let enableNextAction = this.state.enableNextAction;
     let emailValid = this.state.emailValid;
@@ -232,60 +236,71 @@ nextButton(){
     let streetAddrOneValid = this.state.streetAddrOneValid;
     let cityValid = this.state.cityValid;
     let zipValid = this.state.zipValid;
-
-
+    let areaOfLawValid = this.state.areaOfLawValid;
 
     if (this.state.currentStep === 1){
-      if (target.name === 'email'){
-        if (/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(target.value)){
+      if(e.value && selectedItem.name === "areaOfLaw"){
+        if (e.value.length < 1) {
+          enableNextAction=false
+        } else {
+          areaOfLawValid=true;
+        }
+      } 
+
+      if(this.state.isAttorney){
+        areaOfLawValid=true;  
+      }
+
+      if (e.target && e.target.name === 'email'){
+        if (/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.target.value)){
           emailValid=true;
         }else{
           emailValid=false;
           enableNextAction = false;
         }
       }
-      if (target.name === 'firstName'){
-        if (target.value.length<2) {
+      if (e.target && e.target.name === 'firstName'){
+        if (e.target.value.length<2) {
           enableNextAction=false;
           firstNameValid=false;
         }else{
           firstNameValid=true;
         }
       }
-      if (target.name === 'lastName'){
-        if (target.value.length<2) {
+      if (e.target && e.target.name === 'lastName'){
+        if (e.target.value.length<2) {
           enableNextAction=false
           lastNameValid=false;
         }else{
           lastNameValid=true;
         }
       }
-      if (target.name === 'firmName'){
-        if (target.value.length<2) {
+      if (e.target && e.target.name === 'firmName'){
+        if (e.target.value.length<2) {
           enableNextAction=false
           firmNameValid=false;
         }else{
           firmNameValid=true;
         }
       }
-      if (target.name === 'stateBar'){
-        if (target.value.length<2) {
+      if (e.target && e.target.name === 'stateBar'){
+        if (e.target.value.length<2) {
           enableNextAction=false
           stateBarValid=false;
         }else{
           stateBarValid=true;
         }
       }
-      if (target.name === 'officePhone'){
-        if( target.value.match(/^[0-9]$/) ) {
+      if (e.target && e.target.name === 'officePhone'){
+        if(e.target.value.match(/^[0-9]$/) ) {
           enableNextAction=false
           officePhoneValid=false;
         }else{
           officePhoneValid=true;
         }
       }
-      if (target.name === 'mobilePhone'){
-        if( target.value.match(/^[0-9]$/) ) {
+      if (e.target && e.target.name === 'mobilePhone'){
+        if(e.target.value.match(/^[0-9]$/) ) {
           enableNextAction=false
           mobilePhoneValid=false;
         }else{
@@ -294,9 +309,11 @@ nextButton(){
       }
 
 
-      if (firstNameValid && emailValid && lastNameValid && firmNameValid && stateBarValid && officePhoneValid && mobilePhoneValid){
+      if (firstNameValid && emailValid && lastNameValid && firmNameValid && stateBarValid && officePhoneValid && mobilePhoneValid && areaOfLawValid){
         enableNextAction=true
+        console.log('ok')
       }
+
       const newState = {
         emailValid: emailValid,
         firstNameValid: firstNameValid,
@@ -305,31 +322,35 @@ nextButton(){
         stateBarValid: stateBarValid,
         officePhoneValid: officePhoneValid,
         mobilePhoneValid: mobilePhoneValid,
-        enableNextAction: enableNextAction
+        enableNextAction: enableNextAction,
+        areaOfLawValid: areaOfLawValid
       };
-      // console.log('newState: ',newState)
+
+    
       this.setState(newState);
-    }
+    
+
+  }
 
 if (this.state.currentStep === 2){
-    if (target.name === 'streetAddrOne'){
-      if (target.value.length<2) {
+    if (e.target.name === 'streetAddrOne'){
+      if (e.target.value.length<2) {
         enableNextAction=false
         streetAddrOneValid=false;
       }else{
         streetAddrOneValid=true;
       }
     }
-    if (target.name === 'city'){
-      if (target.value.length<2) {
+    if (e.target.name === 'city'){
+      if (e.target.value.length<2) {
         enableNextAction=false
         cityValid=false;
       }else{
         cityValid=true;
       }
     }
-    if (target.name === 'zip'){
-      if (target.value.length<2) {
+    if (e.target.name === 'zip'){
+      if (e.target.value.length<2) {
         enableNextAction=false
         zipValid=false;
       }else{
@@ -352,7 +373,19 @@ if (this.state.currentStep === 2){
       this.setState(newState);
     }
     
-    this.setState({ [target.name]: target.value, error: false })
+
+    if(selectedItem){
+      if(selectedItem.name === "areaOfLaw"){
+        this.setState({ areaOfLaw: e })
+      }
+    }
+
+    else{
+      console.log(e)
+      this.setState({ [e.target.name]: e.target.value });
+    }
+
+    
 
   }
 
@@ -386,15 +419,17 @@ if (this.state.currentStep === 2){
   pushingRedirect = () => { if (this.state.homeRedirect) { this.props.history.push({ pathname: '/', state: {...this.state} }) }}
 
   // set and push register seeker Redirect.
-  setValidSeeker = (e) => {
+  addRecordValue = (e) => {
    e.preventDefault();
    
    let body = {
      userId: Cookies.getJSON('esquired').userId
    }
+
+   console.log(e)
    
-   if(e.target.insurancePolicy){
-     body.insurancePolicy = e.target.insurancePolicy.value
+   if(e.target.areaOfLaw){
+     body.areaOfLaw = e.target.areaOfLaw.value
    }
    
    console.log(body)
@@ -451,11 +486,17 @@ if (this.state.currentStep === 2){
             <div className="modalHead" style={{margin:"30px"}}>
               <p>In the meantime, are you also planning to act as an Appearing Attorney?</p>
               {this.pushingRedirect()}
-              <form onSubmit={this.setValidSeeker}>
-               {this.state.isAttorney && !this.state.stateBar ? <input className="form-control" type="text" placeholder="State Bar" name="stateBar" onChange={this.onChange} required />: null }
+              <form onSubmit={this.addRecordValue}>
+               {this.state.isAttorney ? 
+                <div style={{ marginBottom: "10px"}}>
+                <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={this.handleChange} value={this.state.areaOfLaw} />
+                </div>
+                 : null }
                 <input type="submit" className="btn btn-block btn-primary link-button" value="Add this to my profile"/>
               </form>
             </div> : <p style={{padding:"20px"}}>You will receive a notification once your profile is approved.</p>}
+
+
             <Link style={{margin:"30px"}} to='/' className="btn btn-block btn-primary link-button">Done</Link>
         </Modal>
 
@@ -486,6 +527,7 @@ if (this.state.currentStep === 2){
           mobilePhone={this.state.mobilePhone}
           email={this.state.email}
           state={this.state}
+          areaOfLaw={this.state.areaOfLaw}
         />
         <Step2
           currentStep={currentStep}
@@ -548,6 +590,9 @@ function Step1(props){
         <input className={props.state.officePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="number" name="officePhone" placeholder="Office Phone Number" value={props.officePhone} onChange={props.handleChange}></input>
         <input className={props.state.mobilePhoneValid ||!props.state.enableErrors ? "form-control" : "error"} type="number" name="mobilePhone" placeholder="Mobile Phone Number" value={props.mobilePhone} onChange={props.handleChange}></input>
         <input className={props.state.emailValid||!props.state.enableErrors ? "form-control" : "error"} type="text" name="email"       placeholder="Email"               value={props.email}       onChange={props.handleChange}></input>
+        { props.state.isSeeker ? <div style={{ marginBottom: "10px"}}>
+        <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={props.handleChange} value={props.areaOfLaw} className={props.state.areaOfLawValid || !props.state.enableErrors ? null : "errorSelect"}/>
+        </div> : null}
       </div>
     )
   }

@@ -16,6 +16,7 @@ $hide-block: none;
 $display-block: block;
 
 
+
 .waiting-message{
 
   color: $green-color;
@@ -1051,7 +1052,10 @@ a:hover,a:focus{text-decoration: none!important; outline:none;}
   }
 }
 @media screen and (max-width:768px){
-
+  div.navbar.header-comp{
+    max-width: 700px;
+    margin: 0 auto;
+  }
 }
 .hide{ display: $hide-block; }
 .form-control{ margin-bottom: 10px; }
