@@ -162,7 +162,7 @@ export default class HomeComponent extends Component {
               <div className="logo"><a href="/"><img src={logo} alt="esquired" /></a></div>
           </div>
           <div className="background-esquired">
-            <div className="flex-space-around margin-sides">
+            <div className="flex-space-around margin-sides home-slider-container">
             <div className="row">
                <HomeSlider />
              </div>

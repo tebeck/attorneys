@@ -1409,11 +1409,11 @@ div.popup-content{
 
 .img-landing0{
   text-align: center;
-  float: left
+  float: right;
 
 }
 .slogan{
-    margin-top: 50px;
+    margin-top: 10px;
     font-family: 'Noto Sans HK', sans-serif;
     font-size: 20px;
     font-weight: lighter;
@@ -1440,7 +1440,7 @@ div.popup-content{
   color: $text-normal;
 }
 .margin-sides{
-  margin: 0% 15% 0 15%;
+  margin: 0% 10% 0 10%;
   padding-top: 4%;
 }
 
@@ -1634,7 +1634,7 @@ div.popup-content{
   margin-top: 40px
 }
 
-@media (max-width: 992px){
+@media (max-width: 1200px){
     .margin-sides{
       margin: 0% 5% 0 5%;
       padding-top: 4%;
@@ -1661,6 +1661,11 @@ div.popup-content{
   body {
     background-color: $background-grey;
   }
+  .img-landing0{
+    float:none;
+    margin:0 auto;
+    text-align:center;
+}
 
 
 .adSquares {
@@ -1872,3 +1877,22 @@ div.popup-content{
   padding: 10px;
 }
 #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+
+.home-slider-container{
+  margin-bottom: 60px;
+}
+.background-esquired .valign {
+}
+.background-esquired .tovalign {
+  vertical-align: middle;
+
+}
+
+.background-esquired .carousel-indicators{
+  bottom: -80px;
+}
+.center-helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
