@@ -36,7 +36,6 @@ export default class HomeSlider extends Component {
         <Carousel.Item>
           <div className="row">
           <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
-            <span className="center-helper"></span>
             <img className="img-landing0 tovalign" src={imageSlider} alt="example" />
           </div>
           <div className="col-md-6 col-lg-5">
@@ -51,7 +50,6 @@ platform to create a request. One of our vetted lawyers will happily appear for 
         <Carousel.Item>
         <div className="row">
         <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
-          <span className="center-helper"></span>
           <img className="img-landing0 tovalign" src={imageSlider2} alt="example" />
         </div>
         <div className="col-md-6 col-lg-5">
@@ -68,7 +66,6 @@ your appearances.</p>
         <Carousel.Item>
         <div className="row">
         <div className="img-landing valign col-md-6 col-lg-5 offset-lg-1">
-          <span className="center-helper"></span>
           <img className="img-landing0 tovalign" src={imageSlider3} alt="example" />
         </div>
         <div className="col-md-6 col-lg-5">
