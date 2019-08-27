@@ -35,29 +35,31 @@ export default class SolutionsSlider extends Component {
           <div className="solutions-square-item">
           <div className="solutions-square">
             <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-            <div className="solution-title">Lorem Ipsum Title</div>
-            <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
+            <div className="solution-title">Creating a request is simple.</div>
+            <div className="solution-desc">Fill out the necessary information under “Create A New Request” tab, Upload the necessary documents, and wait for results! </div>
           </div>
-          </div><br/><br/>
+          </div><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
           <div className="solutions-square">
             <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-            <div className="solution-title">Lorem Ipsum Title</div>
-            <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
-          </div>
-          </div><br/><br/>
+            <div className="solution-title">24-Hour Payments! </div>
+            <div className="solution-desc">Handled an appearance yesterday? Get paid tomorrow. Esquire’d uses Stripe technology to directly deposit your money! Handle cases today, make money within 24-hours. Simple.  </div>
+            </div>
+          </div><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
           <div className="solutions-square">
             <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
-            <div className="solution-title">Lorem Ipsum Title</div>
-            <div className="solution-desc">Lorem ipsum dolor sit amet, conse ctetuer adipiscing enean commodo ligula eget dolor enean massa um sociis natoque penatibus et magnis. </div>
-          </div>
-          </div><br/><br/>
-        </Carousel.Item>        
+            <div className="solution-title">Stacking</div>
+            <div className="solution-desc">Stacking allows appearing attorneys to maximize their profits. If you accept a hearing, our
+technology will automatically notify you of other hearings in the same court at the same time.
+This will allow appearing attorneys to maximize their profits! </div>
+</div>
+          </div><br/>
+        </Carousel.Item>
       </Carousel>
     );
   }
