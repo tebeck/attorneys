@@ -67,6 +67,7 @@ export default class AppearancesComponent extends Component {
 	   }
    		appearanceService.getAppDetail(body)
 	      .then((result) => {	
+
 	      	this.setState({
 	      		result: result.data,
 	      		clientPresent: result.data.clientPresent,
@@ -78,14 +79,14 @@ export default class AppearancesComponent extends Component {
 	      		instructions: result.data.instructions,
 	      		documents: result.data.documents,
 	      		county: result.data.county,
-                hearingDate: new Date(result.data.hearingDate),
+                hearingDate: new Date(result.data.hearingDate).setDate(new Date(result.data.hearingDate).getDate() + 1),
                 time: result.data.time,
                 verdictDocs: result.data.subscription.verdictDocs,
                 verdictDetail: result.data.subscription.information,
                 appearanceState: result.data.subscription.state
 	      	})})
 	    
-
+		
 	  var recordData = { uid: this.state.attorneyId}
 	  var seekerData = { uid: this.state.seekerId }
 
@@ -141,7 +142,6 @@ export default class AppearancesComponent extends Component {
      	}
     )}
 
-
     cancelAppearance = (e) =>{
       e.preventDefault()
 	  var _deleteApp = false;
@@ -149,7 +149,11 @@ export default class AppearancesComponent extends Component {
 		this.dialog.show({
 	      title: <img alt="esquired" className="dialog-img" src={esquired} />,
 	      body: 'Are you sure you want to delete this appearance?',
-	      actions: [ Dialog.OKAction(() => { _deleteApp = true }),
+	      actions: [ Dialog.OKAction(() => { 
+		      let body = { appId: this.state.appId }
+		       appearanceService._delete(body)
+		        .then( window.location.assign('/home') )
+	      }),
 	      			 Dialog.CancelAction(() => { _deleteApp = false })
 	      		   ],
 	      bsSize: 'small',
@@ -157,26 +161,8 @@ export default class AppearancesComponent extends Component {
 	      	dialog.hide()  
 	      }
 	    })
-
-	  if (_deleteApp === true) {
-      let body = { appId: this.state.appId }
-      
-       appearanceService._delete(body)
-        .then(data=>{ if(data.status === 200){
-    		 this.dialog.show({
-              title: <img alt="esquired" className="dialog-img" src={esquired} />,
-              body: data.message,
-              actions: [ Dialog.OKAction(() => { window.location.assign('/home') })],
-              bsSize: 'small',
-              onHide: (dialog) => { 
-              	dialog.hide()  
-              }
-            })
-        } })
-      }
     }
 	
-
 	handleUpdate = (e) => {
 	 e.preventDefault()
 
@@ -392,7 +378,6 @@ export default class AppearancesComponent extends Component {
 	    {this.state.courtHouseNumber > 0 ?
 
 	    <div className="stackingCard" >
-	    {this.handleEmailStacking(result)}
 	    	<p>We have detected {this.state.courtHouseNumber} appearances for<br/>the same day in the same court</p>
 	    	<button onClick={this.handleStaking.bind(this,result)} className="btn btn-primary link-button btn-request">View Appearances</button>
 	    </div>
@@ -431,13 +416,14 @@ export default class AppearancesComponent extends Component {
 
 	         	  	 	{recordData ?
 	                      recordData.profilePicture ? 
-	                        <div class="detail-profile-picture">
+	                        <div className="detail-profile-picture">
 	                         <img  alt="avatar" src={recordData.profilePicture} />
+	                          { console.log(recordData.reviews.map(x=> x.rating)) }
 	                        </div>
 	                       : 
 	                       <div>
 							 <img className="detail-profile-picture" src={greyFaceImg} alt={recordData.firstName} />
-	                       </div> 
+	                      </div>
 	         	  	 	: null}
 	         	  	 </div>
 	         	  	 <div>
@@ -460,7 +446,7 @@ export default class AppearancesComponent extends Component {
 	         	  	<div className="adSquareDetail">
 	         	  	 <div className="">
 	         	  	 	{seekerData.profilePicture ?
-	                        <div class="detail-profile-picture">
+	                        <div className="detail-profile-picture">
 	                         <img  alt="avatar" src={seekerData.profilePicture} />
 	                        </div>
 	         	  	 		:
@@ -565,8 +551,8 @@ export default class AppearancesComponent extends Component {
 	            {this.state.verdictDocs.length > 0 ? <p className="adTitle">Verdict files</p> : null }
 	            <div>
 	            {this.state.verdictDocs ? 
-	              this.state.verdictDocs.map(x => 
-	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
+	              this.state.verdictDocs.map((x,index) => 
+	            	<div key={index} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
 	              ): <p>No files uploaded</p>}
 
 	            </div>

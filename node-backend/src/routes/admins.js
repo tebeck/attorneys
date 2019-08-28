@@ -17,7 +17,9 @@ router.post('/getusers', adminController.getUsers);
 
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
-router.get('/appearances', adminMiddleware.adminRoute, adminController.getAppearances);
+router.get('/appearances', adminController.getAppearances);
+
+router.get('/appearancesreport', adminController.appearancesReport);
 
 
 module.exports = router;

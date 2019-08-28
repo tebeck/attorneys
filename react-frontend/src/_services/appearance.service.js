@@ -186,8 +186,7 @@ function finishAppearance(appId){
     headers: authHeader(),
     body: JSON.stringify(appId)
   };
-
-    
+    console.log('en el servicio')
   return fetch(`${url_backend}/appearances/finishappearance`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
 }

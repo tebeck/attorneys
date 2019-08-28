@@ -1,5 +1,6 @@
 const userModel = require('../models/users');
 const adminModel = require('../models/admins');
+const postulationModel = require('../models/postulations');
 const appModel = require('../models/appearances');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
@@ -148,6 +149,21 @@ rejectSeeker: function(req, res, next) {
 
 
    })
+},
+
+
+
+appearancesReport: function(req, res, next){
+  postulationModel.find({}, function(err, app){
+
+   return res.json({"data": app})
+
+
+  })
 }
+
+
+
+
 
 }

@@ -81,6 +81,7 @@ export default class CreateComponent extends Component {
   handleSubmit = (e) =>{
     
     e.preventDefault()
+    console.log(this.state.hearingDate)
     const {errors, ...noErrors} = this.state // seteo todo en el estado.
     const result = validate(noErrors)
     this.setState({errors: result})
@@ -462,7 +463,7 @@ function Step1(props){
             <Select placeholder="County..." required options={optionsCourts}  name="county" style={{width: "100%"}} onChange={props.handleChange} value={props.county} className={props.state.countyValid || !props.state.enableErrors ? null : "errorSelect"}/>
 
             <div style={{marginTop: "10px", marginBottom: "10px"}}>
-              <Select placeholder="Court House..." required options={courtsh}  name="courtHouse" style={{width: "100%"}} onChange={props.handleChange} value={props.courtHouse} className={props.state.courtHouseValid || !props.state.enableErrors ? null : "errorSelect"}/>
+              <Select placeholder="Courthouse..." required options={courtsh}  name="courtHouse" style={{width: "100%"}} onChange={props.handleChange} value={props.courtHouse} className={props.state.courtHouseValid || !props.state.enableErrors ? null : "errorSelect"}/>
             </div>
 
             <Select placeholder="Area of Law..." isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={props.handleChange} value={props.areaOfLaw} className={props.state.areaOfLawValid || !props.state.enableErrors ? null : "errorSelect"}/>

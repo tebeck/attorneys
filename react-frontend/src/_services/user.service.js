@@ -20,7 +20,8 @@ export const userServices = {
     rateAttorney,
     rateSeeker,
     getUserProfile,
-    notificationRead
+    notificationRead,
+    ratingAverage
 }
 
 function register(data){
@@ -275,8 +276,6 @@ function recoverPassword(email){
         }) 
   }
 
-
-
   function sendmail(data){
      const requestOptions = {
          method: 'POST',
@@ -285,8 +284,20 @@ function recoverPassword(email){
      };
      return fetch(`${url_backend}/users/sendmail`, requestOptions)
          .then( data => {data.json().then(text=>console.log( text) )} ) 
-
   }
+
+
+
+  function ratingAverage(){
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    }
+
+    return fetch(`${url_backend}/users/ratingaverage`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data })
+}
 
 
 function handleResponse(response) {
