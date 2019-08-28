@@ -38,12 +38,16 @@ export default class NotificationsComponent extends Component {
      this.state = {
      	appId: props.location.state._id,
       information: "",
-      verdictDocs: []
+      verdictDocs: [],
+      uploading: false
 
      };
    }
 
   fileSelectedHandler = ({target}) => {
+
+  this.setState({ uploading: true })
+   
    for (var i = 0; i < target.files.length; i++) {
      uploadForm.append('avatar', target.files[i] , target.files[i].name)
    }
@@ -51,7 +55,8 @@ export default class NotificationsComponent extends Component {
     userServices.multiupload(uploadForm)
       .then(data => {
          this.setState({
-          verdictDocs: data.data.location 
+          verdictDocs: data.data.location,
+          uploading: false
          })
 
       })
@@ -84,13 +89,15 @@ export default class NotificationsComponent extends Component {
 
   completeAppearance = (e) =>{
   	e.preventDefault()
+
     const {errors, ...noErrors} = this.state // Destructuring...
     
     const result = validate(noErrors)
     this.setState({errors: result})
-    console.log(result)
-    if(!Object.keys(result).length) {
+    
+  if(!Object.keys(result).length) {
 
+    
     let body = {
   		appId: this.state.appId,
       information: this.state.information,
@@ -98,6 +105,7 @@ export default class NotificationsComponent extends Component {
   	}
   	appearanceService.completeAppearance(body)
         .then(data=>{ if(data.status === 200){
+        
          this.dialog.show({
               title: <img alt="esquired" className="dialog-img" src={esquired} />,
               body: data.message,
@@ -120,11 +128,8 @@ export default class NotificationsComponent extends Component {
     }
 
   render() {
-
-
-
    
-    const {errors} = this.state
+  const {errors} = this.state
    return (
     <div className="container main-body">
     
@@ -162,7 +167,8 @@ export default class NotificationsComponent extends Component {
               {this.state.verdictDocs.length > 0 ? <button className="clearFiles" onClick={this.deleteFiles}>Clear files</button> : null }
             </div>
             <div className="center">
-             <button onClick={this.completeAppearance} className="btn btn-primary link-button">Submit</button>
+             <button disabled={this.state.uploading} onClick={this.completeAppearance} className="btn btn-block link-button">Submit</button>
+            
             </div>
           </div>
       </div>

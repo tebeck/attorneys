@@ -12,8 +12,8 @@ const jwt = require('jsonwebtoken');
 const Logger = require("cute-logger")
 const send = require('../services/sendmail');
 
-const appearanceAlerts = require('../alerts/appearance.alerts')
-const userAlerts = require('../alerts/user.alerts')
+const notificationAlerts = require('../alerts/notification.alerts')
+
 
 
 module.exports = {
@@ -267,11 +267,11 @@ makeAttorney: function(req, res, next){
             {$set: {"subscription.attorneyRate": req.body.rating}}).then(a=>{console.log(a)}) })
       
       userModel.updateOne({_id: req.body.seekerId},
-        { "$push": { "notifications": { type: appearanceAlerts.APPEARANCE_RATED, msg:"rated"}}}
+        { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
       
 
-       return res.status(200).send({message: appearanceAlerts.APPEARANCE_RATED, status: 200}) }) 
+       return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 
     },
     rateSeeker: function( req, res, next ){
@@ -284,11 +284,11 @@ makeAttorney: function(req, res, next){
             {$set: {"subscription.seekerRate": req.body.rating}}).then(a=>{console.log(a)}) })
       
       userModel.updateOne({_id: req.body.attorneyId},
-        { "$push": { "notifications": { type: appearanceAlerts.APPEARANCE_RATED, msg:"rated"}}}
+        { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
       
 
-       return res.status(200).send({message: appearanceAlerts.APPEARANCE_RATED, status: 200}) }) 
+       return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 
     },
     sendMail: function(req, res, next){
@@ -310,11 +310,28 @@ makeAttorney: function(req, res, next){
    },
 
    notificationsRead: function(req, res, next){
-     console.log("backend")
      userModel.updateMany({"_id": req.body.userId},
       { $pull: { notifications:{read: { $in: [ false ] } }}},
       { multi: true }
       ).then(a=>{console.log(a)})
-     }
+     },
+
+
+    ratingAverage: function(req, res, next){
+      console.log('aaa')
+      userModel.findOneById(req.body.userId, function(err, user){
+        if(err) { return res.json({"error": err}) };
+        if(user) {  
+          user.review.rating.map(function(rating){
+             return res.json({"rating": rating})
+          })
+        }
+        
+      })
+
+    }
+
+
+
 
 }

@@ -5,7 +5,8 @@ import {url_backend} from '../_helpers';
     enableSeeker,
     login,
     getUsers,
-    rejectSeeker
+    rejectSeeker,
+    getAppearances
  }
 
 
@@ -22,6 +23,18 @@ import {url_backend} from '../_helpers';
         .then(data => {
            return data
         });
+  }
+
+  function getAppearances(){
+
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+     return fetch(`${url_backend}/admins/appearancesreport`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data }); 
   }
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {adminServices} from '../../_services';
 import {userServices} from '../../_services'
+import {Link} from 'react-router-dom'
 // var DataTable = require('react-data-components').DataTable;
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
@@ -147,6 +148,7 @@ if(this.state && this.state.users){
   <div className="navbar header-comp flex-space-between">
           <div className="logoadm"><a href="/"><img src={logo} alt="esquired" /></a></div>
           <div className="align-center"><p>Users</p></div>
+          <Link className="align-center" to='/adminreports'><p>Reports</p></Link>
           <div className="align-center">
             <Popup contentStyle={{ width:"100px",padding: "20px", border: "none" }} className="popup-desktop" trigger={<img alt="userIcon" width="20px" src={userIcon} />} position="left top">
               <div>

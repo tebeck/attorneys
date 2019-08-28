@@ -2,7 +2,7 @@ const appearanceModel = require('../models/appearances');
 const userModel = require('../models/users');
 const send = require('../services/sendmail');
 const stripe = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
-const appearanceAlerts = require('../alerts/appearance.alerts')
+const notificationAlerts = require('../alerts/notification.alerts')
 
 module.exports = {
 
@@ -138,7 +138,7 @@ runPayments: function(err, res, next){
                          userModel.updateOne( { "_id": attorneyId}, 
                           { $push: { 
                               "transactions": { amount: "-$75", type: "Request" },
-                              "notifications": { type: appearanceAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" } 
+                              "notifications": { type: notificationAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" } 
                             }
                           }
                           ) 
@@ -160,7 +160,7 @@ runPayments: function(err, res, next){
                           { $push:
                            {
                             "transactions": { amount: "+$50", type: "Appearance" },
-                            "notifications":{ type: appearanceAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
+                            "notifications":{ type: notificationAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
                            }
                           })
                           .then(obj => { console.log('Stripe: Transfer added successfully to database') })

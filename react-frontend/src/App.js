@@ -9,6 +9,7 @@ import StackingComponent from './_components/appearances/StackingComponent';
 import './_assets/css/ownstylesheet.scss';
 import LoaderAnimation from './_components/LoaderAnimation';
 
+
 const Loader = x => Loadable({
   loading: () => <div className="centered"><LoaderAnimation /></div>,
   loader: x,
@@ -23,8 +24,11 @@ const TermsComponent = Loader(()=> import('./_components/TermsComponent'))
 const AuthenticateComponent = Loader(() => import('./_components/users/AuthenticateComponent') )
 const RegisterComponent = Loader(() => import('./_components/users/RegisterComponent') )
 const ProfileComponent = Loader(() => import('./_components/users/ProfileComponent') )
+
 const AdminComponent = Loader(() => import('./_components/admins/AdminComponent') )
 const AdminPanelComponent = Loader(() => import('./_components/admins/AdminPanelComponent') )
+const AdminReportsComponent = Loader(() => import('./_components/admins/AdminReportsComponent') )
+
 const AppearancesComponent = Loader(() => import('./_components/appearances/AppearancesComponent') )
 const AppearanceDetailComponent = Loader(() => import('./_components/appearances/AppearanceDetailComponent') )
 const RequestsComponent = Loader(() => import('./_components/appearances/RequestsComponent') )
@@ -32,6 +36,7 @@ const VerdictComponent = Loader(() => import('./_components/appearances/VerdictC
 const RateComponent = Loader(() => import('./_components/appearances/RateComponent') )
 const RecoverPasswordComponent = Loader(() => import('./_components/passrecovery/RecoverPasswordComponent'))
 const CreateNewPasswordComponent = Loader(() => import('./_components/passrecovery/CreateNewPasswordComponent'))
+
 
 class App extends Component {
 
@@ -41,6 +46,7 @@ class App extends Component {
         <Router history={history}>
            <Route path="/admin" component={AdminComponent} />
            <Route path="/adminpanel" component={AdminPanelComponent} />
+           <Route path="/adminreports" component={AdminReportsComponent} />
            
            <PrivateRoute exact path="/home" component={HomeComponent} />
            <PrivateRoute exact path="/createappearance" component={CreateComponent} />
@@ -62,6 +68,9 @@ class App extends Component {
            <Route path="/register" component={RegisterComponent} />
            <Route path="/recoverpassword" component={RecoverPasswordComponent} />
            <Route path="/createnewpassword" component={CreateNewPasswordComponent} />
+
+           
+
         </Router>
     );
   }

@@ -416,13 +416,14 @@ export default class AppearancesComponent extends Component {
 
 	         	  	 	{recordData ?
 	                      recordData.profilePicture ? 
-	                        <div class="detail-profile-picture">
+	                        <div className="detail-profile-picture">
 	                         <img  alt="avatar" src={recordData.profilePicture} />
+	                          { console.log(recordData.reviews.map(x=> x.rating)) }
 	                        </div>
 	                       : 
 	                       <div>
 							 <img className="detail-profile-picture" src={greyFaceImg} alt={recordData.firstName} />
-	                       </div> 
+	                      </div>
 	         	  	 	: null}
 	         	  	 </div>
 	         	  	 <div>
@@ -445,7 +446,7 @@ export default class AppearancesComponent extends Component {
 	         	  	<div className="adSquareDetail">
 	         	  	 <div className="">
 	         	  	 	{seekerData.profilePicture ?
-	                        <div class="detail-profile-picture">
+	                        <div className="detail-profile-picture">
 	                         <img  alt="avatar" src={seekerData.profilePicture} />
 	                        </div>
 	         	  	 		:
@@ -550,8 +551,8 @@ export default class AppearancesComponent extends Component {
 	            {this.state.verdictDocs.length > 0 ? <p className="adTitle">Verdict files</p> : null }
 	            <div>
 	            {this.state.verdictDocs ? 
-	              this.state.verdictDocs.map(x => 
-	            	<div style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
+	              this.state.verdictDocs.map((x,index) => 
+	            	<div key={index} style={{marginBottom: "10px"}}><a href={x.location} className="link-new-file" download rel="noopener noreferrer" target="_blank">{x.originalname}</a><hr /></div>
 	              ): <p>No files uploaded</p>}
 
 	            </div>

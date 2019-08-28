@@ -1,7 +1,7 @@
 const userModel = require('../models/users');
 const stripe = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
 const appearanceModel = require('../models/appearances');
-const appearanceAlerts = require('../alerts/appearance.alerts')
+const notificationAlerts = require('../alerts/notification.alerts')
 
 
 module.exports = {
@@ -102,7 +102,7 @@ module.exports = {
                 function(charge) {
                   userModel.updateOne( { "_id": attorneyId},
                    {$push: { "transactions": { amount: "-$75", type: "Request" },
-                            "notifications": { type: appearanceAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" }
+                            "notifications": { type: notificationAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" }
                            }})
 
                    .then(obj => { console.log('Stripe: Charge from record: '+ attorney.email +' added. Amount: $75') })
@@ -123,7 +123,7 @@ module.exports = {
                           { $push:
                            {
                             "transactions": { amount: "+$50", type: "Appearance" },
-                            "notifications":{ type: appearanceAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
+                            "notifications":{ type: notificationAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
                            }
                           })
                       .then(obj => { console.log('Stripe: All transactions successfully done.'); })

@@ -44,7 +44,7 @@ export default class InfoComponent extends Component {
 
 
   render() {
-   
+
     const {response} = this.state 
    return (
 
