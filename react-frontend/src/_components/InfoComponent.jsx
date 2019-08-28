@@ -61,12 +61,13 @@ export default class InfoComponent extends Component {
                    <label className="uploadLabel" htmlFor="avatar">
                      { this.state.profilePicture ? 
                        <div>
-                         <img  alt="avatar" width="200px" src={this.state.profilePicture} />
-                       </div>
-                       : 
-                       <div>
-                         <img src={uploadImg} alt="profileImg" /><br/><br/>Upload Profile Picture<br />
-                       </div> }
+                        <label className="uploadLabel" htmlFor="avatar" ><div className="profile-picture-p"><img  alt="avatar" src={this.state.profilePicture} /></div></label>
+                       </div> : 
+                        <div>
+                           <label className="uploadLabel" htmlFor="avatar" ><img src={uploadImg} className="profileimgupload" alt="profileImg" /> </label>
+                           <p>Upload Profile Picture</p>
+                        </div>   
+                        }
                    </label>
                    
                 </div>

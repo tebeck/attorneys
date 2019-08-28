@@ -77,6 +77,7 @@ export default class ProfileComponent extends Component {
         stripe_user_id: data.data.stripe_user_id,
         stripe_customer_id: data.data.stripe_customer_id,
         transactions: data.data.transactions,
+        areaOfLaw: data.data.areaOfLaw,
         data: data.data
         
         })
@@ -161,11 +162,19 @@ export default class ProfileComponent extends Component {
      // this.setState({errors: result})
      // if(!Object.keys(result).length) {
        console.log(noErrors)
-        userServices.updateProfInfo(noErrors).then(
-          res =>{
-           alert(res)
-          }
-        )
+        userServices.updateProfInfo(noErrors)
+        .then( res => { 
+          if(res){
+            this.dialog.show({
+                title: <img alt="esquired" className="dialog-img" src={esquired} />,
+                body: res,
+                actions: [ Dialog.OKAction(() => { window.location.assign('/profile') })],
+                bsSize: 'small',
+                onHide: (dialog) => {
+                  dialog.hide()
+                }
+              }) 
+        }})
      // } 
      // console.log(result)
   }
@@ -192,9 +201,6 @@ export default class ProfileComponent extends Component {
 
   
   handleSeeker = () =>{
-
-   
-
 
     this.dialog.show({
         title: <img alt="esquired" className="dialog-img" src={esquired} />,
@@ -434,6 +440,11 @@ export default class ProfileComponent extends Component {
           <div className="form-group">
             <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
             <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
+          </div>
+          <div>
+            <label htmlFor="streetAddrOne" className="profileInputsTitle">Area of law</label>
+            {console.log(this.state.areaOfLaw)}
+            <Select placeholder={this.state.areaOfLaw} isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={this.handleChange} value={this.state.areaOfLaw} />
           </div>
           <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
           <br/><br/>

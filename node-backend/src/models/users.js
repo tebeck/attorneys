@@ -173,7 +173,7 @@ var users = new Schema({
   }],
   notification:{
       type: Boolean,
-      required: false,
+      default: true
     },
   notifications:[{
     type:{

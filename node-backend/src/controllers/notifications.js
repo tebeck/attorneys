@@ -1,5 +1,8 @@
 const appearanceModel = require('../models/appearances');
-
+const userModel = require('../models/users');
+const send = require('../services/sendmail');
+const stripe = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
+const appearanceAlerts = require('../alerts/appearance.alerts')
 
 module.exports = {
 
@@ -108,103 +111,74 @@ console.log("CRON REMINDERS: End.")
 
 
   // Payments :
-    //Notification for: APPEARING / to: Upload verdict appearing attorney.
-    //Notification for: APPEARING / to: Rate attorney of record.
-    //Notification for: RECORD / to: Rate appearing attorney.
-    //Notification for: RECORD / to: Mark as finished appearance.
-
-
-runPayments: function(err, res, next){
-
-  console.log("CRON PAYMENTS: Start")
-  
-  appearanceModel.find({}, function(err, app){
+    //Payment for: RECORD 
+    //Transfer for: APPEARING
 
 
 
-      for (var i =0 ; i <= app.length; i++) {
-          
-      if(app[i] && app[i].subscription && app[i].subscription.completedDay){
-      
-      var today = app[i].subscription.completedDay
-      var ms = app[i].subscription.completedDay.getTime() + 86400000;
-      var tomorrow = new Date(ms);
-      
+runPayments: function(err, res, next){ 
+  appearanceModel.find({status: 'completed'}, function(err, app){
+    
+    for (var i =0 ; i <= app.length; i++) {
+    if(app[i] && app[i].subscription.completedDay){
+        
+        var today = app[i].subscription.completedDay
+        var ms =  app[i].subscription.completedDay.getTime() + 86400000;
+        var tomorrow =  new Date(ms);
 
-      if(app[i].status === "completed" && today < tomorrow ){
+        if(today < tomorrow){ // This is validating, that the appearance has 24hs of completed state.
+          if(err){  console.log("Stripe: error: " + err) };
+            userModel.findOne({_id: app[i].attorneyId}, function(err, attorney){
+              if(err){ return console.log("Stripe: Charge error: " + err) };
+              let customerId = attorney.stripe_customer_id;
+              let attorneyId = attorney._id;
 
-        console.log("transf")
-
-            if(err){ return console.log("Stripe: Charge error: " + err) };
-              
-
-            console.log("STRIPE: Creating record charge (75usd)")
-              userModel.findOne({_id: app[i].attorneyId}, function(err, attorney){
-                if(err){ return console.log("Stripe: Charge error: " + err) };
-                let customerId = attorney.stripe_customer_id;
-                let attorneyId = attorney._id;
+                stripe.charges.create({ amount: 7500, currency: "usd", customer: customerId })
+                    .then( function(charge) {
+                         userModel.updateOne( { "_id": attorneyId}, 
+                          { $push: { 
+                              "transactions": { amount: "-$75", type: "Request" },
+                              "notifications": { type: appearanceAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" } 
+                            }
+                          }
+                          ) 
+                         .then(obj => {console.log('Stripe: Charge from record: '+ attorney.email +' added. Amount: $75') })
+                         .catch(err => { console.log('Error: ' + err) })
+                      })
+               })
                   
-                  stripee.charges.create({
-                    amount: 7500,
-                    currency: "usd",
-                    customer: customerId
-                    ,})
-                    .then(
-                      function(charge) {
-                       console.log("Stripe: Charge completed. Details below:")
-                       userModel.updateOne( { "_id": attorneyId}, {
-                        $push: {
-                          "transactions":{amount: "-$75", type: "Request"} }
-                        }) 
-                       .then(obj => {
-                         console.log('Stripe: Charge added successfully to database');
-                         // return res.status(200).send({message: "Stripe: Update OK", status: 200})
-                       })
-                       .catch(err => { console.log('Error: ' + err)
-                       })
-                    })
-             
-                console.log("Stripe: Creating appearing transfer from Esquired (75usd)")
-                 
-                 if(app[i] && app[i].subscription){
+                  userModel.findOne({_id: app[i].subscription.seekerId}, function(err, seeker){
+                    if(err){  console.log("Stripe: Charge error: " + err) };
+                    console.log('encuentro appearing')
+                      let appearingAccount = seeker.stripe_user_id;
+                      let seekerId = seeker._id;
 
-                 userModel.findOne({_id: app[i].subscription.seekerId}, function(err, seeker){
-                  if(err){ return console.log("Stripe: Charge error: " + err) };
-                  let appearingAccount = seeker.stripe_user_id;
-                  let seekerId = seeker._id;
-
-                    stripee.transfers.create({
-                      amount: 5000,
-                      currency: "usd",
-                      destination: appearingAccount,
-                      transfer_group: "{ORDER11}",
-                    }).then(function(transfer) {
-                        console.log("Stripe: Transfer completed. Details below:")
-
-                         userModel.updateOne( { _id: seekerId}, { 
-                          $push: {
-                           "transactions":{amount: "+$50", type: "Appearance"} }
-                          }) 
-                          .then(obj => {
-                            console.log(obj)
-                            console.log('Stripe: Transfer added successfully to database');
-                            // return res.status(200).send({message: "Stripe: Update OK", status: 200})
+                    stripe.transfers.create({ amount: 5000, currency: "usd", destination: appearingAccount })
+                      .then(function(transfer) {
+                        console.log("Stripe: Transfer for "+seeker.email+" completed. Amount: $50")
+                        userModel.updateOne( { _id: seekerId}, 
+                          { $push:
+                           {
+                            "transactions": { amount: "+$50", type: "Appearance" },
+                            "notifications":{ type: appearanceAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
+                           }
                           })
+                          .then(obj => { console.log('Stripe: Transfer added successfully to database') })
                           .catch(err => { console.log('Error: ' + err)})               
                       })
+                  })
 
-                })}
+               appearanceModel.updateOne( { "_id": app[i]._id},
+                 { $set: { status: 'finished' } } )
+                    .then(obj => {console.log('Appearance updated!')})  
+                    .catch(err => { console.log('Error: ' + err)})   
+             
+          }
 
-
-           })
-
-    }
-  }
+        } 
 
       }
-       })
-
-  console.log("CRON PAYMENTS: End.")
+    })
   }
 
 

@@ -32,8 +32,8 @@ const appearancesRoutes = require('./src/routes/appearances');
 
 
  // '*/5 * * * * *'
-cron.schedule('* * 18 * *', () => { app.listen(notificationsController.runReminders()) })
-cron.schedule('0 0 0 * * *', () => { app.listen(notificationsController.runPayments()) })
+cron.schedule(process.env.CRON_REMINDERS_TIME, () => { app.listen(notificationsController.runReminders()) })
+cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { app.listen(notificationsController.runPayments()) })
 // cron.schedule('* * 18 * *', () => { app.listen(notificationsController.runReminders()) })
 // cron.schedule('0 0 0 * * *', () => { app.listen(notificationsController.runPayments() })
 

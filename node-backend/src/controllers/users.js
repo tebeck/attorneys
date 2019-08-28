@@ -247,6 +247,7 @@ makeAttorney: function(req, res, next){
          user.mobilePhone = req.body.mobilePhone;
          user.mailingAddress[0].streetAddrOne = req.body.streetAddrOne;
          user.creditCard = req.body.creditCard;
+         user.areaOfLaw = req.body.areaOfLaw;
 
          user.updateOne(user,function (err) {
             if (err) { return res.status(500).send({ message: err.message }); }

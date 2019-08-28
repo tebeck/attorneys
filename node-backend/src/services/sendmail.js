@@ -6,14 +6,14 @@ module.exports = {
 
 
 	email: function(email, subject, text){
-
-    userModel.findOne({email: email },function(err, user){
-    	
+    userModel.findOne({'email': email },function(err, user){
     	if(err){return console.log(err)}
-    	
+		
+
+    	console.log(user.notification)
+
     	if(user && user.notification){
     		console.log("--------------")
-
     		console.log("Sending email: " + subject)
 
 	    	console.log("This user notification is true")
@@ -36,7 +36,6 @@ module.exports = {
 			    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
 			    // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
 			});
-
 			console.log("--------------")
 
 	} else {

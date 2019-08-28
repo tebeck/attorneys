@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {appearanceService} from '../../_services/appearance.service'
+import {stripeService} from '../../_services/stripe.service'
 import Moment from 'react-moment';
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
@@ -81,34 +82,22 @@ export default class AgendaComponent extends Component {
 
     finishAppearance = (x) => {
 
-      let body = {
-       appId: x._id,
-       userId: this.state.userId,
-       email: this.state.email
-      }
-         
+      let body = { appId: x._id, userId: this.state.userId, email: this.state.email}
+      
       appearanceService.finishAppearance(body)
-       .then(data => {
-           if(data.status === 200){
-
-
-            this.dialog.show({
-              title: <img alt="esquired" className="dialog-img" src={esquired} />,
-              body: data.message,
-              actions: [ Dialog.OKAction(() =>{window.location.reload()})],
-              bsSize: 'small',
-              onHide: (dialog) => {
-                dialog.hide()
-                
-              }
-            })
-               this.setState({
-               	key: "agenda"
-               })
-
-           }
-       })
-
+        .then(data => {
+          if(data.status === 200){
+            stripeService.createCharge(body)
+              this.dialog.show({
+                title: <img alt="esquired" className="dialog-img" src={esquired} />,
+                body: data.message,
+                actions: [ Dialog.OKAction(() =>{window.location.reload()})],
+                bsSize: 'small',
+                onHide: (dialog) => { dialog.hide() }
+              })
+            this.setState({ key: "agenda" })
+          }
+        })
      }
 
 

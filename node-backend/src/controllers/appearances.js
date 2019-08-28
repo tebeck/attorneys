@@ -3,11 +3,9 @@ const userModel = require('../models/users');
 const send = require('../services/sendmail');
 const Logger = require("cute-logger")
 const stripe = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
-
+const mailAlert = require('../mail_alerts/mail.alerts.js')
 const appearanceAlerts = require('../alerts/appearance.alerts')
 const userAlerts = require('../alerts/user.alerts')
-
-
 
 module.exports = {
 
@@ -21,7 +19,6 @@ get: function(req, res, next){
 create: function(req, res, next){
   const payload = req.body;
    payload.attorneyId = payload.userId;
-
    payload.courtHouse = payload.courtHouse.value; 
    payload.areaOfLaw =payload.areaOfLaw.value;
    payload.county = payload.county.value;
@@ -32,11 +29,19 @@ create: function(req, res, next){
       let subject = "Request created"
       let text = "Congrats! Your request was successfully published."
         userModel.findById(payload.attorneyId, function( err, user){
-         if(err) {return res.status(500).send({message: err.message})}
-         if(!user) {return res.status(401).send({message: userAlerts.USER_NOT_FOUND})}
+          if(err) {return res.status(500).send({message: err.message})}
+          if(!user) {return res.status(401).send({message: userAlerts.USER_NOT_FOUND})}
         userModel.findByIdAndUpdate(payload.attorneyId,{ $push:{ "notifications": {"type": appearanceAlerts.APPEARANCE_CREATED, msg: "created" }} }, function(err, user){
-          if(err){return console.log(err)}
-          })
+          if(err) { return console.log(err) }
+        })
+
+          userModel.find({'areaOfLaw': req.body.areaOfLaw}, function(err, newappearing){
+          newappearing.map(function(newappearing) {
+          console.log('The user '+ newappearing.email + ' AOL-> ' + newappearing.areaOfLaw+ ', sending email...')
+        send.email(newappearing.email, mailAlert.NOTIFY_APPEARING_SUBJECT, mailAlert.NOTIFY_APPEARING_MESSAGE)
+      })
+    })
+
       res.status(200).send({message: appearanceAlerts.APPEARANCE_CREATED, data:{appearance: appearance}});
      })
     })
@@ -157,9 +162,9 @@ appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
                   
                 })
           })
-          return res.status(200).send({message: appearanceAlerts.APPEARANCE_DELETED, data:{appearance: deletedDocument}}) 
+          return res.status(200).send({message: appearanceAlerts.APPEARANCE_DELETED, status: 200, data:{appearance: deletedDocument}}) 
         } else {
-          return res.status(409).send({ message: appearanceAlerts.APPEARANCE_NOT_FOUND, data:{appearance: deletedDocument}})
+          return res.status(409).send({ message: appearanceAlerts.APPEARANCE_NOT_FOUND, status: 409, data:{appearance: deletedDocument}})
         }
      
   })
@@ -388,7 +393,7 @@ unsubscribe: function(req, res, next){
 
 finishAppearance: function(req, res, next){ 
   let attorneyEmail = req.body.email
-  console.log(attorneyEmail)
+  
   appearanceModel.findById({_id: req.body.appId, "subscription.seekerId": req.body.userId}, function(err, appearance){
     if (err){ return res.status(500).send({message: err.message}) }
     if (!appearance){ return res.status(409).send({message: "Not found"}) }
@@ -403,17 +408,14 @@ finishAppearance: function(req, res, next){
               send.email(seeker.email, subject, text)
               Logger.log(seeker.email + " " + subject)
               userModel.findByIdAndUpdate({_id: appearance.subscription.seekerId},
-                { $push:{ "notifications": {"type": appearanceAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){
-
-                })
+                { $push:{ "notifications": {"type": appearanceAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){})
             })
               send.email(attorneyEmail, subject, text)
-              userModel.updateOne({email: attorneyEmail},
-                { $push:{ "notifications": {"type": appearanceAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){
-
-                })
               Logger.log(attorneyEmail + " " + subject)
+              userModel.updateOne({email: attorneyEmail},
+                { $push:{ "notifications": {"type": appearanceAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){})
 
+          
         return res.status(200).send({ message: appearanceAlerts.APPEARANCE_FINISHED, status: 200 });
       })
       .catch(err => {

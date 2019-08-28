@@ -20,6 +20,9 @@ module.exports = Object.freeze({
 	
 	APPEARANCE_FILE_DELETED:"File deleted",
 	APPEARANCE_NOT_FOUND:"Can't find appearance",
-	DATABASE_ERROR_401:"Unauthorized to save in database"
+	DATABASE_ERROR_401:"Unauthorized to save in database",
+
+	APPEARANCE_PAYMENT_SUBMITTED: "Your payment has been submitted.",
+	APPEARANCE_PAYMENT_RECIVED: "Your payment was credited to your account."
 
 })
