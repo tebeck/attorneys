@@ -1570,10 +1570,11 @@ div.popup-content{
 .registeras{
   text-align: center;
   background: $white;
+  padding-bottom: 10px;
 }
 
 .registeras h3{
-  padding: 70px
+  padding: 40px 0px;
 }
 
 .registeras a{
@@ -1856,15 +1857,16 @@ div.popup-content{
 }
 
 }
-
 @media (min-width: 300px) and (max-width: 777px) {
-.solutions-square{
-  height: 400px;
-}
-.features-square{
-  height: 140px;
-}
-
+  .solutions-square{
+    height: 320px;
+  }
+  .features-square{
+    height: 140px;
+  }
+  .solution-title{
+    margin: 30px 0px;
+  }
 }
 
 .email-mc {

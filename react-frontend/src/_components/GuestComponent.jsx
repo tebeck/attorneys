@@ -4,6 +4,8 @@ import Popup from "reactjs-popup";
 import Cookies from 'js-cookie'
 import { userServices } from '../_services/user.service'
 import solutionImage from '../_assets/img/landing/landing_oursolutions.png'
+import moneyImage from '../_assets/img/landing/money-1.jpeg'
+import stackingImage from '../_assets/img/landing/judge-1.jpeg'
 import landing_features_01 from '../_assets/img/landing/landing_features_01.png'
 import landing_features_02 from '../_assets/img/landing/landing_features_02.png'
 import landing_features_03 from '../_assets/img/landing/landing_features_03.png'
@@ -208,7 +210,7 @@ documents, and wait for results! </div>
               </div>
               <div className="solutions-square-item">
               <div className="solutions-square">
-                <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+                <div className="solution-image" style={{ backgroundImage: "url(" + moneyImage +")" }}></div>
                 <div className="solution-title">“24-Hour Payments!” </div>
                 <div className="solution-desc">Handled an appearance yesterday? Get paid tomorrow. Esquire’d uses Stripe technology to
 directly deposit your money! Handle cases today, make money within 24-hours. Simple.  </div>
@@ -216,7 +218,7 @@ directly deposit your money! Handle cases today, make money within 24-hours. Sim
               </div>
               <div className="solutions-square-item">
               <div className="solutions-square">
-                <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+                <div className="solution-image" style={{ backgroundImage: "url(" + stackingImage +")" }}></div>
                 <div className="solution-title">“Stacking”</div>
                 <div className="solution-desc">Stacking allows appearing attorneys to maximize their profits. If you accept a hearing, our
 technology will automatically notify you of other hearings in the same court at the same time.
