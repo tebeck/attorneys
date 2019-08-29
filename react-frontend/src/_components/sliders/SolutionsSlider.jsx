@@ -1,6 +1,8 @@
 import Carousel from 'react-bootstrap/Carousel'
 import React, { Component } from 'react';
 import solutionImage from '../../_assets/img/landing/landing_oursolutions.png'
+import moneyImage from '../../_assets/img/landing/money-1.jpeg'
+import stackingImage from '../../_assets/img/landing/judge-1.jpeg'
 
 export default class SolutionsSlider extends Component {
   constructor(props, context) {
@@ -36,28 +38,23 @@ export default class SolutionsSlider extends Component {
           <div className="solutions-square">
             <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
             <div className="solution-title">Creating a request is simple.</div>
-            <div className="solution-desc">Fill out the necessary information under “Create A New Request” tab, Upload the necessary documents, and wait for results! </div>
           </div>
           </div><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
           <div className="solutions-square">
-            <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+            <div className="solution-image" style={{ backgroundImage: "url(" + moneyImage +")" }}></div>
             <div className="solution-title">24-Hour Payments! </div>
-            <div className="solution-desc">Handled an appearance yesterday? Get paid tomorrow. Esquire’d uses Stripe technology to directly deposit your money! Handle cases today, make money within 24-hours. Simple.  </div>
             </div>
           </div><br/>
         </Carousel.Item>
         <Carousel.Item>
           <div className="solutions-square-item">
           <div className="solutions-square">
-            <div className="solution-image" style={{ backgroundImage: "url(" + solutionImage +")" }}></div>
+            <div className="solution-image" style={{ backgroundImage: "url(" + stackingImage +")" }}></div>
             <div className="solution-title">Stacking</div>
-            <div className="solution-desc">Stacking allows appearing attorneys to maximize their profits. If you accept a hearing, our
-technology will automatically notify you of other hearings in the same court at the same time.
-This will allow appearing attorneys to maximize their profits! </div>
-</div>
+            </div>
           </div><br/>
         </Carousel.Item>
       </Carousel>
