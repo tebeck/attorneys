@@ -45,7 +45,8 @@ module.exports = {
            send.email(process.env.ADMIN_EMAIL, subjectadmin, textadmin)           
 
            const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
-         return res.status(200).send({token: token,user: user,state: 200, message:"A welcome email has been sent to "+user.email}) 
+
+          return res.json({"status": "Logged in","token": token,"user": user,"status": 200,"message": "A welcome email has been sent to "+user.email });
          
         });
       });
@@ -54,16 +55,19 @@ module.exports = {
   authenticate: function(req, res, next) {
     userModel.findOne({email:req.body.email}, function(err, user){
       if (err) { return res.json({ message: err.message,status: 500 }) }
-      if (!user) { return res.json({ message: userAlerts.USER_NOT_FOUND, status:409}) }
-      if (user.onHold) { return res.json({ message: userAlerts.USER_ON_HOLD, status: 409}) } 
-      if (user.isDisabled){ return res.json({ message: userAlerts.USER_DISABLED, status: 409 }) }
-      if (user.status === "rejected"){return res.json({message: userAlerts.USER_REJECTED, status: 409})}
+      if (!user) { return res.json({ message: notificationAlerts.USER_NOT_FOUND, status:409}) }
+      if (user.onHold) { return res.json({ message: notificationAlerts.USER_ON_HOLD, status: 409}) } 
+      if (user.isDisabled){ return res.json({ message: notificationAlerts.USER_DISABLED, status: 409 }) }
+      if (user.status === "rejected"){return res.json({message: notificationAlerts.USER_REJECTED, status: 409})}
 
       if(bcrypt.compareSync(req.body.password, user.password)) {
-          const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
-          return res.json({ token: token, result: user,status: 200 });
+          
+           const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
+          
+
+          return res.json({ token: token, result: user, status: 200 });
       } else {
-          return res.json({ message: userAlerts.USER_INCORRECT_CREDENTIALS, result: user, status: 409 });
+          return res.json({ message: notificationAlerts.USER_INCORRECT_CREDENTIALS, result: user, status: 409 });
       }
     });
   },
@@ -74,7 +78,7 @@ module.exports = {
    
           // If we found a token, find a matching user
           userModel.findOne({ _id: token._userId }, function (err, user) {
-              if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+              if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
               if (user.isVerified) return res.status(400).send({ type: 'already-verified', message: 'This user has already been verified.' });
 
               user.updateOne({isVerified: true},function (err) {
@@ -88,7 +92,7 @@ module.exports = {
   getProfile: function(req, res, next){
      userModel.findById(req.body.userId , function (err, user) {
        if (err) {return res.status(500).send({ message: err.message })}
-       if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+       if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
         return res.status(200).send({data: user})
        
      })
@@ -100,7 +104,7 @@ module.exports = {
 makeSeeker: function(req, res, next){
   console.log(req.body)
      userModel.findById(req.body.userId, function(err, user) { 
-      if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+      if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
       user.updateOne({isSeeker: true, areaOfLaw: req.body.areaOfLaw, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
             let subject ="Esquired: Action needed"
@@ -113,7 +117,7 @@ makeSeeker: function(req, res, next){
 
 makeAttorney: function(req, res, next){
      userModel.findById(req.body.userId, function(err, user) { 
-      if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+      if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
       user.updateOne({isAttorney: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
             let subject ="Esquired: Action needed"
@@ -129,7 +133,7 @@ makeAttorney: function(req, res, next){
    recoverPassword: function(req, res, next){
      userModel.findOne({email: req.body.email}, function( err, user){
        if(err) {return res.status(500).send({message: err.message})}
-       if(!user) {return res.status(401).send({message: userAlerts.USER_NOT_FOUND})}
+       if(!user) {return res.status(401).send({message: notificationAlerts.USER_NOT_FOUND})}
 
           let recoverPassword = new recoverPasswordModel({
             _userId: user._id,
@@ -160,7 +164,7 @@ makeAttorney: function(req, res, next){
         if (!token) return res.status(409).send({ type: 'not-recovered', message: 'We were unable to find a valid token. Your token my have expired.' });
 
           userModel.findOne({ _id: token._userId }, function (err, user) {
-              if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+              if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
                var string = encodeURIComponent(user.email);
 
                return res.status(200).send({message: "Now change password", token: req.params.token})
@@ -178,7 +182,7 @@ makeAttorney: function(req, res, next){
         if (!token) return res.status(409).send({ type: 'not-recovered', message: 'We were unable to find a valid token. Your token my have expired.' });
 
       userModel.findOne({_id: token._userId}, function(err, user){
-        if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+        if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
         user.password = JSON.parse(getToken.token).password;
         
         user.save()
@@ -196,7 +200,7 @@ makeAttorney: function(req, res, next){
 
     updateaccountinfo: function (req, res, next){
       userModel.findById( req.body._userId , function(err, user){
-        if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+        if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
 
           user.firstName = req.body.firstName;
           user.lastName = req.body.lastName;
@@ -207,7 +211,7 @@ makeAttorney: function(req, res, next){
           if(req.body.newpassword && req.body.password && req.body.confirm){
             bcrypt.compare(req.body.password, user.password, function(err, resp) {
               if(err) {return res.status(500).send({message: err.message})}
-              if(!resp){ return res.json({message: userAlerts.USER_INCORRECT_CREDENTIALS}) }
+              if(!resp){ return res.json({message: notificationAlerts.USER_INCORRECT_CREDENTIALS}) }
                if(resp) { 
                 bcrypt.hash(req.body.newpassword, 10, function(err, hash) {
                     user.password = hash; 
@@ -215,7 +219,7 @@ makeAttorney: function(req, res, next){
                     user.updateOne(user,function (err) {  
                      if (err) { return res.status(500).send({ message: err.message }); }
                        console.log("Account updated")
-                       return res.status(200).send({message: userAlerts.USER_UPDATE_ACCOUNT})
+                       return res.status(200).send({message: notificationAlerts.USER_UPDATE_ACCOUNT})
                     });
 
                 });
@@ -225,7 +229,7 @@ makeAttorney: function(req, res, next){
             user.updateOne(user,function (err) {  
              if (err) { return res.status(500).send({ message: err.message }); }
 
-             return res.status(200).send({message: userAlerts.USER_UPDATE_ACCOUNT})
+             return res.status(200).send({message: notificationAlerts.USER_UPDATE_ACCOUNT})
          });
           }
         
@@ -239,7 +243,7 @@ makeAttorney: function(req, res, next){
     updateprofinfo: function(req, res, next){
       userModel.findById( req.body._userId , function(err, user){
         if(err) {return res.status(500).send({message: err.message})}
-        if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+        if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
 
          user.firmName = req.body.firmName;
          user.policy = req.body.policy;
@@ -251,7 +255,7 @@ makeAttorney: function(req, res, next){
 
          user.updateOne(user,function (err) {
             if (err) { return res.status(500).send({ message: err.message }); }
-            return res.status(200).send({message: userAlerts.USER_UPDATE_ACCOUNT})
+            return res.status(200).send({message: notificationAlerts.USER_UPDATE_ACCOUNT})
          }); 
           
       })
@@ -302,7 +306,7 @@ makeAttorney: function(req, res, next){
        if (err) { console.log("error")
          return res.status(500).send({ message: err.message })
        }
-       if (!user) { return res.status(409).send({ message: userAlerts.USER_NOT_FOUND}) }
+       if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
 
         return res.status(200).send({data: user})
        

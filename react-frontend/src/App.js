@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Router, Route } from 'react-router-dom';
 import { history } from './_helpers';
-import { PrivateRoute, AdminRoute}  from './_helpers';
+import { PrivateRoute}  from './_helpers';
 import Loadable from 'react-loadable'
 import CreateComponent from './_components/appearances/CreateComponent';
 import AddCardComponent from './_components/stripe/AddCardComponent';

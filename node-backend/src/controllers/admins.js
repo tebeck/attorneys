@@ -121,6 +121,17 @@ getAppearances: function(req, res, next){ // Agregar en el modelo
 },
 
 
+getDoneAppearances: function(req, res, next){
+  appModel.find({status: {$in: ['completed', 'finished', 'rated']} } ,function(err, result) {
+      if (err){
+        return res.json({status: "Error", message: err});
+      } else {
+        return res.status(200).send({data: result});
+      }
+  }) 
+},
+
+
 enableSeeker: function(req, res, next) {
    console.log(req.body.email)
    userModel.findOne({email: req.body.email}, function(err, user){

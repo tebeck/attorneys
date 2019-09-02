@@ -11,7 +11,6 @@ module.exports = Object.freeze({
 	USER_BE_RECORD:"Thanks for update your profile, you need to wait the admin response",
 	USER_BE_APPEARING:"Thanks for update your profile, you need to wait the admin response",
 	USER_INCORRECT_CREDENTIALS:"Incorrect credentials",
-	USER_BE_APPEARING:"",
 	USER_NOT_FOUND:"User not found",
 	USER_ON_HOLD:"Account is on review, we will let you know when its active",
 	USER_DISABLED:"Your user is disabled. Please contact the admin",

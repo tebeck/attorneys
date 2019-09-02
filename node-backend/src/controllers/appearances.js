@@ -93,10 +93,12 @@ appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
          .then(function(transfer) {
              console.log("TRANSFER: attorney transfer +$37,5")
              console.log("TRANSFER: COMPLETED")
+             console.log("aAAAAAAAA: "+ appearance.caseName)
              userModel.updateOne( { _id: seekerId}, { 
               $push: {
-               "transactions":{amount: "+$37,5", type: "Request canceled"} }
+               "transactions":{amount: "+$37,5", type: "Request canceled", caseName: appearance.caseName} }
               }) 
+
               .then(obj => {
                 stripe.charges.create({
                   amount: amount,
@@ -110,7 +112,7 @@ appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
                    console.log("TYPE: " + charge.outcome.type)
                    console.log("CHARGING: COMPLETED")
                  userModel.updateOne( { "_id": attorneyId}, 
-                    { $push: {"transactions":{amount: "-$37,5", type: "Request canceled"}} }) 
+                    { $push: {"transactions":{amount: "-$37,5", type: "Request canceled", caseName: appearance.caseName}} }) 
                       .then(obj => {
                         console.log('STRIPE: Charge for cancelation added successfully to database.');
                         console.log("CHARGING: payment completed to record and appearing")
@@ -133,9 +135,10 @@ appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
                console.log("AMOUNT :" + charge.amount)
                console.log("STATUS :" + charge.outcome.seller_message)
                console.log("TYPE: " + charge.outcome.type)
+               console.log("aAAAAAAAA: "+ appearance.caseName)
              userModel.updateOne( { "_id": attorneyId}, {
               $push: {
-                "transactions":{amount: "-$50", type: "Request canceled"}
+                "transactions":{amount: "-$50", type: "Request canceled", caseName: appearance.caseName}
               }}) 
              .then(obj => {
                console.log('STRIPE: Charge for cancelation added successfully to database.');
@@ -420,7 +423,7 @@ unsubscribe: function(req, res, next){
             send.email(attorney.email, subject, text)          
 
               userModel.findByIdAndUpdate({_id: data.attorneyId},
-                { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_COMPLETED_, msg: "completed" }} }, function(err, user){
+                { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_COMPLETED, msg: "completed" }} }, function(err, user){
                   if(err){console.log(err)}
                 })
           })

@@ -6,7 +6,8 @@ import {url_backend} from '../_helpers';
     login,
     getUsers,
     rejectSeeker,
-    getAppearances
+    getAppearances,
+    getDoneAppearances
  }
 
 
@@ -32,11 +33,24 @@ import {url_backend} from '../_helpers';
         headers: authHeader()
     };
 
-     return fetch(`${url_backend}/admins/appearancesreport`, requestOptions)
+     return fetch(`${url_backend}/admins/appearances`, requestOptions)
         .then(handleResponse)
         .then(data => { return data }); 
   }
 
+
+
+  function getDoneAppearances(){
+
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+     return fetch(`${url_backend}/admins/getdoneappearances`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data }); 
+  }
 
 function enableSeeker(email){
     const requestOptions = {
