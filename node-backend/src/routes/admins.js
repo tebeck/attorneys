@@ -18,6 +18,7 @@ router.post('/getusers', adminController.getUsers);
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
 router.get('/appearances', adminController.getAppearances);
+router.get('/getdoneappearances', adminController.getDoneAppearances);
 
 router.get('/appearancesreport', adminController.appearancesReport);
 

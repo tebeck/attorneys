@@ -144,7 +144,7 @@ export default class AppearancesComponent extends Component {
 
     cancelAppearance = (e) =>{
       e.preventDefault()
-	  var _deleteApp = false;
+
 		
 		this.dialog.show({
 	      title: <img alt="esquired" className="dialog-img" src={esquired} />,
@@ -154,7 +154,7 @@ export default class AppearancesComponent extends Component {
 		       appearanceService._delete(body)
 		        .then( window.location.assign('/home') )
 	      }),
-	      			 Dialog.CancelAction(() => { _deleteApp = false })
+	      			 Dialog.CancelAction(() => {  })
 	      		   ],
 	      bsSize: 'small',
 	      onHide: (dialog) => { 

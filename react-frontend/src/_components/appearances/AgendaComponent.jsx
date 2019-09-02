@@ -370,7 +370,7 @@ var viewClass = this.state.viewClicked ? 'active btn btn-outline-dark btn-sm flo
                      starSpacing="2px"
                    /></div>:
               x.status === "finished" && x.subscription.seekerId === this.state.userId && x.subscription.seekerRate === undefined ?      
-                <p className="waiting-message">Waiting the record rate<img src={waiting} /></p>
+                <p className="waiting-message">Waiting the record rate<img alt='waiting' src={waiting} /></p>
                  :
               x.status === "finished" && x.subscription.seekerId !== this.state.userId && x.subscription.attorneyRate === undefined ?      
                 <div style={{textAlign:"center"}}><p className="waiting-message">Waiting the appearing rate<br/></p><img alt="waiting" src={waiting} width="30px" /></div>

@@ -51,37 +51,39 @@ export default class ProfileComponent extends Component {
       // accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
-    
-
-
 
   }
 
-  componentDidMount(){
+  componentWillMount(){
     userServices.getProfile()
-      .then(data => this.setState({
-        firstName: data.data.firstName,
-        lastName: data.data.lastName,
-        firmName: data.data.firmName,
-        stateBar: data.data.stateBar,
-        officePhone: data.data.officePhone,
-        mobilePhone: data.data.mobilePhone,
-        email: data.data.email,
-        profilePicture: data.data.profilePicture,
-        password: data.data.password,
-        _userId: data.data._id,
-        notification: data.data.notification,
-        policy: data.data.policy,
-        streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
-        image: data.data.profilePicture,
-        stripe_user_id: data.data.stripe_user_id,
-        stripe_customer_id: data.data.stripe_customer_id,
-        transactions: data.data.transactions,
-        areaOfLaw: data.data.areaOfLaw,
-        data: data.data
+      .then(data =>{
+        console.log(data)
+        if( data.data ){
+        this.setState({
+          firstName: data.data.firstName,
+          lastName: data.data.lastName,
+          firmName: data.data.firmName,
+          stateBar: data.data.stateBar,
+          officePhone: data.data.officePhone,
+          mobilePhone: data.data.mobilePhone,
+          email: data.data.email,
+          profilePicture: data.data.profilePicture,
+          password: data.data.password,
+          _userId: data.data._id,
+          notification: data.data.notification,
+          policy: data.data.policy,
+          streetAddrOne: data.data.mailingAddress[0].streetAddrOne,
+          image: data.data.profilePicture,
+          stripe_user_id: data.data.stripe_user_id,
+          stripe_customer_id: data.data.stripe_customer_id,
+          transactions: data.data.transactions,
+          areaOfLaw: data.data.areaOfLaw,
+          data: data.data
         
         })
-
+        } else {
+          window.location.assign('/')
+        }}
       )
 
 
@@ -128,9 +130,9 @@ export default class ProfileComponent extends Component {
   handleAccSubmit = (e) =>{
     e.preventDefault()
 
-     const {...noErrors} = this.state // Destructuring...
-     const result = validate(noErrors)
-     this.setState({errors: result})
+    const {errors ,...noErrors} = this.state // Destructuring...
+    const result = validate(noErrors)
+
      if(!Object.keys(result).length) {
      userServices.updateAccountInfo(noErrors)
         .then( res => { 
@@ -157,10 +159,11 @@ export default class ProfileComponent extends Component {
 
   handleProfSubmit = (e) =>{
    e.preventDefault();
-     const {...noErrors} = this.state // Destructuring...
-     // const result = validateProf(noErrors)
-     // this.setState({errors: result})
-     // if(!Object.keys(result).length) {
+     
+     const {profErrors, ...noErrors} = this.state // Destructuring...
+     const result = validateProf(noErrors)
+     
+     if(!Object.keys(result).length) {
        console.log(noErrors)
         userServices.updateProfInfo(noErrors)
         .then( res => { 
@@ -175,7 +178,9 @@ export default class ProfileComponent extends Component {
                 }
               }) 
         }})
-     // } 
+     } else {
+        this.setState({ profErrors: result})
+     }
      // console.log(result)
   }
 
@@ -278,7 +283,7 @@ export default class ProfileComponent extends Component {
 
 	render() {
 
-   const {showLoader, customer, stripe_user_id,accStripeLink, errors} = this.state
+   const {showLoader, customer, stripe_user_id,accStripeLink, errors, profErrors} = this.state
    
   if(showLoader){
   return (
@@ -288,6 +293,7 @@ export default class ProfileComponent extends Component {
 
   )
   }
+
 		return (
       <div>
         <Header guest="1" />
@@ -336,10 +342,12 @@ export default class ProfileComponent extends Component {
           <input className="form-control" type="hidden" name="avatar" value={this.state.image}></input>
           <div className="form-group">
             <label htmlFor="firstName" className="profileInputsTitle">First Name</label>
+            {errors && errors.firstName && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.firstName}</div>}
             <input id="firstName" name="firstName" className="form-control bigInput" value={this.state.firstName} placeholder={this.state.firstName} onChange={this.handleChange} type="text" />
           </div>
           <div className="form-group">
             <label htmlFor="lastName" className="profileInputsTitle">Last Name</label>
+            {errors && errors.lastName && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{errors.lastName}</div>}
             <input id="lastName" name="lastName" className="form-control bigInput" value={this.state.lastName} placeholder={this.state.lastName} onChange={this.handleChange} type="text" />
           </div>
 
@@ -427,23 +435,26 @@ export default class ProfileComponent extends Component {
         <form onSubmit={this.handleProfSubmit}>
           <div className="form-group">
             <label htmlFor="firmName" className="profileInputsTitle">Firm Name</label>
+            {profErrors && profErrors.firmName && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{profErrors.firmName}</div>}
             <input id="firmName" name="firmName" className="form-control bigInput" value={this.state.firmName} placeholder={this.state.firmName} onChange={this.handleChange} type="text" />
           </div>
           <div className="form-group">
             <label htmlFor="officePhone" className="profileInputsTitle">Office Phone</label>
+            {profErrors && profErrors.officePhone && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{profErrors.officePhone}</div>}
             <input id="officePhone" name="officePhone" className="form-control bigInput" value={this.state.officePhone} placeholder={this.state.officePhone} onChange={this.handleChange} type="text" />
           </div>
           <div className="form-group">
             <label htmlFor="mobilePhone" className="profileInputsTitle">Mobile Phone</label>
+            {profErrors && profErrors.mobilePhone && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{profErrors.mobilePhone}</div>}
             <input id="mobilePhone" name="mobilePhone" className="form-control bigInput" value={this.state.mobilePhone} placeholder={this.state.mobilePhone} onChange={this.handleChange} type="text" />
           </div>
           <div className="form-group">
             <label htmlFor="streetAddrOne" className="profileInputsTitle">Street Address</label>
+            {profErrors && profErrors.streetAddrOne && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{profErrors.streetAddrOne}</div>}
             <input id="streetAddrOne" name="streetAddrOne" className="form-control bigInput" value={this.state.streetAddrOne} placeholder={this.state.streetAddrOne} onChange={this.handleChange} type="text" />
           </div>
           <div>
             <label htmlFor="streetAddrOne" className="profileInputsTitle">Area of law</label>
-            {console.log(this.state.areaOfLaw)}
             <Select placeholder={this.state.areaOfLaw} isSearchable required options={options}  name="areaOfLaw" style={{width: "100%"}} onChange={this.handleChange} value={this.state.areaOfLaw} />
           </div>
           <input className="btn btn-block btn-outline-primary btn-profile" type="submit" value="Save" />
@@ -462,7 +473,10 @@ export default class ProfileComponent extends Component {
                 <div className="transactions">
                   <div>
                     <p className="tDate"><Moment format="DD/MM/YYYY">{x.date}</Moment></p>
-                    <p className="tType">{x.type}</p>
+                    <div className="tCaseName">
+                      <div className="profileInputsTitle ">{x.caseName ? <div>Case name: {x.caseName} </div>: null}</div>
+                      <div className="tType" >{x.type}</div>
+                      </div>  
                   </div>  
                   <div>
                     <p className={x.amount.substr(0,1) === "-" ? "tAmountred" : "tAmountgreen"}>{x.amount}</p>
@@ -480,14 +494,34 @@ export default class ProfileComponent extends Component {
   </div>
 
 </div> 
-  )}
+  )
+}
 
 }
 
 
-// Validations
+
 
 const validator = require('validator');
+
+const validateProf = values => {
+  
+  const profErrors = {}
+
+  if(!values.firmName) { profErrors.firmName = "Please insert your first name." }
+
+  if(values.officePhone && !validator.isInt(values.officePhone)){ profErrors.officePhone = 'Office phone must be numeric' }
+  if(!values.officePhone) { profErrors.officePhone = 'Please insert Office phone' }
+
+  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ profErrors.mobilePhone = 'Mobile phone must be numeric' }
+  if(!values.mobilePhone) { profErrors.mobilePhone = 'Please insert Moble phone' }
+
+  if(!values.streetAddrOne) { profErrors.streetAddrOne = 'Please insert street address' }
+  console.log(profErrors)
+  return profErrors;
+}
+// Validations
+
 const validate = values => {
 
 const errors = {}
@@ -497,15 +531,15 @@ const errors = {}
   
   if(values.password && values.password.length > 0 && values.password.length < 8)
     { errors.password = "Your old password is invalid." }
-  
+
   if(values.newpassword && values.newpassword.length > 0 && !validator.isLength(values.newpassword, 8, 20))
     { errors.newpassword = "New password must be between 8 and 20 characters"}
 
   if(values.confirm !== values.newpassword)
     { errors.confirm = "Passwords do not match." }
 
-  // if(!values.streetAddrOne) { errors.streetAddrOne = 'Insert streetAddrOne' }
-  // if(!values.streetAddrTwo) { errors.streetAddrTwo = 'Insert streetAddrTwo' }
+
+
 
   // if(!values.city) { errors.city = 'Insert city' }
 
@@ -518,11 +552,6 @@ const errors = {}
   //  if(values.stateBar && !validator.isInt(values.stateBar)){ errors.stateBar = 'State bar must be numeric' }
   //  if(!values.stateBar) { errors.stateBar = 'Insert state bar' }
 
-  //  if(values.officePhone && !validator.isInt(values.officePhone)){ errors.officePhone = 'Office phone must be numeric' }
-  //  if(!values.officePhone) { errors.officePhone = 'Insert officePhone' }
-
-  //  if(values.mobilePhone && !validator.isInt(values.mobilePhone)){ errors.mobilePhone = 'Mobile phone must be numeric' }
-  //  if(!values.mobilePhone) { errors.mobilePhone = 'Insert mobilePhone' }
 
   //  if(values.policy && !validator.isInt(values.policy)){ errors.policy = 'Policy must be numeric' }
   //  if(!values.policy) { errors.policy = 'Insert policy' }

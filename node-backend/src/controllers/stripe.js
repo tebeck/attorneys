@@ -101,7 +101,7 @@ module.exports = {
               .then(
                 function(charge) {
                   userModel.updateOne( { "_id": attorneyId},
-                   {$push: { "transactions": { amount: "-$75", type: "Request" },
+                   {$push: { "transactions": { amount: "-$75", type: "Request",caseName: appearance.caseName },
                             "notifications": { type: notificationAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" }
                            }})
 
@@ -122,7 +122,7 @@ module.exports = {
                         userModel.updateOne( { _id: seekerId}, 
                           { $push:
                            {
-                            "transactions": { amount: "+$50", type: "Appearance" },
+                            "transactions": { amount: "+$50", type: "Appearance",caseName: appearance.caseName },
                             "notifications":{ type: notificationAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
                            }
                           })

@@ -1,6 +1,5 @@
 import { authHeader } from '../_helpers';
 import axios from 'axios'
-import Cookies from 'js-cookie';
 import {url_backend} from '../_helpers';
 
 export const appearanceService = {
@@ -201,13 +200,5 @@ function finishAppearance(appId){
      return fetch(`${url_backend}/appearances/getbycourt`, requestOptions)
          .then( data => {return data.json().then(text=>text)} )
  }
-
-
-
-function expire(){
-    Cookies.remove('esquired')
-    alert("Invalid/Expired credentials")
-    window.location.assign('/')
-}
 
 

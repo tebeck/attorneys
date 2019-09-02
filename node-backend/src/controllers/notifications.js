@@ -137,7 +137,7 @@ runPayments: function(err, res, next){
                     .then( function(charge) {
                          userModel.updateOne( { "_id": attorneyId}, 
                           { $push: { 
-                              "transactions": { amount: "-$75", type: "Request" },
+                              "transactions": { amount: "-$75", type: "Request",caseName: app[i].caseName },
                               "notifications": { type: notificationAlerts.APPEARANCE_PAYMENT_SUBMITTED, msg: "finished" } 
                             }
                           }
@@ -159,7 +159,7 @@ runPayments: function(err, res, next){
                         userModel.updateOne( { _id: seekerId}, 
                           { $push:
                            {
-                            "transactions": { amount: "+$50", type: "Appearance" },
+                            "transactions": { amount: "+$50", type: "Appearance",caseName: app[i].caseName },
                             "notifications":{ type: notificationAlerts.APPEARANCE_PAYMENT_RECIVED, msg: "finished" } 
                            }
                           })

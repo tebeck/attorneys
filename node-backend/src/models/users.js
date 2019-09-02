@@ -169,6 +169,10 @@ var users = new Schema({
     type: {
       type: String,
       required: false 
+    },
+    caseName: {
+      type: String,
+      required: false
     }
   }],
   notification:{
