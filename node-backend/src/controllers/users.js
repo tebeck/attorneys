@@ -273,7 +273,21 @@ makeAttorney: function(req, res, next){
       userModel.updateOne({_id: req.body.seekerId},
         { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
-      
+          
+          userModel.find({_id: req.body.attorneyId}, function(err, user){
+            user.map(u =>{
+              userModel.updateOne({ _id: u._id },
+                { $set: { 
+                  reviewTotal: u.reviews.reduce((a,b)=> (+a) + (+b['rating'] || 0), 0  ) / u.reviews.length  
+                }
+                }, 
+              function(err, doc){
+                console.log(doc)
+              })
+            })
+
+              
+           })
 
        return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 
@@ -291,6 +305,20 @@ makeAttorney: function(req, res, next){
         { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
       
+          userModel.find({_id: req.body.seekerId}, function(err, user){
+            user.map(u =>{
+              userModel.updateOne({ _id: u._id },
+                { $set: { 
+                  reviewTotal: u.reviews.reduce((a,b)=> (+a) + (+b['rating'] || 0), 0  ) / u.reviews.length  
+                }
+                }, 
+              function(err, doc){
+                console.log(doc)
+              })
+            })
+
+              
+           })
 
        return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 
         .catch(err => { console.log('Error: ' + err) }) 

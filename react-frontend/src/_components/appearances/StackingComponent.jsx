@@ -6,7 +6,15 @@ import priceImg from '../../_assets/img/appearance/appearance_price.png'
 import pingImg from '../../_assets/img/appearance/appearance_pin.png'
 import checkImg from '../../_assets/img/appearance/appearance_check.png'
 import backbutton from '../../_assets/img/btnback.png'
+import Dialog from 'react-bootstrap-dialog'
+import esquired from '../../_assets/img/landing/logo.png'
 
+Dialog.setOptions({
+  defaultOkLabel: 'OK',
+  defaultCancelLabel: 'Cancel',
+  primaryClassName: 'btn-primary',
+  defaultButtonClassName: 'btn-secondary btn-secondary-style'
+})
 
 export default class AppearancesComponent extends Component {
 	
@@ -41,7 +49,40 @@ export default class AppearancesComponent extends Component {
 	  recordView: false,
 	  appearancesClick: true
 	 })
-    }
+		}
+		
+	handleApplyToAll = (x) =>{
+	
+	
+
+
+				this.dialog.show({
+					title: <img alt="esquired" className="dialog-img" src={esquired} />,
+					body: 'Are you sure you want to apply to all?',
+					actions: [ Dialog.OKAction(() => { 
+						var result = Object.values(x).map(x => x._id)
+						let	body = {
+							appId: result
+						}
+						appearanceService.subscribeToAll(body)
+						.then(data=> {
+									if(data.status === 200){
+										window.location.assign('/home')
+							}
+						})					
+	
+					}),
+								 Dialog.CancelAction(() => {  })
+								 ],
+					bsSize: 'small',
+					onHide: (dialog) => { 
+						dialog.hide()  
+					}
+				})
+
+
+
+	}
 
  render() {
 
@@ -74,7 +115,7 @@ export default class AppearancesComponent extends Component {
     </Link><br />
 
     <p>There are {data.length} appearances for the same day at the same court</p><br />
-
+		<Dialog ref={(el) => { this.dialog = el }} />
 	{data.map(x =>
 	<div key={x._id}>
 	 {x.attorneyId !== this.state.userId && this.state.pAppId !== x._id ?
@@ -95,17 +136,19 @@ export default class AppearancesComponent extends Component {
 	       <p className="price">$75</p>	
 	      </div>
 	      <div className="right">
-	       {
+	      {
 	         x.subscription && x.subscription.seekerId !== this.state.userId ? 
 		     <button onClick={this.handleClick.bind(this, x)} className="apply-button">Apply</button> : 
 		     <button disabled className=" btn apply-button disabled">Applied</button>	
-		   }
+		   	}
           </div>
 	    </div>
 	    </div>
 		 :  null }
-    </div>
-	)}	
+		</div>
+		
+	)}
+	<button onClick={this.handleApplyToAll.bind(this,data)} className="btn btn-primary apply-button">Apply to all</button>	
 	</div>
 	 )} else { return ( <div><p>No appearances found</p></div> ) }
   }

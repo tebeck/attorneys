@@ -12,14 +12,36 @@ Dialog.setOptions({
   defaultButtonClassName: 'btn-secondary btn-secondary-style'
 })
 
+var style = {
+  base: {
+    color: '#32325d',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#aab7c4'
+    }
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a'
+  }
+};
 
 class CheckoutFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.submit = this.submit.bind(this);
+    this.state = {
+      errors: false,
+      message: '',
+      submitButton: true
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-   async submit(ev) {
+   async handleSubmit(ev) {
+     ev.preventDefault()
+
     let {token} = await this.props.stripe.createToken({name: "Name"});
     token.email = Cookies.getJSON('esquired').email;
     stripeService.createNewCreditCard(token)
@@ -38,13 +60,40 @@ class CheckoutFormComponent extends Component {
       }})
 }
 
+  handleChange = (e) => {
+    if(e.error && e.error.code){
+      console.log("no ok")
+      console.log(e.error.message)
+      this.setState({
+        errors: true,
+        message: e.error.message,
+        submitButton: true
+      })
+    } else {
+      console.log("ok")
+      this.setState({
+        errors: false,
+        message: '',
+        submitButton: false
+      })
+    }
+  }
+
+
   render() {
+
     return (
       <div className="checkout">
       <Dialog ref={(el) => { this.dialog = el }} />
-        <p>Please insert your credit card information</p>
-        <CardElement /><br /><br />
-        <button className="btn link-button" onClick={this.submit}>Add credit card</button>
+      <form onSubmit={this.handleSubmit}>
+        <p>Please add here your details:</p>
+        <div style={{ marginTop: "50px", marginBottom: "50px"}}>
+        { this.state.errors && <div style={{fontSize: "13px", padding: "1px", margin: "0px",color:"red"}} >{this.state.message}</div>}
+          <CardElement style={style} onChange={this.handleChange} />
+        </div>
+        <input disabled={this.state.submitButton} className="btn link-button" type="submit" value="Add credit card"/>
+      </form>
+        {/* <button className="btn link-button" onClick={this.submit}>Add credit card</button> */}
       </div>
     );
   }

@@ -25,6 +25,7 @@ router.post('/finishAppearance', appMiddleware.isAttorney, appController.finishA
 router.post('/getbycourt', appController.getAppearanceByCourt); // appearanceId (frontend)
 // Appearing Attorney
 router.post('/subscribe', appMiddleware.isSeeker, appController.subscribe); // appearanceId (frontend)
+router.post('/subscribetoall', appMiddleware.isSeeker, appController.subscribeToAll); // appearanceId (frontend)
 router.post('/unsubscribe', appMiddleware.isSeeker, appController.unsubscribe); // appearanceId (frontend)
 router.post('/completeappearance', appMiddleware.isSeeker, validateMiddleware.user,appController.completeAppearance); //Get requests
 

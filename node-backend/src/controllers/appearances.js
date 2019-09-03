@@ -327,9 +327,6 @@ unsubscribe: function(req, res, next){
               })
           })
 
-                
-    
-
           return res.status(200).send({message: appearance.APPEARANCE_SUBSCRIPTION, data: appearance , status: 200})
           
           })
@@ -341,6 +338,36 @@ unsubscribe: function(req, res, next){
            console.log('Error: ' + err);
       }) 
  },
+
+ subscribeToAll: function(req, res, next){
+  let appId = req.body.appId
+    appId.map(function(appId) {
+      appearanceModel.updateOne({ "_id": appId},
+        {$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "applied"}} ) 
+      .then(obj => {
+        userModel.findOne({_id: req.body.userId}, function(err, seeker){
+          send.email(seeker.email, mailAlert.APPEARANCE_SUBSCRIBE_APPEARING_SUBJECT, mailAlert.APPEARANCE_SUBSCRIBE_APPEARING_MESSAGE)          
+            userModel.findByIdAndUpdate({_id: req.body.userId},{ $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_SUBSCRIPTION_APPEARING, msg: "subscribed" }} }, function(err, user){
+          
+            appearanceModel.findOne({"_id": appId}, function(err, appearance){
+              userModel.findOne({"_id": appearance.attorneyId}, function(err, attorney){
+                send.email(attorney.email, mailAlert.APPEARANCE_SUBSCRIBE_RECORD_SUBJECT, mailAlert.APPEARANCE_SUBSCRIBE_RECORD_MESSAGE)          
+                  userModel.findByIdAndUpdate({_id: appearance.attorneyId},
+                    { $push:{ "notifications": {"type": "You have a new application in "+ appearance.courtHouse +", check it!", msg:"subscribed" }} }, function(err, user){  
+                      
+                  })
+              })    
+            })
+          })
+        })
+      }).catch(err => {
+           console.log('Error: ' + err);
+      }) 
+    })
+
+  return res.json({message: notificationAlerts.APPEARANCE_SUBSCRIPTION , status: 200})
+
+},
 
   acceptAppearing: function(req, res, next){
 
