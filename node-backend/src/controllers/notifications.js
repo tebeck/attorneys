@@ -102,6 +102,8 @@ module.exports = {
                 console.log("MAIL-SENT-> "+subject+" to -> " + user.email)
               })
           )}
+
+          
     })
   }
 

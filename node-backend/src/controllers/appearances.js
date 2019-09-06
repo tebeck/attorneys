@@ -38,7 +38,7 @@ create: function(req, res, next){
     userModel.find({'areaOfLaw': req.body.areaOfLaw}, function(err, newappearing){
         newappearing.map(function(newappearing) {
         console.log('The user '+ newappearing.email + ' AOL-> ' + newappearing.areaOfLaw+ ', sending email...')
-        send.email(newappearing.email, mailAlert.NOTIFY_APPEARING_SUBJECT, mailAlert.NOTIFY_APPEARING_MESSAGE)
+        send.email(newappearing.email, "Check this appearance", "An attorney of record just published an appearance related with your area of law. You can check it in Esquired and do your applies!")
       })
     })
 
@@ -162,16 +162,12 @@ appearanceModel.findOne({_id: req.body.appId}, function(err, appearance){
         
           if(deletedDocument.subscription.seekerId){
           userModel.findOne({_id: deletedDocument.subscription.seekerId},function(err, seeker){
-             let subject = "Appearance deleted"
-             let text = "Your appearances has been deleted"
-              send.email(seeker.email, subject, text)
+              send.email(seeker.email, "Appearance deleted", "Your appearance "+deletedDocument.caseName+" has been deleted")
               console.log("EMAIL-APPEARING: appearance canceled. ")
           })}
 
           userModel.findOne({_id: deletedDocument.attorneyId}, function(err, attorney){
-           let subject = "Appearance deleted"
-           let text = "Your appearances has been deleted"
-            send.email(attorney.email, subject, text)
+            send.email(attorney.email, "Appearance deleted", "Your appearance "+deletedDocument.caseName+" has been deleted")
               userModel.findByIdAndUpdate({_id: deletedDocument.attorneyId},
                 { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_DELETED , msg:"deleted" }} }, function(err, user){
                   
@@ -270,7 +266,7 @@ unsubscribe: function(req, res, next){
       .then(obj => { 
         userModel.findOne({_id: req.body.userId}, function(err, seeker){
          let subject = "Appearance canceled"
-         let text = "Your appearances has been canceled"
+         let text = "Your postulation has been canceled"
           send.email(seeker.email, subject, text)          
               userModel.findByIdAndUpdate({_id: req.body.userId},{ $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_UNSUBSCRIPTION, msg: "unsubscribed" }} }, function(err, user){
                 if(err){console.log(err)}
@@ -278,7 +274,7 @@ unsubscribe: function(req, res, next){
         })
         userModel.findOne({_id: result.attorneyId}, function(err, attorney){
          let subject = "Appearance canceled"
-         let text = "Your appearances has been canceled"
+         let text = "Your postulation has been canceled"
           send.email(attorney.email, subject, text)          
         })
 
@@ -294,8 +290,8 @@ unsubscribe: function(req, res, next){
       {$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "applied"}} ) 
       .then(obj => {
         userModel.findOne({_id: req.body.userId}, function(err, seeker){
-         let subject = "Subscription"
-         let text = "Your are now subscribed"
+         let subject = "Application successful!"
+         let text = "Your postulation was sent. You have to wait for the attorney of record approval"
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
               userModel.findByIdAndUpdate({_id: req.body.userId},
@@ -304,8 +300,8 @@ unsubscribe: function(req, res, next){
 
         appearanceModel.findOne({"_id": req.body.appId}, function(err, appearance){
           userModel.findOne({"_id": appearance.attorneyId}, function(err, attorney){
-           let subject = "Subscription"
-           let text = "Your are now subscribed"
+           let subject = "Someone applied!"
+           let text = "You received an application. The appearing attorney is waiting your response,  please check it"
             send.email(attorney.email, subject, text)          
               userModel.findByIdAndUpdate({_id: appearance.attorneyId},
                 { $push:{ "notifications": {"type": "You have a new application in "+ appearance.courtHouse +", check it!", msg:"subscribed" }} }, function(err, user){
@@ -346,12 +342,12 @@ unsubscribe: function(req, res, next){
         {$set: {"subscription.seekerId": req.body.userId, "subscription.date": Date.now(), status: "applied"}} ) 
       .then(obj => {
         userModel.findOne({_id: req.body.userId}, function(err, seeker){
-          send.email(seeker.email, mailAlert.APPEARANCE_SUBSCRIBE_APPEARING_SUBJECT, mailAlert.APPEARANCE_SUBSCRIBE_APPEARING_MESSAGE)          
+          send.email(seeker.email, "Application successful!", "Your postulations was sent. You have to wait for the attorney of record approval")          
             userModel.findByIdAndUpdate({_id: req.body.userId},{ $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_SUBSCRIPTION_APPEARING, msg: "subscribed" }} }, function(err, user){
           
             appearanceModel.findOne({"_id": appId}, function(err, appearance){
               userModel.findOne({"_id": appearance.attorneyId}, function(err, attorney){
-                send.email(attorney.email, mailAlert.APPEARANCE_SUBSCRIBE_RECORD_SUBJECT, mailAlert.APPEARANCE_SUBSCRIBE_RECORD_MESSAGE)          
+                send.email(attorney.email, "Someone applied!", "You received an application. The appearing attorney is waiting your response,  please check it")          
                   userModel.findByIdAndUpdate({_id: appearance.attorneyId},
                     { $push:{ "notifications": {"type": "You have a new application in "+ appearance.courtHouse +", check it!", msg:"subscribed" }} }, function(err, user){  
                       
@@ -376,14 +372,14 @@ unsubscribe: function(req, res, next){
     appearanceModel.updateOne({"_id": req.body.appId},{$set: { status: 'accepted' }}) 
       .then(obj => { 
         userModel.findOne({_id: req.body.userId}, function(err, attorney){
-         let subject = "Appearance accepted"
-         let text = "Your appearances has been accepted"
+         let subject = "Postulation accepted"
+         let text = "The appearing attorney was accepted"
           send.email(attorney.email, subject, text)        
 
         
         userModel.findOne({_id: req.body.seekerId}, function(err, seeker){
-         let subject = "Appearance accepted"
-         let text = "Your appearances has been accepted"
+         let subject = "Postulation accepted"
+         let text = "Your postulation has been accepted. Congrats! You have work to do."
           send.email(seeker.email, subject, text)          
           console.log("mail sent to appearing")
 
@@ -419,7 +415,7 @@ unsubscribe: function(req, res, next){
       .then(obj => { 
         userModel.findOne({_id: req.body.userId}, function(err, attorney){
          let subject = "Appearance rejected"
-         let text = "Your appearances has been rejected"
+         let text = "The appearing attorney was rejected"
           send.email(attorney.email, subject, text)          
               userModel.findByIdAndUpdate({_id: req.body.seekerId},
                 { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_REJECTED, msg:"rejected" }} }, function(err, user){
@@ -428,7 +424,7 @@ unsubscribe: function(req, res, next){
         })
         userModel.findOne({_id: req.body.seekerId}, function(err, seeker){
          let subject = "Appearance rejected"
-         let text = "Your appearances has been rejected"
+         let text = "Your postulation has been rejected. You can try a postulation in another appearances"
           send.email(seeker.email, subject, text)          
         })
         return res.status(200).send({message: "Update OK", status: 200}) })
@@ -446,7 +442,7 @@ unsubscribe: function(req, res, next){
            
           userModel.findOne({_id: data.attorneyId}, function(err, attorney){
            let subject = "Appearance completed"
-           let text = "Your appearances has been completed!"
+           let text = "Your request has been completed, the appearing attorney uploaded the verdict!"
             send.email(attorney.email, subject, text)          
 
               userModel.findByIdAndUpdate({_id: data.attorneyId},
@@ -480,18 +476,18 @@ finishAppearance: function(req, res, next){
     if (!appearance){ return res.status(409).send({message: "Not found"}) }
      
      const subject = 'Work done!';
-     const text = 'test text appearance finished';
+
       appearance.status = 'finished';
       appearance.save()
         .then(appearance => {
           Logger.log("SUBSCRIPTION FINISHED: Sending email")
             userModel.findById(appearance.subscription.seekerId, function(err,seeker){
-              send.email(seeker.email, subject, text)
+              send.email(seeker.email, subject, "The attorney of record finished your appearance")
               Logger.log(seeker.email + " " + subject)
               userModel.findByIdAndUpdate({_id: appearance.subscription.seekerId},
                 { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){})
             })
-              send.email(attorneyEmail, subject, text)
+              send.email(attorneyEmail, subject, "Your appearance is finished")
               Logger.log(attorneyEmail + " " + subject)
               userModel.updateOne({email: attorneyEmail},
                 { $push:{ "notifications": {"type": notificationAlerts.APPEARANCE_FINISHED, msg:"finished" }} }, function(err, user){})

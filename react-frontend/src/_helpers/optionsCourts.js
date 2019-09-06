@@ -1,1735 +1,1081 @@
 export const optionsCourts = [
 
-{
-  "id": "2055",
-  "label": "Autauga County",
-  "value": "Autauga County",
-  "courts": [{
-    "id": 1,
-    "label": "Autauga County District Court 134 North Court Street, Prattville, AL 36067",
-    "value": "Autauga County District Court 134 North Court Street, Prattville, AL 36067"
-  }, {
-    "id": 2,
-    "label": "Autaugaville Municipal Court 109 North Taylor Street, Autaugaville, AL 36003",
-    "value": "Autaugaville Municipal Court 109 North Taylor Street, Autaugaville, AL 36003"
-  }, {
-    "id": 3,
-    "label": "Prattville Municipal Court 101 West Main Street, Prattville, AL 36067",
-    "value": "Prattville Municipal Court 101 West Main Street, Prattville, AL 36067"
-  }]
-}, {
-  "id": "2056",
-  "label": "Baldwin County",
-  "value": "Baldwin County",
-  "courts": [{
-    "id": 4,
-    "label": "Baldwin County District Court 312 Courthouse Square, Bay Minette, AL 36507",
-    "value": "Baldwin County District Court 312 Courthouse Square, Bay Minette, AL 36507"
-  }, {
-    "id": 5,
-    "label": "Bay Minette Courthouse 300 North Hoyle Avenue, Bay Minette, AL 36507",
-    "value": "Bay Minette Courthouse 300 North Hoyle Avenue, Bay Minette, AL 36507"
-  }, {
-    "id": 6,
-    "label": "Daphne Courthouse 1502 Highway 98, Daphne, AL 36526",
-    "value": "Daphne Courthouse 1502 Highway 98, Daphne, AL 36526"
-  }, {
-    "id": 7,
-    "label": "Elberta Courthouse 13052 Main Street, Elberta, AL, Elberta, AL 36530",
-    "value": "Elberta Courthouse 13052 Main Street, Elberta, AL, Elberta, AL 36530"
-  }, {
-    "id": 8,
-    "label": "Fairhope Courthouse 161 North Section Street, Fairhope, AL 36532",
-    "value": "Fairhope Courthouse 161 North Section Street, Fairhope, AL 36532"
-  }, {
-    "id": 9,
-    "label": "Fairhope District Court 1100 Fairhope Avenue, Fairhope, AL 36532",
-    "value": "Fairhope District Court 1100 Fairhope Avenue, Fairhope, AL 36532"
-  }, {
-    "id": 10,
-    "label": "Foley Courthouse 200 East Section Avenue, Foley, AL 36535",
-    "value": "Foley Courthouse 200 East Section Avenue, Foley, AL 36535"
-  }, {
-    "id": 11,
-    "label": "Foley District Court 201 East Section Street, Foley, AL 36535",
-    "value": "Foley District Court 201 East Section Street, Foley, AL 36535"
-  }, {
-    "id": 12,
-    "label": "Gulf Shores Courthouse 203 Clubhouse Drive, Gulf Shores, AL 36542",
-    "value": "Gulf Shores Courthouse 203 Clubhouse Drive, Gulf Shores, AL 36542"
-  }, {
-    "id": 13,
-    "label": "Loxley Courthouse 2131 East Relham Avenue, Loxley, AL 36551",
-    "value": "Loxley Courthouse 2131 East Relham Avenue, Loxley, AL 36551"
-  }, {
-    "id": 14,
-    "label": "Orange Beach Courthouse 4480 Orange Beach Boulevard, Orange Beach, AL 36561",
-    "value": "Orange Beach Courthouse 4480 Orange Beach Boulevard, Orange Beach, AL 36561"
-  }, {
-    "id": 15,
-    "label": "Robertsdale Courthouse 22647 Racine Street, Robertsdale, AL 36567",
-    "value": "Robertsdale Courthouse 22647 Racine Street, Robertsdale, AL 36567"
-  }, {
-    "id": 16,
-    "label": "Silverhill Courthouse 15965 Silverhill Avenue, Silverhill, AL 36576",
-    "value": "Silverhill Courthouse 15965 Silverhill Avenue, Silverhill, AL 36576"
-  }, {
-    "id": 17,
-    "label": "Spanish Fort Courthouse 6530 Spanish Fort Boulevard, Spanish Fort, AL 36527",
-    "value": "Spanish Fort Courthouse 6530 Spanish Fort Boulevard, Spanish Fort, AL 36527"
-  }, {
-    "id": 18,
-    "label": "Summerdale Courthouse 300 West Jackson, Summerdale, AL 36580",
-    "value": "Summerdale Courthouse 300 West Jackson, Summerdale, AL 36580"
-  }]
-}, {
-  "id": "2057",
-  "label": "Barbour County",
-  "value": "Barbour County",
-  "courts": [{
-    "id": 19,
-    "label": "Clayton County District Court 1 Court Square, Clayton, AL, Clayton, AL 36016",
-    "value": "Clayton County District Court 1 Court Square, Clayton, AL, Clayton, AL 36016"
-  }, {
-    "id": 20,
-    "label": "Eufaula County District Court 303 East Broad Street, Eufaula, AL 36027",
-    "value": "Eufaula County District Court 303 East Broad Street, Eufaula, AL 36027"
-  }, {
-    "id": 21,
-    "label": "Eufaula Courthouse 545 East Barbour Street, Eufaula, AL 36027",
-    "value": "Eufaula Courthouse 545 East Barbour Street, Eufaula, AL 36027"
-  }]
-}, {
-  "id": "2058",
-  "label": "Bibb County",
-  "value": "Bibb County",
-  "courts": [{
-    "id": 22,
-    "label": "Bibb County District Court 35 Court Square East, Centreville, AL 35042",
-    "value": "Bibb County District Court 35 Court Square East, Centreville, AL 35042"
-  }, {
-    "id": 23,
-    "label": "Brent Courthouse 22 First Street, Brent, AL, Brent, AL 35034",
-    "value": "Brent Courthouse 22 First Street, Brent, AL, Brent, AL 35034"
-  }, {
-    "id": 24,
-    "label": "Centreville Courthouse 1270 Walnut Street, Centreville, AL 35042",
-    "value": "Centreville Courthouse 1270 Walnut Street, Centreville, AL 35042"
-  }, {
-    "id": 25,
-    "label": "West Blocton Courthouse 1139 Main Street, West Blocton, AL 35184",
-    "value": "West Blocton Courthouse 1139 Main Street, West Blocton, AL 35184"
-  }, {
-    "id": 26,
-    "label": "Woodstock Courthouse 28513 Highway 5, Woodstock, AL 35188",
-    "value": "Woodstock Courthouse 28513 Highway 5, Woodstock, AL 35188"
-  }]
-}, {
-  "id": "2059",
-  "label": "Blount County",
-  "value": "Blount County",
-  "courts": [{
-    "id": 27,
-    "label": "Blount County District Court 220 2nd Avenue East, Oneonta, AL 35121",
-    "value": "Blount County District Court 220 2nd Avenue East, Oneonta, AL 35121"
-  }, {
-    "id": 28,
-    "label": "Blountsville Courthouse 10017 Lee Street West , Blountsville, AL 35031",
-    "value": "Blountsville Courthouse 10017 Lee Street West , Blountsville, AL 35031"
-  }, {
-    "id": 29,
-    "label": "Oneonta Courthouse 202 Third Avenue East, Oneonta, AL 35121",
-    "value": "Oneonta Courthouse 202 Third Avenue East, Oneonta, AL 35121"
-  }, {
-    "id": 30,
-    "label": "Snead Courthouse 87169 US Highway 278, Snead, AL 35952",
-    "value": "Snead Courthouse 87169 US Highway 278, Snead, AL 35952"
-  }, {
-    "id": 31,
-    "label": "Trafford Courthouse 9239 East Commercial Avenue, Trafford, AL 35172",
-    "value": "Trafford Courthouse 9239 East Commercial Avenue, Trafford, AL 35172"
-  }]
-}, {
-  "id": "2060",
-  "label": "Bullock County",
-  "value": "Bullock County",
-  "courts": [{
-    "id": 32,
-    "label": "Bullock County District Court 217 North Praire Street, Union Springs, AL 36089",
-    "value": "Bullock County District Court 217 North Praire Street, Union Springs, AL 36089"
-  }]
-}, {
-  "id": "2061",
-  "label": "Butler County",
-  "value": "Butler County",
-  "courts": [{
-    "id": 33,
-    "label": "Butler County District Court 700 Court Square, Greenville, AL, Greenville, AL 36037",
-    "value": "Butler County District Court 700 Court Square, Greenville, AL, Greenville, AL 36037"
-  }]
-}, {
-  "id": "2062",
-  "label": "Calhoun County",
-  "value": "Calhoun County",
-  "courts": [{
-    "id": 34,
-    "label": "Anniston Municipal Court 1128 Gurnee Avenue, Anniston, AL 36201",
-    "value": "Anniston Municipal Court 1128 Gurnee Avenue, Anniston, AL 36201"
-  }, {
-    "id": 35,
-    "label": "Bankruptcy Court 12th & Noble Streets Anniston, AL 36201",
-    "value": "Bankruptcy Court 12th & Noble Streets Anniston, AL 36201"
-  }, {
-    "id": 36,
-    "label": "Calhoun County District Court 25 West 11th Street, Anniston, AL 36201",
-    "value": "Calhoun County District Court 25 West 11th Street, Anniston, AL 36201"
-  }, {
-    "id": 37,
-    "label": "Hatch Municipal court 135 Chile Capitol Lane, Hatch, AL 87937",
-    "value": "Hatch Municipal court 135 Chile Capitol Lane, Hatch, AL 87937"
-  }, {
-    "id": 38,
-    "label": "Hobson City Municipal Court 610 Martin Luther King Jr. Drive, Hobson City, AL, Hobson City, AL 36201",
-    "value": "Hobson City Municipal Court 610 Martin Luther King Jr. Drive, Hobson City, AL, Hobson City, AL 36201"
-  }, {
-    "id": 39,
-    "label": "Jacksonville Municipal Court 310 Church Avenue Southeast, Jacksonville, AL 36265",
-    "value": "Jacksonville Municipal Court 310 Church Avenue Southeast, Jacksonville, AL 36265"
-  }, {
-    "id": 40,
-    "label": "Ohatchee Municipal Court 7801 AL Highway 77, Ohatchee, AL 36271",
-    "value": "Ohatchee Municipal Court 7801 AL Highway 77, Ohatchee, AL 36271"
-  }, {
-    "id": 41,
-    "label": "Oxford Municipal Court 100 Choccolocco Street, Oxford, AL 36203",
-    "value": "Oxford Municipal Court 100 Choccolocco Street, Oxford, AL 36203"
-  }, {
-    "id": 42,
-    "label": "Piedmont Municipal Court 312 North Center Avenue, Piedmont, AL 36272",
-    "value": "Piedmont Municipal Court 312 North Center Avenue, Piedmont, AL 36272"
-  }, {
-    "id": 43,
-    "label": "Sunland Park Municipal Court 1000 NcNutt Rd., Sunland Park, AL 88063",
-    "value": "Sunland Park Municipal Court 1000 NcNutt Rd., Sunland Park, AL 88063"
-  }]
-}, {
-  "id": "2063",
-  "label": "Chambers County",
-  "value": "Chambers County",
-  "courts": [{
-    "id": 44,
-    "label": "Chambers County District Court 2 Lafayette Street, Lafayette, AL 36862",
-    "value": "Chambers County District Court 2 Lafayette Street, Lafayette, AL 36862"
-  }, {
-    "id": 45,
-    "label": "Lafayette Courthouse 50 Alabama Avenue West, Lafayette, AL 36862",
-    "value": "Lafayette Courthouse 50 Alabama Avenue West, Lafayette, AL 36862"
-  }, {
-    "id": 46,
-    "label": "Lanett District Court 610 South Gilmer Avenue, Lanett, AL 36863",
-    "value": "Lanett District Court 610 South Gilmer Avenue, Lanett, AL 36863"
-  }, {
-    "id": 47,
-    "label": "Las Cruces Municipal Court 135 E. Griggs Ave., Las Cruces, AL 88004",
-    "value": "Las Cruces Municipal Court 135 E. Griggs Ave., Las Cruces, AL 88004"
-  }]
-}, {
-  "id": "2064",
-  "label": "Cherokee County",
-  "value": "Cherokee County",
-  "courts": [{
-    "id": 48,
-    "label": "Centre Courthouse 401 East Main Street, Centre, AL 35960",
-    "value": "Centre Courthouse 401 East Main Street, Centre, AL 35960"
-  }, {
-    "id": 49,
-    "label": "Cherokee County District Court 100 Main Street, Centre, AL 35960",
-    "value": "Cherokee County District Court 100 Main Street, Centre, AL 35960"
-  }]
-}, {
-  "id": "2065",
-  "label": "Chilton County",
-  "value": "Chilton County",
-  "courts": [{
-    "id": 50,
-    "label": "Chilton County District Court 500 2nd Avenue North, Clanton, AL 35045",
-    "value": "Chilton County District Court 500 2nd Avenue North, Clanton, AL 35045"
-  }, {
-    "id": 51,
-    "label": "Clanton Municipal Court 601 1st Avenue North, Clanton, AL 35045",
-    "value": "Clanton Municipal Court 601 1st Avenue North, Clanton, AL 35045"
-  }, {
-    "id": 52,
-    "label": "Jemison Municipal Court 191 Main Street, Jemison, AL 35085",
-    "value": "Jemison Municipal Court 191 Main Street, Jemison, AL 35085"
-  }, {
-    "id": 53,
-    "label": "Maplesville Municipal Court 9400 Alabama Highway 22, Maplesville, AL 36750",
-    "value": "Maplesville Municipal Court 9400 Alabama Highway 22, Maplesville, AL 36750"
-  }, {
-    "id": 54,
-    "label": "Thorsby Municipal Court 21060 US Highway 31, Thorsby, AL 35171",
-    "value": "Thorsby Municipal Court 21060 US Highway 31, Thorsby, AL 35171"
-  }]
-}, {
-  "id": "2066",
-  "label": "Choctaw County",
-  "value": "Choctaw County",
-  "courts": [{
-    "id": 55,
-    "label": "Choctaw County District Court 117 South Mulberry Street, Butler, AL 36904",
-    "value": "Choctaw County District Court 117 South Mulberry Street, Butler, AL 36904"
-  }, {
-    "id": 56,
-    "label": "Gilbertown Courthouse 40 Front Street, Gilbertown, AL 36908",
-    "value": "Gilbertown Courthouse 40 Front Street, Gilbertown, AL 36908"
-  }, {
-    "id": 57,
-    "label": "Pennington Courthouse 398 County Road 33, Pennington AL , Pennington, AL 36916",
-    "value": "Pennington Courthouse 398 County Road 33, Pennington AL , Pennington, AL 36916"
-  }, {
-    "id": 58,
-    "label": "Silas Courthouse 370 1st Street, Silas, AL 36919",
-    "value": "Silas Courthouse 370 1st Street, Silas, AL 36919"
-  }, {
-    "id": 59,
-    "label": "Toxey Courthouse 16100 Highway 17 North, Toxey, AL, Toxey, AL 36921",
-    "value": "Toxey Courthouse 16100 Highway 17 North, Toxey, AL, Toxey, AL 36921"
-  }]
-}, {
-  "id": "2067",
-  "label": "Clarke County",
-  "value": "Clarke County",
-  "courts": [{
-    "id": 60,
-    "label": "Clarke County District Court 114 Court Street, Grove Hill, AL 36451",
-    "value": "Clarke County District Court 114 Court Street, Grove Hill, AL 36451"
-  }, {
-    "id": 61,
-    "label": "Coffeeville Courthouse 160 River Street East, Coffeeville, AL 36524",
-    "value": "Coffeeville Courthouse 160 River Street East, Coffeeville, AL 36524"
-  }, {
-    "id": 62,
-    "label": "Fulton Courthouse Main Street, Fulton, AL, Fulton, AL 36446",
-    "value": "Fulton Courthouse Main Street, Fulton, AL, Fulton, AL 36446"
-  }, {
-    "id": 63,
-    "label": "Grove Hill Courthouse 111 South Church Street, Grove Hill, AL 36451",
-    "value": "Grove Hill Courthouse 111 South Church Street, Grove Hill, AL 36451"
-  }, {
-    "id": 64,
-    "label": "Jackson Courthouse 126 College Avenue, Jackson, AL 36545",
-    "value": "Jackson Courthouse 126 College Avenue, Jackson, AL 36545"
-  }, {
-    "id": 65,
-    "label": "Thomasville Courthouse 137 Adams Avenue, Thomasville, AL 36784",
-    "value": "Thomasville Courthouse 137 Adams Avenue, Thomasville, AL 36784"
-  }]
-}, {
-  "id": "2068",
-  "label": "Clay County",
-  "value": "Clay County",
-  "courts": [{
-    "id": 66,
-    "label": "Ashland Courthouse 82 Court Square, Ashland, AL, Ashland, AL 36251",
-    "value": "Ashland Courthouse 82 Court Square, Ashland, AL, Ashland, AL 36251"
-  }, {
-    "id": 67,
-    "label": "Clay County District Court 25 Court Square, Ashland, AL, Ashland, AL 36251",
-    "value": "Clay County District Court 25 Court Square, Ashland, AL, Ashland, AL 36251"
-  }, {
-    "id": 68,
-    "label": "Lineville Courthouse 60151 Highway 49 North, Lineville, AL 36266",
-    "value": "Lineville Courthouse 60151 Highway 49 North, Lineville, AL 36266"
-  }]
-}, {
-  "id": "2069",
-  "label": "Cleburne County",
-  "value": "Cleburne County",
-  "courts": [{
-    "id": 69,
-    "label": "Cleburne County District Court 120 Vickery Street, Heflin, AL 36264",
-    "value": "Cleburne County District Court 120 Vickery Street, Heflin, AL 36264"
-  }, {
-    "id": 70,
-    "label": "Ranburne Municipal Court 21383 Main Street, Ranburne,AL, Ranburne, AL 36273",
-    "value": "Ranburne Municipal Court 21383 Main Street, Ranburne,AL, Ranburne, AL 36273"
-  }]
-}, {
-  "id": "2070",
-  "label": "Coffee County",
-  "value": "Coffee County",
-  "courts": [{
-    "id": 71,
-    "label": "Elba County District Court 230M Court Avenue, Elba, AL 36323",
-    "value": "Elba County District Court 230M Court Avenue, Elba, AL 36323"
-  }, {
-    "id": 72,
-    "label": "Elba Courthouse Two Hundred Buford Street, Elba, AL 36323",
-    "value": "Elba Courthouse Two Hundred Buford Street, Elba, AL 36323"
-  }, {
-    "id": 73,
-    "label": "Enterprise County District Court 99 Edwards Street, Enterprise, AL 36330",
-    "value": "Enterprise County District Court 99 Edwards Street, Enterprise, AL 36330"
-  }, {
-    "id": 74,
-    "label": "Enterprise Courthouse 501 South Main Street, Enterprise, AL 36331",
-    "value": "Enterprise Courthouse 501 South Main Street, Enterprise, AL 36331"
-  }]
-}, {
-  "id": "2071",
-  "label": "Colbert County",
-  "value": "Colbert County",
-  "courts": [{
-    "id": 75,
-    "label": "Colbert County District Court 201 North Main Street, Tuscumbia, AL 35674",
-    "value": "Colbert County District Court 201 North Main Street, Tuscumbia, AL 35674"
-  }, {
-    "id": 76,
-    "label": "Leighton Courthouse 8900 Main Street, Leighton, AL 35646",
-    "value": "Leighton Courthouse 8900 Main Street, Leighton, AL 35646"
-  }, {
-    "id": 77,
-    "label": "Littleville Courthouse 1310 George Wallace Highway, Littleville, AL 35653",
-    "value": "Littleville Courthouse 1310 George Wallace Highway, Littleville, AL 35653"
-  }, {
-    "id": 78,
-    "label": "Muscle Shoals Courthouse 2010 East Avalon Avenue, Muscle Shoals, AL 35662",
-    "value": "Muscle Shoals Courthouse 2010 East Avalon Avenue, Muscle Shoals, AL 35662"
-  }, {
-    "id": 79,
-    "label": "Sheffield Courthouse 600 N. Montgomery Ave, Sheffield, AL 35660",
-    "value": "Sheffield Courthouse 600 N. Montgomery Ave, Sheffield, AL 35660"
-  }, {
-    "id": 80,
-    "label": "Tuscumbia Courthouse 202 East 6th Street, Tuscumbia, AL 35674",
-    "value": "Tuscumbia Courthouse 202 East 6th Street, Tuscumbia, AL 35674"
-  }]
-}, {
-  "id": "2072",
-  "label": "Conecuh County",
-  "value": "Conecuh County",
-  "courts": [{
-    "id": 81,
-    "label": "Conecuh County District Court 111 Court Street, Evergreen, AL 36401",
-    "value": "Conecuh County District Court 111 Court Street, Evergreen, AL 36401"
-  }, {
-    "id": 82,
-    "label": "Evergreen Courthouse 355 East Front Street, Evergreen, AL 36401",
-    "value": "Evergreen Courthouse 355 East Front Street, Evergreen, AL 36401"
-  }, {
-    "id": 83,
-    "label": "Repton Courthouse 1524 Conaly Street, Repton, AL, Repton, AL 36475",
-    "value": "Repton Courthouse 1524 Conaly Street, Repton, AL, Repton, AL 36475"
-  }]
-}, {
-  "id": "2073",
-  "label": "Coosa County",
-  "value": "Coosa County",
-  "courts": [{
-    "id": 84,
-    "label": "Coosa County District Court 1 Main Street, Rockford, AL, Rockford, AL 35136",
-    "value": "Coosa County District Court 1 Main Street, Rockford, AL, Rockford, AL 35136"
-  }]
-}, {
-  "id": "2074",
-  "label": "Covington County",
-  "value": "Covington County",
-  "courts": [{
-    "id": 85,
-    "label": "Andalusia Courthouse 102 Opp Avenue, Andalusia, AL 36420",
-    "value": "Andalusia Courthouse 102 Opp Avenue, Andalusia, AL 36420"
-  }, {
-    "id": 86,
-    "label": "Covington County District Court 1-K North Court Square, Andalusia, AL 36420",
-    "value": "Covington County District Court 1-K North Court Square, Andalusia, AL 36420"
-  }, {
-    "id": 87,
-    "label": "Florala Courthouse 22654 Wall Avenue, Florala, AL 36442",
-    "value": "Florala Courthouse 22654 Wall Avenue, Florala, AL 36442"
-  }, {
-    "id": 88,
-    "label": "Gantt Courthouse 28826 Commerce Street, Gantt, AL, Gantt, AL 36038",
-    "value": "Gantt Courthouse 28826 Commerce Street, Gantt, AL, Gantt, AL 36038"
-  }, {
-    "id": 89,
-    "label": "Lockhart Courthouse 1548 Chippeway Street, Lockhart, AL 36455",
-    "value": "Lockhart Courthouse 1548 Chippeway Street, Lockhart, AL 36455"
-  }, {
-    "id": 90,
-    "label": "Opp Courthouse 101 North Main Street, Opp, AL 36467",
-    "value": "Opp Courthouse 101 North Main Street, Opp, AL 36467"
-  }, {
-    "id": 91,
-    "label": "Red Level Courthouse 29098 Smiley Street, Red Level, AL 36474",
-    "value": "Red Level Courthouse 29098 Smiley Street, Red Level, AL 36474"
-  }, {
-    "id": 92,
-    "label": "River Falls Courthouse 24681 Firehouse Road, River Falls, AL, River Falls, AL 36476",
-    "value": "River Falls Courthouse 24681 Firehouse Road, River Falls, AL, River Falls, AL 36476"
-  }]
-}, {
-  "id": "2075",
-  "label": "Crenshaw County",
-  "value": "Crenshaw County",
-  "courts": [{
-    "id": 93,
-    "label": "Brantley Courthouse 10 Martin Luther King Drive, Brantley, AL, Brantley, AL 36009",
-    "value": "Brantley Courthouse 10 Martin Luther King Drive, Brantley, AL, Brantley, AL 36009"
-  }, {
-    "id": 94,
-    "label": "Crenshaw County District Court 29 South Glenwood Avenue, Luverne, AL 36049",
-    "value": "Crenshaw County District Court 29 South Glenwood Avenue, Luverne, AL 36049"
-  }, {
-    "id": 95,
-    "label": "Luverne Courthouse 22 East 5th Street, Luverne, AL 36049",
-    "value": "Luverne Courthouse 22 East 5th Street, Luverne, AL 36049"
-  }]
-}, {
-  "id": "2076",
-  "label": "Cullman County",
-  "value": "Cullman County",
-  "courts": [{
-    "id": 96,
-    "label": "Cullman County District Court 500 2nd Avenue Southwest, Cullman, AL 35055",
-    "value": "Cullman County District Court 500 2nd Avenue Southwest, Cullman, AL 35055"
-  }, {
-    "id": 97,
-    "label": "Cullman Courthouse 204 Second Avenue NE, Cullman, AL 35055",
-    "value": "Cullman Courthouse 204 Second Avenue NE, Cullman, AL 35055"
-  }, {
-    "id": 98,
-    "label": "Hanceville Courthouse 112 Main Street South East, Hanceville, AL 35077",
-    "value": "Hanceville Courthouse 112 Main Street South East, Hanceville, AL 35077"
-  }]
-}, {
-  "id": "2077",
-  "label": "Dale County",
-  "value": "Dale County",
-  "courts": [{
-    "id": 99,
-    "label": "Dale County District Court One Hundred East Court Square, Ozark, AL, Ozark, AL 36360",
-    "value": "Dale County District Court One Hundred East Court Square, Ozark, AL, Ozark, AL 36360"
-  }, {
-    "id": 100,
-    "label": "Daleville Courthouse 1 West Main Street, Daleville, AL, Daleville, AL 36322",
-    "value": "Daleville Courthouse 1 West Main Street, Daleville, AL, Daleville, AL 36322"
-  }, {
-    "id": 101,
-    "label": "Level Plains Courthouse 1708 Joe Bruer Road, Daleville, AL 36322",
-    "value": "Level Plains Courthouse 1708 Joe Bruer Road, Daleville, AL 36322"
-  }, {
-    "id": 102,
-    "label": "Midland City Courthouse 100 Howell Street, Midland City, AL, Midland City, AL 36350",
-    "value": "Midland City Courthouse 100 Howell Street, Midland City, AL, Midland City, AL 36350"
-  }, {
-    "id": 103,
-    "label": "Napier Field Courthouse 400 Headquarters Street, Napier Field, AL 36303",
-    "value": "Napier Field Courthouse 400 Headquarters Street, Napier Field, AL 36303"
-  }, {
-    "id": 104,
-    "label": "Newton Courthouse 209 Oates Drive, Newton, AL 36352",
-    "value": "Newton Courthouse 209 Oates Drive, Newton, AL 36352"
-  }, {
-    "id": 105,
-    "label": "Ozark Courthouse 275 North Union Avenue, Ozark, AL 36361",
-    "value": "Ozark Courthouse 275 North Union Avenue, Ozark, AL 36361"
-  }, {
-    "id": 106,
-    "label": "Pinckard Courthouse 1309 Highway 134, Pinckard, AL 36371",
-    "value": "Pinckard Courthouse 1309 Highway 134, Pinckard, AL 36371"
-  }]
-}, {
-  "id": "2078",
-  "label": "Dallas County",
-  "value": "Dallas County",
-  "courts": [{
-    "id": 107,
-    "label": "Bankruptcy Court 908 Alabama Ave. Selma, AL 36701",
-    "value": "Bankruptcy Court 908 Alabama Ave. Selma, AL 36701"
-  }, {
-    "id": 108,
-    "label": "Dallas County District Court 105 Lauderdale Street, Selma, AL 36701",
-    "value": "Dallas County District Court 105 Lauderdale Street, Selma, AL 36701"
-  }, {
-    "id": 109,
-    "label": "Selma Courthouse 1300 Alabama Avenue, Selma, AL 36703",
-    "value": "Selma Courthouse 1300 Alabama Avenue, Selma, AL 36703"
-  }]
-}, {
-  "id": "2079",
-  "label": "DeKalb County",
-  "value": "DeKalb County",
-  "courts": [{
-    "id": 110,
-    "label": "Collinsville Courthouse 39 Post Office Street, Collinsville, AL 35961",
-    "value": "Collinsville Courthouse 39 Post Office Street, Collinsville, AL 35961"
-  }, {
-    "id": 111,
-    "label": "Crossville Courthouse 14521 Alabama Highway 68, Crossville, AL 35962",
-    "value": "Crossville Courthouse 14521 Alabama Highway 68, Crossville, AL 35962"
-  }, {
-    "id": 112,
-    "label": "Fort Payne Courthouse - Dekalb County 300 Grand Avenue SW, Fort Payne, AL 35968",
-    "value": "Fort Payne Courthouse - Dekalb County 300 Grand Avenue SW, Fort Payne, AL 35968"
-  }, {
-    "id": 113,
-    "label": "Fort Payne Municipal Court 100 Alabama Avenue, Fort Payne, AL 35967",
-    "value": "Fort Payne Municipal Court 100 Alabama Avenue, Fort Payne, AL 35967"
-  }, {
-    "id": 114,
-    "label": "Fyffe Municipal Court 1514 Traylor Street West , Fyffe, AL 35971",
-    "value": "Fyffe Municipal Court 1514 Traylor Street West , Fyffe, AL 35971"
-  }, {
-    "id": 115,
-    "label": "Geraldine Municipal Court 41303 AL Highway 75, Geraldine, AL 35974",
-    "value": "Geraldine Municipal Court 41303 AL Highway 75, Geraldine, AL 35974"
-  }, {
-    "id": 116,
-    "label": "Henagar Courthouse 9252 AL-40, Henagar, AL 35978",
-    "value": "Henagar Courthouse 9252 AL-40, Henagar, AL 35978"
-  }, {
-    "id": 117,
-    "label": "Ider Courthouse 10793 AL-75, Ider, AL 35981",
-    "value": "Ider Courthouse 10793 AL-75, Ider, AL 35981"
-  }, {
-    "id": 118,
-    "label": "Mentone Municipal court 5972 Alabama Highway 117, Mentone, AL 35984",
-    "value": "Mentone Municipal court 5972 Alabama Highway 117, Mentone, AL 35984"
-  }, {
-    "id": 119,
-    "label": "Powell Courthouse 110 Broad Street North, Powell, AL 35971",
-    "value": "Powell Courthouse 110 Broad Street North, Powell, AL 35971"
-  }, {
-    "id": 120,
-    "label": "Rainsville Municipal Court 115 Main St. W, Rainsville, AL 35986",
-    "value": "Rainsville Municipal Court 115 Main St. W, Rainsville, AL 35986"
-  }, {
-    "id": 121,
-    "label": "Sylvania Municipal Court 22957 AL-75 , Sylvania, AL 35988",
-    "value": "Sylvania Municipal Court 22957 AL-75 , Sylvania, AL 35988"
-  }, {
-    "id": 122,
-    "label": "Valley Head Municipal Court 41 Anderson Street, Valley Head, AL 35989",
-    "value": "Valley Head Municipal Court 41 Anderson Street, Valley Head, AL 35989"
-  }]
-}, {
-  "id": "2080",
-  "label": "Elmore County",
-  "value": "Elmore County",
-  "courts": [{
-    "id": 123,
-    "label": "Elmore County District Court 100 East Commerce Street, Wetumpka, AL 36092",
-    "value": "Elmore County District Court 100 East Commerce Street, Wetumpka, AL 36092"
-  }, {
-    "id": 124,
-    "label": "Las Cruces Magistrate Court 110 Calle de Alegra, Las Cruces, AL 88005",
-    "value": "Las Cruces Magistrate Court 110 Calle de Alegra, Las Cruces, AL 88005"
-  }, {
-    "id": 125,
-    "label": "Millbrook Municipal Court 3841 Grandview Road, Millbrook, AL 36054",
-    "value": "Millbrook Municipal Court 3841 Grandview Road, Millbrook, AL 36054"
-  }, {
-    "id": 126,
-    "label": "Tallassee Municipal Court 3 Freeman Avenue, Tallassee, AL 36078",
-    "value": "Tallassee Municipal Court 3 Freeman Avenue, Tallassee, AL 36078"
-  }, {
-    "id": 127,
-    "label": "Wetumpka Municipal Court 212 South Main Street, Weumpka, AL 36092",
-    "value": "Wetumpka Municipal Court 212 South Main Street, Weumpka, AL 36092"
-  }]
-}, {
-  "id": "2081",
-  "label": "Escambia County",
-  "value": "Escambia County",
-  "courts": [{
-    "id": 128,
-    "label": "Atmore Courthouse 201 East Louisville Avenue, Atmore, AL 36502",
-    "value": "Atmore Courthouse 201 East Louisville Avenue, Atmore, AL 36502"
-  }, {
-    "id": 129,
-    "label": "Brewton Courthouse 1010-A Douglas Avenue, Brewton, AL 36426",
-    "value": "Brewton Courthouse 1010-A Douglas Avenue, Brewton, AL 36426"
-  }, {
-    "id": 130,
-    "label": "Escambia County District Court 314 Belleville Avenue, Brewton, AL 36426",
-    "value": "Escambia County District Court 314 Belleville Avenue, Brewton, AL 36426"
-  }]
-}, {
-  "id": "2082",
-  "label": "Etowah County",
-  "value": "Etowah County",
-  "courts": [{
-    "id": 131,
-    "label": "Altoona Courthouse 2844 Main Street, Altoona, AL 35952",
-    "value": "Altoona Courthouse 2844 Main Street, Altoona, AL 35952"
-  }, {
-    "id": 132,
-    "label": "Attalla Courthouse 612 4th Street Northwest, Attalla, AL 35954",
-    "value": "Attalla Courthouse 612 4th Street Northwest, Attalla, AL 35954"
-  }, {
-    "id": 133,
-    "label": "Etowah County District Court 800 Forrest Avenue, Gadsden, AL 35901",
-    "value": "Etowah County District Court 800 Forrest Avenue, Gadsden, AL 35901"
-  }, {
-    "id": 134,
-    "label": "Gadsden Courthouse 90 Broad Street, Gadsden, AL 35902",
-    "value": "Gadsden Courthouse 90 Broad Street, Gadsden, AL 35902"
-  }, {
-    "id": 135,
-    "label": "Glencoe Courthouse 201 West Chastain Boulevard, Glencoe, AL 35905",
-    "value": "Glencoe Courthouse 201 West Chastain Boulevard, Glencoe, AL 35905"
-  }, {
-    "id": 136,
-    "label": "Hokes Bluff Courthouse 3301 Alford Bend Road, Hokes Bluff, AL 35903",
-    "value": "Hokes Bluff Courthouse 3301 Alford Bend Road, Hokes Bluff, AL 35903"
-  }, {
-    "id": 137,
-    "label": "Mountainboro Courthouse 19 North Main Street, Mountainboro, AL, Mountainboro, AL 35957",
-    "value": "Mountainboro Courthouse 19 North Main Street, Mountainboro, AL, Mountainboro, AL 35957"
-  }, {
-    "id": 138,
-    "label": "Rainbow City Courthouse 3700 Rainbow Drive, Rainbow City, AL 35906",
-    "value": "Rainbow City Courthouse 3700 Rainbow Drive, Rainbow City, AL 35906"
-  }, {
-    "id": 139,
-    "label": "Sardis City Courthouse 1335 Sardis Drive, Sardis City, AL, Sardis City, AL 35956",
-    "value": "Sardis City Courthouse 1335 Sardis Drive, Sardis City, AL, Sardis City, AL 35956"
-  }, {
-    "id": 140,
-    "label": "Southside Courthouse 2255 Highway 77, Southside, AL 35907",
-    "value": "Southside Courthouse 2255 Highway 77, Southside, AL 35907"
-  }]
-}, {
-  "id": "2083",
-  "label": "Fayette County",
-  "value": "Fayette County",
-  "courts": [{
-    "id": 141,
-    "label": "Berry Courthouse 30 School Avenue, Berry, AL 35546",
-    "value": "Berry Courthouse 30 School Avenue, Berry, AL 35546"
-  }, {
-    "id": 142,
-    "label": "Fayette County District Court 113 Temple Avenue North, Fayette, AL 35555",
-    "value": "Fayette County District Court 113 Temple Avenue North, Fayette, AL 35555"
-  }, {
-    "id": 143,
-    "label": "Fayette Courthouse 203 Temple Avenue North, Fayette, AL 35555",
-    "value": "Fayette Courthouse 203 Temple Avenue North, Fayette, AL 35555"
-  }]
-}, {
-  "id": "2084",
-  "label": "Franklin County",
-  "value": "Franklin County",
-  "courts": [{
-    "id": 144,
-    "label": "Franklin County District Court 410 North Jackson Avenue, Russellville, AL 35653",
-    "value": "Franklin County District Court 410 North Jackson Avenue, Russellville, AL 35653"
-  }, {
-    "id": 145,
-    "label": "Phil Campbell Courthouse 580 Railroad Street, Phil Campbell, AL 35581",
-    "value": "Phil Campbell Courthouse 580 Railroad Street, Phil Campbell, AL 35581"
-  }, {
-    "id": 146,
-    "label": "Red Bay Courthouse 203 4th Avenue Southwest, Red Bay, AL 35582",
-    "value": "Red Bay Courthouse 203 4th Avenue Southwest, Red Bay, AL 35582"
-  }]
-}, {
-  "id": "2085",
-  "label": "Geneva County",
-  "value": "Geneva County",
-  "courts": [{
-    "id": 147,
-    "label": "Geneva County District Court 200 North Commerce Street, Geneva, AL 36340",
-    "value": "Geneva County District Court 200 North Commerce Street, Geneva, AL 36340"
-  }, {
-    "id": 148,
-    "label": "Geneva Courthouse 517 South Commerce Street, Geneva, AL 36340",
-    "value": "Geneva Courthouse 517 South Commerce Street, Geneva, AL 36340"
-  }, {
-    "id": 149,
-    "label": "Hartford Courthouse 203 West Main Street, Hartford, AL 36344",
-    "value": "Hartford Courthouse 203 West Main Street, Hartford, AL 36344"
-  }, {
-    "id": 150,
-    "label": "Samson Courthouse 104 East Main Street, Samson, AL 36477",
-    "value": "Samson Courthouse 104 East Main Street, Samson, AL 36477"
-  }, {
-    "id": 151,
-    "label": "Slocomb Courthouse 263 East Lawrence Harris Highway, Slocomb, AL 36375",
-    "value": "Slocomb Courthouse 263 East Lawrence Harris Highway, Slocomb, AL 36375"
-  }]
-}, {
-  "id": "2086",
-  "label": "Greene County",
-  "value": "Greene County",
-  "courts": [{
-    "id": 152,
-    "label": "Eutaw Courthouse 116 Main Street, Eutaw, AL 35462",
-    "value": "Eutaw Courthouse 116 Main Street, Eutaw, AL 35462"
-  }, {
-    "id": 153,
-    "label": "Greene County District Court 400 Morrow Avenue, Eutaw, AL 35462",
-    "value": "Greene County District Court 400 Morrow Avenue, Eutaw, AL 35462"
-  }]
-}, {
-  "id": "2087",
-  "label": "Hale County",
-  "value": "Hale County",
-  "courts": [{
-    "id": 154,
-    "label": "Greensboro Courthouse 1101 Main Street, Greensboro, AL 36744",
-    "value": "Greensboro Courthouse 1101 Main Street, Greensboro, AL 36744"
-  }, {
-    "id": 155,
-    "label": "Hale County District Court 1001 Main Street, Greensboro, AL 36744",
-    "value": "Hale County District Court 1001 Main Street, Greensboro, AL 36744"
-  }]
-}, {
-  "id": "2088",
-  "label": "Henry County",
-  "value": "Henry County",
-  "courts": [{
-    "id": 156,
-    "label": "Abbeville Courthouse 101 Washington Street, Abbeville, AL 36310",
-    "value": "Abbeville Courthouse 101 Washington Street, Abbeville, AL 36310"
-  }, {
-    "id": 157,
-    "label": "Bankruptcy Court 100 W. Troy Street, Dothan, AL",
-    "value": "Bankruptcy Court 100 W. Troy Street, Dothan, AL"
-  }, {
-    "id": 158,
-    "label": "Headland Courthouse 9 Park Street , Headland, AL 36345",
-    "value": "Headland Courthouse 9 Park Street , Headland, AL 36345"
-  }, {
-    "id": 159,
-    "label": "Henry County District Court 101 West Court Square, Abbeville, AL, Abbeville, AL 36310",
-    "value": "Henry County District Court 101 West Court Square, Abbeville, AL, Abbeville, AL 36310"
-  }]
-}, {
-  "id": "2089",
-  "label": "Houston County",
-  "value": "Houston County",
-  "courts": [{
-    "id": 160,
-    "label": "Ashford Courthouse 519 Broadway, Ashford, AL 36312",
-    "value": "Ashford Courthouse 519 Broadway, Ashford, AL 36312"
-  }, {
-    "id": 161,
-    "label": "Cottonwood Courthouse 1414 Metcalf Street, Cottonwood, AL 36320",
-    "value": "Cottonwood Courthouse 1414 Metcalf Street, Cottonwood, AL 36320"
-  }, {
-    "id": 162,
-    "label": "Dothan Courthouse 115 West Adams Street , Dothan, AL 36303",
-    "value": "Dothan Courthouse 115 West Adams Street , Dothan, AL 36303"
-  }, {
-    "id": 163,
-    "label": "Gordon Courthouse 692 Tifton Road, Gordon, AL 36343",
-    "value": "Gordon Courthouse 692 Tifton Road, Gordon, AL 36343"
-  }, {
-    "id": 164,
-    "label": "Houston County District Court 114 North Oates Street, Dothan, AL 36302",
-    "value": "Houston County District Court 114 North Oates Street, Dothan, AL 36302"
-  }]
-}, {
-  "id": "2090",
-  "label": "Jackson County",
-  "value": "Jackson County",
-  "courts": [{
-    "id": 165,
-    "label": "Bridgeport Courthouse 116 Jim B Thomas Avenue, , Bridgeport, AL 35740",
-    "value": "Bridgeport Courthouse 116 Jim B Thomas Avenue, , Bridgeport, AL 35740"
-  }, {
-    "id": 166,
-    "label": "Hollywood Courthouse 29164 US Highway 72, Hollywood, AL 35752",
-    "value": "Hollywood Courthouse 29164 US Highway 72, Hollywood, AL 35752"
-  }, {
-    "id": 167,
-    "label": "Jackson County District Court 102 East Laurel Street, Scottsboro, AL Scottsboro",
-    "value": "Jackson County District Court 102 East Laurel Street, Scottsboro, AL Scottsboro"
-  }, {
-    "id": 168,
-    "label": "Pisgah Courthouse 6100 Country Road 88, Pisgah, AL, Pisgah, AL 35765",
-    "value": "Pisgah Courthouse 6100 Country Road 88, Pisgah, AL, Pisgah, AL 35765"
-  }, {
-    "id": 169,
-    "label": "Scottsboro Courthouse 916 South Broad Street, Scottsboro, AL 35768",
-    "value": "Scottsboro Courthouse 916 South Broad Street, Scottsboro, AL 35768"
-  }, {
-    "id": 170,
-    "label": "Section Courthouse 72 Dutton Road, Section, AL 35771",
-    "value": "Section Courthouse 72 Dutton Road, Section, AL 35771"
-  }, {
-    "id": 171,
-    "label": "Stevenson Courthouse 104 Kentucky Avenue, Stevenson, AL 35772",
-    "value": "Stevenson Courthouse 104 Kentucky Avenue, Stevenson, AL 35772"
-  }]
-}, {
-  "id": "2091",
-  "label": "Jefferson County",
-  "value": "Jefferson County",
-  "courts": [{
-    "id": 172,
-    "label": "Adamsville Municipal Court 4911 Main Street, Adamsville, AL 35005",
-    "value": "Adamsville Municipal Court 4911 Main Street, Adamsville, AL 35005"
-  }, {
-    "id": 173,
-    "label": "Bankruptcy Court 1800 5th Avenue North Birmingham, AL 35203",
-    "value": "Bankruptcy Court 1800 5th Avenue North Birmingham, AL 35203"
-  }, {
-    "id": 174,
-    "label": "Bessemer County District Court 1801 3rd Avenue North, Bessemer, AL, Bessemer, AL 35020",
-    "value": "Bessemer County District Court 1801 3rd Avenue North, Bessemer, AL, Bessemer, AL 35020"
-  }, {
-    "id": 175,
-    "label": "Bessemer Courthouse 23 15th Street North, Bessemer, AL 35020",
-    "value": "Bessemer Courthouse 23 15th Street North, Bessemer, AL 35020"
-  }, {
-    "id": 176,
-    "label": "Birmingham Municipal Court 801 17th Street North, Birmingham, AL 35203",
-    "value": "Birmingham Municipal Court 801 17th Street North, Birmingham, AL 35203"
-  }, {
-    "id": 177,
-    "label": "Brighton Municipal Court 3700 Main Street, Brighton, AL 35020",
-    "value": "Brighton Municipal Court 3700 Main Street, Brighton, AL 35020"
-  }, {
-    "id": 178,
-    "label": "Brookside Municipal Court 2711 Municipal Lane, Brookside, AL, Brookside, AL 35036",
-    "value": "Brookside Municipal Court 2711 Municipal Lane, Brookside, AL, Brookside, AL 35036"
-  }, {
-    "id": 179,
-    "label": "Fairfield Municipal Court 5231 Court B, Fairfield, AL 35064",
-    "value": "Fairfield Municipal Court 5231 Court B, Fairfield, AL 35064"
-  }, {
-    "id": 180,
-    "label": "Fultondale Municipal Court 1210 Walker Chapel Road, Fultondale, AL 35068",
-    "value": "Fultondale Municipal Court 1210 Walker Chapel Road, Fultondale, AL 35068"
-  }, {
-    "id": 181,
-    "label": "Gardendale Municipal Court 970 Main Street, Gardendale, AL 35071",
-    "value": "Gardendale Municipal Court 970 Main Street, Gardendale, AL 35071"
-  }, {
-    "id": 182,
-    "label": "Graysville Municipal Court 246 South Main Street, Graysville, AL, Graysville, AL 35072",
-    "value": "Graysville Municipal Court 246 South Main Street, Graysville, AL, Graysville, AL 35072"
-  }, {
-    "id": 183,
-    "label": "Homewood Municipal Court 1833 29th Avenue South, Homewood, AL 35209",
-    "value": "Homewood Municipal Court 1833 29th Avenue South, Homewood, AL 35209"
-  }, {
-    "id": 184,
-    "label": "Hueytown Municipal Court 1318 Hueytown Road, Hueytown, AL 35023",
-    "value": "Hueytown Municipal Court 1318 Hueytown Road, Hueytown, AL 35023"
-  }, {
-    "id": 185,
-    "label": "Irondale Municipal Court 101 South 20th Street, Irondale, AL 35210",
-    "value": "Irondale Municipal Court 101 South 20th Street, Irondale, AL 35210"
-  }, {
-    "id": 186,
-    "label": "Jefferson County District Court 801 Richard Arrington, Jr. Boulevard North, Birmingham, AL 35203",
-    "value": "Jefferson County District Court 801 Richard Arrington, Jr. Boulevard North, Birmingham, AL 35203"
-  }, {
-    "id": 187,
-    "label": "Kimberly Municipal Court 9256 Stouts Road, Kimberly, AL 35091",
-    "value": "Kimberly Municipal Court 9256 Stouts Road, Kimberly, AL 35091"
-  }, {
-    "id": 188,
-    "label": "Leeds Municipal Court 1400 9th Street, Leeds, AL 35094",
-    "value": "Leeds Municipal Court 1400 9th Street, Leeds, AL 35094"
-  }, {
-    "id": 189,
-    "label": "Lipscomb Municipal Court 5512 Avenue H, Lipscomb, AL 35020",
-    "value": "Lipscomb Municipal Court 5512 Avenue H, Lipscomb, AL 35020"
-  }, {
-    "id": 190,
-    "label": "Midfield Municipal Court 725 Bessemer Super Highway, Midfield, AL 35228",
-    "value": "Midfield Municipal Court 725 Bessemer Super Highway, Midfield, AL 35228"
-  }, {
-    "id": 191,
-    "label": "Morris Municipal Court 8304 Stouts Road, Morris, AL 35116",
-    "value": "Morris Municipal Court 8304 Stouts Road, Morris, AL 35116"
-  }, {
-    "id": 192,
-    "label": "Mountain Brook Municipal Court 56 Church Street, Mountain Brook, AL 35223",
-    "value": "Mountain Brook Municipal Court 56 Church Street, Mountain Brook, AL 35223"
-  }, {
-    "id": 193,
-    "label": "Pleasant Grove Municipal Court 501 Park Road, Pleasant Grove, AL 35127",
-    "value": "Pleasant Grove Municipal Court 501 Park Road, Pleasant Grove, AL 35127"
-  }, {
-    "id": 194,
-    "label": "Tarrant Municipal Court 1604 Pinson Valley Parkway, Tarrant, AL 35217",
-    "value": "Tarrant Municipal Court 1604 Pinson Valley Parkway, Tarrant, AL 35217"
-  }, {
-    "id": 195,
-    "label": "Trussville Municipal Court 131 Main Street, Trussville, AL 35173",
-    "value": "Trussville Municipal Court 131 Main Street, Trussville, AL 35173"
-  }, {
-    "id": 196,
-    "label": "Vestavia Hills Municipal Court 513 Montgomery Highway, Vestavia Hills, AL 35266",
-    "value": "Vestavia Hills Municipal Court 513 Montgomery Highway, Vestavia Hills, AL 35266"
-  }, {
-    "id": 197,
-    "label": "Warrior Municipal Court 215 Main Street, Warrior, AL 35180",
-    "value": "Warrior Municipal Court 215 Main Street, Warrior, AL 35180"
-  }]
-}, {
-  "id": "2092",
-  "label": "Lamar County",
-  "value": "Lamar County",
-  "courts": [{
-    "id": 198,
-    "label": "Lamar County District Court 330 1st Street Northeast, Vernon, AL 35592",
-    "value": "Lamar County District Court 330 1st Street Northeast, Vernon, AL 35592"
-  }, {
-    "id": 199,
-    "label": "Vernon Courthouse 110 1st Avenue Northwest, Vernon, AL 35592",
-    "value": "Vernon Courthouse 110 1st Avenue Northwest, Vernon, AL 35592"
-  }]
-}, {
-  "id": "2093",
-  "label": "Lauderdale County",
-  "value": "Lauderdale County",
-  "courts": [{
-    "id": 200,
-    "label": "Florence Courthouse 651 South Seminary Street, Florence, AL 35630",
-    "value": "Florence Courthouse 651 South Seminary Street, Florence, AL 35630"
-  }, {
-    "id": 201,
-    "label": "Killen Courthouse 319 JC Mauldin Highway, Killen, AL 35645",
-    "value": "Killen Courthouse 319 JC Mauldin Highway, Killen, AL 35645"
-  }, {
-    "id": 202,
-    "label": "Lauderdale County District Court 200 South Court Street,Florence,AL, Florence, AL 35631",
-    "value": "Lauderdale County District Court 200 South Court Street,Florence,AL, Florence, AL 35631"
-  }, {
-    "id": 203,
-    "label": "Lexington Courthouse 11060 Highway 101, Lexington, AL, Lexington, AL 36548",
-    "value": "Lexington Courthouse 11060 Highway 101, Lexington, AL, Lexington, AL 36548"
-  }, {
-    "id": 204,
-    "label": "Rogersville Courthouse 36 Wheeler Street, Rogersville, AL 35652",
-    "value": "Rogersville Courthouse 36 Wheeler Street, Rogersville, AL 35652"
-  }]
-}, {
-  "id": "2094",
-  "label": "Lawrence County",
-  "value": "Lawrence County",
-  "courts": [{
-    "id": 205,
-    "label": "Courtland Courthouse 361 College Street , Courtland, AL 35618",
-    "value": "Courtland Courthouse 361 College Street , Courtland, AL 35618"
-  }, {
-    "id": 206,
-    "label": "Hillsboro Courthouse 11355 Main Street, Hillsboro, AL, Hillsboro, AL 35643",
-    "value": "Hillsboro Courthouse 11355 Main Street, Hillsboro, AL, Hillsboro, AL 35643"
-  }, {
-    "id": 207,
-    "label": "Lawrence County District Court 14330 Court Street, Moulton, AL 35650",
-    "value": "Lawrence County District Court 14330 Court Street, Moulton, AL 35650"
-  }, {
-    "id": 208,
-    "label": "Lawrence County Superior Court #2 918 - 16th St., Bedfor, AL 47421",
-    "value": "Lawrence County Superior Court #2 918 - 16th St., Bedfor, AL 47421"
-  }, {
-    "id": 209,
-    "label": "Moulton Courthouse 14220 Court Street, Moulton, AL 35650",
-    "value": "Moulton Courthouse 14220 Court Street, Moulton, AL 35650"
-  }, {
-    "id": 210,
-    "label": "North Courtland Courthouse 1181 Davis Street, North Courtland, AL 35618",
-    "value": "North Courtland Courthouse 1181 Davis Street, North Courtland, AL 35618"
-  }, {
-    "id": 211,
-    "label": "Town Creek Courthouse 16000 Main Street, Town Creek, AL, Town Creek, AL 35672",
-    "value": "Town Creek Courthouse 16000 Main Street, Town Creek, AL, Town Creek, AL 35672"
-  }]
-}, {
-  "id": "2095",
-  "label": "Lee County",
-  "value": "Lee County",
-  "courts": [{
-    "id": 212,
-    "label": "Auburn Municipal Court 141 North Ross Street, Auburn, AL 36830",
-    "value": "Auburn Municipal Court 141 North Ross Street, Auburn, AL 36830"
-  }, {
-    "id": 213,
-    "label": "Bankruptcy Court 701 Avenue A, Opelika, AL",
-    "value": "Bankruptcy Court 701 Avenue A, Opelika, AL"
-  }, {
-    "id": 214,
-    "label": "Lee County District Court 2311 Gateway Drive, Opelika, AL 36801",
-    "value": "Lee County District Court 2311 Gateway Drive, Opelika, AL 36801"
-  }, {
-    "id": 215,
-    "label": "Opelika Municipal Court 501 South 10th Street, Opelika, AL 36801",
-    "value": "Opelika Municipal Court 501 South 10th Street, Opelika, AL 36801"
-  }]
-}, {
-  "id": "2096",
-  "label": "Limestone County",
-  "value": "Limestone County",
-  "courts": [{
-    "id": 216,
-    "label": "Ardmore Municipal Court 26494 1st Street, Ardmore,AL, Ardmore, AL 35739",
-    "value": "Ardmore Municipal Court 26494 1st Street, Ardmore,AL, Ardmore, AL 35739"
-  }, {
-    "id": 217,
-    "label": "Athens Municipal Court 951 East Hobbs Street, Athens, AL 35611",
-    "value": "Athens Municipal Court 951 East Hobbs Street, Athens, AL 35611"
-  }, {
-    "id": 218,
-    "label": "Limestone County District Court 200 Washington Street West, Athens, AL 35611",
-    "value": "Limestone County District Court 200 Washington Street West, Athens, AL 35611"
-  }]
-}, {
-  "id": "2097",
-  "label": "Lowndes County",
-  "value": "Lowndes County",
-  "courts": [{
-    "id": 219,
-    "label": "Hayneville Courthouse 133 West Lafayette Street, Hayneville, AL 36040",
-    "value": "Hayneville Courthouse 133 West Lafayette Street, Hayneville, AL 36040"
-  }, {
-    "id": 220,
-    "label": "Lowndes County District Court 1 South Washington Street, Hayneville, AL Hayneville",
-    "value": "Lowndes County District Court 1 South Washington Street, Hayneville, AL Hayneville"
-  }, {
-    "id": 221,
-    "label": "White Hall Courthouse",
-    "value": "White Hall Courthouse"
-  }]
-}, {
-  "id": "2098",
-  "label": "Macon County",
-  "value": "Macon County",
-  "courts": [{
-    "id": 222,
-    "label": "Macon District Court 101 East Rosa Parks Avenue, Tuskegee, AL 36083",
-    "value": "Macon District Court 101 East Rosa Parks Avenue, Tuskegee, AL 36083"
-  }, {
-    "id": 223,
-    "label": "Notasulga Municipal Court 76 West Main Street, Notasulga, AL 36866",
-    "value": "Notasulga Municipal Court 76 West Main Street, Notasulga, AL 36866"
-  }, {
-    "id": 224,
-    "label": "Shorter Municipal Court 2521 Old Federal Road, Shorter, AL 36075",
-    "value": "Shorter Municipal Court 2521 Old Federal Road, Shorter, AL 36075"
-  }, {
-    "id": 225,
-    "label": "Tuskegee Municipal Court 302 South Main Street, Tuskegee, AL 36083",
-    "value": "Tuskegee Municipal Court 302 South Main Street, Tuskegee, AL 36083"
-  }]
-}, {
-  "id": "2099",
-  "label": "Madison County",
-  "value": "Madison County",
-  "courts": [{
-    "id": 226,
-    "label": "Gurley Courthouse 235 Walker Street, Gurley, AL 35748",
-    "value": "Gurley Courthouse 235 Walker Street, Gurley, AL 35748"
-  }, {
-    "id": 227,
-    "label": "Huntsville Courthouse 815 Wheeler Avenue, Huntsville, AL 35804",
-    "value": "Huntsville Courthouse 815 Wheeler Avenue, Huntsville, AL 35804"
-  }, {
-    "id": 228,
-    "label": "Madison County District Court 100 North Side Square, Huntsville, AL 35801",
-    "value": "Madison County District Court 100 North Side Square, Huntsville, AL 35801"
-  }, {
-    "id": 229,
-    "label": "Madison Courthouse 100 Hughes Road, Madison, AL 35758",
-    "value": "Madison Courthouse 100 Hughes Road, Madison, AL 35758"
-  }, {
-    "id": 230,
-    "label": "New Hope Courthouse 496 Main Drive, New Hope, AL 35760",
-    "value": "New Hope Courthouse 496 Main Drive, New Hope, AL 35760"
-  }, {
-    "id": 231,
-    "label": "Owens Cross Roads Courthouse 2965 Highway 431 South, Owens Cross Roads, AL 35763",
-    "value": "Owens Cross Roads Courthouse 2965 Highway 431 South, Owens Cross Roads, AL 35763"
-  }, {
-    "id": 232,
-    "label": "Triana Courthouse 640 6th Street, Triana, AL 35756",
-    "value": "Triana Courthouse 640 6th Street, Triana, AL 35756"
-  }]
-}, {
-  "id": "2100",
-  "label": "Marengo County",
-  "value": "Marengo County",
-  "courts": [{
-    "id": 233,
-    "label": "Demopolis Courthouse 301 East Washington Street , Demopolis, AL 36732",
-    "value": "Demopolis Courthouse 301 East Washington Street , Demopolis, AL 36732"
-  }, {
-    "id": 234,
-    "label": "Linden Courthouse 211 North Main Street, Linden, AL 36748",
-    "value": "Linden Courthouse 211 North Main Street, Linden, AL 36748"
-  }, {
-    "id": 235,
-    "label": "Marengo County District Court 101 East Coats Avenue, Linden, AL 36748",
-    "value": "Marengo County District Court 101 East Coats Avenue, Linden, AL 36748"
-  }]
-}, {
-  "id": "2101",
-  "label": "Marion County",
-  "value": "Marion County",
-  "courts": [{
-    "id": 236,
-    "label": "Bear Creek Courthouse 857 High Avenue, Bear Creek, AL 35543",
-    "value": "Bear Creek Courthouse 857 High Avenue, Bear Creek, AL 35543"
-  }, {
-    "id": 237,
-    "label": "Guin Courthouse 7500 US Highway 43, Guin, AL 35563",
-    "value": "Guin Courthouse 7500 US Highway 43, Guin, AL 35563"
-  }, {
-    "id": 238,
-    "label": "Hackleburg Courthouse 314 First Avenue, Hackleburg, AL 35564",
-    "value": "Hackleburg Courthouse 314 First Avenue, Hackleburg, AL 35564"
-  }, {
-    "id": 239,
-    "label": "Hamilton Courthouse 427 James Crump Memorial Drive, Hamilton, AL, Hamilton, AL 35570",
-    "value": "Hamilton Courthouse 427 James Crump Memorial Drive, Hamilton, AL, Hamilton, AL 35570"
-  }, {
-    "id": 240,
-    "label": "Marion County District Court 132 Military Street South, Hamilton, AL 35570",
-    "value": "Marion County District Court 132 Military Street South, Hamilton, AL 35570"
-  }, {
-    "id": 241,
-    "label": "Winfield Courthouse 111 Bankhead Highway, Winfield, AL 35594",
-    "value": "Winfield Courthouse 111 Bankhead Highway, Winfield, AL 35594"
-  }]
-}, {
-  "id": "2102",
-  "label": "Marshall County",
-  "value": "Marshall County",
-  "courts": [{
-    "id": 242,
-    "label": "Albertville Courthouse 200 East Sand Mountain Drive, Albertville, AL 35950",
-    "value": "Albertville Courthouse 200 East Sand Mountain Drive, Albertville, AL 35950"
-  }, {
-    "id": 243,
-    "label": "Albertville District Court 133 South Emmett Street, Albertville, AL 35950",
-    "value": "Albertville District Court 133 South Emmett Street, Albertville, AL 35950"
-  }, {
-    "id": 244,
-    "label": "Arab Courthouse 740 North Main Street, Arab, AL 35016",
-    "value": "Arab Courthouse 740 North Main Street, Arab, AL 35016"
-  }, {
-    "id": 245,
-    "label": "Boaz Courthouse 101 Line Avenue, Boaz, AL 35957",
-    "value": "Boaz Courthouse 101 Line Avenue, Boaz, AL 35957"
-  }, {
-    "id": 246,
-    "label": "Douglas Courthouse 55 Alabama Highway 168, Douglas, AL 35964",
-    "value": "Douglas Courthouse 55 Alabama Highway 168, Douglas, AL 35964"
-  }, {
-    "id": 247,
-    "label": "Grant Courthouse 4766 Main Street, Grant, AL 35747",
-    "value": "Grant Courthouse 4766 Main Street, Grant, AL 35747"
-  }, {
-    "id": 248,
-    "label": "Guntersville Courthouse 325 Gunter Avenue, Guntersville, AL 35976",
-    "value": "Guntersville Courthouse 325 Gunter Avenue, Guntersville, AL 35976"
-  }, {
-    "id": 249,
-    "label": "Guntersville District Court 424 Blount Avenue , Guntersville, AL 35976",
-    "value": "Guntersville District Court 424 Blount Avenue , Guntersville, AL 35976"
-  }, {
-    "id": 250,
-    "label": "Marshall County Circuit Court 501 N. Center St. , Plymouth, AL 96563",
-    "value": "Marshall County Circuit Court 501 N. Center St. , Plymouth, AL 96563"
-  }, {
-    "id": 251,
-    "label": "Sardis City Courthouse 1335 Sardis Drive, Sardis City, AL 35957",
-    "value": "Sardis City Courthouse 1335 Sardis Drive, Sardis City, AL 35957"
-  }]
-}, {
-  "id": "2103",
-  "label": "Mobile County",
-  "value": "Mobile County",
-  "courts": [{
-    "id": 252,
-    "label": "Bankruptcy Court 201 St. Louis Street Mobile, AL 36602",
-    "value": "Bankruptcy Court 201 St. Louis Street Mobile, AL 36602"
-  }, {
-    "id": 253,
-    "label": "Bayou La Batre Courthouse 13785 South Wintzell Avenue, Bayou La Batre, AL 36509",
-    "value": "Bayou La Batre Courthouse 13785 South Wintzell Avenue, Bayou La Batre, AL 36509"
-  }, {
-    "id": 254,
-    "label": "Chickasaw Courthouse 224 North Craft Highway , Chickasaw, AL 36671",
-    "value": "Chickasaw Courthouse 224 North Craft Highway , Chickasaw, AL 36671"
-  }, {
-    "id": 255,
-    "label": "Citronelle Courthouse 19135 South Main Street, Citronelle, AL, Citronelle, AL 36522",
-    "value": "Citronelle Courthouse 19135 South Main Street, Citronelle, AL, Citronelle, AL 36522"
-  }, {
-    "id": 256,
-    "label": "Creola Courthouse 190 Dead Lake Road, , Creola, AL 36525",
-    "value": "Creola Courthouse 190 Dead Lake Road, , Creola, AL 36525"
-  }, {
-    "id": 257,
-    "label": "Dauphin Island Courthouse 1011 Bienville Boulevard, Dauphin Island, AL 36528",
-    "value": "Dauphin Island Courthouse 1011 Bienville Boulevard, Dauphin Island, AL 36528"
-  }, {
-    "id": 258,
-    "label": "Mobile County District Court 205 Government Street, Mobile, AL 36644",
-    "value": "Mobile County District Court 205 Government Street, Mobile, AL 36644"
-  }, {
-    "id": 259,
-    "label": "Mobile Courthouse 205 Government Street, Mobile, AL 36652",
-    "value": "Mobile Courthouse 205 Government Street, Mobile, AL 36652"
-  }, {
-    "id": 260,
-    "label": "Mount Vernon Courthouse 1565 Boyles Avenue, Mount Vernon, AL 36560",
-    "value": "Mount Vernon Courthouse 1565 Boyles Avenue, Mount Vernon, AL 36560"
-  }, {
-    "id": 261,
-    "label": "Prichard Courthouse 216 East Prichard Avenue, Prichard, AL 36610",
-    "value": "Prichard Courthouse 216 East Prichard Avenue, Prichard, AL 36610"
-  }, {
-    "id": 262,
-    "label": "Saraland Courthouse 937 Highway 43, Saraland, AL 36571",
-    "value": "Saraland Courthouse 937 Highway 43, Saraland, AL 36571"
-  }, {
-    "id": 263,
-    "label": "Satsuma Courthouse 5464 Old Highway 43, Satsuma, AL 36572",
-    "value": "Satsuma Courthouse 5464 Old Highway 43, Satsuma, AL 36572"
-  }]
-}, {
-  "id": "2104",
-  "label": "Monroe County",
-  "value": "Monroe County",
-  "courts": [{
-    "id": 264,
-    "label": "Excel Courthouse 3199 Alabama Highway 136, Excel, AL 36439",
-    "value": "Excel Courthouse 3199 Alabama Highway 136, Excel, AL 36439"
-  }, {
-    "id": 265,
-    "label": "Monroe County District Court 65 North Alabama Avenue, Monroeville, AL, Monroeville, AL 36460",
-    "value": "Monroe County District Court 65 North Alabama Avenue, Monroeville, AL, Monroeville, AL 36460"
-  }, {
-    "id": 266,
-    "label": "Monroeville Courthouse 49 South Mount Pleasant Avenue, Monroeville, AL, Monroeville, AL 36460",
-    "value": "Monroeville Courthouse 49 South Mount Pleasant Avenue, Monroeville, AL, Monroeville, AL 36460"
-  }]
-}, {
-  "id": "2105",
-  "label": "Montgomery County",
-  "value": "Montgomery County",
-  "courts": [{
-    "id": 267,
-    "label": "Bankruptcy Court 1 Church Street Montgomery, AL",
-    "value": "Bankruptcy Court 1 Church Street Montgomery, AL"
-  }, {
-    "id": 268,
-    "label": "Montgomery County District Court 251 South Lawrence Street, Montgomery, AL 36104",
-    "value": "Montgomery County District Court 251 South Lawrence Street, Montgomery, AL 36104"
-  }, {
-    "id": 269,
-    "label": "Montgomery Courthouse 320 North Ripley Street, Montgomery, AL 36104",
-    "value": "Montgomery Courthouse 320 North Ripley Street, Montgomery, AL 36104"
-  }]
-}, {
-  "id": "3094",
-  "label": "Morgan",
-  "value": "Morgan",
-  "courts": []
-}, {
-  "id": "2107",
-  "label": "Perry County",
-  "value": "Perry County",
-  "courts": [{
-    "id": 270,
-    "label": "Marion Courthouse 402 Washington St., Marion, AL 36756",
-    "value": "Marion Courthouse 402 Washington St., Marion, AL 36756"
-  }, {
-    "id": 271,
-    "label": "Perry County District Court 300 Washington Street, Marion, AL 36756",
-    "value": "Perry County District Court 300 Washington Street, Marion, AL 36756"
-  }, {
-    "id": 272,
-    "label": "Uniontown Courthouse 100 Front Street, Uniontown, AL 36786",
-    "value": "Uniontown Courthouse 100 Front Street, Uniontown, AL 36786"
-  }]
-}, {
-  "id": "2108",
-  "label": "Pickens County",
-  "value": "Pickens County",
-  "courts": [{
-    "id": 273,
-    "label": "Aliceville Courthouse 419 Memorial Parkway East, Aliceville, AL 35442",
-    "value": "Aliceville Courthouse 419 Memorial Parkway East, Aliceville, AL 35442"
-  }, {
-    "id": 274,
-    "label": "Carrollton Courthouse One Hundred Court Square, Carrollton, AL, Carrollton, AL 35447",
-    "value": "Carrollton Courthouse One Hundred Court Square, Carrollton, AL, Carrollton, AL 35447"
-  }, {
-    "id": 275,
-    "label": "Gordo Courthouse 697 4th Avenue Northwest, Gordo, AL 35466",
-    "value": "Gordo Courthouse 697 4th Avenue Northwest, Gordo, AL 35466"
-  }, {
-    "id": 276,
-    "label": "Pickens County District Court One Courthouse Square, Carrollton, AL, Carrollton, AL 35447",
-    "value": "Pickens County District Court One Courthouse Square, Carrollton, AL, Carrollton, AL 35447"
-  }, {
-    "id": 277,
-    "label": "Pickensville Courthouse 16831 Highway 14, Pickensville, AL 35447",
-    "value": "Pickensville Courthouse 16831 Highway 14, Pickensville, AL 35447"
-  }, {
-    "id": 278,
-    "label": "Reform Courthouse 104 Third Avenue, Reform, AL 35481",
-    "value": "Reform Courthouse 104 Third Avenue, Reform, AL 35481"
-  }]
-}, {
-  "id": "2106",
-  "label": "Pike County",
-  "value": "Pike County",
-  "courts": [{
-    "id": 279,
-    "label": "Brundidge Courthouse 146 South Main Street, Brundidge, AL 36010",
-    "value": "Brundidge Courthouse 146 South Main Street, Brundidge, AL 36010"
-  }, {
-    "id": 280,
-    "label": "Pike County District Court 120 West Church Street, Troy, AL 36081",
-    "value": "Pike County District Court 120 West Church Street, Troy, AL 36081"
-  }, {
-    "id": 281,
-    "label": "Troy Courthouse Three Hundred Elm Street, Troy, AL, Troy, AL 36081",
-    "value": "Troy Courthouse Three Hundred Elm Street, Troy, AL, Troy, AL 36081"
-  }]
-}, {
-  "id": "3085",
-  "label": "Russell County",
-  "value": "Russell County",
-  "courts": [{
-    "id": 282,
-    "label": "Russell County Small Claims Court 501 14th St Phenix, AL 36868",
-    "value": "Russell County Small Claims Court 501 14th St Phenix, AL 36868"
-  }]
-}, {
-  "id": "2109",
-  "label": "Shelby County",
-  "value": "Shelby County",
-  "courts": [{
-    "id": 283,
-    "label": "Alabaster Municipal Court 127 1st Street Southwest, Alabaster, AL 35007",
-    "value": "Alabaster Municipal Court 127 1st Street Southwest, Alabaster, AL 35007"
-  }, {
-    "id": 284,
-    "label": "Calera Municipal Court 10947 Highway 25, Calera, AL 35040",
-    "value": "Calera Municipal Court 10947 Highway 25, Calera, AL 35040"
-  }, {
-    "id": 285,
-    "label": "Columbiana Municipal Court 107 Mildred Street, Columbiana, AL 35051",
-    "value": "Columbiana Municipal Court 107 Mildred Street, Columbiana, AL 35051"
-  }, {
-    "id": 286,
-    "label": "Harpersville Municipal Court 83 Town Hall Lane, Harpersville, AL 35078",
-    "value": "Harpersville Municipal Court 83 Town Hall Lane, Harpersville, AL 35078"
-  }, {
-    "id": 287,
-    "label": "Helena Municipal Court 816 Highway 52 East,Helena,AL, Helena, AL 35080",
-    "value": "Helena Municipal Court 816 Highway 52 East,Helena,AL, Helena, AL 35080"
-  }, {
-    "id": 288,
-    "label": "Hoover Municipal Court 2020 Valleydale Road, Hoover, AL 35244",
-    "value": "Hoover Municipal Court 2020 Valleydale Road, Hoover, AL 35244"
-  }, {
-    "id": 289,
-    "label": "Montevallo Municipal Court 545 South Main Street, Montevallo, AL 35115",
-    "value": "Montevallo Municipal Court 545 South Main Street, Montevallo, AL 35115"
-  }, {
-    "id": 290,
-    "label": "Pelham Municipal Court 3174 Church Street, Pelham, AL 35124",
-    "value": "Pelham Municipal Court 3174 Church Street, Pelham, AL 35124"
-  }, {
-    "id": 291,
-    "label": "Shelby County District Court 112 North Main Street, Columbiana, AL 35051",
-    "value": "Shelby County District Court 112 North Main Street, Columbiana, AL 35051"
-  }, {
-    "id": 292,
-    "label": "Vincent Municipal Court 25 Florey Street, Vincent, AL 35178",
-    "value": "Vincent Municipal Court 25 Florey Street, Vincent, AL 35178"
-  }, {
-    "id": 293,
-    "label": "Wilsonville Municipal Court 9905 North Main Street, Wilsonville, AL 35186",
-    "value": "Wilsonville Municipal Court 9905 North Main Street, Wilsonville, AL 35186"
-  }, {
-    "id": 294,
-    "label": "Wilton Municipal Court 205 Depot Street, Wilton, AL, Wilton, AL 35187",
-    "value": "Wilton Municipal Court 205 Depot Street, Wilton, AL, Wilton, AL 35187"
-  }]
-}, {
-  "id": "2110",
-  "label": "St. Clair County",
-  "value": "St. Clair County",
-  "courts": [{
-    "id": 295,
-    "label": "Ashville Courthouse 211 Eighth Street, Ashville, AL 35953",
-    "value": "Ashville Courthouse 211 Eighth Street, Ashville, AL 35953"
-  }, {
-    "id": 296,
-    "label": "Ashville District Court 100 6th Avenue, Ashville, AL 35953",
-    "value": "Ashville District Court 100 6th Avenue, Ashville, AL 35953"
-  }, {
-    "id": 297,
-    "label": "Branchville Courthouse 40 Blair Farm Road, Branchville, AL 35120",
-    "value": "Branchville Courthouse 40 Blair Farm Road, Branchville, AL 35120"
-  }, {
-    "id": 298,
-    "label": "Margaret Courthouse 125 School Street, Magaret, AL, Margaret, AL 35112",
-    "value": "Margaret Courthouse 125 School Street, Magaret, AL, Margaret, AL 35112"
-  }, {
-    "id": 299,
-    "label": "Moody Courthouse 2900 Daniel Drive, Moody, AL 35004",
-    "value": "Moody Courthouse 2900 Daniel Drive, Moody, AL 35004"
-  }, {
-    "id": 300,
-    "label": "Odenville Courthouse 183 Alabama Street, Odenville, AL 35120",
-    "value": "Odenville Courthouse 183 Alabama Street, Odenville, AL 35120"
-  }, {
-    "id": 301,
-    "label": "Pell City Courthouse 1905 1st Avenue North, Pell City, AL 35125",
-    "value": "Pell City Courthouse 1905 1st Avenue North, Pell City, AL 35125"
-  }, {
-    "id": 302,
-    "label": "Pell City District Court 1815 Cogswell Avenue, Pell City, AL 35125",
-    "value": "Pell City District Court 1815 Cogswell Avenue, Pell City, AL 35125"
-  }, {
-    "id": 303,
-    "label": "Ragland Courthouse 220 Fredia Street, Ragland, AL 35131",
-    "value": "Ragland Courthouse 220 Fredia Street, Ragland, AL 35131"
-  }, {
-    "id": 304,
-    "label": "Riverside Courthouse 379 Depot Street, Riverside, AL 35135",
-    "value": "Riverside Courthouse 379 Depot Street, Riverside, AL 35135"
-  }, {
-    "id": 305,
-    "label": "Springville Courthouse 6315 US Highway 11, Springville, AL 35146",
-    "value": "Springville Courthouse 6315 US Highway 11, Springville, AL 35146"
-  }, {
-    "id": 306,
-    "label": "Steele Courthouse 4025 Pope Avenue, Steele, AL 35987",
-    "value": "Steele Courthouse 4025 Pope Avenue, Steele, AL 35987"
-  }]
-}, {
-  "id": "2111",
-  "label": "Sumter County",
-  "value": "Sumter County",
-  "courts": [{
-    "id": 307,
-    "label": "Livingston Municipal Court Church & Main, Livingston, AL, Livingston, AL 35470",
-    "value": "Livingston Municipal Court Church & Main, Livingston, AL, Livingston, AL 35470"
-  }, {
-    "id": 308,
-    "label": "Sumter County District Court 115 Franklin Street, Livingston, AL 35470",
-    "value": "Sumter County District Court 115 Franklin Street, Livingston, AL 35470"
-  }, {
-    "id": 309,
-    "label": "York Courthouse 607 Second Avenue, York, AL 36925",
-    "value": "York Courthouse 607 Second Avenue, York, AL 36925"
-  }, {
-    "id": 310,
-    "label": "York Municipal Court 607 2nd Avenue, York, AL 36925",
-    "value": "York Municipal Court 607 2nd Avenue, York, AL 36925"
-  }]
-}, {
-  "id": "2112",
-  "label": "Talladega County",
-  "value": "Talladega County",
-  "courts": [{
-    "id": 311,
-    "label": "Bon Air Courthouse Front Street, Bon Air, AL, Bon Air, AL 35032",
-    "value": "Bon Air Courthouse Front Street, Bon Air, AL, Bon Air, AL 35032"
-  }, {
-    "id": 312,
-    "label": "Childersburg Courthouse 201 8th Avenue Southwest, Childersburg, AL 35044",
-    "value": "Childersburg Courthouse 201 8th Avenue Southwest, Childersburg, AL 35044"
-  }, {
-    "id": 313,
-    "label": "Lincoln Courthouse 33 Complex Drive, Lincoln, AL, Lincoln, AL 35096",
-    "value": "Lincoln Courthouse 33 Complex Drive, Lincoln, AL, Lincoln, AL 35096"
-  }, {
-    "id": 314,
-    "label": "Sylacauga Courthouse 301 North Broadway, Sylacauga, AL 35150",
-    "value": "Sylacauga Courthouse 301 North Broadway, Sylacauga, AL 35150"
-  }, {
-    "id": 315,
-    "label": "Sylacauga District Court 400 North Norton Avenue, Sylacauga, AL 35150",
-    "value": "Sylacauga District Court 400 North Norton Avenue, Sylacauga, AL 35150"
-  }, {
-    "id": 316,
-    "label": "Talladega Courthouse 203 West South Street, , Talladega, AL 35160",
-    "value": "Talladega Courthouse 203 West South Street, , Talladega, AL 35160"
-  }, {
-    "id": 317,
-    "label": "Talladega District Court 148 East Street North, Talladega, AL 35160",
-    "value": "Talladega District Court 148 East Street North, Talladega, AL 35160"
-  }]
-}, {
-  "id": "2113",
-  "label": "Tallapoosa County",
-  "value": "Tallapoosa County",
-  "courts": [{
-    "id": 318,
-    "label": "Alexander City Courthouse 1 Court Square, Alexander City, AL 35011",
-    "value": "Alexander City Courthouse 1 Court Square, Alexander City, AL 35011"
-  }, {
-    "id": 319,
-    "label": "Alexander City District Court 82 Court Square, Alexander City , AL 35010",
-    "value": "Alexander City District Court 82 Court Square, Alexander City , AL 35010"
-  }, {
-    "id": 320,
-    "label": "Camp Hill Courthouse 309 Holley Avenue, Camp Hill, AL 36850",
-    "value": "Camp Hill Courthouse 309 Holley Avenue, Camp Hill, AL 36850"
-  }, {
-    "id": 321,
-    "label": "Dadeville Courthouse 192 South Broadnax, Dadeville, AL 36853",
-    "value": "Dadeville Courthouse 192 South Broadnax, Dadeville, AL 36853"
-  }, {
-    "id": 322,
-    "label": "Dadeville District Court 125 North Broadnax, Dadeville, AL 36853",
-    "value": "Dadeville District Court 125 North Broadnax, Dadeville, AL 36853"
-  }, {
-    "id": 323,
-    "label": "Jackson's Gap Courthouse 1405 Main Street, Jackson's Gap, AL 36861",
-    "value": "Jackson's Gap Courthouse 1405 Main Street, Jackson's Gap, AL 36861"
-  }]
-}, {
-  "id": "2114",
-  "label": "Tuscaloosa County",
-  "value": "Tuscaloosa County",
-  "courts": [{
-    "id": 324,
-    "label": "Bankruptcy Court 1118 Greensboro Ave. Room 209 Tuscaloosa, AL 35401",
-    "value": "Bankruptcy Court 1118 Greensboro Ave. Room 209 Tuscaloosa, AL 35401"
-  }, {
-    "id": 325,
-    "label": "Brookwood Municipal Court 15689 Highway 216, Brookwood, AL 35444",
-    "value": "Brookwood Municipal Court 15689 Highway 216, Brookwood, AL 35444"
-  }, {
-    "id": 326,
-    "label": "Lake View Municipal Court 21289 Phyllis Drive, Lake View, AL 35111",
-    "value": "Lake View Municipal Court 21289 Phyllis Drive, Lake View, AL 35111"
-  }, {
-    "id": 327,
-    "label": "Northport Municipal Court 3500 McFarland Boulevard, Northport, AL 35476",
-    "value": "Northport Municipal Court 3500 McFarland Boulevard, Northport, AL 35476"
-  }, {
-    "id": 328,
-    "label": "Tuscaloosa County District Court 714 Greensboro Avenue, Tuscaloosa, AL 35401",
-    "value": "Tuscaloosa County District Court 714 Greensboro Avenue, Tuscaloosa, AL 35401"
-  }, {
-    "id": 329,
-    "label": "Tuscaloosa Municipal Court 2122 6th Street, Tuscaloosa, AL 35401",
-    "value": "Tuscaloosa Municipal Court 2122 6th Street, Tuscaloosa, AL 35401"
-  }, {
-    "id": 330,
-    "label": "Vance Municipal Court 18336 Highway 11 North, Vance, AL 35490",
-    "value": "Vance Municipal Court 18336 Highway 11 North, Vance, AL 35490"
-  }]
-}, {
-  "id": "2115",
-  "label": "Walker County",
-  "value": "Walker County",
-  "courts": [{
-    "id": 331,
-    "label": "Carbon Hill Courthouse 318 Southwest Second Street, Carbon Hill, AL 35549",
-    "value": "Carbon Hill Courthouse 318 Southwest Second Street, Carbon Hill, AL 35549"
-  }, {
-    "id": 332,
-    "label": "Cordova Courthouse 74 Main Street, Cordova, AL, Cordova , AL 35550",
-    "value": "Cordova Courthouse 74 Main Street, Cordova, AL, Cordova , AL 35550"
-  }, {
-    "id": 333,
-    "label": "Dora Municipal Court 1485 Sharon Boulevard, Dora, AL 35062",
-    "value": "Dora Municipal Court 1485 Sharon Boulevard, Dora, AL 35062"
-  }, {
-    "id": 334,
-    "label": "Jasper Courthouse 400 West 19th Street, Jasper, AL 35502",
-    "value": "Jasper Courthouse 400 West 19th Street, Jasper, AL 35502"
-  }, {
-    "id": 335,
-    "label": "Oakman Courthouse 8240 Market Street, Oakman, AL 35579",
-    "value": "Oakman Courthouse 8240 Market Street, Oakman, AL 35579"
-  }, {
-    "id": 336,
-    "label": "Sipsey Courthouse 3835 Sipsey Road, Sipsey, AL 35584",
-    "value": "Sipsey Courthouse 3835 Sipsey Road, Sipsey, AL 35584"
-  }, {
-    "id": 337,
-    "label": "Sumiton Courthouse 416 State Street, Sumiton, AL 35148",
-    "value": "Sumiton Courthouse 416 State Street, Sumiton, AL 35148"
-  }, {
-    "id": 338,
-    "label": "Walker County District Court 1801 Third Avenue South, Jasper, AL 35501",
-    "value": "Walker County District Court 1801 Third Avenue South, Jasper, AL 35501"
-  }]
-}, {
-  "id": "2116",
-  "label": "Washington County",
-  "value": "Washington County",
-  "courts": [{
-    "id": 339,
-    "label": "Chatom Courthouse 27 Cochran Avenue, , Chatom, AL 36518",
-    "value": "Chatom Courthouse 27 Cochran Avenue, , Chatom, AL 36518"
-  }, {
-    "id": 340,
-    "label": "McIntosh Courthouse 206 Commerce Street, McIntosh, AL 36553",
-    "value": "McIntosh Courthouse 206 Commerce Street, McIntosh, AL 36553"
-  }, {
-    "id": 341,
-    "label": "Millry Courthouse 105 Second Avenue, Millry, AL, Millry, AL 36558",
-    "value": "Millry Courthouse 105 Second Avenue, Millry, AL, Millry, AL 36558"
-  }, {
-    "id": 342,
-    "label": "Washington County District Court 1 Court Street, Chatom, AL, Chatom, AL 36518",
-    "value": "Washington County District Court 1 Court Street, Chatom, AL, Chatom, AL 36518"
-  }]
-}, {
-  "id": "2117",
-  "label": "Wilcox County",
-  "value": "Wilcox County",
-  "courts": [{
-    "id": 343,
-    "label": "Camden Courthouse 108 Water Street, Camden, AL 36726",
-    "value": "Camden Courthouse 108 Water Street, Camden, AL 36726"
-  }, {
-    "id": 344,
-    "label": "Pine Hill Courthouse 50 Dunn Street, Pine Hill, AL 36769",
-    "value": "Pine Hill Courthouse 50 Dunn Street, Pine Hill, AL 36769"
-  }, {
-    "id": 345,
-    "label": "Wilcox County District Court 12 Water Street, Camden, AL, Camden, AL 36726",
-    "value": "Wilcox County District Court 12 Water Street, Camden, AL, Camden, AL 36726"
-  }]
-}, {
-  "id": "2118",
-  "label": "Winston County",
-  "value": "Winston County",
-  "courts": [{
-    "id": 346,
-    "label": "Addison Courthouse 16323 County Road 41, Addison, AL 35540",
-    "value": "Addison Courthouse 16323 County Road 41, Addison, AL 35540"
-  }, {
-    "id": 347,
-    "label": "Arley Courthouse 6788 County Road 41, Arley, AL 35541",
-    "value": "Arley Courthouse 6788 County Road 41, Arley, AL 35541"
-  }, {
-    "id": 348,
-    "label": "Double Springs Courthouse 21 Main Street, Double Springs, AL 35553",
-    "value": "Double Springs Courthouse 21 Main Street, Double Springs, AL 35553"
-  }, {
-    "id": 349,
-    "label": "Haleyville Courthouse 1901 11th Avenue, Haleyville, AL 35565",
-    "value": "Haleyville Courthouse 1901 11th Avenue, Haleyville, AL 35565"
-  }, {
-    "id": 350,
-    "label": "Winston County District Court 11 Blake Drive, Double Springs, AL 35553",
-    "value": "Winston County District Court 11 Blake Drive, Double Springs, AL 35553"
-  }]
-}
 
+
+
+
+{"label":"Alameda County",
+ "value":"Alameda County",
+ "courts":[
+
+
+{"label":"George McDonald Hall of Justice ",
+"value": "George McDonald Hall of Justice "},
+{"label":"2233 Shoreline Drive, Alameda, CA 94501",
+"value": "2233 Shoreline Drive, Alameda, CA 94501"},
+{"label":"Bankruptcy Court - Northern: Oakland District ",
+"value": "Bankruptcy Court - Northern: Oakland District "},
+{"label":"1300 Clay St #300 Oakland, CA 94612",
+"value": "1300 Clay St #300 Oakland, CA 94612"},
+{"label":"Berkeley Courthouse - 2120 Martin Luther King Jr. Way Berkeley, CA 94704",
+"value": "Berkeley Courthouse - 2120 Martin Luther King Jr. Way Berkeley, CA 94704"},
+{"label":"East County Hall of Justice 5151 Gleason Drive Dublin, California 94568",
+"value": "East County Hall of Justice 5151 Gleason Drive Dublin, California 94568"},
+{"label":"Fremont Hall of Justice - 39439 Paseo Padre Parkway Fremont, CA 94538",
+"value": "Fremont Hall of Justice - 39439 Paseo Padre Parkway Fremont, CA 94538"},
+{"label":"Gale/Schenone Hall of Justice - 5672 Stoneridge Dr., Pleasanton 94588",
+"value": "Gale/Schenone Hall of Justice - 5672 Stoneridge Dr., Pleasanton 94588"},
+{"label":"Hayward Hall of Justice - 24405 Amador St. Hayward 94544",
+"value": "Hayward Hall of Justice - 24405 Amador St. Hayward 94544"},
+{"label":"Rene C. Davidson - Oakland Courthouse - 1225 Fallon Street Oakland, CA 94612",
+"value": "Rene C. Davidson - Oakland Courthouse - 1225 Fallon Street Oakland, CA 94612"},
+{"label":"San Leandro Hall of Justice - 2500 Fairmont Drive, Suite C3013, San Leandro, CA 94578",
+"value": "San Leandro Hall of Justice - 2500 Fairmont Drive, Suite C3013, San Leandro, CA 94578"},
+{"label":"Wiley W. Manuel Courthouse - 661 Washington Street Oakland, CA 94607",
+"value": "Wiley W. Manuel Courthouse - 661 Washington Street Oakland, CA 94607"},
+{"label":"Workers' Compensation Appeals Board 1515 Clay Street, 6th Floor Oakland, CA 94612-1402",
+"value": "Workers' Compensation Appeals Board 1515 Clay Street, 6th Floor Oakland, CA 94612-1402"},
+
+]},
+
+{"label":"Alpine County",
+ "value":"Alpine County",
+ "courts":[
+
+
+{"label":"Alpine County Superior Court - 99 Water St . Markleeville, CA 96120",
+"value":"Alpine County Superior Court - 99 Water St . Markleeville, CA 96120"},
+]},
+
+{"label":"Amador County ",
+"value":"Amador County ",
+"courts":[
+
+
+{"label":"Amador County Superior Court - 500 Argonaut Lane, Jackson, CA. 95642",
+"value":"Amador County Superior Court - 500 Argonaut Lane, Jackson, CA. 95642"},
+]},
+
+
+{"label":"Butte County",
+ "value":"Butte County",
+ "courts":[
+
+
+{"label":"Butte County Courthouse - One Court Street, Oroville, CA 95965-3303 ",
+"value":"Butte County Courthouse - One Court Street, Oroville, CA 95965-3303 "},
+{"label":"Chico Courthouse -1775 Concord Ave, Chico, CA 95928",
+"value":"Chico Courthouse -1775 Concord Ave, Chico, CA 95928"},
+{"label":"Paradise Courthouse - 747 Elliott Road, Paradise, CA 95969",
+"value":"Paradise Courthouse - 747 Elliott Road, Paradise, CA 95969"},
+
+]},
+
+{"label":"Calaveras County",
+ "value":"Calaveras County",
+ "courts":[
+
+
+{"label":"Calaveras Government Center - 891 Mountain Ranch Rd, San Andreas, CA 95249",
+"value":"Calaveras Government Center - 891 Mountain Ranch Rd, San Andreas, CA 95249"}
+
+]},
+
+{"label":"Colusa County",
+ "value":"Colusa County",
+ "courts":[
+
+
+{"label":"Courthouse Annex - 532 Oak Street",
+"value":"Courthouse Annex - 532 Oak Street"},
+{"label":"Main Courthouse - 547 Market St. Colusa, CA 95932",
+"value":"Main Courthouse - 547 Market St. Colusa, CA 95932"},
+
+]},
+
+{"label":"Contra Costa County",
+ "value":"Contra Costa County",
+ "courts":[
+
+
+{"label": "A. F. Bray Courthouse - 1020 Ward Street, Martinez CA 94553",
+"value":"A. F. Bray Courthouse - 1020 Ward Street, Martinez CA 94553"},
+{"label": "Arnason Justice Center - 1000 Center Drive,Pittsburg, CA 94565",
+"value":"Arnason Justice Center - 1000 Center Drive,Pittsburg, CA 94565"},
+{"label": "Concord Superior Court - 2970 Willow Pass RdConcord, CA 94519 ",
+"value":"Concord Superior Court - 2970 Willow Pass RdConcord, CA 94519 "},
+{"label": "George D. Caroll Courthouse - Richmond Superior Court - 100 37th Street,Richmond, CA 94805",
+"value":"George D. Caroll Courthouse - Richmond Superior Court - 100 37th Street,Richmond, CA 94805"},
+{"label": "Peter L. Spinetta Family Law Center - 751 PineStreet, Martinez CA 94553",
+"value":"Peter L. Spinetta Family Law Center - 751 PineStreet, Martinez CA 94553"},
+{"label": "Wakefield Taylor Courthouse - 725 Court Street,Martinez, CA 94553",
+"value":"Wakefield Taylor Courthouse - 725 Court Street,Martinez, CA 94553"},
+{"label": "Walnut Superior Creek Court - 649 Ygnacio Valley Road,Walnut Creek, CA 94596",
+"value":"Walnut Superior Creek Court - 649 Ygnacio Valley Road,Walnut Creek, CA 94596"},
+
+]},
+
+{"label":"Del Norte County",
+ "value":"Del Norte County",
+ "courts":[
+
+
+{"label": "Del Norte County - 450 H Street, Room 209 Crescent City, CA 95531",
+"value":"Del Norte County - 450 H Street, Room 209 Crescent City, CA 95531"}
+
+]},
+
+{"label":"El Dorado County",
+ "value":"El Dorado County",
+ "courts":[
+
+
+{"label": "Cameron Park Branch - 3321 Cameron Park Drive, Cameron Park, CA 95682",
+"value":"Cameron Park Branch - 3321 Cameron Park Drive, Cameron Park, CA 95682"},
+{"label": "Placerville Building C Branch - Dept.7 2850 Fairlane Court, Ste 120 Bldg C Placerville CA 95667",
+"value":"Placerville Building C Branch - Dept.7 2850 Fairlane Court, Ste 120 Bldg C Placerville CA 95667"},
+{"label": "Placerville Fairlane Branch - 295 Fair LanePlacerville, CA 95667",
+"value":"Placerville Fairlane Branch - 295 Fair LanePlacerville, CA 95667"},
+{"label": "Placerville Main Street Branch - 495 Main StreetPlacerville, CA 95667",
+"value":"Placerville Main Street Branch - 495 Main StreetPlacerville, CA 95667"},
+{"label": "South Lake Tahoe Branch - 1354 Johnson Blvd.South Lake Tahoe, CA 96150",
+"value":"South Lake Tahoe Branch - 1354 Johnson Blvd.South Lake Tahoe, CA 96150"},
+
+]},
+
+{"label":"Fresno County",
+ "value":"Fresno County",
+ "courts":[
+
+
+{"label": "Action Center - 1100 Van Ness Avenue Fresno, CA 93724",
+"value":"Action Center - 1100 Van Ness Avenue Fresno, CA 93724"},
+{"label": "B.F. Sisk Courthouse - 1130 O Street Fresno, CA 93721",
+"value":"B.F. Sisk Courthouse - 1130 O Street Fresno, CA 93721"},
+{"label": "Bankruptcy Court - Eastern: Fresno District - 2500 Tulare Street,Fresno, CA 93721",
+"value":"Bankruptcy Court - Eastern: Fresno District - 2500 Tulare Street,Fresno, CA 93721"},
+{"label": "Criminal Courts Departments 95-96 - 1265 M Street Fresno, CA 93721",
+"value":"Criminal Courts Departments 95-96 - 1265 M Street Fresno, CA 93721"},
+{"label": "Fresno Superior Court - 1100 Van Ness Avenue Fresno, CA 93724",
+"value":"Fresno Superior Court - 1100 Van Ness Avenue Fresno, CA 93724"},
+{"label": "Fresno Superior Courthouse Downtown Location",
+"value":"Fresno Superior Courthouse Downtown Location"},
+{"label": "Juvenile Delinquency Court - 3333 East American Avenue, Suite A Fresno CA 93725",
+"value":"Juvenile Delinquency Court - 3333 East American Avenue, Suite A Fresno CA 93725"},
+{"label": "M Street Courthouse - 2317 Tuolumne Street Fresno, CA 93721",
+"value":"M Street Courthouse - 2317 Tuolumne Street Fresno, CA 93721"},
+{"label": "Robert E. Coyle U.S. District Court - 2500 Tulare Street Fresno CA 93721",
+"value":"Robert E. Coyle U.S. District Court - 2500 Tulare Street Fresno CA 93721"},
+{"label": "Workers' Compensation Appeals Board 2550 Mariposa Street, Room 4078 Fresno, CA 93721-2219",
+"value":"Workers' Compensation Appeals Board 2550 Mariposa Street, Room 4078 Fresno, CA 93721-2219"},
+
+]},
+
+{"label":"Glenn County",
+ "value":"Glenn County",
+ "courts":[
+
+
+{"label": "Orland Branch - 821 E. South Street Orland, CA 95963",
+"value":"Orland Branch - 821 E. South Street Orland, CA 95963"},
+{"label": "Willows Branch - Main Courthouse - 526 West Sycamore Street Willows, CA 95988",
+"value":"Willows Branch - Main Courthouse - 526 West Sycamore Street Willows, CA 95988"},
+
+]},
+
+{"label":"Humboldt County",
+ "value":"Humboldt County",
+ "courts":[
+
+
+{"label": "Humboldt County Courthouse - 825 Fifth Street Eureka, CA 95501",
+"value": "Humboldt County Courthouse - 825 Fifth Street Eureka, CA 95501"},
+
+]},
+
+{"label":"Imperial County",
+ "value":"Imperial County",
+ "courts":[
+
+
+{"label": "Brawley Court - 220 Main Street, Brawley, Ca. 92227",
+"value":"Brawley Court - 220 Main Street, Brawley, Ca. 92227"},
+{"label": "Calexico Court - 415 East 4th Street, Calexico, Ca. 92231",
+"value":"Calexico Court - 415 East 4th Street, Calexico, Ca. 92231"},
+{"label": "El Centro Courthouse - 939 W. Main Street, El Centro92243",
+"value":"El Centro Courthouse - 939 W. Main Street, El Centro92243"},
+{"label": "Immigration Court 1115 N Imperial Ave, El Centro, CA 92243",
+"value":"Immigration Court 1115 N Imperial Ave, El Centro, CA 92243"},
+{"label": "Jail Court - 328 Applestill Rd. El Centro, Ca. 92243",
+"value":"Jail Court - 328 Applestill Rd. El Centro, Ca. 92243"},
+{"label": "Juvenile Court - 324 Applestill Rd. El Centro, Ca. 92243",
+"value":"Juvenile Court - 324 Applestill Rd. El Centro, Ca. 92243"},
+{"label": "Winterhaven Court - 2124 Winterhaven Dr.Winterhaven, Ca. 92283",
+"value":"Winterhaven Court - 2124 Winterhaven Dr.Winterhaven, Ca. 92283"},
+
+]},
+
+{"label":"Inyo County",
+ "value":"Inyo County",
+ "courts":[
+
+
+{"label":"Independence Court 168 North Edwards Street, Independence, CA 93526",
+"value":"Independence Court 168 North Edwards Street, Independence, CA 93526"},
+{"label":"Inyo Superior Court - 301 W Line St, Bishop, CA 93514",
+"value":"Inyo Superior Court - 301 W Line St, Bishop, CA 93514"},
+
+]},
+
+{"label":"Kern County",
+ "value":"Kern County",
+ "courts":[
+
+
+{"label": "1215 Truxtun Avenue, Bakersfield",
+"value":"1215 Truxtun Avenue, Bakersfield"},
+{"label": "Arvin/Lamont Branch - 12022 Main St., Lamont, CA 93241",
+"value":"Arvin/Lamont Branch - 12022 Main St., Lamont, CA 93241"},
+{"label": "Bankruptcy Court - Eastern: 510 19th Street Bakersfield",
+"value":"Bankruptcy Court - Eastern: 510 19th Street Bakersfield"},
+{"label": "Delano/McFarland Branch - 1122 Jefferson St., Delano, CA 93215",
+"value":"Delano/McFarland Branch - 1122 Jefferson St., Delano, CA 93215"},
+{"label": "Kern River Branch - 7046 Lake Isabella Blvd., Lake Isabella, CA 93240",
+"value":"Kern River Branch - 7046 Lake Isabella Blvd., Lake Isabella, CA 93240"},
+{"label": "Metro. Traffic Division - 3131 Arrow St., Bakersfield, CA 93308",
+"value":"Metro. Traffic Division - 3131 Arrow St., Bakersfield, CA 93308"},
+{"label": "Metropolitan Division - 1415 Truxtun Avenue, Bakersfield",
+"value":"Metropolitan Division - 1415 Truxtun Avenue, Bakersfield"},
+{"label": "Mojave Branch - 1773 Hwy 58, Mojave, CA 93501",
+"value":"Mojave Branch - 1773 Hwy 58, Mojave, CA 93501"},
+{"label": "Ridgecrest - 132 East Coso Ave., Ridgecrest, CA 93555",
+"value":"Ridgecrest - 132 East Coso Ave., Ridgecrest, CA 93555"},
+{"label": "Shafter/Wasco Branch - 325 Central Valley Hwy., Shafter, CA 93263",
+"value":"Shafter/Wasco Branch - 325 Central Valley Hwy., Shafter, CA 93263"},
+{"label": "Taft/Maricopa Branch - 311 Lincoln St., Taft, CA 93268",
+"value":"Taft/Maricopa Branch - 311 Lincoln St., Taft, CA 93268"},
+{"label": "Workers' Compensation Appeals Board 1800 30th Street, Room 100 Bakersfield, CA 93301-1929",
+"value":"Workers' Compensation Appeals Board 1800 30th Street, Room 100 Bakersfield, CA 93301-1929"},
+
+]},
+
+{"label":"Kings County",
+ "value":"Kings County",
+ "courts":[
+
+
+{"label": "Avenal Superior Court - 501 E. Kings Street, Avenal CA",
+"value":"Avenal Superior Court - 501 E. Kings Street, Avenal CA"},
+{"label": "Corcoran Superior Court - 1000 Chittenden Avenue, Corcoran CA",
+"value":"Corcoran Superior Court - 1000 Chittenden Avenue, Corcoran CA"},
+{"label": "Hanford Superior Court - 1640 Kings County Dr, Hanford, CA 93230",
+"value":"Hanford Superior Court - 1640 Kings County Dr, Hanford, CA 93230"},
+
+]},
+
+{"label":"Lake County",
+ "value":"Lake County",
+ "courts":[
+
+
+{"label": "Clearlake Division - 7000 A South Center Drive, Clearlake CA",
+"value":"Clearlake Division - 7000 A South Center Drive, Clearlake CA"},
+{"label": "Lakeport Division - 255 N. Forbes Street, Lakeport CA",
+"value":"Lakeport Division - 255 N. Forbes Street, Lakeport CA"},
+
+]},
+
+{"label":"Lassen County",
+ "value":"Lassen County",
+ "courts":[
+
+
+{"label":"Hall of Justice - 2610 Riverside Drive, Susanville CA",
+"value":"Hall of Justice - 2610 Riverside Drive, Susanville CA"},
+
+]},
+
+{"label":"Los Angeles County",
+ "value":"Los Angeles County",
+ "courts":[
+
+
+{"label": "341 Meeting Location 21041 Burbank Boulevard, Woodland Hills, CA 91367",
+"value":"341 Meeting Location 21041 Burbank Boulevard, Woodland Hills, CA 91367"},  
+{"label": "Airport Courthouse - 11701 S. La Cienega, Los Angeles, CA 90045",
+"value":"Airport Courthouse - 11701 S. La Cienega, Los Angeles, CA 90045"}, 
+{"label": "Alhambra Courthouse - 150 West Commonwealth, Alhambra, CA 91801",
+"value":"Alhambra Courthouse - 150 West Commonwealth, Alhambra, CA 91801"}, 
+{"label": "Bankruptcy 341 location: 21051 Warner Center Lane, Room 105 Woodland Hills, CA 91367",
+"value":"Bankruptcy 341 location: 21051 Warner Center Lane, Room 105 Woodland Hills, CA 91367"},  
+{"label": "Bankruptcy 341 meeting location: 725 S. Figueroa St., Room 101 Los Angeles, CA 90017",
+"value":"Bankruptcy 341 meeting location: 725 S. Figueroa St., Room 101 Los Angeles, CA 90017"},  
+{"label": "Bankruptcy Court - Los Angeles Division - 255 E. Temple Street, Room 940 Los Angeles",
+"value":"Bankruptcy Court - Los Angeles Division - 255 E. Temple Street, Room 940 Los Angeles"},  
+{"label": "Bankruptcy Court - San Fernando Division - 21041 Burbank Boulevard Woodland Hills",
+"value":"Bankruptcy Court - San Fernando Division - 21041 Burbank Boulevard Woodland Hills"}, 
+{"label": "Bankruptcy- 915 Whilshire Blvd.,10th Flr, Rm 2, Los Angeles, CA 90017",
+"value":"Bankruptcy- 915 Whilshire Blvd.,10th Flr, Rm 2, Los Angeles, CA 90017"}, 
+{"label": "Bellflower Courthouse - 10025 East Flower Street, Bellflower, CA 90706",
+"value":"Bellflower Courthouse - 10025 East Flower Street, Bellflower, CA 90706"},  
+{"label": "Beverly Hills Courthouse - 9355 Burton Way, Beverly Hills, CA 90210",
+"value":"Beverly Hills Courthouse - 9355 Burton Way, Beverly Hills, CA 90210"}, 
+{"label": "Burbank Courthouse - 300 East Olive, Burbank, CA 91502",
+"value":"Burbank Courthouse - 300 East Olive, Burbank, CA 91502"},  
+{"label": "Catalina Courthouse - 215 Summer Avenue, Avalon, CA 90704",
+"value":"Catalina Courthouse - 215 Summer Avenue, Avalon, CA 90704"}, 
+{"label": "Central Arraignment Courts - 429 Bauchet St., Los Angeles, CA 90012",
+"value":"Central Arraignment Courts - 429 Bauchet St., Los Angeles, CA 90012"}, 
+{"label": "Central Civil West Courthouse - 600 South Commonwealth Ave., Los Angeles, CA 90005",
+"value":"Central Civil West Courthouse - 600 South Commonwealth Ave., Los Angeles, CA 90005"},  
+{"label": "Chatsworth Courthouse - 9425 Penfield Ave., Chatsworth, CA 91311",
+"value":"Chatsworth Courthouse - 9425 Penfield Ave., Chatsworth, CA 91311"},  
+{"label": "Clara Shortridge Foltz Criminal Justice Center - 210 West Temple Street, Los Angeles, CA 90012",
+"value":"Clara Shortridge Foltz Criminal Justice Center - 210 West Temple Street, Los Angeles, CA 90012"},  
+{"label": "Compton Courthouse - 200 West Compton Blvd., Compton, CA 90220",
+"value":"Compton Courthouse - 200 West Compton Blvd., Compton, CA 90220"},  
+{"label": "Downey Courthouse - 7500 East Imperial Highway, Downey, CA 90242",
+"value":"Downey Courthouse - 7500 East Imperial Highway, Downey, CA 90242"},  
+{"label": "East Los Angeles Courthouse - 4848 E. Civic Center Way , Los Angeles, CA 90022",
+"value":"East Los Angeles Courthouse - 4848 E. Civic Center Way , Los Angeles, CA 90022"},  
+{"label": "El Monte Courthouse - 11234 East Valley Blvd., El Monte, CA 91731",
+"value":"El Monte Courthouse - 11234 East Valley Blvd., El Monte, CA 91731"}, 
+{"label": "Glendale Courthouse - 600 East Broadway, Glendale, CA 91206",
+"value":"Glendale Courthouse - 600 East Broadway, Glendale, CA 91206"}, 
+{"label": "Hollywood Courthouse - 5925 Hollywood Blvd., Los Angeles, CA 90028",
+"value":"Hollywood Courthouse - 5925 Hollywood Blvd., Los Angeles, CA 90028"},  
+{"label": "Huntington Park Courthouse - 6548 Miles Ave., Huntington Park, CA 90255",
+"value":"Huntington Park Courthouse - 6548 Miles Ave., Huntington Park, CA 90255"}, 
+{"label": "Immigration Court - 606 S Olive St #1500, Los Angeles CA",
+"value":"Immigration Court - 606 S Olive St #1500, Los Angeles CA"},  
+{"label": "Inglewood Courthouse - One Regent Street, Inglewood, CA 90301",
+"value":"Inglewood Courthouse - One Regent Street, Inglewood, CA 90301"}, 
+{"label": "Long Beach Courthouse - 275 Magnolia, Long Beach, CA 90802",
+"value":"Long Beach Courthouse - 275 Magnolia, Long Beach, CA 90802"},  
+{"label": "Malibu Courthouse - 23525 Civic Center Way, Malibu, CA 90265",
+"value":"Malibu Courthouse - 23525 Civic Center Way, Malibu, CA 90265"},  
+{"label": "Metropolitan Courthouse - 1945 South Hill Street, Los Angeles, CA 90007",
+"value":"Metropolitan Courthouse - 1945 South Hill Street, Los Angeles, CA 90007"}, 
+{"label": "Michael Antonovich Antelope Valley Courthouse - 42011 4th Street West, Lancaster, CA 93534",
+"value":"Michael Antonovich Antelope Valley Courthouse - 42011 4th Street West, Lancaster, CA 93534"},  
+{"label": "Norwalk Courthouse - 12720 Norwalk Blvd., Norwalk, CA 90650",
+"value":"Norwalk Courthouse - 12720 Norwalk Blvd., Norwalk, CA 90650"}, 
+{"label": "Pasadena Courthouse - 300 East Walnut Ave., Pasadena, CA 91101",
+"value":"Pasadena Courthouse - 300 East Walnut Ave., Pasadena, CA 91101"},  
+{"label": "Pomona Courthouse North - 350 West Mission Blvd., Pomona, CA 91766",
+"value":"Pomona Courthouse North - 350 West Mission Blvd., Pomona, CA 91766"},  
+{"label": "Pomona Courthouse South - 400 Civic Center Plaza, Pomona, CA 91766",
+"value":"Pomona Courthouse South - 400 Civic Center Plaza, Pomona, CA 91766"},  
+{"label": "Pomona Workers' Compensation Appeals Board 732 Corporate Center Drive Pomona, CA 91768-2653",
+"value":"Pomona Workers' Compensation Appeals Board 732 Corporate Center Drive Pomona, CA 91768-2653"}, 
+{"label": "San Fernando Courthouse - 900 Third Street, San Fernando, CA 91340",
+"value":"San Fernando Courthouse - 900 Third Street, San Fernando, CA 91340"},  
+{"label": "San Pedro Courthouse - 505 South Centre Street, San Pedro, CA 90731",
+"value":"San Pedro Courthouse - 505 South Centre Street, San Pedro, CA 90731"}, 
+{"label": "Santa Clarita Courthouse - 23747 West Valencia Blvd., Santa Clarita, CA 91355",
+"value":"Santa Clarita Courthouse - 23747 West Valencia Blvd., Santa Clarita, CA 91355"}, 
+{"label": "Santa Monica Courthouse - 1725 Main Street, Santa Monica, CA 90401",
+"value":"Santa Monica Courthouse - 1725 Main Street, Santa Monica, CA 90401"},  
+{"label": "Spring Street Court 312 N Spring St, Los Angeles, CA 90012",
+"value":"Spring Street Court 312 N Spring St, Los Angeles, CA 90012"},  
+{"label": "Stanley Mosk Courthouse - 110 North Grand Ave. Los Angeles, CA 90012 ",
+"value":"Stanley Mosk Courthouse - 110 North Grand Ave. Los Angeles, CA 90012 "}, 
+{"label": "Stanley Mosk Courthouse - 111 North Hill Street, Los Angeles, CA 90012",
+"value":"Stanley Mosk Courthouse - 111 North Hill Street, Los Angeles, CA 90012"},  
+{"label": "Sylmar Courthouse - 16350 Filbert Street, Sylmar, CA 91342",
+"value":"Sylmar Courthouse - 16350 Filbert Street, Sylmar, CA 91342"},  
+{"label": "Torrance Courthouse - 825 Maple Ave., Torrance, CA 90503",
+"value":"Torrance Courthouse - 825 Maple Ave., Torrance, CA 90503"},  
+{"label": "Van Nuys Courthouse East - 6230 Sylmar Ave., Van Nuys, CA 91401",
+"value":"Van Nuys Courthouse East - 6230 Sylmar Ave., Van Nuys, CA 91401"}, 
+{"label": "Van Nuys Courthouse West - 14400 Erwin Street Mall, Van Nuys, CA 91401",
+"value":"Van Nuys Courthouse West - 14400 Erwin Street Mall, Van Nuys, CA 91401"},  
+{"label": "West Covina Courthouse - 1427 West Covina Parkway, West Covina, CA 91790",
+"value":"West Covina Courthouse - 1427 West Covina Parkway, West Covina, CA 91790"},  
+{"label": "West Los Angeles Courthouse - 1633 Purdue Ave., Los Angeles, CA 90025",
+"value":"West Los Angeles Courthouse - 1633 Purdue Ave., Los Angeles, CA 90025"}, 
+{"label": "Whittier Courthouse - 7339 South Painter Ave., Whittier, CA 90602",
+"value":"Whittier Courthouse - 7339 South Painter Ave., Whittier, CA 90602"}, 
+{"label": "Workers' Compensation Appeals Board 300 Oceangate Drive, Suite 200 Long Beach, CA 90802-4304",
+"value":"Workers' Compensation Appeals Board 300 Oceangate Drive, Suite 200 Long Beach, CA 90802-4304"},  
+{"label": "Workers' Compensation Appeals Board 320 West 4th Street, 9th Floor Los Angeles, CA 90013-2329",
+"value":"Workers' Compensation Appeals Board 320 West 4th Street, 9th Floor Los Angeles, CA 90013-2329"}, 
+{"label": "Workers' Compensation Appeals Board 6150 Van Nuys Blvd. Room 105 Van Nuys, CA 91401-3370",
+"value":"Workers' Compensation Appeals Board 6150 Van Nuys Blvd. Room 105 Van Nuys, CA 91401-3370"},  
+
+
+]},
+
+{"label":"Madera County",
+ "value":"Madera County",
+ "courts":[
+
+
+{"label":"Family Law Center - 209 West Yosemite Avenue, Madera CA",
+"value":"Family Law Center - 209 West Yosemite Avenue, Madera CA"},
+{"label":"Main Courthouse - 200 South G St Madera, CA 93637",
+"value":"Main Courthouse - 200 South G St Madera, CA 93637"},
+{"label":"Sierra Division Courthouse - 40601 Road 274, Bass Lake, CA",
+"value":"Sierra Division Courthouse - 40601 Road 274, Bass Lake, CA"},
+
+]},
+
+{"label":"Marin County",
+ "value":"Marin County",
+ "courts":[
+
+
+{"label":"Marin County Civic Center - 3501 Civic Center Drive, San Rafael CA",
+"value":"Marin County Civic Center - 3501 Civic Center Drive, San Rafael CA"},
+
+]},
+
+{"label":"Mariposa County",
+ "value":"Mariposa County",
+ "courts":[
+
+
+{"label":"Mariposa Superior Court - 5088 Bullion Street, Mariposa, CA 95338",
+"value":"Mariposa Superior Court - 5088 Bullion Street, Mariposa, CA 95338"},
+
+]},
+
+{"label":"Mendocino County",
+ "value":"Mendocino County",
+ "courts":[
+
+
+{"label":"Arena Branch, Point Arena - 700 South Franklin Street, CA Fort Bragg",
+"value":"Arena Branch, Point Arena - 700 South Franklin Street, CA Fort Bragg"},
+{"label":"Main Courthouse, Ukiah - 100 North State Street, CA Ukiah",
+"value":"Main Courthouse, Ukiah - 100 North State Street, CA Ukiah"},
+{"label":"Round Valley Branch, Covelo - 100 North State Street, CA Ukiah",
+"value":"Round Valley Branch, Covelo - 100 North State Street, CA Ukiah"},
+{"label":"Ten Mile Branch, Fort Bragg Courthouse - 700 South Franklin Street, CA Fort Bragg",
+"value":"Ten Mile Branch, Fort Bragg Courthouse - 700 South Franklin Street, CA Fort Bragg"},
+
+]},
+
+{"label":"Merced County",
+ "value":"Merced County",
+ "courts":[
+
+
+{"label":"Los Banos Division - 1159 G St. Los Banos, CA 93635",
+"value":"Los Banos Division - 1159 G St. Los Banos, CA 93635"},
+{"label":"New Merced Criminal and Family Division - 2260 N Street, Merced CA",
+"value":"New Merced Criminal and Family Division - 2260 N Street, Merced CA"},
+{"label":"Old Merced Civil Division - 627 W 21st Street, Merced CA",
+"value":"Old Merced Civil Division - 627 W 21st Street, Merced CA"},
+{"label":"Traffic Division-720 West 20th Street Merced, CA 95340",
+"value":"Traffic Division-720 West 20th Street Merced, CA 95340"},
+
+]},
+
+{"label":"Modoc County",
+ "value":"Modoc County",
+ "courts":[
+
+
+{"label":"Robert A. Barclay Justice Center - 205 S East St, Alturas, CA 96101",
+"value":"Robert A. Barclay Justice Center - 205 S East St, Alturas, CA 96101"},
+
+]},
+
+{"label":"Mono County",
+ "value":"Mono County",
+ "courts":[
+
+
+{"label":"North County Branch - State Highway 395 North, Bridgeport",
+"value":"North County Branch - State Highway 395 North, Bridgeport"},
+{"label":"South County Branch - 100 Thompsons Way, Mammoth Lakes",
+"value":"South County Branch - 100 Thompsons Way, Mammoth Lakes"},
+
+]},
+
+{"label":"Monterey County",
+ "value":"Monterey County",
+ "courts":[
+
+
+{"label":"Juvenile Delinquency Court - 1422 Natividad Rd., Salinas, CA 93906",
+"value":"Juvenile Delinquency Court - 1422 Natividad Rd., Salinas, CA 93906"},
+{"label":"King City Courthouse - 250 Franciscan Way, King City, CA 93930",
+"value":"King City Courthouse - 250 Franciscan Way, King City, CA 93930"},
+{"label":"Marina Courthouse - 3180 Del Monte Blvd., Marina, CA 93933",
+"value":"Marina Courthouse - 3180 Del Monte Blvd., Marina, CA 93933"},
+{"label":"Monterey Courthouse - 1200 Aguajito Road, Monterey, CA 93940",
+"value":"Monterey Courthouse - 1200 Aguajito Road, Monterey, CA 93940"},
+{"label":"Salinas Courthouse - 240 Church St., Salinas, CA 93901",
+"value":"Salinas Courthouse - 240 Church St., Salinas, CA 93901"},
+{"label":"Workers' Compensation Appeals Board 1880 North Main Street, Suite 100 & 200 Salinas, CA 93906-2037",
+"value":"Workers' Compensation Appeals Board 1880 North Main Street, Suite 100 & 200 Salinas, CA 93906-2037"},
+
+]},
+
+{"label":"Napa County",
+ "value":"Napa County",
+ "courts":[
+
+
+{"label":"Criminal Courthouse - 1111 Third Street, Napa, CA 94559",
+"value":"Criminal Courthouse - 1111 Third Street, Napa, CA 94559"},
+{"label":"Historic Courthouse - 825 Brown Street, Napa, CA 94559",
+"value":"Historic Courthouse - 825 Brown Street, Napa, CA 94559"},
+
+]},
+
+{"label":"Nevada County",
+ "value":"Nevada County",
+ "courts":[
+
+
+{"label": "Nevada City Courthouse - 201 Church Street, Nevada City, CA 95959",
+"value":"Nevada City Courthouse - 201 Church Street, Nevada City, CA 95959"},
+{"label": "Truckee Courthouse - 10075 Levon Avenue, Truckee, CA 96161",
+"value":"Truckee Courthouse - 10075 Levon Avenue, Truckee, CA 96161"},
+
+]},
+
+{"label":"Orange County",
+ "value":"Orange County",
+ "courts":[
+
+
+{"label":"Central Justice Center - 700 Civic Center Drive West Santa Ana, CA 92701 ",
+"value":"Central Justice Center - 700 Civic Center Drive West Santa Ana, CA 92701 "},
+{"label":"Civil Complex Center - 751 West Santa Ana Blvd Santa Ana, CA 92701 ",
+"value":"Civil Complex Center - 751 West Santa Ana Blvd Santa Ana, CA 92701 "},
+{"label":"Community Court - 909 N. Main St. Santa Ana, CA 92701 ",
+"value":"Community Court - 909 N. Main St. Santa Ana, CA 92701 "},
+{"label":"District Court- 411 W 4th St, Santa Ana, CA 92701",
+"value":"District Court- 411 W 4th St, Santa Ana, CA 92701"},
+{"label":"Harbor Justice Center - Newport Beach - 4601 Jamboree Road Newport Beach, CA 92660-2595",
+"value":"Harbor Justice Center - Newport Beach - 4601 Jamboree Road Newport Beach, CA 92660-2595"},
+{"label":"Lamoreaux Justice Center - 341 The City Drive South Orange, CA 92868-3205 ",
+"value":"Lamoreaux Justice Center - 341 The City Drive South Orange, CA 92868-3205 "},
+{"label":"North Justice Center - 1275 North Berkeley Avenue Fullerton, CA 92832-1258 ",
+"value":"North Justice Center - 1275 North Berkeley Avenue Fullerton, CA 92832-1258 "},
+{"label":"West Justice Center - 8141 13th Street Westminster, CA 92683-4593",
+"value":"West Justice Center - 8141 13th Street Westminster, CA 92683-4593"},
+{"label":"Worker's Compensation Appeals Board 605 W Santa Ana Blvd, Bldg 28, Suite 451 Santa Ana, CA 92701",
+"value":"Worker's Compensation Appeals Board 605 W Santa Ana Blvd, Bldg 28, Suite 451 Santa Ana, CA 92701"},
+{"label":"WORKERS' COMP APPEALS BOARD [AHM]. 1065 N. Pacific Center Dr., Suites 170. Anaheim, 92806 ",
+"value":"WORKERS' COMP APPEALS BOARD [AHM]. 1065 N. Pacific Center Dr., Suites 170. Anaheim, 92806 "},
+
+]},
+
+{"label":"Placer County",
+ "value":"Placer County",
+ "courts":[
+
+
+{"label": "Bill Santucci Justice Center Courthouse - 10820 Justice Center Drive, Roseville, CA 95678",
+"value":"Bill Santucci Justice Center Courthouse - 10820 Justice Center Drive, Roseville, CA 95678"},
+{"label": "Historic Courthouse - 101 Maple Street, Auburn, CA 95603",
+"value":"Historic Courthouse - 101 Maple Street, Auburn, CA 95603"},
+{"label": "Jail Courtroom - 2775 Richardson Drive, Auburn, CA 95603",
+"value":"Jail Courtroom - 2775 Richardson Drive, Auburn, CA 95603"},
+{"label": "Juvenile Courttoom - 11270 B Avenue, Auburn, CA 95603",
+"value":"Juvenile Courttoom - 11270 B Avenue, Auburn, CA 95603"},
+{"label": "Tahoe Courtroom - 2501 North Lake Blvd. Tahoe City, CA 96145",
+"value":"Tahoe Courtroom - 2501 North Lake Blvd. Tahoe City, CA 96145"},
+
+]},
+
+{"label":"Plumas County",
+ "value":"Plumas County",
+ "courts":[
+
+
+{"label": "Plumas County Superior Court - 520 Main St #104, Quincy, CA 95971",
+"value":"Plumas County Superior Court - 520 Main St #104, Quincy, CA 95971"},
+{"label": "Plumas County Courthouse Annex - 260 County Hospital Rd., Quincy, CA 95971",
+"value":"Plumas County Courthouse Annex - 260 County Hospital Rd., Quincy, CA 95971"},
+{"label": "Riverside",
+"value":"Riverside"},
+{"label": "Bankruptcy 341 meeting location: 3801 University Avenue, Riverside, CA 92501",
+"value":"Bankruptcy 341 meeting location: 3801 University Avenue, Riverside, CA 92501"},
+{"label": "Bankruptcy Court - 3420 Twelfth Street Riverside, CA 92501",
+"value":"Bankruptcy Court - 3420 Twelfth Street Riverside, CA 92501"},
+{"label": "Banning Court - 311 E. Ramsey St. Banning CA 92220",
+"value":"Banning Court - 311 E. Ramsey St. Banning CA 92220"},
+{"label": "Blythe Court - 265 N. Broadway, Blythe, Ca. 92225",
+"value":"Blythe Court - 265 N. Broadway, Blythe, Ca. 92225"},
+{"label": "Corona Court - 505 S. Buena Vista Rm. 201, Corona, Ca. 92882",
+"value":"Corona Court - 505 S. Buena Vista Rm. 201, Corona, Ca. 92882"},
+{"label": "Hemet Court - 880 N. State Street, Hemet, Ca. 92543",
+"value":"Hemet Court - 880 N. State Street, Hemet, Ca. 92543"},
+{"label": "Historic Courthouse - 4050 Main Street, Riverside, Ca. 92501",
+"value":"Historic Courthouse - 4050 Main Street, Riverside, Ca. 92501"},
+{"label": "Indio Annex Office - 82-675 State Highway 111, Indio, Ca. 92201",
+"value":"Indio Annex Office - 82-675 State Highway 111, Indio, Ca. 92201"},
+{"label": "Indio Juvenile Court - 47-671 Oasis Street, Indio, Ca. 92201",
+"value":"Indio Juvenile Court - 47-671 Oasis Street, Indio, Ca. 92201"},
+{"label": "Indio Larson Justice Center - 46-200 Oasis Street, Indio, Ca. 92201",
+"value":"Indio Larson Justice Center - 46-200 Oasis Street, Indio, Ca. 92201"},
+{"label": "Moreno Valley Court - 13800 Heacock Street, Bldg. D #201, Moreno Valley, Ca. 92553",
+"value":"Moreno Valley Court - 13800 Heacock Street, Bldg. D #201, Moreno Valley, Ca. 92553"},
+{"label": "Murrieta Southwest Justice Center - 30755-D Auld Road, Murrieta, Ca. 92563",
+"value":"Murrieta Southwest Justice Center - 30755-D Auld Road, Murrieta, Ca. 92563"},
+{"label": "Palm Springs Court - 3255 E. Tahquitz Canyon Way, Palm Springs, Ca. 92262",
+"value":"Palm Springs Court - 3255 E. Tahquitz Canyon Way, Palm Springs, Ca. 92262"},
+{"label": "Riverside Court - 4050 Main Street, Riverside, Ca. 92501",
+"value":"Riverside Court - 4050 Main Street, Riverside, Ca. 92501"},
+{"label": "Riverside Family Law Court - 4175 Main Street, Riverside, Ca. 92501",
+"value":"Riverside Family Law Court - 4175 Main Street, Riverside, Ca. 92501"},
+{"label": "Riverside Hall of Justice - 4100 Main Street, Riverside, Ca. 92501",
+"value":"Riverside Hall of Justice - 4100 Main Street, Riverside, Ca. 92501"},
+{"label": "Temecula Court - 41002 County Center Drive #100, Temecula, Ca. 92591",
+"value":"Temecula Court - 41002 County Center Drive #100, Temecula, Ca. 92591"},
+{"label": "Workers' Compensation Appeals Board 3737 Main Street, Suite 300 Riverside, CA 92501-3337",
+"value":"Workers' Compensation Appeals Board 3737 Main Street, Suite 300 Riverside, CA 92501-3337"},
+
+]},
+
+{"label":"Sacramento County County",
+ "value":"Sacramento County County",
+ "courts":[
+
+
+{"label": "Bankruptcy Court - Eastern: Sacramento District - 501 I St # 3200 Sacramento, CA 95814",
+"value":"Bankruptcy Court - Eastern: Sacramento District - 501 I St # 3200 Sacramento, CA 95814"},
+{"label": "Carol Miller Justice Center - 301 Bicentennial Circle Sacramento, CA 95826",
+"value":"Carol Miller Justice Center - 301 Bicentennial Circle Sacramento, CA 95826"},
+{"label": "Gordon Schaber Sacramento County Courthouse - 720 9th Street Sacramento, CA 95814",
+"value":"Gordon Schaber Sacramento County Courthouse - 720 9th Street Sacramento, CA 95814"},
+{"label": "Juvenile Center - 9605 Kiefer Boulevard Sacramento, CA 95827",
+"value":"Juvenile Center - 9605 Kiefer Boulevard Sacramento, CA 95827"},
+{"label": "Lorenzo Patino Hall of Justice - 651 I Street Sacramento, CA 95814",
+"value":"Lorenzo Patino Hall of Justice - 651 I Street Sacramento, CA 95814"},
+{"label": "William R. Ridgeway Family Relations Courthouse - 3341 Power Inn Road Sacramento, CA 95826",
+"value":"William R. Ridgeway Family Relations Courthouse - 3341 Power Inn Road Sacramento, CA 95826"},
+{"label": "Workers' Compensation Appeals Board 160 Promenade Circle, Suite 300 Sacramento, CA 95834",
+"value":"Workers' Compensation Appeals Board 160 Promenade Circle, Suite 300 Sacramento, CA 95834"},
+
+]},
+
+{"label":"San Benito County",
+ "value":"San Benito County",
+ "courts":[
+
+
+{"label":"San Benito County Superior Court - 450 4th St, Hollister, CA 95023",
+"value":"San Benito County Superior Court - 450 4th St, Hollister, CA 95023"},
+
+]},
+
+{"label":"San Bernardino County",
+ "value":"San Bernardino County",
+ "courts":[
+
+
+{"label": "Adelanto Immigration Court 10250 Rancho Rd, Ste. 201A Adelanto, CA 92301",
+"value":"Adelanto Immigration Court 10250 Rancho Rd, Ste. 201A Adelanto, CA 92301"},
+{"label": "Barstow District - 235 East Mountain ViewStreet",
+"value":"Barstow District - 235 East Mountain ViewStreet"},
+{"label": "Big Bear District - 477 Summit Boulevard, Big Bear Lake, CA 92315",
+"value":"Big Bear District - 477 Summit Boulevard, Big Bear Lake, CA 92315"},
+{"label": "Chino District - 13260 Central Avenue Chino, CA 91710",
+"value":"Chino District - 13260 Central Avenue Chino, CA 91710"},
+{"label": "Fontana District - 17780 Arrow Boulevard Fontana CA",
+"value":"Fontana District - 17780 Arrow Boulevard Fontana CA"},
+{"label": "Joshua Tree District - 6527 White Feather Road Joshua Tree CA",
+"value":"Joshua Tree District - 6527 White Feather Road Joshua Tree CA"},
+{"label": "Needles District - 1111 Bailey Ave, Needles, CA 92363",
+"value":"Needles District - 1111 Bailey Ave, Needles, CA 92363"},
+{"label": "Rancho Cucamonga District - 8303 Haven Avenue",
+"value":"Rancho Cucamonga District - 8303 Haven Avenue"},
+{"label": "San Bernardino District - 247 W. Third St. San Bernardino CA",
+"value":"San Bernardino District - 247 W. Third St. San Bernardino CA"},
+{"label": "Victorville District - 14455 Civic Drive, Victorville CA",
+"value":"Victorville District - 14455 Civic Drive, Victorville CA"},
+
+{"label": "Workers' Compensation Appeals Board 464 W. Fourth St., Suite 239 San Bernardino, CA 92401-1411",
+"value":"Workers' Compensation Appeals Board 464 W. Fourth St., Suite 239 San Bernardino, CA 92401-1411"},
+
+]},
+
+{"label":"San Diego County",
+ "value":"San Diego County",
+ "courts":[
+
+
+{"label": "Bankruptcy Court - Southern: San Diego District",
+"value":"Bankruptcy Court - Southern: San Diego District"},
+{"label": "Central Courthouse - 1100 Union Street, San Diego, CA 92101",
+"value":"Central Courthouse - 1100 Union Street, San Diego, CA 92101"},
+{"label": "East County Regional Center - 250 East Main Street El Cajon, CA 9202",
+"value":"East County Regional Center - 250 East Main Street El Cajon, CA 9202"},
+{"label": "Family Law Courthouse - 1555 Sixth Avenue San Diego, CA 92101",
+"value":"Family Law Courthouse - 1555 Sixth Avenue San Diego, CA 92101"},
+{"label": "Hall of Justice Courthouse - 330 West Broadway San Diego, CA 92101",
+"value":"Hall of Justice Courthouse - 330 West Broadway San Diego, CA 92101"},
+{"label": "Immigration Court - 401 West A Street Suite 800. San Diego",
+"value":"Immigration Court - 401 West A Street Suite 800. San Diego"},
+{"label": "Juvenile Courthouse - 2851 Meadowlark Drive San Diego, CA 92123",
+"value":"Juvenile Courthouse - 2851 Meadowlark Drive San Diego, CA 92123"},
+{"label": "Kearny Mesa Courthouse - 8950 Clairemont Mesa Blvd. San Diego, CA 92123",
+"value":"Kearny Mesa Courthouse - 8950 Clairemont Mesa Blvd. San Diego, CA 92123"},
+{"label": "Madge Bradley - 1409 Fourth Avenue San Diego, CA 92101",
+"value":"Madge Bradley - 1409 Fourth Avenue San Diego, CA 92101"},
+{"label": "North County Regional Center - 325 South Melrose Dr. Vista, CA 92081",
+"value":"North County Regional Center - 325 South Melrose Dr. Vista, CA 92081"},
+{"label": "South County Regional Center - 500 3rd Avenue Chula Vista, CA 91910",
+"value":"South County Regional Center - 500 3rd Avenue Chula Vista, CA 91910"},
+{"label": "Workers' Compensation Appeals Board 7575 Metropolitan Road, Suite 202 San Diego, CA 92108-4424",
+"value":"Workers' Compensation Appeals Board 7575 Metropolitan Road, Suite 202 San Diego, CA 92108-4424"},
+{"label": "San Francisco ",
+"value":"San Francisco "},
+{"label": "450 Golden Gate Avenue, San Francisco, CA",
+"value":"450 Golden Gate Avenue, San Francisco, CA"},
+{"label": "Bankruptcy Court - Northern:235 Pine St #19, San Francisco",
+"value":"Bankruptcy Court - Northern:235 Pine St #19, San Francisco"},
+{"label": "Civil Center Courthouse - 400 McAllister St. San Francisco, CA",
+"value":"Civil Center Courthouse - 400 McAllister St. San Francisco, CA"},
+{"label": "Hall of Justice - 850 Bryant St. San Francisco, CA 94103",
+"value":"Hall of Justice - 850 Bryant St. San Francisco, CA 94103"},
+{"label": "Immigration Court - 120 Montgomery St #800, San Francisco",
+"value":"Immigration Court - 120 Montgomery St #800, San Francisco"},
+{"label": "Polk Street Annex - 575 Polk St. San Francisco, CA 94102",
+"value":"Polk Street Annex - 575 Polk St. San Francisco, CA 94102"},
+{"label": "Workers' Compensation Appeals Board 455 Golden Gate Avenue, 2nd Floor San Francisco, CA 94102-7014",
+"value":"Workers' Compensation Appeals Board 455 Golden Gate Avenue, 2nd Floor San Francisco, CA 94102-7014"},
+{"label": "Youth Guidance Center - 375 Woodside Ave. San Francisco, CA 94127",
+"value":"Youth Guidance Center - 375 Woodside Ave. San Francisco, CA 94127"},
+
+]},
+
+{"label":"San Joaquin County",
+ "value":"San Joaquin County",
+ "courts":[
+
+
+{"label": "Juvenile Justice Center - 535 West Mathews Road, French Camp CA",
+"value":"Juvenile Justice Center - 535 West Mathews Road, French Camp CA"},
+{"label": "Lodi Branch 217 W Elm St, Lodi, CA 95240",
+"value":"Lodi Branch 217 W Elm St, Lodi, CA 95240"},
+{"label": "Manteca Branch - 315 E. Center St., Manteca Ca",
+"value":"Manteca Branch - 315 E. Center St., Manteca Ca"},
+{"label": "Stockton Courthouse - 222 E. Weber Avenue, Stockton CA",
+"value":"Stockton Courthouse - 222 E. Weber Avenue, Stockton CA"},
+{"label": "Stockton Family Law Court - 540 E. Main St., Stockton CA",
+"value":"Stockton Family Law Court - 540 E. Main St., Stockton CA"},
+{"label": "Workers' Compensation Appeals Board 31 East Channel Street, Room 344 Stockton, CA 95202-2314",
+"value":"Workers' Compensation Appeals Board 31 East Channel Street, Room 344 Stockton, CA 95202-2314"},
+
+]},
+
+{"label":"San Luis Obispo County",
+ "value":"San Luis Obispo County",
+ "courts":[
+
+
+{"label": "Civil Operations- 1035 Palm Street Room 385 San Luis Obispo, CA",
+"value":"Civil Operations- 1035 Palm Street Room 385 San Luis Obispo, CA"},
+{"label": "Criminal Operations- 1050 Monterey Street Room 220 San Luis Obispo, CA",
+"value":"Criminal Operations- 1050 Monterey Street Room 220 San Luis Obispo, CA"},
+{"label": "Family Court Services - 1120 Mill Street San Luis Obispo, CA, 93408",
+"value":"Family Court Services - 1120 Mill Street San Luis Obispo, CA, 93408"},
+{"label": "Grover Beach Branch - 214 South 16th Street Grover Beach, CA, 93433",
+"value":"Grover Beach Branch - 214 South 16th Street Grover Beach, CA, 93433"},
+{"label": "Paso Robles Branch - 901 Park Street Paso Robles, CA, 93446 USA",
+"value":"Paso Robles Branch - 901 Park Street Paso Robles, CA, 93446 USA"},
+{"label": "Workers' Compensation Appeals Board 4740 Allene Way, Suite 100 San Luis Obispo, CA 93401",
+"value":"Workers' Compensation Appeals Board 4740 Allene Way, Suite 100 San Luis Obispo, CA 93401"},
+
+]},
+
+{"label":"San Mateo County",
+ "value":"San Mateo County",
+ "courts":[
+
+
+{"label": "Central Branch - 800 North Humboldt Street, San Mateo, CA, 94401",
+"value":"Central Branch - 800 North Humboldt Street, San Mateo, CA, 94401"},
+{"label": "Juvenile Court - 222 Paul Scannell Drive, San Mateo, CA 94402",
+"value":"Juvenile Court - 222 Paul Scannell Drive, San Mateo, CA 94402"},
+{"label": "Northern Branch - 1050 Mission Road, South San Francisco, CA 94080",
+"value":"Northern Branch - 1050 Mission Road, South San Francisco, CA 94080"},
+{"label": "Southern Branch Annex - 500 County Center, Redwood City, CA 94063",
+"value":"Southern Branch Annex - 500 County Center, Redwood City, CA 94063"},
+{"label": "Southern Branch Hall of Justice - 400 County Center, Redwood City, CA 94063",
+"value":"Southern Branch Hall of Justice - 400 County Center, Redwood City, CA 94063"},
+
+]},
+
+{"label":"Santa Barbara County",
+ "value":"Santa Barbara County",
+ "courts":[
+
+
+{"label": "Anacapa Division - 1100 Anacapa Street Santa Barbara, CA 93121-1107 ",
+"value":"Anacapa Division - 1100 Anacapa Street Santa Barbara, CA 93121-1107 "},
+{"label": "Figueroa Division - 118 E. Figueroa Street Santa Barbara, CA 93101",
+"value":"Figueroa Division - 118 E. Figueroa Street Santa Barbara, CA 93101"},
+{"label": "Lompoc Division - 115 Civic Center Plaza Lompoc, CA 93436-6967 ",
+"value":"Lompoc Division - 115 Civic Center Plaza Lompoc, CA 93436-6967 "},
+{"label": "Miller Division - 312-M East Cook Street Santa Maria, CA 93456-5165",
+"value":"Miller Division - 312-M East Cook Street Santa Maria, CA 93456-5165"},
+{"label": "Santa Maria - Cook Division - 312-C East Cook Street Santa Maria, CA 93456-5369",
+"value":"Santa Maria - Cook Division - 312-C East Cook Street Santa Maria, CA 93456-5369"},
+{"label": "Solvang Division - 1745 Mission Drive, Suite C Solvang, CA 93463-3605",
+"value":"Solvang Division - 1745 Mission Drive, Suite C Solvang, CA 93463-3605"},
+
+]},
+
+{"label":"Santa Clara County",
+ "value":"Santa Clara County",
+ "courts":[
+
+
+{"label": "Bankruptcy Court - Northern: San Jose District",
+"value":"Bankruptcy Court - Northern: San Jose District"},
+{"label": "Downtown Superior Court - 191 North First Street San Jose, CA 95113",
+"value":"Downtown Superior Court - 191 North First Street San Jose, CA 95113"},
+{"label": "Family Court - 170 Park Avenue San Jose, CA 95113",
+"value":"Family Court - 170 Park Avenue San Jose, CA 95113"},
+{"label": "Hall of Justice - 190-200 West Hedding Street, San Jose, CA 95110",
+"value":"Hall of Justice - 190-200 West Hedding Street, San Jose, CA 95110"},
+{"label": "Juvenile Justice Courthouse - 840 Guadalupe Parkway San Jose, CA 95110",
+"value":"Juvenile Justice Courthouse - 840 Guadalupe Parkway San Jose, CA 95110"},
+{"label": "Norte Dame Courthouse - 99 Notre Dame Ave. San Jose, CA 95113",
+"value":"Norte Dame Courthouse - 99 Notre Dame Ave. San Jose, CA 95113"},
+{"label": "Old Courthouse - 161 North First Street San Jose, CA 95113",
+"value":"Old Courthouse - 161 North First Street San Jose, CA 95113"},
+{"label": "Palo Alto Courthouse - 270 Grant Avenue Palo Alto, CA 94306",
+"value":"Palo Alto Courthouse - 270 Grant Avenue Palo Alto, CA 94306"},
+{"label": "Santa Clara Courthouse - 1095 Homestead Road Santa Clara, CA 95050",
+"value":"Santa Clara Courthouse - 1095 Homestead Road Santa Clara, CA 95050"},
+{"label": "South County Courthouse - 301 Diana Avenue Morgan Hill, CA 95037",
+"value":"South County Courthouse - 301 Diana Avenue Morgan Hill, CA 95037"},
+{"label": "Sunnyvale Courthouse - 605 West El Camino Real, Sunnyvale, CA 94087",
+"value":"Sunnyvale Courthouse - 605 West El Camino Real, Sunnyvale, CA 94087"},
+{"label": "Terraine Courthouse - 115 Terraine Street San Jose, CA 95110",
+"value":"Terraine Courthouse - 115 Terraine Street San Jose, CA 95110"},
+{"label": "Workers' Compensation Appeals Board 100 Paseo de San Antonio, Suite 241 San Jose, CA 95113-1402",
+"value":"Workers' Compensation Appeals Board 100 Paseo de San Antonio, Suite 241 San Jose, CA 95113-1402"},
+
+]},
+
+{"label":"Santa Cruz County",
+ "value":"Santa Cruz County",
+ "courts":[
+
+
+{"label":"Santa Cruz Courthouse - 701 Ocean Street Santa Cruz, CA 95060",
+"value":"Santa Cruz Courthouse - 701 Ocean Street Santa Cruz, CA 95060"},
+{"label":"Watsonville Courthouse - 1 Second Street Watsonville, CA 95076",
+"value":"Watsonville Courthouse - 1 Second Street Watsonville, CA 95076"},
+
+]},
+
+{"label":"Sandra Rosa County",
+ "value":"Sandra Rosa County",
+ "courts":[
+
+
+{"label":"Bankruptcy Court - Northern: Santa Rosa District",
+"value": "Bankruptcy Court - Northern: Santa Rosa District"},
+
+]},
+
+{"label":"Shasta County",
+ "value":"Shasta County",
+ "courts":[
+
+
+{"label": "Burney Court - 20509 Shasta St. Burney, CA 96013",
+"value":"Burney Court - 20509 Shasta St. Burney, CA 96013"},
+{"label": "Main Courthouse - 1500 Court St., Room 205 Redding, CA 96001",
+"value":"Main Courthouse - 1500 Court St., Room 205 Redding, CA 96001"},
+
+]},
+
+{"label":"Sierra County",
+ "value":"Sierra County",
+ "courts":[
+
+
+{"label":"Sierra County Superior Court - 100 Courthouse Square, Downieville, CA 95936",
+"value": "Sierra County Superior Court - 100 Courthouse Square, Downieville, CA 95936"}
+
+]},
+
+{"label":"Siskiyou County",
+ "value":"Siskiyou County",
+ "courts":[
+
+
+{"label":"Dorris Branch - 324 N. Pine Street Dorris, CA 96023",
+"value":"Dorris Branch - 324 N. Pine Street Dorris, CA 96023"},
+{"label":"Happy Camp Branch - 28 Fourth Street Happy Camp, CA 96039",
+"value":"Happy Camp Branch - 28 Fourth Street Happy Camp, CA 96039"},
+{"label":"Weed Branch - 550 Main Street Weed, CA 96094 ",
+"value":"Weed Branch - 550 Main Street Weed, CA 96094 "},
+{"label":"Yreka County - 311 4th Street Yreka, CA 96097 ",
+"value":"Yreka County - 311 4th Street Yreka, CA 96097 "},
+
+]},
+
+{"label":"Solano County",
+ "value":"Solano County",
+ "courts":[
+
+
+{"label": "Hall of Justice - 600 Union Avenue Fairfield, CA 94533",
+"value":"Hall of Justice - 600 Union Avenue Fairfield, CA 94533"},
+{"label": "Law and Justice Center - 530 Union Avenue, Second Floor Fairfield, CA 94533",
+"value":"Law and Justice Center - 530 Union Avenue, Second Floor Fairfield, CA 94533"},
+{"label": "Solano Justice Center - 321 Tuolumne St. Vallejo, CA 94590",
+"value":"Solano Justice Center - 321 Tuolumne St. Vallejo, CA 94590"},
+
+]},
+
+{"label":"Sonoma County",
+ "value":"Sonoma County",
+ "courts":[
+
+
+{"label":"Civil and Family Law Courthouse - 3055 Cleveland Avenue, Santa Rosa CA 95403",
+"value":"Civil and Family Law Courthouse - 3055 Cleveland Avenue, Santa Rosa CA 95403"},
+{"label":"Empire College Annex - 3035 Cleveland Avenue, Suite 200, Santa Rosa CA 95403",
+"value":"Empire College Annex - 3035 Cleveland Avenue, Suite 200, Santa Rosa CA 95403"},
+{"label":"Hall of Justice - 600 Administration Drive Santa Rosa, CA 95403",
+"value":"Hall of Justice - 600 Administration Drive Santa Rosa, CA 95403"},
+{"label":"Juvenile Justice Center - 7425 Rancho Los Guilicos Road, Santa Rosa CA 95409",
+"value":"Juvenile Justice Center - 7425 Rancho Los Guilicos Road, Santa Rosa CA 95409"},
+{"label":"Workers' Compensation Appeals Board 50 D Street, Suite 420 Santa Rosa, CA 95404-4771",
+"value":"Workers' Compensation Appeals Board 50 D Street, Suite 420 Santa Rosa, CA 95404-4771"},
+
+]},
+
+{"label":"Stanislaus County",
+ "value":"Stanislaus County",
+ "courts":[
+
+
+{"label": "Family Law Courthouse - 1100 I Street, Modesto CA",
+"value":"Family Law Courthouse - 1100 I Street, Modesto CA"},
+{"label": "Juvenile Division - 2215 Blue Gum Ave, Modesto CA",
+"value":"Juvenile Division - 2215 Blue Gum Ave, Modesto CA"},
+{"label": "Modesto Central - 801 - 10th Street, Modesto, CA 95354",
+"value":"Modesto Central - 801 - 10th Street, Modesto, CA 95354"},
+{"label": "Traffic Division - 2260 Floyd Ave., Modesto, CA",
+"value":"Traffic Division - 2260 Floyd Ave., Modesto, CA"},
+
+]},
+
+{"label":"Sutter County",
+ "value":"Sutter County",
+ "courts":[
+
+
+{"label" : "Courthouse East - 1175 Civic Center Blvd., Yuba City, CA 95991",
+"value":"Courthouse East - 1175 Civic Center Blvd., Yuba City, CA 95991"},
+{"label" : "Courthouse West - 446 Second Street Yuba City, CA 95991",
+"value":"Courthouse West - 446 Second Street Yuba City, CA 95991"},
+{"label" : "Family Court Services - 1175 Civic Center Blvd., Yuba City, CA 95991",
+"value":"Family Court Services - 1175 Civic Center Blvd., Yuba City, CA 95991"},
+
+]},
+
+{"label":"Tehama County",
+ "value":"Tehama County",
+ "courts":[
+
+
+{"label": "Historic Courthouse - 633 Washington St. Red Bluff, CA 96080",
+"value":"Historic Courthouse - 633 Washington St. Red Bluff, CA 96080"},
+{"label": "Juvenile Justice Center - 1790 Walnut St. Red Bluff, CA 96080",
+"value":"Juvenile Justice Center - 1790 Walnut St. Red Bluff, CA 96080"},
+{"label": "Tehama County Courts Building 2 & 3 - 445 Pine St. Red Bluff, CA 96080",
+"value":"Tehama County Courts Building 2 & 3 - 445 Pine St. Red Bluff, CA 96080"},
+
+]},
+
+{"label":"Trinity County",
+ "value":"Trinity County",
+ "courts":[
+
+
+{"label": "Hayfork Branch - 6641 B State Hwy 38 Hayfork, CA 96041",
+"value":"Hayfork Branch - 6641 B State Hwy 38 Hayfork, CA 96041"},
+{"label": "Main Courthouse - 11 Court Street Weaverville, CA 96093",
+"value":"Main Courthouse - 11 Court Street Weaverville, CA 96093"},
+
+]},
+
+{"label":"Tulare County",
+ "value":"Tulare County",
+ "courts":[
+
+
+{"label": "Family Law Facilitator - 3400 West Mineral King, Suite C Visalia CA 93291",
+"value":"Family Law Facilitator - 3400 West Mineral King, Suite C Visalia CA 93291"},
+{"label": "Pretrial Facility - 36650 Road 112 Visalia CA 93291-894",
+"value":"Pretrial Facility - 36650 Road 112 Visalia CA 93291-894"},
+{"label": "County Civic Center- Visalia - 221 S. Mooney Blvd. Visalia CA 93291",
+"value":"County Civic Center- Visalia - 221 S. Mooney Blvd. Visalia CA 93291"},
+{"label": "Dinuba - 640 South Alta Avenue Dinuba CA 93618",
+"value":"Dinuba - 640 South Alta Avenue Dinuba CA 93618"},
+{"label": "Porterville - 300 E Olive St. Porterville CA 93257",
+"value":"Porterville - 300 E Olive St. Porterville CA 93257"},
+
+]},
+
+{"label":"Tuolumne County",
+ "value":"Tuolumne County",
+ "courts":[
+
+
+{"label": "Historic Courthouse - 41 West Yaney Avenue Sonora, CA 95370",
+"value":"Historic Courthouse - 41 West Yaney Avenue Sonora, CA 95370"},
+{"label": "Washington Street Facility - 60 N. Washington Street Sonora, CA 95379",
+"value":"Washington Street Facility - 60 N. Washington Street Sonora, CA 95379"},
+
+]},
+
+{"label":"Ventura County",
+ "value":"Ventura County",
+ "courts":[
+
+
+{"label":"Bankruptcy 341 location 128 East Carillo St ,Santa Barbara CA 93101",
+"value":"Bankruptcy 341 location 128 East Carillo St ,Santa Barbara CA 93101"},
+{"label":"Bankruptcy Court - San Fernando Division",
+"value":"Bankruptcy Court - San Fernando Division"},
+{"label":"Hall of Justice - 800 South Victoria Avenue Ventura, California 93009",
+"value":"Hall of Justice - 800 South Victoria Avenue Ventura, California 93009"},
+{"label":"Oxnard Juvenile Justice Center - 4353 E. Vineyard Avenue Oxnard, California 93036",
+"value":"Oxnard Juvenile Justice Center - 4353 E. Vineyard Avenue Oxnard, California 93036"},
+{"label":"Simi Valley - East County Courthouse - 3855-F Alamo Street Simi Valley, California 93063",
+"value":"Simi Valley - East County Courthouse - 3855-F Alamo Street Simi Valley, California 93063"},
+
+]},
+
+{"label":"Yolo County",
+ "value":"Yolo County",
+ "courts":[
+
+
+{"label": "Main Courthouse - 725 Court Street Woodland, CA 95695",
+"value":"Main Courthouse - 725 Court Street Woodland, CA 95695"},
+{"label": "Traffic Court - 275 First Street Woodland, CA 95695",
+"value":"Traffic Court - 275 First Street Woodland, CA 95695"},
+
+]},
+
+{"label":"Yorba County",
+ "value":"Yorba County",
+ "courts":[
+
+
+{"label":"Main Courthouse - 215 Fifth Street, Suite 200 Marysville, CA 95901",
+"value":"Main Courthouse - 215 Fifth Street, Suite 200 Marysville, CA 95901"},
+{"label":"Richard A. Shoenig Annex - 120 Fifth Street Marysville, CA 95901",
+"value":"Richard A. Shoenig Annex - 120 Fifth Street Marysville, CA 95901"},
+
+]},
 ]

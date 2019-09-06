@@ -13,6 +13,7 @@ const Logger = require("cute-logger")
 const send = require('../services/sendmail');
 
 const notificationAlerts = require('../alerts/notification.alerts')
+const mailAlerts = require('../alerts/mail.alerts')
 
 
 
@@ -36,13 +37,8 @@ module.exports = {
           if (err) { return res.status(500).send({ message: err.message }); 
         }
 
-         let subject = 'Welcome to Esquired!'         
-         let text = "Thanks for signing up to keep in touch with Esquired. Please wait until your account is reviewed"
-           send.email(user.email, subject, text)
-
-         let subjectadmin = "Esquired: Action needed"
-         let textadmin = "New user registered. "+ user.email +" is pending your approve/reject action"
-           send.email(process.env.ADMIN_EMAIL, subjectadmin, textadmin)           
+           send.email(user.email, 'Welcome to Esquired!', "Thanks for signing up to keep in touch with Esquired. Please wait until your account is reviewed")
+           send.email(process.env.ADMIN_EMAIL, "Esquired: Action needed" , "Hello admin! A new user has registered. "+user.email+" is pending your approve/reject action")           
 
            const token = jwt.sign({ _id:user._id }, process.env.TOKEN_KEY, { expiresIn: process.env.TOKEN_LIFE })
 
@@ -107,9 +103,8 @@ makeSeeker: function(req, res, next){
       if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
       user.updateOne({isSeeker: true, areaOfLaw: req.body.areaOfLaw, onHold: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
-            let subject ="Esquired: Action needed"
-            let textadmin = "New appearing registered. "+ user.email +" is pending your approve/reject action"
-            send.email(process.env.ADMIN_EMAIL, subject, textadmin)
+
+            send.email(process.env.ADMIN_EMAIL, "Esquired: Action needed", "Hello admin! This record attorney wants to be an attorney of record. "+user.email+" is pending your approve/reject action")
           return res.status(200).send({state: 200,data: user,message: "Your profile will be in revision. We will notify you when your Appearing attorney profile be accepted"});
       });
     })
@@ -120,9 +115,7 @@ makeAttorney: function(req, res, next){
       if (!user) { return res.status(409).send({ message: notificationAlerts.USER_NOT_FOUND}) }
       user.updateOne({isAttorney: true},function (err) {
           if (err) { return res.status(500).send({ message: err.message }); }
-            let subject ="Esquired: Action needed"
-            let textadmin = "New record registered. "+ user.email +" is pending your approve/reject action"
-            send.email(process.env.ADMIN_EMAIL, subject, textadmin)
+            send.email(process.env.ADMIN_EMAIL, "Esquired: Action needed", "Hello admin! A new appearing attorney has registered. "+user.email+" is pending your approve/reject action")
           return res.status(200).send({state: 200,message: "Now your a attorney too", data: user});
       });
     })
@@ -146,13 +139,7 @@ makeAttorney: function(req, res, next){
           
           const link = process.env.URL_FRONTEND + '/createnewpassword/?token=' + recoverPassword.token
 
-
-
-           const subject = 'Recover password';
-           const text = 'Please click this '+ link + ' to recover your password';
-           
-           
-           send.email(user.email, subject, text)
+           send.email(user.email, 'Recover password', 'Please click this '+ link + ' to recover your password')
              return res.status(200).send({message: "Mail sent, check your inbox"})
 
      })
@@ -274,7 +261,8 @@ makeAttorney: function(req, res, next){
         { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
           
-          userModel.find({_id: req.body.attorneyId}, function(err, user){
+          userModel.find({_id:req.body.attorneyId}, function(err, user){
+
             user.map(u =>{
               userModel.updateOne({ _id: u._id },
                 { $set: { 
@@ -286,7 +274,7 @@ makeAttorney: function(req, res, next){
               })
             })
 
-              
+            send.email(user[0].email, "You have been rated", "Please check your rate") 
            })
 
        return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 
@@ -305,7 +293,8 @@ makeAttorney: function(req, res, next){
         { "$push": { "notifications": { type: notificationAlerts.APPEARANCE_RATED, msg:"rated"}}}
         ).then(obj => { 
       
-          userModel.find({_id: req.body.seekerId}, function(err, user){
+          userModel.find({_id:req.body.seekerId}, function(err, user){
+            console.log(user)
             user.map(u =>{
               userModel.updateOne({ _id: u._id },
                 { $set: { 
@@ -314,10 +303,11 @@ makeAttorney: function(req, res, next){
                 }, 
               function(err, doc){
                 console.log(doc)
+
               })
             })
-
-              
+            
+            send.email(user[0].email, "You have been rated", "Please check your rate") 
            })
 
        return res.status(200).send({message: notificationAlerts.APPEARANCE_RATED, status: 200}) }) 

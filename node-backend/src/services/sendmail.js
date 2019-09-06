@@ -6,11 +6,8 @@ module.exports = {
 
 
 	email: function(email, subject, text){
-    userModel.findOne({'email': email },function(err, user){
+    userModel.findOne({email: email },function(err, user){
     	if(err){return console.log(err)}
-		
-
-    	console.log(user.notification)
 
     	if(user && user.notification){
     		console.log("--------------")

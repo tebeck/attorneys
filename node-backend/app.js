@@ -31,8 +31,8 @@ const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
 
 
-cron.schedule(process.env.CRON_REMINDERS_TIME, () => { app.listen(notificationsController.runReminders()) })
-cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { app.listen(notificationsController.runPayments()) })
+cron.schedule(process.env.CRON_REMINDERS_TIME, () => { notificationsController.runReminders() })
+cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { notificationsController.runPayments() })
 
 // MIDDLEWARES
 app.use(express.static('public'));

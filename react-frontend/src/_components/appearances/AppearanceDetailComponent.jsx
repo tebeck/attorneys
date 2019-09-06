@@ -367,7 +367,13 @@ export default class AppearancesComponent extends Component {
 		<div className="container main-body">
 	  
 
-	  <Modal visible={this.state.visible} width="370"  effect="fadeInDown" onClickAway={() => this.closeModal()}>
+	  <Modal 
+        visible={this.state.visible}
+        width="400"
+        effect="fadeInDown"
+        onClickAway={() => this.closeModal()}>
+	  	
+
 	   <div style={{padding: "20px",textAlign: "center"}}>
 	    <img alt="welldone" width="250px" src={welldoneImg}/><br/><br/>
 	    <h5><b>Well done!</b></h5>
