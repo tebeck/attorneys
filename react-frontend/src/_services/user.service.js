@@ -61,8 +61,8 @@ function register(data){
      return fetch(`${url_backend}/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            if(data.result && data.token){
-                data.status=200;
+            if(data.status === 200){
+                
                 if(data.result.isAttorney && data.result.isSeeker){
                   Cookies.set('esquired', {token: data.token, user: data.result.firstName, email: data.result.email, isAttorney: data.result.isAttorney, isSeeker: data.result.isSeeker,onHold: data.result.onHold, userId: data.result._id}, { path: '' })   
                 } else 

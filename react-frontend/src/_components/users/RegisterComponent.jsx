@@ -144,7 +144,8 @@ handleSubmit = (e) => {
      noErrors.state = this.state._state;
      console.log(noErrors)
      userServices.register(noErrors).then(response => {
-        if (response.state && response.state === 200) {
+       console.log(response)
+        if (response.status && response.status === 200) {
           this.openModal()
         } 
         else {

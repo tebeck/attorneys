@@ -48,7 +48,7 @@ export default class ProfileComponent extends Component {
       showLoader: false,
       transactions: [],
       accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://esquired-frontend.herokuapp.com/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
-      // accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
+       //accStripeLink: "https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://localhost:3000/home&client_id=ca_FUpj42uM1o663skKoNLaIsfCqIgvJgx0"
     };
 
 

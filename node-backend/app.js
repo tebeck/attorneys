@@ -31,8 +31,8 @@ const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
 
 
-cron.schedule(process.env.CRON_REMINDERS_TIME, () => { app.listen(notificationsController.runReminders()) })
-cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { app.listen(notificationsController.runPayments()) })
+cron.schedule(process.env.CRON_REMINDERS_TIME, () => { notificationsController.runReminders() })
+cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { notificationsController.runPayments() })
 
 // MIDDLEWARES
 app.use(express.static('public'));
@@ -50,27 +50,14 @@ app.use('/appearances',isvalid.user ,appearancesRoutes);
 
 // BACKEND CHECK
 app.get('/', function(req, res){ 
-  // res.json({
-  //   state: 200,
-  //   message: "running",
-  //   host: ip.address() + ':'+ process.env.PORT || port ,
-  //   stage:  process.env.NODE_ENV
-  //   })
-
-function amount(item){
-  return item.reviews;
-}
-
-function sum(prev, next){
-  console.log(prev[0].rating)
-  return Number(prev.rating) + Number(next.rating);
-}
+  res.json({
+    state: 200,
+    message: "running",
+    host: ip.address() + ':'+ process.env.PORT || port ,
+    stage:  process.env.NODE_ENV
+    })
 
 
-	userModel.find({}, function(err, user){
-		var ratings = user.map(amount).reduce(sum);		
-		console.log(ratings)
- 	})
 })
 
 

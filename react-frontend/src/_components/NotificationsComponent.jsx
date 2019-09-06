@@ -48,7 +48,7 @@ export default class NotificationsComponent extends Component {
       </div>			
        <hr />
         { this.state.notifications && Object.keys(this.state.notifications).length > 0 ?
-           this.state.notifications.map(x =>
+           this.state.notifications.slice(0).reverse().map(x =>
             <div className="unread-notification" key={x._id}>
             <div style={{display: "flex"}} className="notificationEdit">
               <div className="roundedImage">

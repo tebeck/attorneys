@@ -6,6 +6,7 @@ export const appearanceService = {
     create,
     subscribe,
     unsubscribe,
+    subscribeToAll,
     update,
     _delete,
     deleteFile,
@@ -44,6 +45,18 @@ function subscribe(appId){
 
     
   return fetch(`${url_backend}/appearances/subscribe`, requestOptions)
+    .then( data => {return data.json().then(text=>text)} )
+}
+
+function subscribeToAll(appearances){
+  const requestOptions = {
+    method: 'POST',
+    headers: authHeader(),
+    body: JSON.stringify(appearances)
+  };
+    console.log(requestOptions)
+    
+  return fetch(`${url_backend}/appearances/subscribetoall`, requestOptions)
     .then( data => {return data.json().then(text=>text)} )
 }
 

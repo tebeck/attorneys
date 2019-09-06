@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import backbutton from '../_assets/img/btnback.png'
-import uploadImg from '../_assets/img/upload_picture.png'
-
+import greyFaceImg from '../_assets/img/grey-user.png'
 import {userServices} from '../_services/user.service'
 
 export default class InfoComponent extends Component {
@@ -64,8 +63,7 @@ export default class InfoComponent extends Component {
                         <label className="uploadLabel" htmlFor="avatar" ><div className="profile-picture-p"><img  alt="avatar" src={this.state.profilePicture} /></div></label>
                        </div> : 
                         <div>
-                           <label className="uploadLabel" htmlFor="avatar" ><img src={uploadImg} className="profileimgupload" alt="profileImg" /> </label>
-                           <p>Upload Profile Picture</p>
+                            <img alt="userIcon"  width="110px" style={{cursor: "default"}} src={greyFaceImg} />
                         </div>   
                         }
                    </label>

@@ -54,11 +54,11 @@ export default class AgendaComponent extends Component {
        userId: this.state.userId,
        email: this.state.email
       }
-         
+      console.log(typeof(body))
       appearanceService.unsubscribe(body)
        .then(data => {
          if(data.status === 200){
-
+         
             this.dialog.show({
               title: <img alt="esquired" className="dialog-img" src={esquired} />,
               body: data.message,
