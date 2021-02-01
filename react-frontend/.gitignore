@@ -1,3 +1,6 @@
 **node_modules
 Dockerfile
 yarn.lock
+.env
+react-frontend/.DS_Store
+react-frontend/src/.DS_Store

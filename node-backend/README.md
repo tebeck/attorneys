@@ -20,7 +20,7 @@
         "isAttorney": true,
         "firstName": "testName",
         "lastName": "testLN",
-        "lawFirm": "exampleLawFirm",
+        "firmName": "exampleFirmName",
         "stateBar": 111111111,
         "officePhone": "exampleOfficePhone",
         "mobilePhone": "exampleMobilePhone",
@@ -211,7 +211,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RlZWE0N2M3ZGI4NmZlNWQwOTFiZmM
 	  -H 'cache-control: no-cache' \
 	  -d '{
 	        "email": "admin@gmail.com",
-	        "password": "test"
+	        "password": "admin"
 	}'
 
 # AUTHENTICATE 
@@ -223,6 +223,13 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2RlZWE0N2M3ZGI4NmZlNWQwOTFiZmM
 	        "email": "admin@gmail.com",
 	        "password": "test"
 	}'
+
+# ENABLE ONHOLD SEEKER
+	curl -X POST \
+	  http://localhost:6200/admins/enable \
+	  -H 'Content-Type: application/json' \
+	  -H 'cache-control: no-cache' \
+	  -d '{"email": "thombeckford@gmail.com"}'
 
 # DISABLE USER
 	curl -X POST \

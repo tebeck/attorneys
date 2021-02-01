@@ -7,13 +7,20 @@ router.post('/register',  adminController.register);
 router.post('/authenticate',  adminController.authenticate);
 router.post('/create', adminMiddleware.adminRoute, adminController.make);
 
+// SEEKRS
+router.post('/enable', adminController.enableSeeker);
+router.post('/reject', adminController.rejectSeeker);
+
 router.post('/disableuser', adminMiddleware.adminRoute, adminController.disableUser);
 router.post('/deleteuser', adminMiddleware.adminRoute, adminController.deleteUser);
-router.post('/getusers', adminMiddleware.adminRoute, adminController.getUsers);
+router.post('/getusers', adminController.getUsers);
 
 router.get('/attorneys', adminMiddleware.adminRoute, adminController.getAttorneys);
 router.get('/seekers', adminMiddleware.adminRoute, adminController.getSeekers);
-router.get('/appearances', adminMiddleware.adminRoute, adminController.getAppearances);
+router.get('/appearances', adminController.getAppearances);
+router.get('/getdoneappearances', adminController.getDoneAppearances);
+
+router.get('/appearancesreport', adminController.appearancesReport);
 
 
 module.exports = router;

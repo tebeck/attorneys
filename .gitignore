@@ -2,3 +2,4 @@
 node-backend/.env
 react-frontend/.env
 node-backend/backend.txt
+**.DS_Store

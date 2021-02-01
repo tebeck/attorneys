@@ -6,21 +6,20 @@ var postulations = new Schema({
     type: String,
     required: true
   },
-  attorneyId: {
+  status: {
     type: String,
     required: true
+  },
+  attorneyId: {
+    type: String,
+    required: true,
   },
   seekerId: {
     type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    default: 'pending',
     required: false
   }
 },{
     collection: 'postulations', timestamps: true
 });
-
+// pending, applied, accepted, completed, finished, rated.
 module.exports = mongoose.model('postulations', postulations);

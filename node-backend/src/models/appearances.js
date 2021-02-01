@@ -10,11 +10,27 @@ var appearances = new Schema({
     type: String,
     required: true
   },
-  goal: {
+  department: {
     type: String,
     required: true
   },
-  contextInformation: {
+  caseName: {
+    type: String,
+    required: true
+  },
+  county: {
+    type: String,
+    required: true
+  },
+  hearingDate: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
+  },
+  instructions: {
     type: String,
     required: true
   },
@@ -25,10 +41,18 @@ var appearances = new Schema({
   lateCall: {
     type: Boolean,
     required: true
-  },  
+  },
+  documents: {
+     type: Array,
+     required: false
+    },
   status: {
     type: String,
-    default: 'published',
+    default: 'pending',
+    required: true
+  },
+  price: {
+    type: Number,
     required: true
   },
   additionalComments: {
@@ -38,7 +62,39 @@ var appearances = new Schema({
   attorneyId: {
     type: String,
     required: true
+  },
+  subscription: {
+   seekerId: {
+    type: String,
+    required: false,
+    default: "",
+  },
+     date: {
+       type: Date,
+       required: false
+     },
+     verdictDocs:{
+       type: Array,
+       required: false
+     },
+     information:{
+       type: String,
+       required: false
+     },
+     seekerRate: {
+       type: Number,
+       required: false
+     },
+     attorneyRate: {
+       type: Number,
+       required: false
+     },
+     completedDay: {
+       type: Date,
+       required: false
+     }
   }
+
 },{
     collection: 'appearances', timestamps: true
 });

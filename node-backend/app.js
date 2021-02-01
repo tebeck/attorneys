@@ -1,54 +1,67 @@
-// app.js
-const express = require('express');
+var express = require('express');
+var cors = require('cors');
+var app = express();
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const users = require('./src/routes/users');
+const stripe = require('./src/routes/stripe');
 const ip = require("ip");
 const mongoose = require('mongoose')
+const isvalid = require('./src/middlewares/isvalid');
 const port = 6200;
+var request = require('request')
+const appearanceModel = require('./src/models/appearances');
+const send = require('./src/services/sendmail');
+const notificationsController = require('./src/controllers/notifications');
+const userModel = require('./src/models/users');
+const stripee = require('stripe')('sk_test_ZGEymtkcwjXSaswUlv4nZJeu002Le9D64P');
+
+app.use(cors())
+app.options('*', cors()) // include before other routes
+
+var cron = require('node-cron');
+
+
 require('dotenv').config();
 
-// DB Instance
-mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex: true })
+// DB INSTANCE
+mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
 
-// ROUTES
+const filesRoute = require('./src/routes/files');
 const adminRoutes = require('./src/routes/admins');
 const appearancesRoutes = require('./src/routes/appearances');
-const postulationsRoutes = require('./src/routes/postulations');
-const notificationsRoutes = require('./src/routes/notifications');
-// const filesRoute = require('./src/routes/files');
+
+
+cron.schedule(process.env.CRON_REMINDERS_TIME, () => { notificationsController.runReminders() })
+cron.schedule(process.env.CRON_PAYMENTS_TIME, () => { notificationsController.runPayments() })
 
 // MIDDLEWARES
-const isvalid = require('./src/middlewares/isvalid');
-
-// App Instance
-const app = express();
-
 app.use(express.static('public'));
-app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// app.use('/products',validate.user ,productRoutes);
-// app.use('/users/admin', validate.user, users)
-// app.use('/files', filesRoute);
+// ROUTES
 app.use('/users', users);
-app.use('/admins', isvalid.admin, adminRoutes); // isvalid.admin 
+app.use('/stripe', stripe);
+app.use('/files', filesRoute);
+// app.use('/admins', isvalid.admin, adminRoutes);
+app.use('/admins', adminRoutes); // AGREGAR EL ISVALID.ADMIN PARA PROD!!
 app.use('/appearances',isvalid.user ,appearancesRoutes);
-app.use('/postulations',isvalid.user ,postulationsRoutes);
-app.use('/notifications',isvalid.user ,notificationsRoutes);
 
-// Backend status
-app.get('/', function(req, res){
-    res.json({
-    	state: 200,
-    	message: "running",
-    	host: ip.address() + ':'+ process.env.PORT || port ,
-    	stage:  process.env.NODE_ENV
+
+// BACKEND CHECK
+app.get('/', function(req, res){ 
+  res.json({
+    state: 200,
+    message: "running",
+    host: ip.address() + ':'+ process.env.PORT || port ,
+    stage:  process.env.NODE_ENV
     })
-});
 
-console.log("Running in: "  + process.env.NODE_ENV);
 
-// Execute App
+})
+
+
+console.log("Running");
+
+// EXECUTE
 app.listen(process.env.PORT || port)

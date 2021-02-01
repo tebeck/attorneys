@@ -8,13 +8,13 @@ var Schema = mongoose.Schema;
 var users = new Schema({
   firstName: {
     type: String,
-    required: false
+    required: true
   },
   lastName: {
     type: String,
-    required: false
+    required: true
   },
-  lawFirm: {
+  firmName: {
     type: String,
     required: false
   },
@@ -36,11 +36,11 @@ var users = new Schema({
   },
   mailingAddress: [
     {
-      streetAdd1: {
+      streetAddrOne: {
         type: String,
         required: false
       },
-      streetAdd2: {
+      streetAddrTwo: {
         type: String,
         required: false
       },
@@ -55,7 +55,8 @@ var users = new Schema({
       zip: {
         type: String,
         required: false
-      }
+      },
+      required:false
     }
   ],
   password: {
@@ -66,32 +67,14 @@ var users = new Schema({
     type: String,
     required: false,
   },
-  creditCard: {
-    type: Number,
-    required: false
-  },
   policy: {
-    type: Number,
-    required: false
+    type: Boolean,
+    required: true
   },
-  notification: [
-    {
-      email: Boolean,
-      required: false
-    },
-    {
-      sms: Boolean,
-      required: false
-    },
-    {
-      alert: Boolean,
-      required: false
-    }
-  ],
   insurancePolicy:{
     type: Number,
-    required: true
-  }, 
+    required: false
+  },
   termsConditions: {
     type: Boolean,
     required: false
@@ -109,41 +92,110 @@ var users = new Schema({
     default: 0
   },
   reviews: [
-    {
+   {
+      attorneyId: {
+        type: String,
+        required: false,
+        default: ''
+      },
       seekerId: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       appearanceId: {
         type: String,
-        required: true,
-        default: ''
-      },
-      postulationId: {
-        type: String,
-        required: true,
+        required: false,
         default: ''
       },
       comment: {
         type: String,
-        required: true,
+        required: false,
         default: ''
       },
       rating: {
-        type: Number,
-        required: true,
+        type: String,
+        required: false,
         default: 0
       }
-    }
+   }
   ],
-  isVerified: { 
-    type: Boolean,
-    default: false 
-  },
   isDisabled: {
     type: Boolean,
     default: false
+  },
+  onHold:{
+    type: Boolean,
+    default: false
+  },
+  status:{
+    type: String,
+    default: "OK"
+  },
+  cards: [
+    {
+      id: {
+        type: String,
+        required: false
+      },
+      last4: {
+        type: String,
+        required: false
+      },
+      brand: {
+        type: String,
+        required: false
+      }
+    }
+  ],
+  stripe_user_id: {
+    type: String,
+    required: false
+  },
+  stripe_customer_id: {
+    type: String,
+    required: false
+  },
+  transactions: [{
+    date: {
+      type: Date,
+      required: false,
+      default: new Date(),
+    },
+    amount: {
+      type: String,
+      required: false
+    },
+    type: {
+      type: String,
+      required: false 
+    },
+    caseName: {
+      type: String,
+      required: false
+    }
+  }],
+  notification:{
+      type: Boolean,
+      default: true
+    },
+  notifications:[{
+    type:{
+      type: String,
+      required: false
+    },
+    read: {
+      type: Boolean,
+      default: false
+    },
+    msg: {
+      type: String,
+      required: false
+    }
+    }],
+  areaOfLaw: {
+      type: String,
+      required: false
   }
 },{
     collection: 'users', timestamps: true
